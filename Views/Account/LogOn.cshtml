@@ -1,14 +1,15 @@
-﻿@model dynamic
+﻿@model NGM.OpenAuthentication.ViewModels.LogOnViewModel;
 
-@using (Html.BeginFormAntiForgeryPost(Url.Action("OpenIdLogOn"))) {
-<fieldset class="login-form group">
-    <legend>@T("Open Id Information")</legend>
-    <ol>
-    <li>
-        <label for="openid_identifier">@T("Openid Identifier")</label>
-        <input name="openid_identifier" id="openid_identifier"></input>
-    </li>
-    <input type="submit" id="submitopenid" value="@T("Sign In")" />
-    </ol>
-</fieldset>
+<h1>@Html.TitleForPage(T("Open Id Sign In").ToString())</h1>
+
+@using(Html.BeginForm("LogOn", "Account", FormMethod.Post, new { area = "NGM.OpenAuthentication" })) { 
+    @Html.ValidationSummary() 
+    <fieldset>
+        <label for="DefaultBlogSlug">@T("OpenId Identifier")</label>
+        @Html.TextBoxFor(m => m.Model.OpenIdIdentifier, new { @class = "textMedium" })
+    </fieldset>
+    <fieldset>
+		<input type="submit" class="button" value="@T("Log On")" />
+		@Html.AntiForgeryTokenOrchard()
+	</fieldset>
 }
