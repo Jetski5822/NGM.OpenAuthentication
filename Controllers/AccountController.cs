@@ -3,13 +3,13 @@
 namespace NGM.OpenAuthentication.Controllers
 {
     public class AccountController : Controller {
-        public ActionResult OpenIdLogOn() {
+        public ActionResult LogOn() {
             return View();
         }
 
-        [HttpPost, ActionName("OpenIdLogOn")]
-        public ActionResult _OpenIdLogOn() {
-            return new RedirectResult("https://www.google.com/accounts/ServiceLogin");
+        [HttpPost, ActionName("LogOn")]
+        public ActionResult _LogOn() {
+            return null;
         }
     }
 }
