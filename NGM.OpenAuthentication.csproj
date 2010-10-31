@@ -75,6 +75,7 @@
     <Content Include="Module.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Drivers\" />
     <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
