@@ -1,0 +1,14 @@
+﻿@model dynamic
+
+@using (Html.BeginFormAntiForgeryPost(Url.Action("OpenIdLogOn"))) {
+<fieldset class="login-form group">
+    <legend>@T("Open Id Information")</legend>
+    <ol>
+    <li>
+        <label for="openid_identifier">@T("Openid Identifier")</label>
+        <input name="openid_identifier" id="openid_identifier"></input>
+    </li>
+    <input type="submit" id="submitopenid" value="@T("Sign In")" />
+    </ol>
+</fieldset>
+}
