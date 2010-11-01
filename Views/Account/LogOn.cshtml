@@ -1,6 +1,6 @@
 ﻿@model NGM.OpenAuthentication.ViewModels.LogOnViewModel
 
-<h1>@Html.TitleForPage(T("Open Id Sign In").ToString())</h1>
+<h1>@Html.TitleForPage(T("OpenID Sign In").ToString())</h1>
 
 @using(Html.BeginForm("LogOn", "Account", FormMethod.Post, new { area = "NGM.OpenAuthentication" })) { 
     @Html.ValidationSummary() 
