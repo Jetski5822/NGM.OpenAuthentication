@@ -36,7 +36,7 @@ namespace NGM.OpenAuthentication.Controllers
             return View(new LogOnViewModel {RedirectUrl = redirectUrl});
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("LogOn")]
         public ActionResult _LogOn(LogOnViewModel viewModel) {
             var relyingPartyWrapper = new OpenIdRelyingPartyWrapper();
 
