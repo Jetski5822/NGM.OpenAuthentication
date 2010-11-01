@@ -67,6 +67,11 @@
     <Compile Include="Core\OpenIdIdentifier.cs" />
     <Compile Include="Core\OpenIdRelyingPartyWrapper.cs" />
     <Compile Include="Core\OpenIdUser.cs" />
+    <Compile Include="Migrations.cs" />
+    <Compile Include="Models\OpenAuthenticationPart.cs" />
+    <Compile Include="Models\OpenAuthenticationPartRecord.cs" />
+    <Compile Include="Services\AuthenticationResolverService.cs" />
+    <Compile Include="Services\IAuthenticationResolverService.cs" />
     <Compile Include="ViewModels\LogOnViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routes.cs" />
@@ -76,7 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Drivers\" />
-    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config" />

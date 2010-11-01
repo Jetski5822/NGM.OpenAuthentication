@@ -3,16 +3,17 @@ using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core;
+using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
 using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Controllers
 {
     public class AccountController : Controller {
-        private readonly IAuthenticationService _authenticationService;
+        private readonly IAuthenticationResolverService _authenticationResolverService;
 
-        public AccountController(IAuthenticationService authenticationService) {
-            _authenticationService = authenticationService;
+        public AccountController(IAuthenticationResolverService authenticationResolverService) {
+            _authenticationResolverService = authenticationResolverService;
         }
 
         public ActionResult LogOn(string redirectUrl) {
@@ -21,8 +22,8 @@ namespace NGM.OpenAuthentication.Controllers
             if (relyingPartyWrapper.HasResponse) {
                 switch (relyingPartyWrapper.Response.Status) {
                     case AuthenticationStatus.Authenticated:
-                        var user = new OpenIdUser(relyingPartyWrapper.Response.FriendlyIdentifierForDisplay);
-                        _authenticationService.SignIn(user, false);
+                        if (_authenticationResolverService.IsAccountValidFor(relyingPartyWrapper.Response))
+                            _authenticationResolverService.AuthenticateResponse(relyingPartyWrapper.Response);
 
                         return Redirect(!string.IsNullOrEmpty(redirectUrl) ? redirectUrl : "~/");
                     case AuthenticationStatus.Canceled:
