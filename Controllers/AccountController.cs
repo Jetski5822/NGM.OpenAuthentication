@@ -47,7 +47,7 @@ namespace NGM.OpenAuthentication.Controllers
         private ActionResult BuildLogOnAuthenticationRedirect(OpenIdRelyingPartyWrapper relyingPartyWrapper, LogOnViewModel viewModel) {
             var identifier = new OpenIdIdentifier(viewModel.OpenIdIdentifier);
             if (!identifier.IsValid) {
-                ModelState.AddModelError("InvalidIdentifier", "Invalid Open ID identifier");
+                ModelState.AddModelError("OpenIdIdentifier", "Invalid Open ID identifier");
                 return View(viewModel);
             }
 

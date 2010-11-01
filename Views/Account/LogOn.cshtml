@@ -7,6 +7,7 @@
     <fieldset>
         <label for="OpenIdIdentifier">@T("OpenID Identifier")</label>
         @Html.TextBoxFor(m => m.OpenIdIdentifier, new { @class = "textMedium" })
+		@Html.ValidationMessageFor(m => m.OpenIdIdentifier, "*") 
     </fieldset>
     <fieldset>
 		<input type="submit" class="button" value="@T("Log On")" />
