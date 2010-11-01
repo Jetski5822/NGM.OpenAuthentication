@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core;
@@ -50,8 +51,14 @@ namespace NGM.OpenAuthentication.Controllers
                 return View(viewModel);
             }
 
-            var request = relyingPartyWrapper.CreateRequest(identifier);
-            return request.RedirectingResponse.AsActionResult();
+            try {
+                var request = relyingPartyWrapper.CreateRequest(identifier);
+                return request.RedirectingResponse.AsActionResult();
+            }
+            catch (ProtocolException ex) {
+                ModelState.AddModelError("ProtocolException", string.Format("Unable to authenticate: {0}",ex.Message));
+            }
+            return View(viewModel);
         }
     }
 }
