@@ -6,7 +6,7 @@
     @Html.ValidationSummary() 
     <fieldset>
         <label for="OpenIdIdentifier">@T("OpenID Identifier")</label>
-        @Html.TextBoxFor(m => m.Model.OpenIdIdentifier, new { @class = "textMedium" })
+        @Html.TextBoxFor(m => m.OpenIdIdentifier, new { @class = "textMedium" })
     </fieldset>
     <fieldset>
 		<input type="submit" class="button" value="@T("Log On")" />
