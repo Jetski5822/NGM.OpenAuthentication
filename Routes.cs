@@ -17,13 +17,13 @@ namespace NGM.OpenAuth {
                                                      Route = new Route(
                                                          "OpenIdLogOn",
                                                          new RouteValueDictionary {
-                                                                                      {"area", "NGM.OpenAuth"},
+                                                                                      {"area", "NGM.OpenAuthentication"},
                                                                                       {"controller", "Account"},
                                                                                       {"action", "LogOn"}
                                                                                   },
                                                          new RouteValueDictionary(),
                                                          new RouteValueDictionary {
-                                                                                      {"area", "NGM.OpenAuth"}
+                                                                                      {"area", "NGM.OpenAuthentication"}
                                                                                   },
                                                          new MvcRouteHandler())
                                                  },
