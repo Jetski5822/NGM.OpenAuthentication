@@ -33,8 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetOpenAuth.Contracts">
-      <HintPath>ExternalDlls\DotNetOpenAuth-3.4.5.10202\Bin\DotNetOpenAuth.Contracts.dll</HintPath>
+    <Reference Include="DotNetOpenAuth">
+      <HintPath>ExternalDlls\DotNetOpenAuth-3.4.5.10202\Bin\DotNetOpenAuth.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
