@@ -5,7 +5,7 @@
 @using(Html.BeginForm("LogOn", "Account", FormMethod.Post, new { area = "NGM.OpenAuthentication" })) { 
     @Html.ValidationSummary() 
     <fieldset>
-        <label for="DefaultBlogSlug">@T("OpenId Identifier")</label>
+        <label for="OpenIdIdentifier">@T("OpenID Identifier")</label>
         @Html.TextBoxFor(m => m.Model.OpenIdIdentifier, new { @class = "textMedium" })
     </fieldset>
     <fieldset>
