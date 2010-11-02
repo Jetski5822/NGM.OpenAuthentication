@@ -1,19 +1,17 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
-using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Controllers
 {
     public class AccountController : Controller {
-        private readonly IAuthenticationResolverService _authenticationResolverService;
+        private readonly IAuthenticationResolver _authenticationResolver;
 
-        public AccountController(IAuthenticationResolverService authenticationResolverService) {
-            _authenticationResolverService = authenticationResolverService;
+        public AccountController(IAuthenticationResolver authenticationResolver) {
+            _authenticationResolver = authenticationResolver;
         }
 
         public ActionResult LogOn(string redirectUrl) {
@@ -22,8 +20,10 @@ namespace NGM.OpenAuthentication.Controllers
             if (relyingPartyWrapper.HasResponse) {
                 switch (relyingPartyWrapper.Response.Status) {
                     case AuthenticationStatus.Authenticated:
-                        if (_authenticationResolverService.IsAccountValidFor(relyingPartyWrapper.Response))
-                            _authenticationResolverService.AuthenticateResponse(relyingPartyWrapper.Response);
+                        if (!_authenticationResolver.IsAccountValidFor(relyingPartyWrapper.Response))
+                            return Redirect("~/register");
+
+                        _authenticationResolver.AuthenticateResponse(relyingPartyWrapper.Response);
 
                         return Redirect(!string.IsNullOrEmpty(redirectUrl) ? redirectUrl : "~/");
                     case AuthenticationStatus.Canceled:

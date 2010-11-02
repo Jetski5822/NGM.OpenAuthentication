@@ -21,5 +21,11 @@ namespace NGM.OpenAuthentication.Core {
                 return Identifier != null;
             }
         }
+
+        public override string ToString() {
+            if (Identifier != null)
+                return Identifier.ToString();
+            return null;
+        }
     }
 }
