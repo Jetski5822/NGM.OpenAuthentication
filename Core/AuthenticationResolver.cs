@@ -15,7 +15,7 @@ namespace NGM.OpenAuthentication.Core {
         public void AuthenticateResponse(IAuthenticationResponse authenticationResponse) {
             var identifier = new OpenIdIdentifier(authenticationResponse.ClaimedIdentifier);
 
-            var user = _openAuthenticationService.GetUser(identifier);
+            var user = _openAuthenticationService.GetUserFor(identifier);
             
             _authenticationService.SignIn(user, false);
         }
@@ -23,7 +23,7 @@ namespace NGM.OpenAuthentication.Core {
         public bool IsAccountValidFor(IAuthenticationResponse authenticationResponse) {
             var identifier = new OpenIdIdentifier(authenticationResponse.ClaimedIdentifier);
 
-            if (_openAuthenticationService.GetUser(identifier) != null)
+            if (_openAuthenticationService.GetUserFor(identifier) != null)
                 return true;
 
             return false;

@@ -3,6 +3,6 @@ using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Services {
     public interface IOpenAuthenticationService {
-        IUser GetUser(OpenIdIdentifier openIdIdentifier);
+        IUser GetUserFor(OpenIdIdentifier openIdIdentifier);
     }
 }
