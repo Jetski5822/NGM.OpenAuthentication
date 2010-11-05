@@ -1,6 +1,6 @@
 ﻿using DotNetOpenAuth.OpenId;
 
-namespace NGM.OpenAuthentication.Core {
+namespace NGM.OpenAuthentication.Core.OpenId {
     public sealed class OpenIdIdentifier {
         private OpenIdIdentifier() { }
 

@@ -1,7 +1,7 @@
 ﻿using Orchard.ContentManagement;
 using Orchard.Security;
 
-namespace NGM.OpenAuthentication.Core {
+namespace NGM.OpenAuthentication.Core.OpenId {
     public class OpenIdUser : IUser {
         private ContentItem _contentItem;
         private int _id;

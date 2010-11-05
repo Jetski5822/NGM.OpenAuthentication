@@ -1,6 +1,6 @@
 ﻿using DotNetOpenAuth.OpenId.RelyingParty;
 
-namespace NGM.OpenAuthentication.Core {
+namespace NGM.OpenAuthentication.Core.OpenId {
     public class OpenIdRelyingPartyWrapper {
         protected OpenIdRelyingParty _relyingParty;
 

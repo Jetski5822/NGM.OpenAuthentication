@@ -1,4 +1,5 @@
 ﻿using NGM.OpenAuthentication.Core;
+using NGM.OpenAuthentication.Core.OpenId;
 using NGM.OpenAuthentication.Events;
 using NGM.OpenAuthentication.Models;
 using Orchard.ContentManagement;
@@ -9,14 +10,14 @@ namespace NGM.OpenAuthentication.Services {
     public class OpenAuthenticationService : IOpenAuthenticationService {
         private readonly IContentManager _contentManager;
         private readonly IRepository<OpenAuthenticationPartRecord> _openAuthenticationPartRecord;
-        private readonly IExtendedUserPropertiesEventHandler _extendedUserPropertiesEventHandler;
+        private readonly IExtendedPropertiesEventHandler _extendedPropertiesEventHandler;
 
         public OpenAuthenticationService(IContentManager contentManager, 
             IRepository<OpenAuthenticationPartRecord> openAuthenticationPartRecord, 
-            IExtendedUserPropertiesEventHandler extendedUserPropertiesEventHandler) {
+            IExtendedPropertiesEventHandler extendedPropertiesEventHandler) {
             _contentManager = contentManager;
             _openAuthenticationPartRecord = openAuthenticationPartRecord;
-            _extendedUserPropertiesEventHandler = extendedUserPropertiesEventHandler;
+            _extendedPropertiesEventHandler = extendedPropertiesEventHandler;
         }
 
         public IUser GetUserFor(OpenIdIdentifier openIdIdentifier) {
@@ -28,7 +29,7 @@ namespace NGM.OpenAuthentication.Services {
             return null;
         }
 
-        public void AssociateOpenIdWithUser(IUser user, OpenIdIdentifier openIdIdentifier, ExtendedUserPropertiesContext extendedUserPropertiesContext) {
+        public void AssociateOpenIdWithUser(IUser user, OpenIdIdentifier openIdIdentifier) {
             var existingUser = GetUserFor(openIdIdentifier);
 
             if (existingUser.Equals(user))
@@ -36,8 +37,6 @@ namespace NGM.OpenAuthentication.Services {
             else {
                 CreateRecord(user, openIdIdentifier);
             }
-
-            _extendedUserPropertiesEventHandler.Save(extendedUserPropertiesContext);
         }
 
         private void CreateRecord(IUser user, OpenIdIdentifier openIdIdentifier) {

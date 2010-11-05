@@ -1,15 +1,13 @@
-﻿using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
-using DotNetOpenAuth.OpenId.RelyingParty;
-using NGM.OpenAuthentication.Core.Mappers;
+﻿using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Services;
 using Orchard.Security;
 
-namespace NGM.OpenAuthentication.Core {
-    public class AuthenticationResolver : IAuthenticationResolver {
+namespace NGM.OpenAuthentication.Core.OpenId {
+    public class OpenIdAuthenticationResolver : IAuthenticationResolver<IAuthenticationResponse> {
         private readonly IAuthenticationService _authenticationService;
         private readonly IOpenAuthenticationService _openAuthenticationService;
 
-        public AuthenticationResolver(IAuthenticationService authenticationService, IOpenAuthenticationService openAuthenticationService) {
+        public OpenIdAuthenticationResolver(IAuthenticationService authenticationService, IOpenAuthenticationService openAuthenticationService) {
             _authenticationService = authenticationService;
             _openAuthenticationService = openAuthenticationService;
         }
@@ -18,11 +16,6 @@ namespace NGM.OpenAuthentication.Core {
             var identifier = new OpenIdIdentifier(authenticationResponse.ClaimedIdentifier);
 
             var user = _openAuthenticationService.GetUserFor(identifier);
-
-            var mapper = new ClaimsResponseToExtendedUserPropertiesContextMapper();
-            var context = mapper.Map(authenticationResponse.GetExtension<ClaimsResponse>());
-
-            _openAuthenticationService.AssociateOpenIdWithUser(user, identifier, context);
 
             _authenticationService.SignIn(user, false);
         }

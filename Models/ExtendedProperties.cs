@@ -1,5 +1,5 @@
 ﻿namespace NGM.OpenAuthentication.Models {
-    public class ExtendedUserPropertiesContext {
+    public class ExtendedProperties {
         public string Gender { get; set; }
     }
 }

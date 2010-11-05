@@ -2,15 +2,15 @@
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core;
-using NGM.OpenAuthentication.Services;
+using NGM.OpenAuthentication.Core.OpenId;
 using NGM.OpenAuthentication.ViewModels;
 
 namespace NGM.OpenAuthentication.Controllers
 {
     public class AccountController : Controller {
-        private readonly IAuthenticationResolver _authenticationResolver;
+        private readonly IAuthenticationResolver<IAuthenticationResponse> _authenticationResolver;
 
-        public AccountController(IAuthenticationResolver authenticationResolver) {
+        public AccountController(IAuthenticationResolver<IAuthenticationResponse> authenticationResolver) {
             _authenticationResolver = authenticationResolver;
         }
 
@@ -43,6 +43,10 @@ namespace NGM.OpenAuthentication.Controllers
             var relyingPartyWrapper = new OpenIdRelyingPartyWrapper();
 
             return BuildLogOnAuthenticationRedirect(relyingPartyWrapper, viewModel);
+        }
+
+        public ActionResult Register(string redirectUrl) {
+            return null;
         }
 
         private ActionResult BuildLogOnAuthenticationRedirect(OpenIdRelyingPartyWrapper relyingPartyWrapper, LogOnViewModel viewModel) {
