@@ -2,7 +2,7 @@
 using NGM.OpenAuthentication.Models;
 using Orchard;
 
-namespace NGM.OpenAuthentication.Core.Mappers {
+namespace NGM.OpenAuthentication.Core.OpenId.Mappers {
     public class ClaimsResponseToExtendedUserPropertiesContextMapper : IMapper<ClaimsResponse, ExtendedProperties> {
         public ExtendedProperties Map(ClaimsResponse source) {
             var context = new ExtendedProperties();

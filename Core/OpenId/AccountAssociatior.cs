@@ -1,6 +1,6 @@
 ﻿using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
 using DotNetOpenAuth.OpenId.RelyingParty;
-using NGM.OpenAuthentication.Core.Mappers;
+using NGM.OpenAuthentication.Core.OpenId.Mappers;
 using NGM.OpenAuthentication.Events;
 using NGM.OpenAuthentication.Services;
 using Orchard.Security;
