@@ -1,4 +1,5 @@
-﻿using DotNetOpenAuth.OpenId.RelyingParty;
+﻿using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
+using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Services;
 using Orchard.Security;
 
@@ -17,7 +18,10 @@ namespace NGM.OpenAuthentication.Core {
 
             var user = _openAuthenticationService.GetUserFor(identifier);
 
-            
+            var mapper = new ClaimsResponseToExtendedUserPropertiesContextMapper();
+            var context = mapper.Map(authenticationResponse.GetExtension<ClaimsResponse>());
+
+            _openAuthenticationService.AssociateOpenIdWithUser(user, identifier, context);
 
             _authenticationService.SignIn(user, false);
         }
