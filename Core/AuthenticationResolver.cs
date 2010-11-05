@@ -16,7 +16,9 @@ namespace NGM.OpenAuthentication.Core {
             var identifier = new OpenIdIdentifier(authenticationResponse.ClaimedIdentifier);
 
             var user = _openAuthenticationService.GetUserFor(identifier);
+
             
+
             _authenticationService.SignIn(user, false);
         }
 
