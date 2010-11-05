@@ -5,7 +5,7 @@ using Orchard;
 namespace NGM.OpenAuthentication.Core.Mappers {
     public class ClaimsResponseToExtendedUserPropertiesContextMapper : IMapper<ClaimsResponse, ExtendedUserPropertiesContext> {
         public ExtendedUserPropertiesContext Map(ClaimsResponse source) {
-            ExtendedUserPropertiesContext context = new ExtendedUserPropertiesContext();
+            var context = new ExtendedUserPropertiesContext();
             if (source.Gender.HasValue)
                 context.Gender = source.Gender.Value.ToString();
 
