@@ -66,7 +66,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Core\OpenIdIdentifier.cs" />
     <Compile Include="Core\OpenIdRelyingPartyWrapper.cs" />
-    <Compile Include="Core\ClaimsResponseToExtendedUserPropertiesContextMapper.cs" />
+    <Compile Include="Core\Mappers\ClaimsResponseToExtendedUserPropertiesContextMapper.cs" />
     <Compile Include="Core\OpenIdUser.cs" />
     <Compile Include="Handlers\OpenAuthenticationPartHandler.cs" />
     <Compile Include="Migrations.cs" />
