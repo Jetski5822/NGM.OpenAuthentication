@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using System.Linq;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
@@ -19,7 +21,7 @@ namespace NGM.OpenAuth.Tests.UnitTests {
         private const string OpenAuthUrlForGoogle = "https://www.google.com/accounts/o8/id";
 
         [Test]
-        public void Should_return_logon_view_when_no_response_returned_from_relyparty() {
+        public void should_return_logon_view_when_no_response_returned_from_relyparty() {
             var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
             mockRelyingService.Setup(ctx => ctx.HasResponse).Returns(false);
 
@@ -55,6 +57,55 @@ namespace NGM.OpenAuth.Tests.UnitTests {
             mockRelyingService.VerifyAll();
             mockAuthenticationResponse.VerifyAll();
             mockAuthenticationService.VerifyAll();
+        }
+
+        [Test]
+        public void should_return_error_message_when_authentication_was_canceled() {
+            var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
+            mockRelyingService.Setup(ctx => ctx.HasResponse).Returns(true);
+
+            var mockAuthenticationResponse = new Mock<IAuthenticationResponse>();
+            mockAuthenticationResponse.Setup(ctx => ctx.Status).Returns(AuthenticationStatus.Canceled);
+            Identifier identifier = Identifier.Parse("http://foo.google.com");
+
+            mockAuthenticationResponse.Setup(ctx => ctx.ClaimedIdentifier).Returns(identifier);
+
+            mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
+
+            var accountController = new AccountController(mockRelyingService.Object, null);
+            var viewResult = (ViewResult)accountController.LogOn(string.Empty);
+
+            Assert.That(viewResult.ViewData.ModelState.IsValid, Is.False);
+            Assert.That(viewResult.ViewData.ModelState.ContainsKey("InvalidProvider"), Is.True);
+
+            mockRelyingService.VerifyAll();
+        }
+
+        [Test]
+        public void should_return_error_message_when_authentication_failed() {
+            var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
+            mockRelyingService.Setup(ctx => ctx.HasResponse).Returns(true);
+
+            var mockAuthenticationResponse = new Mock<IAuthenticationResponse>();
+            mockAuthenticationResponse.Setup(ctx => ctx.Status).Returns(AuthenticationStatus.Failed);
+            var exception = new Exception("Error Message");
+            mockAuthenticationResponse.Setup(ctx => ctx.Exception).Returns(exception);
+            Identifier identifier = Identifier.Parse("http://foo.google.com");
+            mockAuthenticationResponse.Setup(ctx => ctx.ClaimedIdentifier).Returns(identifier);
+
+            mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
+
+            var accountController = new AccountController(mockRelyingService.Object, null);
+            var viewResult = (ViewResult)accountController.LogOn(string.Empty);
+
+            Assert.That(viewResult.ViewData.ModelState.IsValid, Is.False);
+            Assert.That(viewResult.ViewData.ModelState.ContainsKey("UnknownError"), Is.True);
+
+            ModelState modelState;
+            viewResult.ViewData.ModelState.TryGetValue("UnknownError", out modelState);
+            Assert.That(modelState.Errors.FirstOrDefault().ErrorMessage, Is.EqualTo(exception.Message));
+
+            mockRelyingService.VerifyAll();
         }
 
         [Test]
