@@ -1,14 +1,10 @@
 ﻿using DotNetOpenAuth.OpenId.RelyingParty;
 
 namespace NGM.OpenAuthentication.Core.OpenId {
-    public class OpenIdRelyingPartyWrapper {
-        protected OpenIdRelyingParty _relyingParty;
+    public class OpenIdRelyingPartyService : IOpenIdRelyingPartyService {
+        private static readonly OpenIdRelyingParty _relyingParty = new OpenIdRelyingParty();
 
         private IAuthenticationResponse _response;
-
-        public OpenIdRelyingPartyWrapper() {
-            _relyingParty = new OpenIdRelyingParty();
-        }
 
         public IAuthenticationResponse Response {
             get {

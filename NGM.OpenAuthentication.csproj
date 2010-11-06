@@ -66,9 +66,11 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Core\IAuthenticationResolver.cs" />
     <Compile Include="Core\OpenId\AccountAssociatior.cs" />
+    <Compile Include="Core\OpenId\IOpenIdRelyingPartyService.cs" />
     <Compile Include="Core\OpenId\OpenIdIdentifier.cs" />
-    <Compile Include="Core\OpenId\OpenIdRelyingPartyWrapper.cs" />
+    <Compile Include="Core\OpenId\OpenIdRelyingPartyService.cs" />
     <Compile Include="Core\OpenId\Mappers\ClaimsResponseToExtendedUserPropertiesContextMapper.cs" />
+    <Compile Include="Core\OpenId\OpenIdUser.cs" />
     <Compile Include="Handlers\OpenAuthenticationPartHandler.cs" />
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\ExtendedProperties.cs" />
