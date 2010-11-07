@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core.OpenId;
