@@ -22,7 +22,7 @@ namespace NGM.OpenAuthentication.Controllers
             _openAuthenticationService = openAuthenticationService;
         }
 
-        public ActionResult LogOn(string redirectUrl) {
+        public ActionResult LogOn(string returnUrl) {
             if (_openIdRelyingPartyService.HasResponse) {
                 switch (_openIdRelyingPartyService.Response.Status) {
                     case AuthenticationStatus.Authenticated:
@@ -43,7 +43,7 @@ namespace NGM.OpenAuthentication.Controllers
                         else if (existingUser == null)
                             _openAuthenticationService.AssociateOpenIdWithUser(user, _openIdRelyingPartyService.Response.ClaimedIdentifier);
 
-                        return Redirect(!string.IsNullOrEmpty(redirectUrl) ? redirectUrl : "~/");
+                        return Redirect(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
                     case AuthenticationStatus.Canceled:
                         ModelState.AddModelError("InvalidProvider", "Canceled at provider");
                         break;
@@ -53,7 +53,7 @@ namespace NGM.OpenAuthentication.Controllers
                 }
             }
 
-            return View("LogOn", new LogOnViewModel {RedirectUrl = redirectUrl});
+            return View("LogOn", new LogOnViewModel { ReturnUrl = returnUrl });
         }
 
         [HttpPost, ActionName("LogOn")]
