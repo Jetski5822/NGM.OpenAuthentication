@@ -11,6 +11,7 @@ using Moq;
 using NGM.OpenAuth.Tests.Fakes;
 using NGM.OpenAuthentication.Controllers;
 using NGM.OpenAuthentication.Core.OpenId;
+using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
 using NUnit.Framework;
 using Orchard.Security;
@@ -25,7 +26,7 @@ namespace NGM.OpenAuth.Tests.UnitTests {
             var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
             mockRelyingService.Setup(ctx => ctx.HasResponse).Returns(false);
 
-            var accountController = new AccountController(mockRelyingService.Object, null);
+            var accountController = new AccountController(mockRelyingService.Object, null, null);
             accountController.ControllerContext = MockControllerContext(accountController);
             var viewResult = (ViewResult)accountController.LogOn(string.Empty);
             Assert.That(viewResult.ViewName, Is.EqualTo("LogOn"));
@@ -49,7 +50,10 @@ namespace NGM.OpenAuth.Tests.UnitTests {
             var mockAuthenticationService = new Mock<IAuthenticationService>();
             mockAuthenticationService.Setup(o => o.SignIn(It.IsAny<IUser>(), false));
 
-            var accountController = new AccountController(mockRelyingService.Object, mockAuthenticationService.Object);
+            var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
+            mockOpenAuthenticationService.Setup(ctx => ctx.CreateUser(OpenAuthUrlForGoogle));
+
+            var accountController = new AccountController(mockRelyingService.Object, mockAuthenticationService.Object, mockOpenAuthenticationService.Object);
             var redirectResult = (RedirectResult) accountController.LogOn(string.Empty);
 
             Assert.That(redirectResult.Url, Is.EqualTo("~/"));
@@ -66,19 +70,17 @@ namespace NGM.OpenAuth.Tests.UnitTests {
 
             var mockAuthenticationResponse = new Mock<IAuthenticationResponse>();
             mockAuthenticationResponse.Setup(ctx => ctx.Status).Returns(AuthenticationStatus.Canceled);
-            Identifier identifier = Identifier.Parse("http://foo.google.com");
-
-            mockAuthenticationResponse.Setup(ctx => ctx.ClaimedIdentifier).Returns(identifier);
 
             mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
 
-            var accountController = new AccountController(mockRelyingService.Object, null);
+            var accountController = new AccountController(mockRelyingService.Object, null, null);
             var viewResult = (ViewResult)accountController.LogOn(string.Empty);
 
             Assert.That(viewResult.ViewData.ModelState.IsValid, Is.False);
             Assert.That(viewResult.ViewData.ModelState.ContainsKey("InvalidProvider"), Is.True);
 
             mockRelyingService.VerifyAll();
+            mockAuthenticationResponse.VerifyAll();
         }
 
         [Test]
@@ -90,12 +92,10 @@ namespace NGM.OpenAuth.Tests.UnitTests {
             mockAuthenticationResponse.Setup(ctx => ctx.Status).Returns(AuthenticationStatus.Failed);
             var exception = new Exception("Error Message");
             mockAuthenticationResponse.Setup(ctx => ctx.Exception).Returns(exception);
-            Identifier identifier = Identifier.Parse("http://foo.google.com");
-            mockAuthenticationResponse.Setup(ctx => ctx.ClaimedIdentifier).Returns(identifier);
 
             mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
 
-            var accountController = new AccountController(mockRelyingService.Object, null);
+            var accountController = new AccountController(mockRelyingService.Object, null, null);
             var viewResult = (ViewResult)accountController.LogOn(string.Empty);
 
             Assert.That(viewResult.ViewData.ModelState.IsValid, Is.False);
@@ -106,7 +106,44 @@ namespace NGM.OpenAuth.Tests.UnitTests {
             Assert.That(modelState.Errors.FirstOrDefault().ErrorMessage, Is.EqualTo(exception.Message));
 
             mockRelyingService.VerifyAll();
+            mockAuthenticationResponse.VerifyAll();
         }
+
+        [Test]
+        public void should_associate_user_with_openid_account_with_logged_in_account() {
+
+            var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
+            mockRelyingService.Setup(ctx => ctx.HasResponse).Returns(true);
+
+            var mockAuthenticationResponse = new Mock<IAuthenticationResponse>();
+            mockAuthenticationResponse.Setup(ctx => ctx.Status).Returns(AuthenticationStatus.Authenticated);
+            Identifier identifier = Identifier.Parse("http://foo.google.com");
+
+            mockAuthenticationResponse.Setup(ctx => ctx.ClaimedIdentifier).Returns(identifier);
+
+            mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
+
+            var mockUser = new Mock<IUser>();
+
+            var mockAuthenticationService = new Mock<IAuthenticationService>();
+            mockAuthenticationService.Setup(o => o.GetAuthenticatedUser()).Returns(mockUser.Object);
+
+            var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
+            mockOpenAuthenticationService.Setup(ctx => ctx.AssociateOpenIdWithUser(mockUser.Object, identifier.ToString()));
+
+            var accountController = new AccountController(mockRelyingService.Object, mockAuthenticationService.Object, mockOpenAuthenticationService.Object);
+            var actionResult = accountController.LogOn(string.Empty);
+
+            mockAuthenticationResponse.VerifyAll();
+            mockAuthenticationService.VerifyAll();
+            mockRelyingService.VerifyAll();
+            mockOpenAuthenticationService.VerifyAll();
+        }
+
+
+
+        /* POST */
+
 
         [Test]
         public void should_redirect_to_external_openid_logon_for_valid_openid_identifier() {
@@ -123,11 +160,19 @@ namespace NGM.OpenAuth.Tests.UnitTests {
 
             mockRelyingService.Setup(ctx => ctx.CreateRequest(It.IsAny<OpenIdIdentifier>())).Returns(mockAuthenticationRequest.Object);
 
-            var accountController = new AccountController(mockRelyingService.Object, null);
-            var actionResult = accountController.LogOn(viewModel);
+            var accountController = new AccountController(mockRelyingService.Object, null, null);
+            var actionResult = accountController._LogOn(viewModel);
 
             Assert.That(actionResult, Is.Not.Null);
+
+            mockAuthenticationRequest.VerifyAll();
+            mockRelyingService.VerifyAll();
         }
+
+
+
+
+
 
         public ControllerContext MockControllerContext(ControllerBase controllerBase) {
             var mockHttpContext = new Mock<HttpContextBase>();

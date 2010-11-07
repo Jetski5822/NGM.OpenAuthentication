@@ -1,10 +1,8 @@
-﻿//using NGM.OpenAuthentication.Core;
-//using NGM.OpenAuthentication.Core.OpenId;
-//using Orchard.Security;
+﻿using Orchard.Security;
 
-//namespace NGM.OpenAuthentication.Services {
-//    public interface IOpenAuthenticationService {
-//        IUser GetUserFor(OpenIdIdentifier openIdIdentifier);
-//        void AssociateOpenIdWithUser(IUser user, OpenIdIdentifier openIdIdentifier);
-//    }
-//}
+namespace NGM.OpenAuthentication.Services {
+    public interface IOpenAuthenticationService {
+        void AssociateOpenIdWithUser(IUser user, string openIdIdentifier);
+        IUser CreateUser(string openIdIdentifier);
+    }
+}
