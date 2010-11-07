@@ -24,24 +24,32 @@ namespace NGM.OpenAuthentication.Controllers
 
         public ActionResult LogOn(string returnUrl) {
             if (_openIdRelyingPartyService.HasResponse) {
+                // TODO : Not happy about this huge switch statement, consider a stratagy pattern possibly when I come to refactory?
                 switch (_openIdRelyingPartyService.Response.Status) {
                     case AuthenticationStatus.Authenticated:
                         var user = _authenticationService.GetAuthenticatedUser();
 
                         var existingUser = _openAuthenticationService.GetUser(_openIdRelyingPartyService.Response.ClaimedIdentifier);
 
-                        if (existingUser != null && user != null && !user.Equals(existingUser)) {
+                        // If I am logged in, and another account has the identifier I am logging in with...
+                        if (user != null && existingUser != null && !user.Equals(existingUser)) {
                             ModelState.AddModelError("IdentifierAssigned", "Identifier has already been assigned");
                             break;
                         }
 
-                        if (user == null) {
-                            user = _openAuthenticationService.CreateUser(_openIdRelyingPartyService.Response.ClaimedIdentifier);
+                        // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
+                        if (user == null && existingUser == null) {
+                            // TODO : redirect to action and pass a model?
+                            ViewData["identifier"] = _openIdRelyingPartyService.Response.ClaimedIdentifier;
+                            return Redirect("~/Register");
+                        }
+
+                        // If I am logged in, and no user currently has that identifier.. then associate.
+                        if (user != null && existingUser == null) {
+                            _openAuthenticationService.AssociateOpenIdWithUser(user, _openIdRelyingPartyService.Response.ClaimedIdentifier);
 
                             _authenticationService.SignIn(user, false);
                         }
-                        else if (existingUser == null)
-                            _openAuthenticationService.AssociateOpenIdWithUser(user, _openIdRelyingPartyService.Response.ClaimedIdentifier);
 
                         return Redirect(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
                     case AuthenticationStatus.Canceled:

@@ -34,34 +34,34 @@ namespace NGM.OpenAuth.Tests.UnitTests {
             mockRelyingService.VerifyAll();
         }
 
-        [Test]
-        public void should_authenticate_user_with_credential_on_callback() {
-            var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
-            mockRelyingService.Setup(ctx => ctx.HasResponse).Returns(true);
+        //[Test]
+        //public void should_authenticate_user_with_credential_on_callback() {
+        //    var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
+        //    mockRelyingService.Setup(ctx => ctx.HasResponse).Returns(true);
 
-            var mockAuthenticationResponse = new Mock<IAuthenticationResponse>();
-            mockAuthenticationResponse.Setup(ctx => ctx.Status).Returns(AuthenticationStatus.Authenticated);
-            Identifier identifier = Identifier.Parse("http://foo.google.com");
+        //    var mockAuthenticationResponse = new Mock<IAuthenticationResponse>();
+        //    mockAuthenticationResponse.Setup(ctx => ctx.Status).Returns(AuthenticationStatus.Authenticated);
+        //    Identifier identifier = Identifier.Parse("http://foo.google.com");
 
-            mockAuthenticationResponse.Setup(ctx => ctx.ClaimedIdentifier).Returns(identifier);
+        //    mockAuthenticationResponse.Setup(ctx => ctx.ClaimedIdentifier).Returns(identifier);
 
-            mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
+        //    mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
 
-            var mockAuthenticationService = new Mock<IAuthenticationService>();
-            mockAuthenticationService.Setup(o => o.SignIn(It.IsAny<IUser>(), false));
+        //    var mockAuthenticationService = new Mock<IAuthenticationService>();
+        //    mockAuthenticationService.Setup(o => o.SignIn(It.IsAny<IUser>(), false));
 
-            var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
-            mockOpenAuthenticationService.Setup(ctx => ctx.CreateUser(OpenAuthUrlForGoogle));
+        //    var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
+        //    mockOpenAuthenticationService.Setup(ctx => ctx.CreateUser(OpenAuthUrlForGoogle));
 
-            var accountController = new AccountController(mockRelyingService.Object, mockAuthenticationService.Object, mockOpenAuthenticationService.Object);
-            var redirectResult = (RedirectResult) accountController.LogOn(string.Empty);
+        //    var accountController = new AccountController(mockRelyingService.Object, mockAuthenticationService.Object, mockOpenAuthenticationService.Object);
+        //    var redirectResult = (RedirectResult) accountController.LogOn(string.Empty);
 
-            Assert.That(redirectResult.Url, Is.EqualTo("~/"));
+        //    Assert.That(redirectResult.Url, Is.EqualTo("~/"));
 
-            mockRelyingService.VerifyAll();
-            mockAuthenticationResponse.VerifyAll();
-            mockAuthenticationService.VerifyAll();
-        }
+        //    mockRelyingService.VerifyAll();
+        //    mockAuthenticationResponse.VerifyAll();
+        //    mockAuthenticationService.VerifyAll();
+        //}
 
         [Test]
         public void should_return_error_message_when_authentication_was_canceled() {
@@ -213,7 +213,38 @@ namespace NGM.OpenAuth.Tests.UnitTests {
             mockOpenAuthenticationService.VerifyAll();
         }
 
-        
+        [Test]
+        public void should_redirect_to_register_page_if_user_does_not_exist() {
+            var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
+            mockRelyingService.Setup(ctx => ctx.HasResponse).Returns(true);
+
+            var mockAuthenticationResponse = new Mock<IAuthenticationResponse>();
+            mockAuthenticationResponse.Setup(ctx => ctx.Status).Returns(AuthenticationStatus.Authenticated);
+            Identifier identifier = Identifier.Parse("http://foo.google.com");
+
+            mockAuthenticationResponse.Setup(ctx => ctx.ClaimedIdentifier).Returns(identifier);
+
+            mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
+
+            var mockAuthenticationService = new Mock<IAuthenticationService>();
+
+            var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
+
+            var accountController = new AccountController(mockRelyingService.Object, mockAuthenticationService.Object, mockOpenAuthenticationService.Object);
+            var redirectResult = (RedirectResult)accountController.LogOn(string.Empty);
+
+            Assert.That(redirectResult.Url, Is.EqualTo("~/Register"));
+
+            mockAuthenticationService.Verify(ctx => ctx.SignIn(It.IsAny<IUser>(), It.IsAny<bool>()), Times.Never());
+            mockOpenAuthenticationService.Verify(ctx => ctx.AssociateOpenIdWithUser(It.IsAny<IUser>(), It.IsAny<string>()), Times.Never());
+
+            mockAuthenticationResponse.VerifyAll();
+            mockAuthenticationService.VerifyAll();
+            mockRelyingService.VerifyAll();
+            mockOpenAuthenticationService.VerifyAll();
+        }
+
+
 
         /* POST */
 
