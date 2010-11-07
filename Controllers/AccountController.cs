@@ -70,8 +70,11 @@ namespace NGM.OpenAuthentication.Controllers
         }
 
         public ActionResult Register() {
+            var model = TempData["RegisterModel"] as RegisterModel;
+            if (model == null)
+                return RedirectToAction("LogOn", "Account", new {area = "NGM.OpenAuthentication"});
 
-            return null;
+            return View("Register", new RegisterViewModel(model));
         }
 
         private ActionResult BuildLogOnAuthenticationRedirect(LogOnViewModel viewModel) {

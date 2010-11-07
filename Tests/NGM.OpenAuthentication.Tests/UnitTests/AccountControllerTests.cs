@@ -11,6 +11,7 @@ using Moq;
 using NGM.OpenAuth.Tests.Fakes;
 using NGM.OpenAuthentication.Controllers;
 using NGM.OpenAuthentication.Core.OpenId;
+using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
 using NUnit.Framework;
@@ -248,6 +249,33 @@ namespace NGM.OpenAuth.Tests.UnitTests {
             mockOpenAuthenticationService.VerifyAll();
         }
 
+        [Test]
+        public void should_redirect_to_logon_view_if_no_model_present_on_register_page() {
+            var accountController = new AccountController(null,null,null);
+            var redirectToRouteResult = (RedirectToRouteResult)accountController.Register();
+
+            Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("NGM.OpenAuthentication"));
+            Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("LogOn"));
+            Assert.That(redirectToRouteResult.RouteValues["controller"], Is.EqualTo("Account"));
+        }
+
+        [Test]
+        public void should_use_passedin_model_from_logon_if_avalible() {
+            var accountController = new AccountController(null, null, null);
+            //accountController.ControllerContext = MockControllerContext(accountController);
+            var model = new RegisterModel("Test");
+            accountController.TempData.Add("RegisterModel", model);
+
+            var viewResult = (ViewResult)accountController.Register();
+            Assert.That(viewResult.ViewName, Is.EqualTo("Register"));
+            Assert.That(viewResult.ViewData.Model, Is.TypeOf(typeof(RegisterViewModel)));
+            var viewModel = viewResult.ViewData.Model as RegisterViewModel;
+            Assert.That(viewModel.Model, Is.EqualTo(model));
+        }
+
+
+
+
 
 
         /* POST */
@@ -275,6 +303,7 @@ namespace NGM.OpenAuth.Tests.UnitTests {
             mockAuthenticationRequest.VerifyAll();
             mockRelyingService.VerifyAll();
         }
+
 
 
 
