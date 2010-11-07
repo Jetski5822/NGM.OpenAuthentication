@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Core\IAuthenticationResolver.cs" />
     <Compile Include="Core\OpenId\AccountAssociatior.cs" />
     <Compile Include="Core\OpenId\IOpenIdRelyingPartyService.cs" />

@@ -214,7 +214,7 @@ namespace NGM.OpenAuth.Tests.UnitTests {
         }
 
         [Test]
-        public void should_redirect_to_register_page_if_user_does_not_exist() {
+        public void should_redirect_to_register_route_if_user_does_not_exist() {
             var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
             mockRelyingService.Setup(ctx => ctx.HasResponse).Returns(true);
 
@@ -231,9 +231,13 @@ namespace NGM.OpenAuth.Tests.UnitTests {
             var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
 
             var accountController = new AccountController(mockRelyingService.Object, mockAuthenticationService.Object, mockOpenAuthenticationService.Object);
-            var redirectResult = (RedirectResult)accountController.LogOn(string.Empty);
+            var redirectToRouteResult = (RedirectToRouteResult)accountController.LogOn(string.Empty);
 
-            Assert.That(redirectResult.Url, Is.EqualTo("~/Register"));
+            Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("NGM.OpenAuthentication"));
+            Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("Register"));
+            Assert.That(redirectToRouteResult.RouteValues["controller"], Is.EqualTo("Account"));
+
+            Assert.That(accountController.TempData.ContainsKey("RegisterModel"), Is.True);
 
             mockAuthenticationService.Verify(ctx => ctx.SignIn(It.IsAny<IUser>(), It.IsAny<bool>()), Times.Never());
             mockOpenAuthenticationService.Verify(ctx => ctx.AssociateOpenIdWithUser(It.IsAny<IUser>(), It.IsAny<string>()), Times.Never());

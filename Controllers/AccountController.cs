@@ -2,6 +2,7 @@
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core.OpenId;
+using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
 using Orchard.Security;
@@ -39,9 +40,8 @@ namespace NGM.OpenAuthentication.Controllers
 
                         // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
                         if (user == null && existingUser == null) {
-                            // TODO : redirect to action and pass a model?
-                            ViewData["identifier"] = _openIdRelyingPartyService.Response.ClaimedIdentifier;
-                            return Redirect("~/Register");
+                            TempData["RegisterModel"] = new RegisterModel(_openIdRelyingPartyService.Response.ClaimedIdentifier);
+                            return RedirectToAction("Register", "Account", new {area = "NGM.OpenAuthentication"});
                         }
 
                         // If I am logged in, and no user currently has that identifier.. then associate.
@@ -67,6 +67,11 @@ namespace NGM.OpenAuthentication.Controllers
         [HttpPost, ActionName("LogOn")]
         public ActionResult _LogOn(LogOnViewModel viewModel) {
             return BuildLogOnAuthenticationRedirect(viewModel);
+        }
+
+        public ActionResult Register() {
+
+            return null;
         }
 
         private ActionResult BuildLogOnAuthenticationRedirect(LogOnViewModel viewModel) {
