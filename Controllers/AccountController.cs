@@ -40,8 +40,8 @@ namespace NGM.OpenAuthentication.Controllers
 
                             _authenticationService.SignIn(user, false);
                         }
-                        
-                        _openAuthenticationService.AssociateOpenIdWithUser(user, _openIdRelyingPartyService.Response.ClaimedIdentifier);
+                        else if (existingUser == null)
+                            _openAuthenticationService.AssociateOpenIdWithUser(user, _openIdRelyingPartyService.Response.ClaimedIdentifier);
 
                         return Redirect(!string.IsNullOrEmpty(redirectUrl) ? redirectUrl : "~/");
                     case AuthenticationStatus.Canceled:
