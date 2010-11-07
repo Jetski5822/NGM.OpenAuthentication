@@ -169,6 +169,7 @@ namespace NGM.OpenAuth.Tests.UnitTests {
             var viewResult = (ViewResult)accountController.LogOn(string.Empty);
 
             Assert.That(viewResult.ViewData.ModelState.IsValid, Is.False);
+            Assert.That(viewResult.ViewData.ModelState.ContainsKey("IdentifierAssigned"), Is.True);
 
             mockAuthenticationResponse.VerifyAll();
             mockAuthenticationService.VerifyAll();
@@ -178,7 +179,6 @@ namespace NGM.OpenAuth.Tests.UnitTests {
 
 
         /* POST */
-
 
         [Test]
         public void should_redirect_to_external_openid_logon_for_valid_openid_identifier() {
