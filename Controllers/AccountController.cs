@@ -13,7 +13,10 @@ namespace NGM.OpenAuthentication.Controllers
         private readonly IAuthenticationService _authenticationService;
         private readonly IOpenAuthenticationService _openAuthenticationService;
 
-        public AccountController(IOpenIdRelyingPartyService openIdRelyingPartyService, IAuthenticationService authenticationService, IOpenAuthenticationService openAuthenticationService) {
+        public AccountController(IOpenIdRelyingPartyService openIdRelyingPartyService, 
+            IAuthenticationService authenticationService, 
+            IOpenAuthenticationService openAuthenticationService) {
+            
             _openIdRelyingPartyService = openIdRelyingPartyService;
             _authenticationService = authenticationService;
             _openAuthenticationService = openAuthenticationService;
@@ -56,10 +59,6 @@ namespace NGM.OpenAuthentication.Controllers
         [HttpPost, ActionName("LogOn")]
         public ActionResult _LogOn(LogOnViewModel viewModel) {
             return BuildLogOnAuthenticationRedirect(viewModel);
-        }
-
-        public ActionResult Register(string redirectUrl) {
-            return null;
         }
 
         private ActionResult BuildLogOnAuthenticationRedirect(LogOnViewModel viewModel) {
