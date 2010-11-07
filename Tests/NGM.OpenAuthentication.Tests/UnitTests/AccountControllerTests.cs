@@ -140,6 +140,41 @@ namespace NGM.OpenAuth.Tests.UnitTests {
             mockOpenAuthenticationService.VerifyAll();
         }
 
+        [Test]
+        public void should_not_assign_identifier_to_account_when_identifier_exists_on_another_account() {
+            var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
+            mockRelyingService.Setup(ctx => ctx.HasResponse).Returns(true);
+
+            var mockAuthenticationResponse = new Mock<IAuthenticationResponse>();
+            mockAuthenticationResponse.Setup(ctx => ctx.Status).Returns(AuthenticationStatus.Authenticated);
+            Identifier identifier = Identifier.Parse("http://foo.google.com");
+
+            mockAuthenticationResponse.Setup(ctx => ctx.ClaimedIdentifier).Returns(identifier);
+
+            mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
+
+            var mockUser = new Mock<IUser>();
+            mockUser.Setup(ctx => ctx.UserName).Returns("foo");
+
+            var mockAuthenticationService = new Mock<IAuthenticationService>();
+            mockAuthenticationService.Setup(o => o.GetAuthenticatedUser()).Returns(mockUser.Object);
+
+            var mockUser2 = new Mock<IUser>();
+            mockUser2.Setup(ctx => ctx.UserName).Returns("foo");
+
+            var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
+            mockOpenAuthenticationService.Setup(ctx => ctx.GetUser(identifier.ToString())).Returns(mockUser2.Object);
+
+            var accountController = new AccountController(mockRelyingService.Object, mockAuthenticationService.Object, mockOpenAuthenticationService.Object);
+            var viewResult = (ViewResult)accountController.LogOn(string.Empty);
+
+            Assert.That(viewResult.ViewData.ModelState.IsValid, Is.False);
+
+            mockAuthenticationResponse.VerifyAll();
+            mockAuthenticationService.VerifyAll();
+            mockRelyingService.VerifyAll();
+            mockOpenAuthenticationService.VerifyAll();
+        }
 
 
         /* POST */

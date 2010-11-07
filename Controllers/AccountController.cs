@@ -24,7 +24,14 @@ namespace NGM.OpenAuthentication.Controllers
                 switch (_openIdRelyingPartyService.Response.Status) {
                     case AuthenticationStatus.Authenticated:
                         var user = _authenticationService.GetAuthenticatedUser();
-                        
+
+                        var existingUser = _openAuthenticationService.GetUser(_openIdRelyingPartyService.Response.ClaimedIdentifier);
+
+                        if (existingUser != null && user != null && !user.Equals(existingUser)) {
+                            ModelState.AddModelError("IdentifierAssigned", "Identifier has already been assigned");
+                            break;
+                        }
+
                         if (user == null) {
                             user = _openAuthenticationService.CreateUser(_openIdRelyingPartyService.Response.ClaimedIdentifier);
 
