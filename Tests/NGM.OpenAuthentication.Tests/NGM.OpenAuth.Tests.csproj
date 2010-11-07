@@ -60,7 +60,7 @@
     <Compile Include="UnitTests\AccountControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Fakes\FakeOutgoingWebResponse.cs" />
-    <Compile Include="UnitTests\OpenauthenticationServiceTests.cs" />
+    <Compile Include="UnitTests\OpenAuthenticationServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\Orchard\Orchard.Framework.csproj">
