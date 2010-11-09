@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core.OpenId;
@@ -90,6 +91,10 @@ namespace NGM.OpenAuthentication.Controllers
 
             try {
                 var request = _openIdRelyingPartyService.CreateRequest(identifier);
+
+                
+                request.AddExtension(Claims.CreateRequest(_openAuthenticationService.GetSettings()));
+
                 return request.RedirectingResponse.AsActionResult();
             }
             catch (ProtocolException ex) {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using NGM.OpenAuthentication.Models;
 using Orchard.ContentManagement;
 using Orchard.Data;
@@ -8,10 +9,12 @@ namespace NGM.OpenAuthentication.Services {
     public class OpenAuthenticationService : IOpenAuthenticationService {
         private readonly IContentManager _contentManager;
         private readonly IRepository<OpenAuthenticationPartRecord> _openAuthenticationPartRecord;
+        private readonly IRepository<OpenAuthenticationSettingsRecord> _openAuthenticationSettingsRecordRepository;
 
-        public OpenAuthenticationService(IContentManager contentManager, IRepository<OpenAuthenticationPartRecord> openAuthenticationPartRecord) {
+        public OpenAuthenticationService(IContentManager contentManager, IRepository<OpenAuthenticationPartRecord> openAuthenticationPartRecord, IRepository<OpenAuthenticationSettingsRecord> openAuthenticationSettingsRecordRepository) {
             _contentManager = contentManager;
             _openAuthenticationPartRecord = openAuthenticationPartRecord;
+            _openAuthenticationSettingsRecordRepository = openAuthenticationSettingsRecordRepository;
         }
 
         public void AssociateOpenIdWithUser(IUser user, string openIdIdentifier) {
@@ -32,49 +35,9 @@ namespace NGM.OpenAuthentication.Services {
             return null;
         }
 
-        //private readonly IContentManager _contentManager;
-        //private readonly IRepository<OpenAuthenticationPartRecord> _openAuthenticationPartRecord;
-        //private readonly IExtendedPropertiesEventHandler _extendedPropertiesEventHandler;
-
-        //public OpenAuthenticationService(IContentManager contentManager,
-        //    IRepository<OpenAuthenticationPartRecord> openAuthenticationPartRecord,
-        //    IExtendedPropertiesEventHandler extendedPropertiesEventHandler) {
-        //    _contentManager = contentManager;
-        //    _openAuthenticationPartRecord = openAuthenticationPartRecord;
-        //    _extendedPropertiesEventHandler = extendedPropertiesEventHandler;
-        //}
-
-        //public IUser GetUserFor(OpenIdIdentifier openIdIdentifier) {
-        //    var record = Get(openIdIdentifier);
-
-        //    if (record != null)
-        //        return _contentManager.Get<IUser>(record.Id);
-
-        //    return null;
-        //}
-
-        //public void AssociateOpenIdWithUser(IUser user, OpenIdIdentifier openIdIdentifier) {
-        //    var existingUser = GetUserFor(openIdIdentifier);
-
-        //    if (existingUser.Equals(user))
-        //        UpdateExistingRecord(Get(openIdIdentifier), openIdIdentifier);
-        //    else {
-        //        CreateRecord(user, openIdIdentifier);
-        //    }
-        //}
-
-        //private void CreateRecord(IUser user, OpenIdIdentifier openIdIdentifier) {
-        //    var part = user.As<OpenAuthenticationPart>();
-        //    part.Identifier = openIdIdentifier.ToString();
-        //}
-
-        //private void UpdateExistingRecord(OpenAuthenticationPartRecord openAuthenticationPartRecord, OpenIdIdentifier openIdIdentifier) {
-        //    openAuthenticationPartRecord.Identifier = openIdIdentifier.ToString();
-        //}
-
-        //private OpenAuthenticationPartRecord Get(OpenIdIdentifier openIdIdentifier) {
-        //    return _openAuthenticationPartRecord.Get(o => o.Identifier == openIdIdentifier.ToString());
-        //}
-
+        public OpenAuthenticationSettingsRecord GetSettings() {
+            var settings = from openSettings in _openAuthenticationSettingsRecordRepository.Table select openSettings;
+            return settings.FirstOrDefault<OpenAuthenticationSettingsRecord>();
+        }
     }
 }

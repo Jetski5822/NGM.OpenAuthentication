@@ -17,7 +17,7 @@ using NGM.OpenAuthentication.ViewModels;
 using NUnit.Framework;
 using Orchard.Security;
 
-namespace NGM.OpenAuth.Tests.UnitTests {
+namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
     [TestFixture]
     public class AccountControllerTests {
         private const string OpenAuthUrlForGoogle = "https://www.google.com/accounts/o8/id";
@@ -260,38 +260,6 @@ namespace NGM.OpenAuth.Tests.UnitTests {
         }
 
         [Test]
-        public void should_populate_model_with_user_credentials_avalible_from_authenticated_result_on_redirect_from_logon_to_register() {
-            var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
-            mockRelyingService.Setup(ctx => ctx.HasResponse).Returns(true);
-
-            var mockAuthenticationResponse = new Mock<IAuthenticationResponse>();
-            mockAuthenticationResponse.Setup(ctx => ctx.Status).Returns(AuthenticationStatus.Authenticated);
-            Identifier identifier = Identifier.Parse("http://foo.google.com");
-            var emailAddress = "test@test.com";
-
-            mockAuthenticationResponse.Setup(ctx => ctx.ClaimedIdentifier).Returns(identifier);
-
-            mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
-
-            var mockAuthenticationService = new Mock<IAuthenticationService>();
-
-            var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
-
-            var accountController = new AccountController(mockRelyingService.Object, mockAuthenticationService.Object, mockOpenAuthenticationService.Object);
-            accountController.LogOn(string.Empty);
-
-            var viewResult = (ViewResult)accountController.Register(null);
-            var viewModel = (RegisterViewModel) viewResult.ViewData.Model;
-            Assert.That(viewModel.Model.Identifier, Is.EqualTo(identifier.ToString()));
-            Assert.That(viewModel.Model.Email, Is.EqualTo(emailAddress));
-
-            mockAuthenticationResponse.VerifyAll();
-            mockAuthenticationService.VerifyAll();
-            mockRelyingService.VerifyAll();
-            mockOpenAuthenticationService.VerifyAll();
-        }
-
-        [Test]
         public void should_use_passedin_model_from_logon_if_avalible() {
             var accountController = new AccountController(null, null, null);
             //accountController.ControllerContext = MockControllerContext(accountController);
@@ -332,9 +300,11 @@ namespace NGM.OpenAuth.Tests.UnitTests {
             var fakeOutgoingWebResponse = new FakeOutgoingWebResponse(request.GetResponse() as HttpWebResponse);
             mockAuthenticationRequest.Setup(ctx => ctx.RedirectingResponse).Returns(fakeOutgoingWebResponse);
 
+            var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
+
             mockRelyingService.Setup(ctx => ctx.CreateRequest(It.IsAny<OpenIdIdentifier>())).Returns(mockAuthenticationRequest.Object);
 
-            var accountController = new AccountController(mockRelyingService.Object, null, null);
+            var accountController = new AccountController(mockRelyingService.Object, null, mockOpenAuthenticationService.Object);
             var actionResult = accountController._LogOn(viewModel);
 
             Assert.That(actionResult, Is.Not.Null);

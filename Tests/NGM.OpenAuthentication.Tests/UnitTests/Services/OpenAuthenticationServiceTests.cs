@@ -4,14 +4,14 @@ using NGM.OpenAuthentication.Services;
 using NUnit.Framework;
 using Orchard.Data;
 
-namespace NGM.OpenAuthentication.Tests.UnitTests {
+namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
     [TestFixture]
     public class OpenAuthenticationServiceTests {
         [Test]
         public void should_return_null_when_no_user_exists_for_identifier() {
             var mockRepository = new Mock<IRepository<OpenAuthenticationPartRecord>>();
 
-            var openAuthenticationService = new OpenAuthenticationService(null, mockRepository.Object);
+            var openAuthenticationService = new OpenAuthenticationService(null, mockRepository.Object, null);
             var user = openAuthenticationService.GetUser("test");
 
             Assert.That(user, Is.Null);
@@ -39,5 +39,6 @@ namespace NGM.OpenAuthentication.Tests.UnitTests {
 
             //Assert.That(user, Is.Not.Null);
         }
+
     }
 }
