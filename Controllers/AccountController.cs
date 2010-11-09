@@ -69,12 +69,16 @@ namespace NGM.OpenAuthentication.Controllers
             return BuildLogOnAuthenticationRedirect(viewModel);
         }
 
-        public ActionResult Register() {
-            var model = TempData["RegisterModel"] as RegisterModel;
-            if (model == null)
-                return RedirectToAction("LogOn", "Account", new {area = "NGM.OpenAuthentication"});
+        public ActionResult Register(RegisterViewModel viewModel) {
+            if (viewModel == null) {
+                var model = TempData["RegisterModel"] as RegisterModel;
+                if (model == null)
+                    return RedirectToAction("LogOn", "Account", new {area = "NGM.OpenAuthentication"});
 
-            return View("Register", new RegisterViewModel(model));
+                viewModel = new RegisterViewModel(model);
+            }
+
+            return View("Register", viewModel);
         }
 
         private ActionResult BuildLogOnAuthenticationRedirect(LogOnViewModel viewModel) {
@@ -95,4 +99,3 @@ namespace NGM.OpenAuthentication.Controllers
         }
     }
 }
-    

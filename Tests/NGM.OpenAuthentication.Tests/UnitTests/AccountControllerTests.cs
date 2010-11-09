@@ -252,7 +252,7 @@ namespace NGM.OpenAuth.Tests.UnitTests {
         [Test]
         public void should_redirect_to_logon_view_if_no_model_present_on_register_page() {
             var accountController = new AccountController(null,null,null);
-            var redirectToRouteResult = (RedirectToRouteResult)accountController.Register();
+            var redirectToRouteResult = (RedirectToRouteResult)accountController.Register(null);
 
             Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("NGM.OpenAuthentication"));
             Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("LogOn"));
@@ -266,14 +266,21 @@ namespace NGM.OpenAuth.Tests.UnitTests {
             var model = new RegisterModel("Test");
             accountController.TempData.Add("RegisterModel", model);
 
-            var viewResult = (ViewResult)accountController.Register();
+            var viewResult = (ViewResult)accountController.Register(null);
             Assert.That(viewResult.ViewName, Is.EqualTo("Register"));
             Assert.That(viewResult.ViewData.Model, Is.TypeOf(typeof(RegisterViewModel)));
             var viewModel = viewResult.ViewData.Model as RegisterViewModel;
             Assert.That(viewModel.Model, Is.EqualTo(model));
         }
 
+        [Test]
+        public void should_not_recreate_registration_view_model_if_view_model_exists() {
+            var accountController = new AccountController(null, null, null);
+            var viewModel = new RegisterViewModel(null);
+            var viewResult = (ViewResult)accountController.Register(viewModel);
 
+            Assert.That(viewResult.ViewData.Model, Is.EqualTo(viewModel));
+        }
 
 
 
