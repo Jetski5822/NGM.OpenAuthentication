@@ -111,7 +111,7 @@ namespace NGM.OpenAuth.Tests.UnitTests {
         }
 
         [Test]
-        public void should_associate_user_with_openid_account_with_logged_in_account() {
+        public void should_assign_identifier_to_logged_in_account() {
 
             var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
             mockRelyingService.Setup(ctx => ctx.HasResponse).Returns(true);
@@ -142,7 +142,7 @@ namespace NGM.OpenAuth.Tests.UnitTests {
         }
 
         [Test]
-        public void should_not_assign_identifier_to_account_when_identifier_exists_on_another_account() {
+        public void should_not_assign_identifier_to_an_account_when_identifier_exists_on_another_account() {
             var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
             mockRelyingService.Setup(ctx => ctx.HasResponse).Returns(true);
 
