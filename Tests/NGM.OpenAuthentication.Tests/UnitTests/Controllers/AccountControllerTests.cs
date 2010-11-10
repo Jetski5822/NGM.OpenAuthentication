@@ -262,8 +262,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
         [Test]
         public void should_use_passedin_model_from_logon_if_avalible() {
             var accountController = new AccountController(null, null, null);
-            //accountController.ControllerContext = MockControllerContext(accountController);
-            var model = new RegisterModel("Test", string.Empty);
+            var model = new RegisterModel("Test");
             accountController.TempData.Add("RegisterModel", model);
 
             var viewResult = (ViewResult)accountController.Register(null);

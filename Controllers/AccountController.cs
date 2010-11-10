@@ -41,7 +41,8 @@ namespace NGM.OpenAuthentication.Controllers
 
                         // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
                         if (user == null && existingUser == null) {
-                            TempData["RegisterModel"] = new RegisterModel(_openIdRelyingPartyService.Response.ClaimedIdentifier, "test@test.com");
+                            var registerModelBuilder = new RegisterModelBuilder(_openIdRelyingPartyService.Response);
+                            TempData["RegisterModel"] = registerModelBuilder.Build();
                             return RedirectToAction("Register", "Account", new {area = "NGM.OpenAuthentication"});
                         }
 
