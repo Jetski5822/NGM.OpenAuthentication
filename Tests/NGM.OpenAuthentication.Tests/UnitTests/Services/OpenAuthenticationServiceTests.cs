@@ -11,7 +11,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
         public void should_return_null_when_no_user_exists_for_identifier() {
             var mockRepository = new Mock<IRepository<OpenAuthenticationPartRecord>>();
 
-            var openAuthenticationService = new OpenAuthenticationService(null, mockRepository.Object, null);
+            var openAuthenticationService = new OpenAuthenticationService(null, mockRepository.Object, null, null);
             var user = openAuthenticationService.GetUser("test");
 
             Assert.That(user, Is.Null);

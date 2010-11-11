@@ -10,19 +10,37 @@ namespace NGM.OpenAuthentication.Services {
         private readonly IContentManager _contentManager;
         private readonly IRepository<OpenAuthenticationPartRecord> _openAuthenticationPartRecord;
         private readonly IRepository<OpenAuthenticationSettingsRecord> _openAuthenticationSettingsRecordRepository;
+        private readonly IMembershipService _membershipService;
 
-        public OpenAuthenticationService(IContentManager contentManager, IRepository<OpenAuthenticationPartRecord> openAuthenticationPartRecord, IRepository<OpenAuthenticationSettingsRecord> openAuthenticationSettingsRecordRepository) {
+        public OpenAuthenticationService(IContentManager contentManager, 
+            IRepository<OpenAuthenticationPartRecord> openAuthenticationPartRecord, 
+            IRepository<OpenAuthenticationSettingsRecord> openAuthenticationSettingsRecordRepository,
+            IMembershipService membershipService) {
+
             _contentManager = contentManager;
             _openAuthenticationPartRecord = openAuthenticationPartRecord;
             _openAuthenticationSettingsRecordRepository = openAuthenticationSettingsRecordRepository;
+            _membershipService = membershipService;
         }
 
         public void AssociateOpenIdWithUser(IUser user, string openIdIdentifier) {
             throw new NotImplementedException();
         }
 
-        public IUser CreateUser(string openIdIdentifier) {
-            throw new NotImplementedException();
+        public bool IsAccountExists(string identifier) {
+            return GetUser(identifier) != null;
+        }
+
+        public IUser CreateUser(RegisterModel registerModel) {
+            // Randomise the password as we dont care at this point.
+            var user = _membershipService.CreateUser(
+                new CreateUserParams(
+                    registerModel.Identifier, new byte[8].ToString(), registerModel.Email, null, null, true));
+
+            // Okay, now we have the user, lets associate the open id with the account
+            AssociateOpenIdWithUser(user, registerModel.Identifier);
+
+            return user;
         }
 
         public IUser GetUser(string openIdIdentifier) {

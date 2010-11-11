@@ -3,8 +3,9 @@ using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Services {
     public interface IOpenAuthenticationService {
+        bool IsAccountExists(string identifier);
         void AssociateOpenIdWithUser(IUser user, string openIdIdentifier);
-        IUser CreateUser(string openIdIdentifier);
+        IUser CreateUser(RegisterModel openIdIdentifier);
         IUser GetUser(string openIdIdentifier);
         OpenAuthenticationSettingsRecord GetSettings();
     }

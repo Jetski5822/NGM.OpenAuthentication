@@ -15,4 +15,5 @@
 	<input type="submit" class="button" value="@T("Sign In")" />
     </ol>
   </fieldset>
+  @Html.HiddenFor(m => m.Model.ReturnUrl)
 }

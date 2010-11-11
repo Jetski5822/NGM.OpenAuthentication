@@ -31,23 +31,25 @@ namespace NGM.OpenAuthentication.Controllers
                     case AuthenticationStatus.Authenticated:
                         var user = _authenticationService.GetAuthenticatedUser();
 
-                        var existingUser = _openAuthenticationService.GetUser(_openIdRelyingPartyService.Response.ClaimedIdentifier);
+                        var isIdentifierAssigned = _openAuthenticationService.IsAccountExists(_openIdRelyingPartyService.Response.ClaimedIdentifier);
 
                         // If I am logged in, and another account has the identifier I am logging in with...
-                        if (user != null && existingUser != null && !user.Equals(existingUser)) {
+                        if (isIdentifierAssigned) {
                             ModelState.AddModelError("IdentifierAssigned", "Identifier has already been assigned");
                             break;
                         }
 
                         // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
-                        if (user == null && existingUser == null) {
+                        if (user == null && !isIdentifierAssigned) {
                             var registerModelBuilder = new RegisterModelBuilder(_openIdRelyingPartyService.Response);
-                            TempData["RegisterModel"] = registerModelBuilder.Build();
+                            var model = registerModelBuilder.Build();
+                            model.ReturnUrl = returnUrl;
+                            TempData["RegisterModel"] = model;
                             return RedirectToAction("Register", "Account", new {area = "NGM.OpenAuthentication"});
                         }
 
                         // If I am logged in, and no user currently has that identifier.. then associate.
-                        if (user != null && existingUser == null) {
+                        if (user != null && !isIdentifierAssigned) {
                             _openAuthenticationService.AssociateOpenIdWithUser(user, _openIdRelyingPartyService.Response.ClaimedIdentifier);
 
                             _authenticationService.SignIn(user, false);
@@ -83,6 +85,22 @@ namespace NGM.OpenAuthentication.Controllers
             return View("Register", viewModel);
         }
 
+        [HttpPost, ActionName("Register")]
+        public ActionResult _Register(RegisterViewModel viewModel) {
+            if (ModelState.IsValid) {
+                if (!_openAuthenticationService.IsAccountExists(viewModel.Model.Identifier)) {
+                    var user = _openAuthenticationService.CreateUser(viewModel.Model);
+
+                    // Sign In
+                    _authenticationService.SignIn(user, false);
+
+                    return Redirect(!string.IsNullOrEmpty(viewModel.Model.ReturnUrl) ? viewModel.Model.ReturnUrl : "~/");
+                }
+                ModelState.AddModelError("IdentifierAssigned", "Identifier has already been assigned");
+            }
+            return View("Register", viewModel);
+        }
+
         private ActionResult BuildLogOnAuthenticationRedirect(LogOnViewModel viewModel) {
             var identifier = new OpenIdIdentifier(viewModel.OpenIdIdentifier);
             if (!identifier.IsValid) {
@@ -92,7 +110,6 @@ namespace NGM.OpenAuthentication.Controllers
 
             try {
                 var request = _openIdRelyingPartyService.CreateRequest(identifier);
-
                 
                 request.AddExtension(Claims.CreateRequest(_openAuthenticationService.GetSettings()));
 
