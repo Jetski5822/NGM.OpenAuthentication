@@ -9,11 +9,11 @@
     <ol>
     <li>
 		<label for="OpenIdIdentifier">@T("OpenID Identifier")</label>
-        @Html.TextBoxFor(m => m.OpenIdIdentifier, new { @class = "textMedium, autofocus = "autofocus" })
+		@Html.TextBoxFor(m => m.OpenIdIdentifier, new {@class = "textMedium", autofocus = "autofocus"})
 		@Html.ValidationMessageFor(m => m.OpenIdIdentifier, "*") 
     </li>
 	<input type="submit" class="button" value="@T("Sign In")" />
     </ol>
   </fieldset>
-  @Html.HiddenFor(m => m.Model.ReturnUrl)
+  @Html.HiddenFor(m => m.ReturnUrl)
 }
