@@ -7,7 +7,7 @@ namespace NGM.OpenAuthentication {
             SchemaBuilder.CreateTable("OpenAuthenticationPartRecord",
                 table => table
                     .ContentPartRecord()
-                    .Column<string>("OpenIdIdentifier")
+                    .Column<string>("Identifier")
                 );
 
             ContentDefinitionManager.AlterTypeDefinition("User",
