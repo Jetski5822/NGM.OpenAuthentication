@@ -8,23 +8,25 @@ using Orchard.Security;
 namespace NGM.OpenAuthentication.Services {
     public class OpenAuthenticationService : IOpenAuthenticationService {
         private readonly IContentManager _contentManager;
-        private readonly IRepository<OpenAuthenticationPartRecord> _openAuthenticationPartRecord;
+        private readonly IRepository<OpenAuthenticationPartRecord> _openAuthenticationPartRecordRespository;
         private readonly IRepository<OpenAuthenticationSettingsRecord> _openAuthenticationSettingsRecordRepository;
         private readonly IMembershipService _membershipService;
 
         public OpenAuthenticationService(IContentManager contentManager, 
-            IRepository<OpenAuthenticationPartRecord> openAuthenticationPartRecord, 
+            IRepository<OpenAuthenticationPartRecord> openAuthenticationPartRecordRespository, 
             IRepository<OpenAuthenticationSettingsRecord> openAuthenticationSettingsRecordRepository,
             IMembershipService membershipService) {
 
             _contentManager = contentManager;
-            _openAuthenticationPartRecord = openAuthenticationPartRecord;
+            _openAuthenticationPartRecordRespository = openAuthenticationPartRecordRespository;
             _openAuthenticationSettingsRecordRepository = openAuthenticationSettingsRecordRepository;
             _membershipService = membershipService;
         }
 
         public void AssociateOpenIdWithUser(IUser user, string openIdIdentifier) {
-            throw new NotImplementedException();
+            var record = user.As<OpenAuthenticationPart>();
+            record.Identifier = openIdIdentifier;
+            _openAuthenticationPartRecordRespository.Create(record.Record);
         }
 
         public bool IsAccountExists(string identifier) {
@@ -44,7 +46,7 @@ namespace NGM.OpenAuthentication.Services {
         }
 
         public IUser GetUser(string openIdIdentifier) {
-            var record = _openAuthenticationPartRecord.Get(o => o.Identifier == openIdIdentifier);
+            var record = _openAuthenticationPartRecordRespository.Get(o => o.Identifier == openIdIdentifier);
 
             if (record != null) {
                 return _contentManager.Get<IUser>(record.Id);
