@@ -84,7 +84,7 @@ namespace NGM.OpenAuthentication.Controllers
         }
 
         public ActionResult Register(RegisterViewModel viewModel) {
-            if (viewModel == null) {
+            if (viewModel == null || viewModel.Model == null) {
                 var model = TempData["RegisterModel"] as RegisterModel;
                 if (model == null)
                     return RedirectToAction("LogOn", "Account", new {area = "NGM.OpenAuthentication"});

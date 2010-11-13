@@ -204,9 +204,21 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
         }
 
         [Test]
-        public void should_redirect_to_logon_view_if_no_model_present_on_register_page() {
+        public void should_redirect_to_logon_view_if_no_viewmodel_present_on_register_page() {
             var accountController = new AccountController(null,null,null);
             var redirectToRouteResult = (RedirectToRouteResult)accountController.Register(null);
+
+            Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("NGM.OpenAuthentication"));
+            Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("LogOn"));
+            Assert.That(redirectToRouteResult.RouteValues["controller"], Is.EqualTo("Account"));
+        }
+
+        [Test]
+        public void should_redirect_to_logon_view_if_viewmodel_has_null_model_present_on_register_page() {
+            var accountController = new AccountController(null, null, null);
+
+            var viewModel = new RegisterViewModel();
+            var redirectToRouteResult = (RedirectToRouteResult)accountController.Register(viewModel);
 
             Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("NGM.OpenAuthentication"));
             Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("LogOn"));
@@ -229,7 +241,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
         [Test]
         public void should_not_recreate_registration_view_model_if_view_model_exists() {
             var accountController = new AccountController(null, null, null);
-            var viewModel = new RegisterViewModel(null);
+            var viewModel = new RegisterViewModel(new RegisterModel("test"));
             var viewResult = (ViewResult)accountController.Register(viewModel);
 
             Assert.That(viewResult.ViewData.Model, Is.EqualTo(viewModel));
