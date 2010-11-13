@@ -2,6 +2,8 @@
 
 namespace NGM.OpenAuthentication.ViewModels {
     public class RegisterViewModel {
+        public RegisterViewModel() {}
+
         public RegisterViewModel(RegisterModel model) {
             Model = model;
         }
