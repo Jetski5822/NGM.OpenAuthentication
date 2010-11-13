@@ -31,13 +31,10 @@ namespace NGM.OpenAuthentication.Controllers
                     case AuthenticationStatus.Authenticated:
                         var user = _authenticationService.GetAuthenticatedUser();
 
-                        var isIdentifierAssigned = _openAuthenticationService.IsAccountExists(_openIdRelyingPartyService.Response.ClaimedIdentifier);
+                        bool isIdentifierAssigned = IsIdentifierAssigned(_openIdRelyingPartyService.Response.ClaimedIdentifier);
 
-                        // If I am logged in, and another account has the identifier I am logging in with...
-                        if (isIdentifierAssigned) {
-                            ModelState.AddModelError("IdentifierAssigned", "Identifier has already been assigned");
+                        if (isIdentifierAssigned)
                             break;
-                        }
 
                         // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
                         if (user == null && !isIdentifierAssigned) {
@@ -68,8 +65,21 @@ namespace NGM.OpenAuthentication.Controllers
             return View("LogOn", new LogOnViewModel { ReturnUrl = returnUrl });
         }
 
+        private bool IsIdentifierAssigned(string identifier) {
+            var isIdentifierAssigned = _openAuthenticationService.IsAccountExists(identifier);
+
+            // If I am logged in, and another account has the identifier I am logging in with...
+            if (isIdentifierAssigned) {
+                ModelState.AddModelError("IdentifierAssigned", "Identifier has already been assigned");
+            }
+            return isIdentifierAssigned;
+        }
+
         [HttpPost, ActionName("LogOn")]
         public ActionResult _LogOn(LogOnViewModel viewModel) {
+            if (IsIdentifierAssigned(viewModel.OpenIdIdentifier))
+                return View("LogOn", viewModel);
+
             return BuildLogOnAuthenticationRedirect(viewModel);
         }
 
