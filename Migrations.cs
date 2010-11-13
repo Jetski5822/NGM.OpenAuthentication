@@ -12,7 +12,7 @@ namespace NGM.OpenAuthentication {
 
             ContentDefinitionManager.AlterTypeDefinition("User",
                cfg => cfg
-                   .WithPart("OpenAuthenticationPartRecord")
+                   .WithPart("OpenAuthenticationPart")
                 );
         
             return 1;
