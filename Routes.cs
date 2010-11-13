@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Orchard.Mvc.Routes;
 
-namespace NGM.OpenAuth {
+namespace NGM.OpenAuthentication {
     public class Routes : IRouteProvider {
 
         public void GetRoutes(ICollection<RouteDescriptor> routes) {
