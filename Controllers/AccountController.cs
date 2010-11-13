@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core.OpenId;
@@ -7,9 +6,11 @@ using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
 using Orchard.Security;
+using Orchard.Themes;
 
 namespace NGM.OpenAuthentication.Controllers
 {
+    [Themed]
     public class AccountController : Controller {
         private readonly IOpenIdRelyingPartyService _openIdRelyingPartyService;
         private readonly IAuthenticationService _authenticationService;

@@ -77,6 +77,7 @@
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\OpenAuthenticationPart.cs" />
     <Compile Include="Models\OpenAuthenticationPartRecord.cs" />
+    <Compile Include="ResourceManifest.cs" />
     <Compile Include="Services\IOpenAuthenticationService.cs" />
     <Compile Include="Services\OpenAuthenticationService.cs" />
     <Compile Include="ViewModels\LogOnViewModel.cs" />
@@ -85,10 +86,12 @@
     <Compile Include="ViewModels\RegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Account\Images\openid-icon.png" />
     <Content Include="Module.txt" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Styles\account.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

@@ -1,19 +1,19 @@
 ﻿@model NGM.OpenAuthentication.ViewModels.LogOnViewModel
 
-<h1>@Html.TitleForPage(T("OpenID Sign In").ToString())</h1>
+@{
+    Style.Include("account.css");
+	}
+
 @Html.ValidationSummary() 
 
 @using (Html.BeginFormAntiForgeryPost(Url.Action("LogOn", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"]}))) {
-  <fieldset class="login-form group">
-    <legend>@T("OpenID")</legend>
-    <ol>
-    <li>
-		<label for="OpenIdIdentifier">@T("OpenID Identifier")</label>
-		@Html.TextBoxFor(m => m.OpenIdIdentifier, new {@class = "textMedium", autofocus = "autofocus"})
-		@Html.ValidationMessageFor(m => m.OpenIdIdentifier, "*") 
-    </li>
+<div>
+	<label for="OpenIdIdentifier">@T("Logon using an OpenID")</label>
+	@Html.TextBoxFor(m => m.OpenIdIdentifier, new {@class = "textMedium", autofocus = "autofocus"})
+	@Html.ValidationMessageFor(m => m.OpenIdIdentifier, "*") 
+</div>
+<div>
 	<input type="submit" class="button" value="@T("Sign In")" />
-    </ol>
-  </fieldset>
+</div>
   @Html.HiddenFor(m => m.ReturnUrl)
 }
