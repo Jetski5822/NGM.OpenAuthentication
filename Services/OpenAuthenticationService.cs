@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NGM.OpenAuthentication.Models;
 using Orchard.ContentManagement;
@@ -58,6 +59,10 @@ namespace NGM.OpenAuthentication.Services {
         public OpenAuthenticationSettingsRecord GetSettings() {
             var settings = from openSettings in _openAuthenticationSettingsRecordRepository.Table select openSettings;
             return settings.FirstOrDefault<OpenAuthenticationSettingsRecord>();
+        }
+
+        public IEnumerable<string> GetIdentifiersFor(IUser user) {
+            return _openAuthenticationPartRecordRespository.Fetch(o => o.Id == user.Id).Select(sm => sm.Identifier);
         }
     }
 }

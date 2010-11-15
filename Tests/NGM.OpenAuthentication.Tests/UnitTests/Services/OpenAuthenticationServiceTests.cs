@@ -1,8 +1,13 @@
-﻿using Moq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using Moq;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using NUnit.Framework;
 using Orchard.Data;
+using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
     [TestFixture]
@@ -15,6 +20,22 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
             var user = openAuthenticationService.GetUser("test");
 
             Assert.That(user, Is.Null);
+        }
+
+        [Test]
+        public void should_return_all_identifiers_for_specified_user() {
+            var mockRepository = new Mock<IRepository<OpenAuthenticationPartRecord>>();
+            var record1 = new OpenAuthenticationPartRecord { Id = 1, Identifier = "Foo"};
+            var record2 = new OpenAuthenticationPartRecord { Id = 1, Identifier = "bar" };
+            mockRepository.Setup(o => o.Fetch(It.IsAny<Expression<Func<OpenAuthenticationPartRecord, bool>>>())).Returns(new [] {record1, record2});
+            var openAuthenticationService = new OpenAuthenticationService(null, mockRepository.Object, null, null);
+
+            var mockUser = new Mock<IUser>();
+            mockUser.SetupGet(o => o.Id).Returns(1);
+
+            IEnumerable<string> identities = openAuthenticationService.GetIdentifiersFor(mockUser.Object);
+
+            Assert.That(identities.Count(), Is.EqualTo(2));
         }
 
         [Test]

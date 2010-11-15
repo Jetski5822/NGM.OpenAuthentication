@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core.OpenId;
@@ -110,6 +111,14 @@ namespace NGM.OpenAuthentication.Controllers
                 ModelState.AddModelError("IdentifierAssigned", "Identifier has already been assigned");
             }
             return View("Register", viewModel);
+        }
+
+        public ActionResult VerifiedAccounts() {
+            var user = _authenticationService.GetAuthenticatedUser();
+            var identifiers = _openAuthenticationService.GetIdentifiersFor(user);
+            var models = identifiers.Select(x => new AccountModel{Identifier = x});
+
+            return View("VerifiedAccounts", new VerifiedAccountsViewModel(models));
         }
 
         private ActionResult BuildLogOnAuthenticationRedirect(LogOnViewModel viewModel) {

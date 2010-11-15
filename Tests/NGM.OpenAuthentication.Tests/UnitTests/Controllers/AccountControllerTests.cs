@@ -247,7 +247,23 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
             Assert.That(viewResult.ViewData.Model, Is.EqualTo(viewModel));
         }
 
-        
+        [Test]
+        public void should_show_all_identifiers_associated_with_loggedon_user() {
+            var mockUser = new Mock<IUser>();
+
+            var mockAuthenticationService = new Mock<IAuthenticationService>();
+            mockAuthenticationService.Setup(o => o.GetAuthenticatedUser()).Returns(mockUser.Object);
+
+            var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
+            mockOpenAuthenticationService.Setup(o => o.GetIdentifiersFor(mockUser.Object)).Returns(new[] { "foo", "bar" });
+            
+            var accountController = new AccountController(null, mockAuthenticationService.Object, mockOpenAuthenticationService.Object);
+            var viewResult = (ViewResult)accountController.VerifiedAccounts();
+
+            var viewModel = viewResult.ViewData.Model as VerifiedAccountsViewModel;
+            Assert.That(viewModel.AccountModels.Count(), Is.EqualTo(2));
+        }
+
 
 
         /* POST */

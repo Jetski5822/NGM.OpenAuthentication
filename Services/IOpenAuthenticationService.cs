@@ -1,4 +1,5 @@
-﻿using NGM.OpenAuthentication.Models;
+﻿using System.Collections.Generic;
+using NGM.OpenAuthentication.Models;
 using Orchard;
 using Orchard.Security;
 
@@ -9,5 +10,6 @@ namespace NGM.OpenAuthentication.Services {
         IUser CreateUser(RegisterModel openIdIdentifier);
         IUser GetUser(string openIdIdentifier);
         OpenAuthenticationSettingsRecord GetSettings();
+        IEnumerable<string> GetIdentifiersFor(IUser user);
     }
 }

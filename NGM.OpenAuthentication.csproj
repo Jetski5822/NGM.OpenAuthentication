@@ -80,6 +80,8 @@
     <Compile Include="ResourceManifest.cs" />
     <Compile Include="Services\IOpenAuthenticationService.cs" />
     <Compile Include="Services\OpenAuthenticationService.cs" />
+    <Compile Include="Models\AccountModel.cs" />
+    <Compile Include="ViewModels\VerifiedAccountsViewModel.cs" />
     <Compile Include="ViewModels\LogOnViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routes.cs" />
@@ -87,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Account\Images\openid-icon.png" />
+    <Content Include="Content\Account\Images\openid-large.png" />
     <Content Include="Module.txt" />
   </ItemGroup>
   <ItemGroup />
@@ -104,6 +107,7 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Views\Account\VerifiedAccounts.cshtml" />
     <None Include="Views\Account\Register.cshtml" />
     <None Include="Views\Account\LogOn.cshtml" />
   </ItemGroup>
