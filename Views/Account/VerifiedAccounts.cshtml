@@ -2,6 +2,34 @@
 
 @Html.ValidationSummary() 
 
-@foreach (var model in Model.AccountModels) {
-	
+<table class="items" summary="@T("This is a table of the open id accounts associated with your logon")">
+	<colgroup>
+		<col id="Col1" />
+		<col id="Col2" />
+		<col id="Col3" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th scope="col">&nbsp;&darr;</th>
+			<th scope="col">@T("Account")</th>
+			<th scope="col"></th>
+		</tr>
+	</thead>
+
+@foreach (var accountModel in Model.AccountModels) {
+    <tr>
+        <td>
+            <input type="checkbox" value="false" />
+        </td>      
+        <td>@accountModel.Identifier</td>
+        <td>
+            <ul class="actions">
+                <li class="construct">
+                    <a href="#" title="@T("Remove")">@T("Remove")</a>
+                </li>
+                <li class="destruct"></li>
+            </ul>
+        </td>
+	</tr>
 }
+</table>
