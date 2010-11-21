@@ -116,7 +116,7 @@ namespace NGM.OpenAuthentication.Controllers
         public ActionResult VerifiedAccounts() {
             var user = _authenticationService.GetAuthenticatedUser();
             var identifiers = _openAuthenticationService.GetIdentifiersFor(user);
-            var models = identifiers.Select(x => new AccountModel{Identifier = x});
+            var models = identifiers.Select(x => new AccountModel{Identifier = x, UserId = user.Id});
 
             return View("VerifiedAccounts", new VerifiedAccountsViewModel(models));
         }

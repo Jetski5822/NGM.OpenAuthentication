@@ -1,4 +1,5 @@
 ﻿@model NGM.OpenAuthentication.ViewModels.RegisterViewModel
+@using NGM.OpenAuthentication.Models
 
 <h1>@Html.TitleForPage(T("Register Account").ToString())</h1>
 @Html.ValidationSummary() 
@@ -9,7 +10,7 @@
     <ol>
     <li>
 		<p class="header">@T("OpenID Association")</p>
-		<p>Your new user account will be linked to <b>@T(Model.Identifier)</b></p>
+		<p>Your new user account will be linked to <b>@Model.Model.Identifier</b></p>
     </li>
 	<li>
 		<label for="Email">@T("Email")</label>
