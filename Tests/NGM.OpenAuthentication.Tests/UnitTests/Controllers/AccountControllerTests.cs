@@ -8,7 +8,7 @@ using System.Web.Routing;
 using DotNetOpenAuth.OpenId;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using Moq;
-using NGM.OpenAuth.Tests.Fakes;
+using NGM.OpenAuthentication.Tests.Fakes;
 using NGM.OpenAuthentication.Controllers;
 using NGM.OpenAuthentication.Core.OpenId;
 using NGM.OpenAuthentication.Models;

@@ -107,6 +107,9 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Account\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Views\Account\VerifiedAccounts.cshtml" />
     <None Include="Views\Account\Register.cshtml" />
     <None Include="Views\Account\LogOn.cshtml" />
