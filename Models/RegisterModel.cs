@@ -1,5 +1,7 @@
 ﻿namespace NGM.OpenAuthentication.Models {
     public class RegisterModel {
+        public RegisterModel() {}
+
         public RegisterModel(string identifier) {
             Identifier = identifier;
         }
