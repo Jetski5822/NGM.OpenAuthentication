@@ -61,8 +61,10 @@ namespace NGM.OpenAuthentication.Services {
             return settings.FirstOrDefault<OpenAuthenticationSettingsRecord>();
         }
 
-        public IEnumerable<string> GetIdentifiersFor(IUser user) {
-            return _openAuthenticationPartRecordRespository.Fetch(o => o.Id == user.Id).Select(sm => sm.Identifier);
+        public IContentQuery<OpenAuthenticationPart> GetIdentifiersFor(IUser user) {
+            return _contentManager
+               .Query<OpenAuthenticationPart, OpenAuthenticationPartRecord>()
+               .Where(c => c.Id == user.Id);
         }
     }
 }

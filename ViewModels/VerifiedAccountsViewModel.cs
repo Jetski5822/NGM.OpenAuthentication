@@ -3,12 +3,10 @@ using NGM.OpenAuthentication.Models;
 
 namespace NGM.OpenAuthentication.ViewModels {
     public class VerifiedAccountsViewModel {
-        public VerifiedAccountsViewModel() {}
 
-        public VerifiedAccountsViewModel(IEnumerable<AccountModel> accountModels) {
-            AccountModels = accountModels;
-        }
+        public int UserId { get; set; }
 
-        public IEnumerable<AccountModel> AccountModels { get; set;}
+        public IEnumerable<OpenAuthenticationPart> Accounts { get; set;}
+
     }
 }

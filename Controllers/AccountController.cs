@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
@@ -115,10 +116,18 @@ namespace NGM.OpenAuthentication.Controllers
 
         public ActionResult VerifiedAccounts() {
             var user = _authenticationService.GetAuthenticatedUser();
-            var identifiers = _openAuthenticationService.GetIdentifiersFor(user);
-            var models = identifiers.Select(x => new AccountModel{Identifier = x, UserId = user.Id});
+            var authenticationParts = _openAuthenticationService.GetIdentifiersFor(user).List();
+            var viewModel = new VerifiedAccountsViewModel {Accounts = authenticationParts, UserId = user.Id};
 
-            return View("VerifiedAccounts", new VerifiedAccountsViewModel(models));
+            return View("VerifiedAccounts", viewModel);
+        }
+
+        [HttpPost, ActionName("VerifiedAccounts")]
+        public ActionResult _VerifiedAccounts(FormCollection input) {
+            var viewModel = new VerifiedAccountsViewModel { Accounts = new List<OpenAuthenticationPart>() };
+            UpdateModel(viewModel);
+
+            return View("VerifiedAccounts", viewModel);
         }
 
         private ActionResult BuildLogOnAuthenticationRedirect(LogOnViewModel viewModel) {

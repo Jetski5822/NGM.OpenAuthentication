@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Linq;
 using System.Security.Principal;
@@ -15,6 +16,7 @@ using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
 using NUnit.Framework;
+using Orchard.ContentManagement;
 using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
@@ -254,15 +256,41 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
             var mockAuthenticationService = new Mock<IAuthenticationService>();
             mockAuthenticationService.Setup(o => o.GetAuthenticatedUser()).Returns(mockUser.Object);
 
+            var mockContentQuery = new Mock<IContentQuery<OpenAuthenticationPart>>();
+
+            var openAuthenticationPartRecord1 = new OpenAuthenticationPartRecord {Identifier = "foo"};
+            var openAuthenticationPartRecord2 = new OpenAuthenticationPartRecord {Identifier = "bar"};
+            var openAuthenticationPart1 = new OpenAuthenticationPart {Record = openAuthenticationPartRecord1};
+            var openAuthenticationPart2 = new OpenAuthenticationPart {Record = openAuthenticationPartRecord2};
+
+            mockContentQuery.Setup(o => o.List()).Returns(new[] {openAuthenticationPart1, openAuthenticationPart2});
+
             var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
-            mockOpenAuthenticationService.Setup(o => o.GetIdentifiersFor(mockUser.Object)).Returns(new[] { "foo", "bar" });
+            mockOpenAuthenticationService.Setup(o => o.GetIdentifiersFor(mockUser.Object)).Returns(mockContentQuery.Object);
             
             var accountController = new AccountController(null, mockAuthenticationService.Object, mockOpenAuthenticationService.Object);
             var viewResult = (ViewResult)accountController.VerifiedAccounts();
 
             var viewModel = viewResult.ViewData.Model as VerifiedAccountsViewModel;
-            Assert.That(viewModel.AccountModels.Count(), Is.EqualTo(2));
+            Assert.That(viewModel.Accounts.Count(), Is.EqualTo(2));
         }
+
+        //[Test]
+        //public void should_remove_identifier_from_loggedon_account_and_return_verifiedaccounts_view_on_success() {
+        //    var mockUser = new Mock<IUser>();
+
+        //    var mockAuthenticationService = new Mock<IAuthenticationService>();
+        //    mockAuthenticationService.Setup(o => o.GetAuthenticatedUser()).Returns(mockUser.Object);
+
+        //    var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
+        //    mockOpenAuthenticationService.Setup(o => o.RemoveIdentifier(mockUser.Object)).Returns(new[] { "foo", "bar" });
+
+        //    var accountController = new AccountController(null, mockAuthenticationService.Object, mockOpenAuthenticationService.Object);
+        //    var viewResult = (ViewResult)accountController.VerifiedAccounts();
+
+        //    var viewModel = viewResult.ViewData.Model as VerifiedAccountsViewModel;
+        //    Assert.That(viewModel.Accounts.Count(), Is.EqualTo(2));
+        //}
 
 
 

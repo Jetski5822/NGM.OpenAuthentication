@@ -15,9 +15,9 @@
 			<th scope="col"></th>
 		</tr>
 	</thead>
-
-@foreach (var accountModel in Model.AccountModels) {
-    <tr>
+    @{var accountIndex = 0;}
+    @foreach (var accountModel in Model.Accounts) {
+    <tr itemscope="itemscope" itemid="@Model.Accounts[accountIndex].Id">
         <td>
             <input type="checkbox" value="false" />
         </td>      

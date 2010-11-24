@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using NGM.OpenAuthentication.Models;
+﻿using NGM.OpenAuthentication.Models;
 using Orchard;
+using Orchard.ContentManagement;
 using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Services {
@@ -14,6 +14,6 @@ namespace NGM.OpenAuthentication.Services {
         
         OpenAuthenticationSettingsRecord GetSettings();
 
-        IEnumerable<string> GetIdentifiersFor(IUser user);
+        IContentQuery<OpenAuthenticationPart> GetIdentifiersFor(IUser user);
     }
 }

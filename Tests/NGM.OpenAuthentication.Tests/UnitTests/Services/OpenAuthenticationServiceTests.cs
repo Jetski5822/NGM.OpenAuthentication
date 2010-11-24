@@ -6,6 +6,7 @@ using Moq;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using NUnit.Framework;
+using Orchard.ContentManagement;
 using Orchard.Data;
 using Orchard.Security;
 
@@ -22,20 +23,39 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
             Assert.That(user, Is.Null);
         }
 
+        //[Test]
+        //public void should_return_all_identifiers_for_specified_user() {
+        //    var mockRepository = new Mock<IRepository<OpenAuthenticationPartRecord>>();
+        //    var record1 = new OpenAuthenticationPartRecord { Id = 1, Identifier = "Foo"};
+        //    var record2 = new OpenAuthenticationPartRecord { Id = 1, Identifier = "bar" };
+        //    mockRepository.Setup(o => o.Fetch(It.IsAny<Expression<Func<OpenAuthenticationPartRecord, bool>>>())).Returns(new [] {record1, record2});
+        //    var openAuthenticationService = new OpenAuthenticationService(null, mockRepository.Object, null, null);
+
+        //    var mockUser = new Mock<IUser>();
+        //    mockUser.SetupGet(o => o.Id).Returns(1);
+
+        //    var identities = openAuthenticationService.GetIdentifiersFor(mockUser.Object).List();
+
+        //    Assert.That(identities.Count(), Is.EqualTo(2));
+        //}
+
         [Test]
         public void should_return_all_identifiers_for_specified_user() {
-            var mockRepository = new Mock<IRepository<OpenAuthenticationPartRecord>>();
-            var record1 = new OpenAuthenticationPartRecord { Id = 1, Identifier = "Foo"};
-            var record2 = new OpenAuthenticationPartRecord { Id = 1, Identifier = "bar" };
-            mockRepository.Setup(o => o.Fetch(It.IsAny<Expression<Func<OpenAuthenticationPartRecord, bool>>>())).Returns(new [] {record1, record2});
-            var openAuthenticationService = new OpenAuthenticationService(null, mockRepository.Object, null, null);
+            var mockContentManager = new Mock<IContentManager>();
+            var mockContentQuerySpecialized = new Mock<IContentQuery<OpenAuthenticationPart, OpenAuthenticationPartRecord>>();
 
-            var mockUser = new Mock<IUser>();
-            mockUser.SetupGet(o => o.Id).Returns(1);
+            mockContentQuerySpecialized.Setup(o => o.Where(It.IsAny<Expression<Func<OpenAuthenticationPartRecord, bool>>>())).Returns(mockContentQuerySpecialized.Object);
 
-            IEnumerable<string> identities = openAuthenticationService.GetIdentifiersFor(mockUser.Object);
+            var mockContentQuery = new Mock<IContentQuery<ContentItem>>();
+            var mockContentQueryOpenAuthenticationPart = new Mock<IContentQuery<OpenAuthenticationPart>>();
+            mockContentQueryOpenAuthenticationPart.Setup(o => o.Join<OpenAuthenticationPartRecord>()).Returns(mockContentQuerySpecialized.Object);
+            mockContentQuery.Setup(o => o.ForPart<OpenAuthenticationPart>()).Returns(mockContentQueryOpenAuthenticationPart.Object);
+            mockContentManager.Setup(o => o.Query()).Returns(mockContentQuery.Object);
 
-            Assert.That(identities.Count(), Is.EqualTo(2));
+            var openAuthenticationService = new OpenAuthenticationService(mockContentManager.Object, null, null, null);
+            var contentQuery = openAuthenticationService.GetIdentifiersFor(null);
+            Assert.That(contentQuery, Is.EqualTo(mockContentQuerySpecialized.Object));
+            Assert.That(contentQuery.List(), Is.EquivalentTo(mockContentQuerySpecialized.Object.List()));
         }
 
         [Test]

@@ -80,7 +80,6 @@
     <Compile Include="ResourceManifest.cs" />
     <Compile Include="Services\IOpenAuthenticationService.cs" />
     <Compile Include="Services\OpenAuthenticationService.cs" />
-    <Compile Include="Models\AccountModel.cs" />
     <Compile Include="ViewModels\VerifiedAccountsViewModel.cs" />
     <Compile Include="ViewModels\LogOnViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
