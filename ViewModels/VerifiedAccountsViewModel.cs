@@ -6,7 +6,11 @@ namespace NGM.OpenAuthentication.ViewModels {
 
         public int UserId { get; set; }
 
-        public IList<OpenAuthenticationPart> Accounts { get; set;}
+        public IList<AccountEntry> Accounts { get; set; }
+    }
 
+    public class AccountEntry {
+        public OpenAuthenticationPartRecord Account { get; set; }
+        public bool IsChecked { get; set; }
     }
 }
