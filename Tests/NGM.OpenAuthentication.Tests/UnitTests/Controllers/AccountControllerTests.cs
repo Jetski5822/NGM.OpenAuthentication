@@ -247,7 +247,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
         [Test]
         public void should_not_recreate_registration_view_model_if_view_model_exists() {
             var accountController = new AccountController(null, null, null);
-            var viewModel = new RegisterViewModel(new RegisterModel {ClaimedIdentifier = "test"});
+            var viewModel = new RegisterViewModel {Model = new RegisterModel {ClaimedIdentifier = "test"}};
             var viewResult = (ViewResult)accountController.Register(viewModel);
 
             Assert.That(viewResult.ViewData.Model, Is.EqualTo(viewModel));
@@ -260,7 +260,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
             var mockAuthenticationService = new Mock<IAuthenticationService>();
             mockAuthenticationService.Setup(o => o.GetAuthenticatedUser()).Returns(mockUser.Object);
 
-            var mockContentQuery = new Mock<IContentQuery<OpenAuthenticationPart>>();
+            var mockContentQuery = new Mock<IContentQuery<OpenAuthenticationPart, OpenAuthenticationPartRecord>>();
 
             var openAuthenticationPartRecord1 = new OpenAuthenticationPartRecord {ClaimedIdentifier = "foo"};
             var openAuthenticationPartRecord2 = new OpenAuthenticationPartRecord {ClaimedIdentifier = "bar"};

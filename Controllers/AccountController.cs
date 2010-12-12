@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
@@ -92,7 +93,7 @@ namespace NGM.OpenAuthentication.Controllers
                 if (model == null)
                     return RedirectToAction("LogOn", "Account", new {area = "NGM.OpenAuthentication"});
 
-                viewModel = new RegisterViewModel(model);
+                viewModel = new RegisterViewModel {Model = model};
             }
 
             return View("Register", viewModel);
@@ -116,15 +117,30 @@ namespace NGM.OpenAuthentication.Controllers
 
         public ActionResult VerifiedAccounts() {
             var user = _authenticationService.GetAuthenticatedUser();
-            var authenticationParts = _openAuthenticationService.GetIdentifiersFor(user).List().ToList();
-            var viewModel = new VerifiedAccountsViewModel {Accounts = authenticationParts, UserId = user.Id};
+            var entries =
+                _openAuthenticationService
+                    .GetIdentifiersFor(user)
+                    .List()
+                    .ToList()
+                    .Select(account => CreateAccountEntry(account.Record));
+
+            var viewModel = new VerifiedAccountsViewModel {
+                Accounts = entries.ToList(), 
+                UserId = user.Id
+            };
 
             return View("VerifiedAccounts", viewModel);
         }
 
+        private AccountEntry CreateAccountEntry(OpenAuthenticationPartRecord openAuthenticationPart) {
+            return new AccountEntry {
+                Account = openAuthenticationPart
+            };
+        }
+
         [HttpPost, ActionName("VerifiedAccounts")]
         public ActionResult _VerifiedAccounts(FormCollection input) {
-            var viewModel = new VerifiedAccountsViewModel { Accounts = new List<OpenAuthenticationPart>() };
+            var viewModel = new VerifiedAccountsViewModel { Accounts = new List<AccountEntry>() };
             UpdateModel(viewModel);
 
             return View("VerifiedAccounts", viewModel);

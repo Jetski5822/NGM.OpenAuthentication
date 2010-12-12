@@ -14,6 +14,6 @@ namespace NGM.OpenAuthentication.Services {
         
         OpenAuthenticationSettingsRecord GetSettings();
 
-        IContentQuery<OpenAuthenticationPart> GetIdentifiersFor(IUser user);
+        IContentQuery<OpenAuthenticationPart, OpenAuthenticationPartRecord> GetIdentifiersFor(IUser user);
     }
 }

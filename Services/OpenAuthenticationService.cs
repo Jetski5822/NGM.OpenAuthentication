@@ -25,10 +25,10 @@ namespace NGM.OpenAuthentication.Services {
         }
 
         public void AssociateOpenIdWithUser(IUser user, string openIdIdentifier, string friendlyOpenIdIdentifier) {
-            var record = user.As<OpenAuthenticationPart>();
-            record.ClaimedIdentifier = openIdIdentifier;
-            record.FriendlyIdentifierForDisplay = friendlyOpenIdIdentifier;
-            _openAuthenticationPartRecordRespository.Create(record.Record);
+            var account = user.As<OpenAuthenticationPart>();
+            account.Record.ClaimedIdentifier = openIdIdentifier;
+            account.Record.FriendlyIdentifierForDisplay = friendlyOpenIdIdentifier;
+            _openAuthenticationPartRecordRespository.Create(account.Record);
         }
 
         public bool IsAccountExists(string identifier) {
@@ -62,7 +62,7 @@ namespace NGM.OpenAuthentication.Services {
             return settings.FirstOrDefault<OpenAuthenticationSettingsRecord>();
         }
 
-        public IContentQuery<OpenAuthenticationPart> GetIdentifiersFor(IUser user) {
+        public IContentQuery<OpenAuthenticationPart, OpenAuthenticationPartRecord> GetIdentifiersFor(IUser user) {
             return _contentManager
                .Query<OpenAuthenticationPart, OpenAuthenticationPartRecord>()
                .Where(c => c.Id == user.Id);
