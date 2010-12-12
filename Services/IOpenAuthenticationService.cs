@@ -7,7 +7,7 @@ namespace NGM.OpenAuthentication.Services {
     public interface IOpenAuthenticationService : IDependency {
         bool IsAccountExists(string identifier);
         
-        void AssociateOpenIdWithUser(IUser user, string openIdIdentifier);
+        void AssociateOpenIdWithUser(IUser user, string openIdIdentifier, string friendlyOpenIdIdentifier);
         
         IUser CreateUser(RegisterModel openIdIdentifier);
         IUser GetUser(string openIdIdentifier);

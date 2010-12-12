@@ -2,9 +2,14 @@
 
 namespace NGM.OpenAuthentication.Models {
     public class OpenAuthenticationPart : ContentPart<OpenAuthenticationPartRecord> {
-        public string Identifier {
-            get { return Record.Identifier; }
-            set { Record.Identifier = value; }
+        public string ClaimedIdentifier {
+            get { return Record.ClaimedIdentifier; }
+            set { Record.ClaimedIdentifier = value; }
+        }
+
+        public string FriendlyIdentifierForDisplay {
+            get { return Record.FriendlyIdentifierForDisplay; }
+            set { FriendlyIdentifierForDisplay = value; }
         }
     }
 }

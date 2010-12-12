@@ -11,7 +11,10 @@ namespace NGM.OpenAuthentication.Core.OpenId {
         }
 
         public RegisterModel Build() {
-            var model = new RegisterModel(_authenticationResponse.ClaimedIdentifier);
+            var model = new RegisterModel {
+                ClaimedIdentifier = _authenticationResponse.ClaimedIdentifier,
+                FriendlyIdentifier = _authenticationResponse.FriendlyIdentifierForDisplay
+            };
             
             MapClaimsToModel(_authenticationResponse.GetExtension<ClaimsResponse>(), model);
 

@@ -24,9 +24,10 @@ namespace NGM.OpenAuthentication.Services {
             _membershipService = membershipService;
         }
 
-        public void AssociateOpenIdWithUser(IUser user, string openIdIdentifier) {
+        public void AssociateOpenIdWithUser(IUser user, string openIdIdentifier, string friendlyOpenIdIdentifier) {
             var record = user.As<OpenAuthenticationPart>();
-            record.Identifier = openIdIdentifier;
+            record.ClaimedIdentifier = openIdIdentifier;
+            record.FriendlyIdentifierForDisplay = friendlyOpenIdIdentifier;
             _openAuthenticationPartRecordRespository.Create(record.Record);
         }
 
@@ -38,16 +39,16 @@ namespace NGM.OpenAuthentication.Services {
             // Randomise the password as we dont care at this point.
             var user = _membershipService.CreateUser(
                 new CreateUserParams(
-                    registerModel.Identifier, new byte[8].ToString(), registerModel.Email, null, null, true));
+                    registerModel.ClaimedIdentifier, new byte[8].ToString(), registerModel.Email, null, null, true));
 
             // Okay, now we have the user, lets associate the open id with the account
-            AssociateOpenIdWithUser(user, registerModel.Identifier);
+            AssociateOpenIdWithUser(user, registerModel.ClaimedIdentifier, registerModel.FriendlyIdentifier);
 
             return user;
         }
 
         public IUser GetUser(string openIdIdentifier) {
-            var record = _openAuthenticationPartRecordRespository.Get(o => o.Identifier == openIdIdentifier);
+            var record = _openAuthenticationPartRecordRespository.Get(o => o.ClaimedIdentifier == openIdIdentifier);
 
             if (record != null) {
                 return _contentManager.Get<IUser>(record.Id);

@@ -44,7 +44,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
 
         //    var mockAuthenticationResponse = new Mock<IAuthenticationResponse>();
         //    mockAuthenticationResponse.Setup(ctx => ctx.Status).Returns(AuthenticationStatus.Authenticated);
-        //    Identifier identifier = Identifier.Parse("http://foo.google.com");
+        //    ClaimedIdentifier identifier = ClaimedIdentifier.Parse("http://foo.google.com");
 
         //    mockAuthenticationResponse.Setup(ctx => ctx.ClaimedIdentifier).Returns(identifier);
 
@@ -121,8 +121,10 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
             var mockAuthenticationResponse = new Mock<IAuthenticationResponse>();
             mockAuthenticationResponse.Setup(ctx => ctx.Status).Returns(AuthenticationStatus.Authenticated);
             Identifier identifier = Identifier.Parse("http://foo.google.com");
+            Identifier friendlyIdentifier = Identifier.Parse("http://foo.google.com/Blah");
 
             mockAuthenticationResponse.Setup(ctx => ctx.ClaimedIdentifier).Returns(identifier);
+            mockAuthenticationResponse.Setup(ctx => ctx.FriendlyIdentifierForDisplay).Returns(friendlyIdentifier);
 
             mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
 
@@ -132,7 +134,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
             mockAuthenticationService.Setup(o => o.GetAuthenticatedUser()).Returns(mockUser.Object);
 
             var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
-            mockOpenAuthenticationService.Setup(ctx => ctx.AssociateOpenIdWithUser(mockUser.Object, identifier.ToString()));
+            mockOpenAuthenticationService.Setup(ctx => ctx.AssociateOpenIdWithUser(mockUser.Object, identifier.ToString(), friendlyIdentifier.ToString()));
 
             var accountController = new AccountController(mockRelyingService.Object, mockAuthenticationService.Object, mockOpenAuthenticationService.Object);
             var actionResult = accountController.LogOn(string.Empty);
@@ -178,8 +180,10 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
             var mockAuthenticationResponse = new Mock<IAuthenticationResponse>();
             mockAuthenticationResponse.Setup(ctx => ctx.Status).Returns(AuthenticationStatus.Authenticated);
             Identifier identifier = Identifier.Parse("http://foo.google.com");
+            Identifier friendlyIdentifier = Identifier.Parse("http://foo.google.com/Blah");
 
             mockAuthenticationResponse.Setup(ctx => ctx.ClaimedIdentifier).Returns(identifier);
+            mockAuthenticationResponse.Setup(ctx => ctx.FriendlyIdentifierForDisplay).Returns(friendlyIdentifier);
 
             mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
 
@@ -197,7 +201,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
             Assert.That(accountController.TempData.ContainsKey("RegisterModel"), Is.True);
 
             mockAuthenticationService.Verify(ctx => ctx.SignIn(It.IsAny<IUser>(), It.IsAny<bool>()), Times.Never());
-            mockOpenAuthenticationService.Verify(ctx => ctx.AssociateOpenIdWithUser(It.IsAny<IUser>(), It.IsAny<string>()), Times.Never());
+            mockOpenAuthenticationService.Verify(ctx => ctx.AssociateOpenIdWithUser(It.IsAny<IUser>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never());
 
             mockAuthenticationResponse.VerifyAll();
             mockAuthenticationService.VerifyAll();
@@ -230,7 +234,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
         [Test]
         public void should_use_passedin_model_from_logon_if_avalible() {
             var accountController = new AccountController(null, null, null);
-            var model = new RegisterModel("Test");
+            var model = new RegisterModel {ClaimedIdentifier = "Test"};
             accountController.TempData.Add("RegisterModel", model);
 
             var viewResult = (ViewResult)accountController.Register(null);
@@ -243,7 +247,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
         [Test]
         public void should_not_recreate_registration_view_model_if_view_model_exists() {
             var accountController = new AccountController(null, null, null);
-            var viewModel = new RegisterViewModel(new RegisterModel("test"));
+            var viewModel = new RegisterViewModel(new RegisterModel {ClaimedIdentifier = "test"});
             var viewResult = (ViewResult)accountController.Register(viewModel);
 
             Assert.That(viewResult.ViewData.Model, Is.EqualTo(viewModel));
@@ -258,8 +262,8 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
 
             var mockContentQuery = new Mock<IContentQuery<OpenAuthenticationPart>>();
 
-            var openAuthenticationPartRecord1 = new OpenAuthenticationPartRecord {Identifier = "foo"};
-            var openAuthenticationPartRecord2 = new OpenAuthenticationPartRecord {Identifier = "bar"};
+            var openAuthenticationPartRecord1 = new OpenAuthenticationPartRecord {ClaimedIdentifier = "foo"};
+            var openAuthenticationPartRecord2 = new OpenAuthenticationPartRecord {ClaimedIdentifier = "bar"};
             var openAuthenticationPart1 = new OpenAuthenticationPart {Record = openAuthenticationPartRecord1};
             var openAuthenticationPart2 = new OpenAuthenticationPart {Record = openAuthenticationPartRecord2};
 

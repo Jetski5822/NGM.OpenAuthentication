@@ -26,8 +26,8 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
         //[Test]
         //public void should_return_all_identifiers_for_specified_user() {
         //    var mockRepository = new Mock<IRepository<OpenAuthenticationPartRecord>>();
-        //    var record1 = new OpenAuthenticationPartRecord { Id = 1, Identifier = "Foo"};
-        //    var record2 = new OpenAuthenticationPartRecord { Id = 1, Identifier = "bar" };
+        //    var record1 = new OpenAuthenticationPartRecord { Id = 1, ClaimedIdentifier = "Foo"};
+        //    var record2 = new OpenAuthenticationPartRecord { Id = 1, ClaimedIdentifier = "bar" };
         //    mockRepository.Setup(o => o.Fetch(It.IsAny<Expression<Func<OpenAuthenticationPartRecord, bool>>>())).Returns(new [] {record1, record2});
         //    var openAuthenticationService = new OpenAuthenticationService(null, mockRepository.Object, null, null);
 
@@ -62,7 +62,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
         [Ignore ("Cant seem to mock the stuff i want to call. I will do this test with a functional test")]
         public void should_return_user_when_identifier_exists_against_user() {
             //var identifier = "foo";
-            //var openAuthenticationPartRecord = new OpenAuthenticationPartRecord {Id = 123, Identifier = identifier};
+            //var openAuthenticationPartRecord = new OpenAuthenticationPartRecord {Id = 123, ClaimedIdentifier = identifier};
 
             //var mockRepository = new Mock<IRepository<OpenAuthenticationPartRecord>>();
             //mockRepository.Setup(ctx => ctx.Get(It.IsAny<Expression<Func<OpenAuthenticationPartRecord, bool>>>())).Returns(openAuthenticationPartRecord);
