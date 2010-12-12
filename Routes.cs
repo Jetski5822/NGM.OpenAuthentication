@@ -43,11 +43,25 @@ namespace NGM.OpenAuthentication {
                                                  },
                              new RouteDescriptor {
                                                      Route = new Route(
-                                                         "VerifiedAccounts",
+                                                         "OpenAuthentication/VerifiedAccounts",
                                                          new RouteValueDictionary {
                                                                                       {"area", "NGM.OpenAuthentication"},
                                                                                       {"controller", "Account"},
                                                                                       {"action", "VerifiedAccounts"}
+                                                                                  },
+                                                         new RouteValueDictionary(),
+                                                         new RouteValueDictionary {
+                                                                                      {"area", "NGM.OpenAuthentication"}
+                                                                                  },
+                                                         new MvcRouteHandler())
+                                                 },
+                             new RouteDescriptor {
+                                                     Route = new Route(
+                                                         "OpenAuthentication/RemoveVerifiedAccount",
+                                                         new RouteValueDictionary {
+                                                                                      {"area", "NGM.OpenAuthentication"},
+                                                                                      {"controller", "Account"},
+                                                                                      {"action", "RemoveVerifiedAccount"}
                                                                                   },
                                                          new RouteValueDictionary(),
                                                          new RouteValueDictionary {

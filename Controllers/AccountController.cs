@@ -130,6 +130,10 @@ namespace NGM.OpenAuthentication.Controllers
             return View("VerifiedAccounts", viewModel);
         }
 
+        public ActionResult RemoveVerifiedAccount(string UserId) {
+            return new EmptyResult();
+        }
+
         private ActionResult BuildLogOnAuthenticationRedirect(LogOnViewModel viewModel) {
             var identifier = new OpenIdIdentifier(viewModel.OpenIdIdentifier);
             if (!identifier.IsValid) {
