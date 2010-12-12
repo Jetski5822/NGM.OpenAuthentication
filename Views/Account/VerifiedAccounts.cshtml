@@ -14,7 +14,7 @@
 			<th scope="col">@T("Account")</th>
 			<th scope="col"></th>
 		</tr>
-	</thead>
+	</thead>    
     @{var accountIndex = 0;}
     @foreach (var accountModel in Model.Accounts) {
     <tr itemscope="itemscope" itemid="@Model.Accounts[accountIndex].Id">
@@ -31,5 +31,9 @@
             </ul>
         </td>
 	</tr>
-}
+    }
 </table>
+
+@if (Model.Accounts.Count() == 0) {
+    <p>User has no verified OpenId accounts.</p>
+}
