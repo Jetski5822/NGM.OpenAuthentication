@@ -71,7 +71,7 @@ namespace NGM.OpenAuthentication.Controllers
         private bool IsIdentifierAssigned(string identifier) {
             var isIdentifierAssigned = _openAuthenticationService.IsAccountExists(identifier);
 
-            // If I am logged in, and another account has the identifier I am logging in with...
+            // Check to see if identifier is currently assigned.
             if (isIdentifierAssigned) {
                 ModelState.AddModelError("IdentifierAssigned", "Identifier has already been assigned");
             }
@@ -116,7 +116,7 @@ namespace NGM.OpenAuthentication.Controllers
 
         public ActionResult VerifiedAccounts() {
             var user = _authenticationService.GetAuthenticatedUser();
-            var authenticationParts = _openAuthenticationService.GetIdentifiersFor(user).List();
+            var authenticationParts = _openAuthenticationService.GetIdentifiersFor(user).List().ToList();
             var viewModel = new VerifiedAccountsViewModel {Accounts = authenticationParts, UserId = user.Id};
 
             return View("VerifiedAccounts", viewModel);
