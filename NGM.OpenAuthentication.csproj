@@ -33,8 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetOpenAuth">
-      <HintPath>ExternalDlls\DotNetOpenAuth-3.4.5.10202\Bin\DotNetOpenAuth.dll</HintPath>
+    <Reference Include="DotNetOpenAuth, Version=3.4.5.10202, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\DotNetOpenAuth-3.4.5.10202\DotNetOpenAuth.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -111,7 +112,8 @@
     <Content Include="Styles\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Views\Account\VerifiedAccounts.cshtml" />
+    <Content Include="Placement.info" />
+    <None Include="Views\EditorTemplates\Parts\OpenAuthentication.VerifiedOpenIdAccounts.cshtml" />
     <None Include="Views\Account\Register.cshtml" />
     <None Include="Views\Account\LogOn.cshtml" />
   </ItemGroup>
