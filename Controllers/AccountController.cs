@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
@@ -8,8 +7,11 @@ using NGM.OpenAuthentication.Core.OpenId;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
+using Orchard;
+using Orchard.ContentManagement;
 using Orchard.Security;
 using Orchard.Themes;
+using Orchard.Users.Models;
 
 namespace NGM.OpenAuthentication.Controllers
 {
@@ -18,14 +20,19 @@ namespace NGM.OpenAuthentication.Controllers
         private readonly IOpenIdRelyingPartyService _openIdRelyingPartyService;
         private readonly IAuthenticationService _authenticationService;
         private readonly IOpenAuthenticationService _openAuthenticationService;
+        private readonly IOrchardServices _orchardServices;
 
-        public AccountController(IOpenIdRelyingPartyService openIdRelyingPartyService, 
-            IAuthenticationService authenticationService, 
-            IOpenAuthenticationService openAuthenticationService) {
+        public AccountController(
+            IOpenIdRelyingPartyService openIdRelyingPartyService, 
+            IAuthenticationService authenticationService,
+            IOpenAuthenticationService openAuthenticationService,
+            IOrchardServices orchardServices)
+        {
             
             _openIdRelyingPartyService = openIdRelyingPartyService;
             _authenticationService = authenticationService;
             _openAuthenticationService = openAuthenticationService;
+            _orchardServices = orchardServices;
         }
 
         public ActionResult LogOn(string returnUrl) {
@@ -42,11 +49,23 @@ namespace NGM.OpenAuthentication.Controllers
 
                         // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
                         if (user == null && !isClaimedIdentifierAssigned) {
-                            var registerModelBuilder = new RegisterModelBuilder(_openIdRelyingPartyService.Response);
-                            var model = registerModelBuilder.Build();
-                            model.ReturnUrl = returnUrl;
-                            TempData["RegisterModel"] = model;
-                            return RedirectToAction("Register", "Account", new {area = "NGM.OpenAuthentication"});
+                            var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
+
+                            if ((registrationSettings != null) &&
+                                (registrationSettings.UsersCanRegister == true))
+                            {
+                                ModelState.AddModelError("AccessDenied", "User registration is disabled");
+                                break;
+                            }
+                            else
+                            {
+                                var registerModelBuilder = new RegisterModelBuilder(_openIdRelyingPartyService.Response);
+                                var model = registerModelBuilder.Build();
+                                model.ReturnUrl = returnUrl;
+
+                                TempData["RegisterModel"] = model;
+                                return RedirectToAction("Register", "Account", new { area = "NGM.OpenAuthentication" });
+                            }
                         }
 
                         // If I am logged in, and no user currently has that identifier.. then associate.

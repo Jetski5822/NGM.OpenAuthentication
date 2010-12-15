@@ -1,8 +1,9 @@
 ﻿@model NGM.OpenAuthentication.ViewModels.LogOnViewModel
 @using Orchard.ContentManagement;
+@using Orchard.Users.Models;
 
 @{
-    var userCanRegister = @WorkContext.CurrentSite.As<Orchard.Users.Models.RegistrationSettingsPart>().UsersCanRegister;
+    var userCanRegister = @WorkContext.CurrentSite.As<RegistrationSettingsPart>().UsersCanRegister;
 }
 
 @{
@@ -12,8 +13,7 @@
 <h1>@Html.TitleForPage(T("Log On").ToString()) </h1>
 <p>
     @T("Sign in using your OpenID.") 
-    <!-- TODO: (francip ) only if registration is enabled -->
-    @if (userCanRegister) { @T("If this is your first visit here, you will be registered automatically with us.") }
+    @if (userCanRegister) { @T("If this is your first time, you will be registered automatically with us.") }
 </p>
 @Html.ValidationSummary() 
 
@@ -22,14 +22,12 @@
 <fieldset class="login-form group">
     <legend>@T("OpenID account")</legend>
     <ol>
-    <!--
     <li>
-        <label for="@Html.FieldIdFor( m => m.KnownProvider)">@T("If you have an account with one of these sites, click the logo to sign in")</label>
+        <label for="@Html.FieldIdFor( m => m.KnownProvider)">@T("If you have an account with one of these sites, select it below  to sign in")</label>
         <select id="@Html.FieldIdFor(m => m.KnownProvider)" name="@Html.FieldNameFor(m => m.KnownProvider)">
             @Html.SelectOption(Model.KnownProvider, "http://google.com", T("Google").Text)
         </select>
     </li>
-    -->
     <li>
         <label for="@Html.FieldIdFor( m => m.OpenIdIdentifier)">@T("Enter manually your OpenID")</label>
         @Html.TextBoxFor(m => m.OpenIdIdentifier, new { @class = "textMedium", autofocus = "autofocus" })
