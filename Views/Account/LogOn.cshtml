@@ -1,19 +1,42 @@
 ﻿@model NGM.OpenAuthentication.ViewModels.LogOnViewModel
+@using Orchard.ContentManagement;
+
+@{
+    var userCanRegister = @WorkContext.CurrentSite.As<Orchard.Users.Models.RegistrationSettingsPart>().UsersCanRegister;
+}
 
 @{
     Style.Require("Account");
-	}
+}
 
+<h1>@Html.TitleForPage(T("Log On").ToString()) </h1>
+<p>
+    @T("Sign in using your OpenID.") 
+    <!-- TODO: (francip ) only if registration is enabled -->
+    @if (userCanRegister) { @T("If this is your first visit here, you will be registered automatically with us.") }
+</p>
 @Html.ValidationSummary() 
 
-@using (Html.BeginFormAntiForgeryPost(Url.Action("LogOn", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"]}))) {
-<div>
-	<label for="OpenIdIdentifier">@T("Logon using an OpenID")</label>
-	@Html.TextBoxFor(m => m.OpenIdIdentifier, new {@class = "textMedium", autofocus = "autofocus"})
-	@Html.ValidationMessageFor(m => m.OpenIdIdentifier, "*") 
-</div>
-<div>
-	<input type="submit" class="button" value="@T("Log On")" />
-</div>
-  @Html.HiddenFor(m => m.ReturnUrl)
+@using (Html.BeginFormAntiForgeryPost(Url.Action("LogOn", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] })))
+{
+<fieldset class="login-form group">
+    <legend>@T("OpenID account")</legend>
+    <ol>
+    <!--
+    <li>
+        <label for="@Html.FieldIdFor( m => m.KnownProvider)">@T("If you have an account with one of these sites, click the logo to sign in")</label>
+        <select id="@Html.FieldIdFor(m => m.KnownProvider)" name="@Html.FieldNameFor(m => m.KnownProvider)">
+            @Html.SelectOption(Model.KnownProvider, "http://google.com", T("Google").Text)
+        </select>
+    </li>
+    -->
+    <li>
+        <label for="@Html.FieldIdFor( m => m.OpenIdIdentifier)">@T("Enter manually your OpenID")</label>
+        @Html.TextBoxFor(m => m.OpenIdIdentifier, new { @class = "textMedium", autofocus = "autofocus" })
+        @Html.ValidationMessageFor(m => m.OpenIdIdentifier, "*") 
+    </li>
+    <button class="primaryAction" type="submit">@T("Sign In")</button>
+    @Html.HiddenFor(m => m.ReturnUrl)
+    </ol>
+</fieldset>
 }
