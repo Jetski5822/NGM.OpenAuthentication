@@ -1,5 +1,4 @@
 ﻿using NGM.OpenAuthentication.Models;
-using NGM.OpenAuthentication.ViewModels;
 using Orchard.ContentManagement;
 using Orchard.ContentManagement.Drivers;
 using Orchard.Localization;
@@ -9,7 +8,6 @@ namespace NGM.OpenAuthentication.Drivers {
     public class OpenAuthenticationPartDriver : ContentPartDriver<OpenAuthenticationPart> {
         private readonly IAuthenticationService _authenticationService;
         private readonly IAuthorizationService _authorizationService;
-        private const string TemplateName = "Parts/OpenAuthentication.VerifiedOpenIdAccounts";
 
         public OpenAuthenticationPartDriver(IAuthenticationService authenticationService,
             IAuthorizationService authorizationService) {

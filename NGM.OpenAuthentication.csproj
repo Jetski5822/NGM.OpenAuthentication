@@ -118,7 +118,6 @@
     </Content>
     <Content Include="Placement.info" />
     <Content Include="Views\Account\VerifiedAccounts.cshtml" />
-    <None Include="Views\EditorTemplates\Parts\OpenAuthentication.VerifiedOpenIdAccounts.cshtml" />
     <None Include="Views\Account\Register.cshtml" />
     <None Include="Views\Account\LogOn.cshtml" />
   </ItemGroup>
