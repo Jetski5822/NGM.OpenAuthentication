@@ -57,7 +57,7 @@ namespace NGM.OpenAuthentication {
                                                  },
                              new RouteDescriptor {
                                                      Route = new Route(
-                                                         "OpenId/RemoveVerifiedAccount",
+                                                         "OpenId/RemoveVerifiedAccount/{claimedIdentifier}",
                                                          new RouteValueDictionary {
                                                                                       {"area", "NGM.OpenAuthentication"},
                                                                                       {"controller", "Account"},

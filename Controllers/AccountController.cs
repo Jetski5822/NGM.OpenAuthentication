@@ -165,7 +165,7 @@ namespace NGM.OpenAuthentication.Controllers
             return View("VerifiedAccounts", viewModel);
         }
 
-        public ActionResult RemoveVerifiedAccount(string UserId) {
+        public ActionResult RemoveVerifiedAccount(string claimedIdentifier) {
             return new EmptyResult();
         }
 
