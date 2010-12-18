@@ -154,7 +154,6 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
 
             var mockAuthenticationResponse = new Mock<IAuthenticationResponse>();
             mockAuthenticationResponse.Setup(ctx => ctx.Status).Returns(AuthenticationStatus.Authenticated);
-            Identifier identifier = Identifier.Parse("http://foo.google.com");
 
             mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
 
