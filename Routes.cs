@@ -55,20 +55,6 @@ namespace NGM.OpenAuthentication {
                                                                                   },
                                                          new MvcRouteHandler())
                                                  },
-                             new RouteDescriptor {
-                                                     Route = new Route(
-                                                         "OpenId/RemoveVerifiedAccount/{claimedIdentifier}",
-                                                         new RouteValueDictionary {
-                                                                                      {"area", "NGM.OpenAuthentication"},
-                                                                                      {"controller", "Account"},
-                                                                                      {"action", "RemoveVerifiedAccount"}
-                                                                                  },
-                                                         new RouteValueDictionary(),
-                                                         new RouteValueDictionary {
-                                                                                      {"area", "NGM.OpenAuthentication"}
-                                                                                  },
-                                                         new MvcRouteHandler())
-                                                 },
                          };
         }
     }
