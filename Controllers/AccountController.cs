@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
@@ -159,14 +160,17 @@ namespace NGM.OpenAuthentication.Controllers
 
         [HttpPost, ActionName("VerifiedAccounts")]
         public ActionResult _VerifiedAccounts(FormCollection input) {
-            var viewModel = new VerifiedAccountsViewModel { Accounts = new List<AccountEntry>() };
+            var viewModel = new VerifiedAccountsViewModel {Accounts = new List<AccountEntry>()};
             UpdateModel(viewModel);
 
-            return View("VerifiedAccounts", viewModel);
-        }
+            IEnumerable<AccountEntry> checkedEntries = viewModel.Accounts.Where(c => c.IsChecked);
+            if (checkedEntries.Count() >= 1) {
+                foreach (var accountEntry in checkedEntries) {
+                    
+                }
+            }
 
-        public ActionResult RemoveVerifiedAccount(string claimedIdentifier) {
-            return new EmptyResult();
+            return View("VerifiedAccounts", viewModel);
         }
 
         private ActionResult BuildLogOnAuthenticationRedirect(LogOnViewModel viewModel) {
