@@ -67,5 +67,12 @@ namespace NGM.OpenAuthentication.Services {
                .Query<OpenAuthenticationPart, OpenAuthenticationPartRecord>()
                .Where(c => c.Id == user.Id);
         }
+
+        public void RemoveOpenIdAssociation(IUser user, string openIdIdentifier) {
+            var record = _openAuthenticationPartRecordRespository.Get(o => o.ClaimedIdentifier == openIdIdentifier);
+        
+            if (record != null)
+                _openAuthenticationPartRecordRespository.Delete(record);
+        }
     }
 }

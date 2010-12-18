@@ -13,6 +13,8 @@ using Orchard.Security;
 namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
     [TestFixture]
     public class OpenAuthenticationServiceTests {
+        private const string OpenAuthUrlForGoogle = "https://www.google.com/accounts/o8/id";
+
         [Test]
         public void should_return_null_when_no_user_exists_for_identifier() {
             var mockRepository = new Mock<IRepository<OpenAuthenticationPartRecord>>();
@@ -81,5 +83,42 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
             //Assert.That(user, Is.Not.Null);
         }
 
+        [Test]
+        public void should_remove_account_when_valid_account_is_passed_in() {
+            int userId = 1;
+            var mockUser = new Mock<IUser>();
+            mockUser.Setup(o => o.Id).Returns(userId);
+
+            var identifier = "foo";
+            var openAuthenticationPartRecord = new OpenAuthenticationPartRecord {Id = 123, ClaimedIdentifier = identifier};
+
+            var mockRepository = new Mock<IRepository<OpenAuthenticationPartRecord>>();
+            mockRepository.Setup(o => o.Get(It.IsAny<Expression<Func<OpenAuthenticationPartRecord, bool>>>())).Returns(openAuthenticationPartRecord);
+            mockRepository.Setup(o => o.Delete(openAuthenticationPartRecord));
+
+            var openAuthenticationService = new OpenAuthenticationService(null, mockRepository.Object, null, null);
+            openAuthenticationService.RemoveOpenIdAssociation(mockUser.Object, OpenAuthUrlForGoogle);
+
+            mockRepository.VerifyAll();
+        }
+
+        [Test]
+        public void should_not_try_to_remove_account_when_account_is_not_found() {
+            int userId = 1;
+            var mockUser = new Mock<IUser>();
+            mockUser.Setup(o => o.Id).Returns(userId);
+
+            var identifier = "foo";
+            OpenAuthenticationPartRecord openAuthenticationPartRecord = null;
+
+            var mockRepository = new Mock<IRepository<OpenAuthenticationPartRecord>>();
+            mockRepository.Setup(o => o.Get(It.IsAny<Expression<Func<OpenAuthenticationPartRecord, bool>>>())).Returns(openAuthenticationPartRecord);
+
+            var openAuthenticationService = new OpenAuthenticationService(null, mockRepository.Object, null, null);
+            openAuthenticationService.RemoveOpenIdAssociation(mockUser.Object, OpenAuthUrlForGoogle);
+
+            mockRepository.Verify(o => o.Delete(openAuthenticationPartRecord), Times.Never());
+            mockRepository.VerifyAll();
+        }
     }
 }
