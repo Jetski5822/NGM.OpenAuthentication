@@ -359,17 +359,24 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
 
         [Test]
         public void should_remove_all_assosiated_openididentifiers_checked() {
+            string testUrl1 = "Foo";
+            string testUrl2 = "Bar";
+            
             var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
-            mockOpenAuthenticationService.Setup(o => o.RemoveOpenIdAssociation(OpenAuthUrlForGoogle));
+            mockOpenAuthenticationService.Setup(o => o.RemoveOpenIdAssociation(testUrl1));
+
             var accountController = new AccountController(null, null, mockOpenAuthenticationService.Object, null);
             accountController.ControllerContext = MockControllerContext(accountController);
 
             var nameValueCollection = new NameValueCollection();
-            nameValueCollection.Add("Accounts[0].Account.ClaimedIdentifier", OpenAuthUrlForGoogle);
+            nameValueCollection.Add("Accounts[0].Account.ClaimedIdentifier", testUrl1);
             nameValueCollection.Add("Accounts[0].IsChecked", true.ToString().ToLowerInvariant());
+            nameValueCollection.Add("Accounts[1].Account.ClaimedIdentifier", testUrl2);
+            nameValueCollection.Add("Accounts[1].IsChecked", false.ToString().ToLowerInvariant());
 
             var verifiedAccounts = (RedirectToRouteResult)accountController._VerifiedAccounts(new FormCollection(nameValueCollection));
-            
+
+            mockOpenAuthenticationService.Verify(o => o.RemoveOpenIdAssociation(testUrl1), Times.Once());
             mockOpenAuthenticationService.VerifyAll();
         }
 
