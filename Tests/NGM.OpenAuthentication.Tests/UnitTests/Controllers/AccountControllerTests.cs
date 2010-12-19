@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Net;
 using System.Linq;
 using System.Security.Principal;
@@ -356,7 +357,21 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
             mockOpenAuthenticationService.VerifyAll();
         }
 
+        [Test]
+        public void should_remove_all_assosiated_openididentifiers_checked() {
+            var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
+            mockOpenAuthenticationService.Setup(o => o.RemoveOpenIdAssociation(OpenAuthUrlForGoogle));
+            var accountController = new AccountController(null, null, mockOpenAuthenticationService.Object, null);
+            accountController.ControllerContext = MockControllerContext(accountController);
 
+            var nameValueCollection = new NameValueCollection();
+            nameValueCollection.Add("Accounts[0].Account.ClaimedIdentifier", OpenAuthUrlForGoogle);
+            nameValueCollection.Add("Accounts[0].IsChecked", true.ToString().ToLowerInvariant());
+
+            var verifiedAccounts = (RedirectToRouteResult)accountController._VerifiedAccounts(new FormCollection(nameValueCollection));
+            
+            mockOpenAuthenticationService.VerifyAll();
+        }
 
         public ControllerContext MockControllerContext(ControllerBase controllerBase) {
             var mockHttpContext = new Mock<HttpContextBase>();

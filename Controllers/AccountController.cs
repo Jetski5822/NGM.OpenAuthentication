@@ -161,16 +161,13 @@ namespace NGM.OpenAuthentication.Controllers
         [HttpPost, ActionName("VerifiedAccounts")]
         public ActionResult _VerifiedAccounts(FormCollection input) {
             var viewModel = new VerifiedAccountsViewModel {Accounts = new List<AccountEntry>()};
-            UpdateModel(viewModel);
+            UpdateModel(viewModel, input.ToValueProvider());
 
-            IEnumerable<AccountEntry> checkedEntries = viewModel.Accounts.Where(c => c.IsChecked);
-            if (checkedEntries.Count() >= 1) {
-                foreach (var accountEntry in checkedEntries) {
-                    
-                }
+            foreach (var accountEntry in viewModel.Accounts.Where(c => c.IsChecked)) {
+                _openAuthenticationService.RemoveOpenIdAssociation(accountEntry.Account.ClaimedIdentifier);
             }
 
-            return View("VerifiedAccounts", viewModel);
+            return RedirectToRoute("VerifiedAccounts");
         }
 
         private ActionResult BuildLogOnAuthenticationRedirect(LogOnViewModel viewModel) {
