@@ -29,7 +29,6 @@ namespace NGM.OpenAuthentication.Controllers
             IOpenAuthenticationService openAuthenticationService,
             IOrchardServices orchardServices)
         {
-            
             _openIdRelyingPartyService = openIdRelyingPartyService;
             _authenticationService = authenticationService;
             _openAuthenticationService = openAuthenticationService;
