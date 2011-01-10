@@ -10,8 +10,11 @@ using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
 using Orchard;
 using Orchard.ContentManagement;
+using Orchard.Localization;
+using Orchard.Mvc;
 using Orchard.Security;
 using Orchard.Themes;
+using Orchard.UI.Notify;
 using Orchard.Users.Models;
 
 namespace NGM.OpenAuthentication.Controllers
@@ -33,7 +36,10 @@ namespace NGM.OpenAuthentication.Controllers
             _authenticationService = authenticationService;
             _openAuthenticationService = openAuthenticationService;
             _orchardServices = orchardServices;
+            T = NullLocalizer.Instance;
         }
+
+        public Localizer T { get; set; }
 
         public ActionResult LogOn(string returnUrl) {
             if (_openIdRelyingPartyService.HasResponse) {
@@ -99,9 +105,13 @@ namespace NGM.OpenAuthentication.Controllers
         }
 
         [HttpPost, ActionName("LogOn")]
-        public ActionResult _LogOn(LogOnViewModel viewModel) {
-            if (IsIdentifierAssigned(viewModel.OpenIdIdentifier))
-                return View("LogOn", viewModel);
+        public ActionResult _LogOn(string returnUrl) {
+            LogOnViewModel viewModel = new LogOnViewModel();
+            TryUpdateModel(viewModel);
+
+            if (IsIdentifierAssigned(viewModel.OpenIdIdentifier)) {
+                return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users" });
+            }
 
             return BuildLogOnAuthenticationRedirect(viewModel);
         }
@@ -110,7 +120,7 @@ namespace NGM.OpenAuthentication.Controllers
             if (viewModel == null || viewModel.Model == null) {
                 var model = TempData["RegisterModel"] as RegisterModel;
                 if (model == null)
-                    return RedirectToAction("LogOn", "Account", new {area = "NGM.OpenAuthentication"});
+                    return RedirectToAction("LogOn", "Account", new {area = "Orchard.Users"});
 
                 viewModel = new RegisterViewModel {Model = model};
             }
@@ -172,8 +182,8 @@ namespace NGM.OpenAuthentication.Controllers
         private ActionResult BuildLogOnAuthenticationRedirect(LogOnViewModel viewModel) {
             var identifier = new OpenIdIdentifier(viewModel.OpenIdIdentifier);
             if (!identifier.IsValid) {
-                ModelState.AddModelError("OpenIdIdentifier", "Invalid Open ID identifier");
-                return View(viewModel);
+                _orchardServices.Notifier.Add(NotifyType.Error, T("bitch"));
+                return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users" });
             }
 
             try {
@@ -186,7 +196,7 @@ namespace NGM.OpenAuthentication.Controllers
             catch (ProtocolException ex) {
                 ModelState.AddModelError("ProtocolException", string.Format("Unable to authenticate: {0}",ex.Message));
             }
-            return View(viewModel);
+            return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users" });
         }
     }
 }
