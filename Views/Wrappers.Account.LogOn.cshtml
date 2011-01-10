@@ -1,0 +1,34 @@
+﻿@using Orchard;
+@using Orchard.ContentManagement;
+@using Orchard.Users.Models;
+
+@Display(Model.Metadata.ChildContent)
+
+@{
+    var userCanRegister = @WorkContext.CurrentSite.As<RegistrationSettingsPart>().UsersCanRegister;
+}
+
+@{
+    Style.Require("Account");
+}
+
+<p>
+    @if (userCanRegister) { @T("If this is your first time, you will be registered automatically with us.") }
+</p>
+@Html.ValidationSummary() 
+
+@using (Html.BeginFormAntiForgeryPost(Url.Action("LogOn", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] })))
+{
+<fieldset class="login-form group">
+    <legend>@T("OpenID account")</legend>
+    <ol>
+    <li>
+        <label for="OpenIdIdentifier">@T("Enter manually your OpenID")</label>
+        @Html.TextBox("OpenIdIdentifier", "", new { id = "OpenIdIdentifier", @class = "textMedium", autofocus = "autofocus" })
+        @Html.ValidationMessage("OpenIdIdentifier")
+    </li>
+
+    <button class="primaryAction" type="submit">@T("Sign In")</button>
+    </ol>
+</fieldset>
+}
