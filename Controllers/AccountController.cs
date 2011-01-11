@@ -182,7 +182,7 @@ namespace NGM.OpenAuthentication.Controllers
         private ActionResult BuildLogOnAuthenticationRedirect(LogOnViewModel viewModel) {
             var identifier = new OpenIdIdentifier(viewModel.OpenIdIdentifier);
             if (!identifier.IsValid) {
-                _orchardServices.Notifier.Add(NotifyType.Error, T("bitch"));
+                ModelState.AddModelError("OpenIdIdentifier", "Invalid Open ID identifier");
                 return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users" });
             }
 
