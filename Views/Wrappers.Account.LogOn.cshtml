@@ -12,13 +12,13 @@
     Style.Require("Account");
 }
 
-<p>
-    @if (userCanRegister) { @T("If this is your first time, you will be registered automatically with us.") }
-</p>
-@Html.ValidationSummary() 
+@if (userCanRegister) { 
+    <p>        
+    @T("If this is your first time, you will be registered automatically with us.") 
+    </p>   
+}
 
-@using (Html.BeginFormAntiForgeryPost(Url.Action("LogOn", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] })))
-{
+@using (Html.BeginFormAntiForgeryPost(Url.Action("LogOn", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] }))) {
 <fieldset class="login-form group">
     <legend>@T("OpenID account")</legend>
     <ol>
