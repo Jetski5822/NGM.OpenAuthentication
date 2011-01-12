@@ -195,7 +195,8 @@ namespace NGM.OpenAuthentication.Controllers
                 return request.RedirectingResponse.AsActionResult();
             }
             catch (ProtocolException ex) {
-                ModelState.AddModelError("ProtocolException", string.Format("Unable to authenticate: {0}",ex.Message));
+                AddTempDataError("ProtocolException", string.Format("Unable to authenticate: {0}", ex.Message));
+                // ModelState.AddModelError("ProtocolException", string.Format("Unable to authenticate: {0}",ex.Message));
             }
             return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users" });
         }
