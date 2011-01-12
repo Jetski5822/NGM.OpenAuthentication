@@ -182,7 +182,8 @@ namespace NGM.OpenAuthentication.Controllers
         private ActionResult BuildLogOnAuthenticationRedirect(LogOnViewModel viewModel) {
             var identifier = new OpenIdIdentifier(viewModel.OpenIdIdentifier);
             if (!identifier.IsValid) {
-                ModelState.AddModelError("OpenIdIdentifier", "Invalid Open ID identifier");
+                AddTempDataError("OpenIdIdentifier", "Invalid Open ID identifier");
+                //ModelState.AddModelError("OpenIdIdentifier", "Invalid Open ID identifier");
                 return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users" });
             }
 
@@ -197,6 +198,15 @@ namespace NGM.OpenAuthentication.Controllers
                 ModelState.AddModelError("ProtocolException", string.Format("Unable to authenticate: {0}",ex.Message));
             }
             return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users" });
+        }
+
+        private void AddTempDataError(string key, string value) {
+            var errorKey = string.Format("error-{0}", key);
+
+            if (!TempData.ContainsKey(errorKey))
+                TempData.Add(errorKey, value);
+            else
+                TempData[errorKey] = value;
         }
     }
 }
