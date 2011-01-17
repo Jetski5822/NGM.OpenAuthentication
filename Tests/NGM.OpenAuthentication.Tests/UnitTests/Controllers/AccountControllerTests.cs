@@ -220,7 +220,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
             var accountController = new AccountController(null,null,null, null);
             var redirectToRouteResult = (RedirectToRouteResult)accountController.Register(null);
 
-            Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("NGM.OpenAuthentication"));
+            Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("Orchard.Users"));
             Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("LogOn"));
             Assert.That(redirectToRouteResult.RouteValues["controller"], Is.EqualTo("Account"));
         }
@@ -232,7 +232,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
             var viewModel = new RegisterViewModel();
             var redirectToRouteResult = (RedirectToRouteResult)accountController.Register(viewModel);
 
-            Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("NGM.OpenAuthentication"));
+            Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("Orchard.Users"));
             Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("LogOn"));
             Assert.That(redirectToRouteResult.RouteValues["controller"], Is.EqualTo("Account"));
         }
