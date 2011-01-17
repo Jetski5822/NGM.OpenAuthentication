@@ -54,44 +54,40 @@ namespace NGM.OpenAuthentication.Controllers
                             break;
 
                         // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
-                        if (user == null && !isClaimedIdentifierAssigned) {
+                        if (user == null) {
                             var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
 
                             if ((registrationSettings != null) &&
-                                (registrationSettings.UsersCanRegister == true))
-                            {
-                                ModelState.AddModelError("AccessDenied", "User registration is disabled");
+                                (registrationSettings.UsersCanRegister == true)) {
+                                AddError("AccessDenied", "User registration is disabled");
                                 break;
                             }
-                            else
-                            {
+                            else {
                                 var registerModelBuilder = new RegisterModelBuilder(_openIdRelyingPartyService.Response);
                                 var model = registerModelBuilder.Build();
                                 model.ReturnUrl = returnUrl;
 
                                 TempData["RegisterModel"] = model;
-                                return RedirectToAction("Register", "Account", new { area = "NGM.OpenAuthentication" });
+                                return RedirectToAction("Register", "Account", new {area = "NGM.OpenAuthentication"});
                             }
                         }
 
                         // If I am logged in, and no user currently has that identifier.. then associate.
-                        if (user != null && !isClaimedIdentifierAssigned) {
-                            _openAuthenticationService.AssociateOpenIdWithUser(user, _openIdRelyingPartyService.Response.ClaimedIdentifier, _openIdRelyingPartyService.Response.FriendlyIdentifierForDisplay);
+                        _openAuthenticationService.AssociateOpenIdWithUser(user, _openIdRelyingPartyService.Response.ClaimedIdentifier, _openIdRelyingPartyService.Response.FriendlyIdentifierForDisplay);
 
-                            _authenticationService.SignIn(user, false);
-                        }
+                        _authenticationService.SignIn(user, false);
 
                         return Redirect(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
                     case AuthenticationStatus.Canceled:
-                        ModelState.AddModelError("InvalidProvider", "Canceled at provider");
+                        AddError("InvalidProvider", "Canceled at provider");
                         break;
                     case AuthenticationStatus.Failed:
-                        ModelState.AddModelError("UnknownError", _openIdRelyingPartyService.Response.Exception.Message);
+                        AddError("UnknownError", _openIdRelyingPartyService.Response.Exception.Message);
                         break;
                 }
             }
 
-            return View("LogOn", new LogOnViewModel { ReturnUrl = returnUrl });
+            return DefaultLogOnResult();
         }
 
         private bool IsIdentifierAssigned(string identifier) {
@@ -99,7 +95,7 @@ namespace NGM.OpenAuthentication.Controllers
 
             // Check to see if identifier is currently assigned.
             if (isIdentifierAssigned) {
-                ModelState.AddModelError("IdentifierAssigned", "ClaimedIdentifier has already been assigned");
+                AddError("IdentifierAssigned", "ClaimedIdentifier has already been assigned");
             }
             return isIdentifierAssigned;
         }
@@ -139,7 +135,7 @@ namespace NGM.OpenAuthentication.Controllers
 
                     return Redirect(!string.IsNullOrEmpty(viewModel.Model.ReturnUrl) ? viewModel.Model.ReturnUrl : "~/");
                 }
-                ModelState.AddModelError("IdentifierAssigned", "ClaimedIdentifier has already been assigned");
+                AddError("IdentifierAssigned", "ClaimedIdentifier has already been assigned");
             }
             return View("Register", viewModel);
         }
@@ -182,7 +178,7 @@ namespace NGM.OpenAuthentication.Controllers
         private ActionResult BuildLogOnAuthenticationRedirect(LogOnViewModel viewModel) {
             var identifier = new OpenIdIdentifier(viewModel.OpenIdIdentifier);
             if (!identifier.IsValid) {
-                AddTempDataError("OpenIdIdentifier", "Invalid Open ID identifier");
+                AddError("OpenIdIdentifier", "Invalid Open ID identifier");
                 return DefaultLogOnResult();
             }
 
@@ -194,18 +190,20 @@ namespace NGM.OpenAuthentication.Controllers
                 return request.RedirectingResponse.AsActionResult();
             }
             catch (ProtocolException ex) {
-                AddTempDataError("ProtocolException", string.Format("Unable to authenticate: {0}", ex.Message));
+                AddError("ProtocolException", string.Format("Unable to authenticate: {0}", ex.Message));
             }
             return DefaultLogOnResult();
         }
 
-        private void AddTempDataError(string key, string value) {
+        private void AddError(string key, string value) {
             var errorKey = string.Format("error-{0}", key);
 
-            if (!TempData.ContainsKey(errorKey))
+            if (!TempData.ContainsKey(errorKey)) {
                 TempData.Add(errorKey, value);
-            else
+                ModelState.AddModelError(errorKey, value);
+            } else {
                 TempData[errorKey] = value;
+            }
         }
 
         private ActionResult DefaultLogOnResult() {
