@@ -110,7 +110,7 @@ namespace NGM.OpenAuthentication.Controllers
             TryUpdateModel(viewModel);
 
             if (IsIdentifierAssigned(viewModel.OpenIdIdentifier)) {
-                return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users" });
+                return DefaultLogOnResult();
             }
 
             return BuildLogOnAuthenticationRedirect(viewModel);
@@ -120,7 +120,7 @@ namespace NGM.OpenAuthentication.Controllers
             if (viewModel == null || viewModel.Model == null) {
                 var model = TempData["RegisterModel"] as RegisterModel;
                 if (model == null)
-                    return RedirectToAction("LogOn", "Account", new {area = "Orchard.Users"});
+                    return DefaultLogOnResult();
 
                 viewModel = new RegisterViewModel {Model = model};
             }
@@ -183,8 +183,7 @@ namespace NGM.OpenAuthentication.Controllers
             var identifier = new OpenIdIdentifier(viewModel.OpenIdIdentifier);
             if (!identifier.IsValid) {
                 AddTempDataError("OpenIdIdentifier", "Invalid Open ID identifier");
-                //ModelState.AddModelError("OpenIdIdentifier", "Invalid Open ID identifier");
-                return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users" });
+                return DefaultLogOnResult();
             }
 
             try {
@@ -196,9 +195,8 @@ namespace NGM.OpenAuthentication.Controllers
             }
             catch (ProtocolException ex) {
                 AddTempDataError("ProtocolException", string.Format("Unable to authenticate: {0}", ex.Message));
-                // ModelState.AddModelError("ProtocolException", string.Format("Unable to authenticate: {0}",ex.Message));
             }
-            return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users" });
+            return DefaultLogOnResult();
         }
 
         private void AddTempDataError(string key, string value) {
@@ -208,6 +206,10 @@ namespace NGM.OpenAuthentication.Controllers
                 TempData.Add(errorKey, value);
             else
                 TempData[errorKey] = value;
+        }
+
+        private ActionResult DefaultLogOnResult() {
+            return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users" });
         }
     }
 }
