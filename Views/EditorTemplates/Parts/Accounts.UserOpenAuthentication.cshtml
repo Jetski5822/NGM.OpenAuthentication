@@ -3,40 +3,18 @@
 @Html.ValidationSummary() 
 <fieldset>
     <legend>Associated OpenID Accounts</legend>
-    <table class="items" summary="@T("This is a table of the open id accounts associated with your logon")">
-	    <colgroup>
-		    <col id="Col1" />
-		    <col id="Col2" />
-		    <col id="Col3" />
-	    </colgroup>
-	    <thead>
-		    <tr>
-			    <th scope="col">&nbsp;&darr;</th>
-			    <th scope="col">@T("Account")</th>
-			    <th scope="col"></th>
-		    </tr>
-	    </thead>    
-        @{var accountIndex = 0;}
-        @foreach (var accountModel in Model.Accounts) {
-        <tr itemscope="itemscope" itemid="@Model.Accounts[accountIndex].Account.ClaimedIdentifier">
-            <td>
-                <input type="hidden" value="@Model.Accounts[accountIndex].Account.ClaimedIdentifier" name="@Html.NameOf(m => m.Accounts[accountIndex].Account.ClaimedIdentifier)"/>
-                <input type="checkbox" value="true" name="@Html.NameOf(m => m.Accounts[accountIndex].IsChecked)"/>
-            </td>
-            <td>
-                <input type="hidden" value="@Model.Accounts[accountIndex].Account.FriendlyIdentifierForDisplay" name="@Html.NameOf(m => m.Accounts[accountIndex].Account.FriendlyIdentifierForDisplay)"/>
-                @accountModel.Account.FriendlyIdentifierForDisplay
-            </td>
-            <td>
-                <div class="actions">
-                    <a href="@Url.Action("RemoveVerifiedAccount", new { @Model.Accounts[accountIndex].Account.ClaimedIdentifier })" title="@T("Remove")">@T("Remove")</a>
-                </div>
-            </td>
-	    </tr>
-        }
-    </table>
+    @if (Model.Accounts.Count > 0) {
+        var index = 0;
+        foreach (var entry in Model.Accounts) {
+            @Html.Hidden("Accounts[" + index + "].Account.FriendlyIdentifierForDisplay", entry.Account.FriendlyIdentifierForDisplay)
 
-    @if (Model.Accounts.Count() == 0) {
-        <p>User has no verified OpenId accounts.</p>
+    <div>
+        @Html.CheckBox("Accounts[" + index + "].IsChecked", entry.IsChecked)
+        <label class="forcheckbox" for="@Html.FieldIdFor(m => m.Accounts[index].Account.FriendlyIdentifierForDisplay)">@entry.Account.FriendlyIdentifierForDisplay</label>
+    </div>
+            index++;
+        }
+    } else {
+    <p>@T("There are no OpenId accounts.")</p>
     }
 </fieldset>
