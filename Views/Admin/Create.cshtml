@@ -1,0 +1,20 @@
+@{
+    Style.Require("Account");
+}
+
+<h1>@Html.TitleForPage(T("Register OpenID Account").ToString())</h1>
+
+@using (Html.BeginFormAntiForgeryPost(Url.Action("LogOn", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] }))) {
+<fieldset class="login-form group">
+    <legend>@T("OpenID Details")</legend>
+    <ol>
+    <li>
+        <label for="OpenIdIdentifier">@T("Enter manually your OpenID")</label>
+        @Html.TextBox("OpenIdIdentifier", "", new { id = "OpenIdIdentifier", @class = "textMedium", autofocus = "autofocus" })
+        @Html.ValidationMessage("OpenIdIdentifier")
+    </li>
+
+    <button class="primaryAction" type="submit">@T("Sign In")</button>
+    </ol>
+</fieldset>
+}

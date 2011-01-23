@@ -36,6 +36,10 @@ namespace NGM.OpenAuthentication.Controllers {
             return View("Index", viewModel);
         }
 
+        public ActionResult Create() {
+            return View("Create");
+        }
+
         private AccountEntry CreateAccountEntry(OpenAuthenticationPartRecord openAuthenticationPart) {
             return new AccountEntry {
                 Account = openAuthenticationPart
