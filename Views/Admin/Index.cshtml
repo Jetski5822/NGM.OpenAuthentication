@@ -33,14 +33,9 @@
                     <input type="hidden" value="@Model.Accounts[accountIndex].Account.ClaimedIdentifier" name="@Html.NameOf(m => m.Accounts[accountIndex].Account.ClaimedIdentifier)"/>
                     <input type="checkbox" value="true" name="@Html.NameOf(m => m.Accounts[accountIndex].IsChecked)"/>
                 </td>
+                <td>@accountModel.Account.FriendlyIdentifierForDisplay</td>
                 <td>
-                    <input type="hidden" value="@Model.Accounts[accountIndex].Account.FriendlyIdentifierForDisplay" name="@Html.NameOf(m => m.Accounts[accountIndex].Account.FriendlyIdentifierForDisplay)"/>
-                    @accountModel.Account.FriendlyIdentifierForDisplay
-                </td>
-                <td>
-                    <div class="actions">
-                        <a href="@Url.Action("Delete", new { claimedIdentifier = @Model.Accounts[accountIndex].Account.ClaimedIdentifier, returnUrl = ViewContext.RequestContext.HttpContext.Request.ToUrlString() })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
-                    </div>
+                    <a href="@Url.Action("Delete", new { claimedIdentifier = @Model.Accounts[accountIndex].Account.ClaimedIdentifier, returnUrl = ViewContext.RequestContext.HttpContext.Request.ToUrlString() })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
                 </td>
 	        </tr>
             }
