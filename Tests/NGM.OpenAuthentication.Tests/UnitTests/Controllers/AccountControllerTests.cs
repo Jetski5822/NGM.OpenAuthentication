@@ -259,31 +259,31 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
             Assert.That(viewResult.ViewData.Model, Is.EqualTo(viewModel));
         }
 
-        [Test]
-        public void should_show_all_identifiers_associated_with_loggedon_user() {
-            var mockUser = new Mock<IUser>();
+        //[Test]
+        //public void should_show_all_identifiers_associated_with_loggedon_user() {
+        //    var mockUser = new Mock<IUser>();
 
-            var mockAuthenticationService = new Mock<IAuthenticationService>();
-            mockAuthenticationService.Setup(o => o.GetAuthenticatedUser()).Returns(mockUser.Object);
+        //    var mockAuthenticationService = new Mock<IAuthenticationService>();
+        //    mockAuthenticationService.Setup(o => o.GetAuthenticatedUser()).Returns(mockUser.Object);
 
-            var mockContentQuery = new Mock<IContentQuery<OpenAuthenticationPart, OpenAuthenticationPartRecord>>();
+        //    var mockContentQuery = new Mock<IContentQuery<OpenAuthenticationPart, OpenAuthenticationPartRecord>>();
 
-            var openAuthenticationPartRecord1 = new OpenAuthenticationPartRecord {ClaimedIdentifier = "foo"};
-            var openAuthenticationPartRecord2 = new OpenAuthenticationPartRecord {ClaimedIdentifier = "bar"};
-            var openAuthenticationPart1 = new OpenAuthenticationPart {Record = openAuthenticationPartRecord1};
-            var openAuthenticationPart2 = new OpenAuthenticationPart {Record = openAuthenticationPartRecord2};
+        //    var openAuthenticationPartRecord1 = new OpenAuthenticationPartRecord {ClaimedIdentifier = "foo"};
+        //    var openAuthenticationPartRecord2 = new OpenAuthenticationPartRecord {ClaimedIdentifier = "bar"};
+        //    var openAuthenticationPart1 = new OpenAuthenticationPart {Record = openAuthenticationPartRecord1};
+        //    var openAuthenticationPart2 = new OpenAuthenticationPart {Record = openAuthenticationPartRecord2};
 
-            mockContentQuery.Setup(o => o.List()).Returns(new[] {openAuthenticationPart1, openAuthenticationPart2});
+        //    mockContentQuery.Setup(o => o.List()).Returns(new[] {openAuthenticationPart1, openAuthenticationPart2});
 
-            var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
-            mockOpenAuthenticationService.Setup(o => o.GetIdentifiersFor(mockUser.Object)).Returns(mockContentQuery.Object);
+        //    var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
+        //    mockOpenAuthenticationService.Setup(o => o.GetIdentifiersFor(mockUser.Object)).Returns(mockContentQuery.Object);
             
-            var accountController = new AccountController(null, mockAuthenticationService.Object, mockOpenAuthenticationService.Object, null);
-            var viewResult = (ViewResult)accountController.VerifiedAccounts();
+        //    var accountController = new AccountController(null, mockAuthenticationService.Object, mockOpenAuthenticationService.Object, null);
+        //    var viewResult = (ViewResult)accountController.VerifiedAccounts();
 
-            var viewModel = viewResult.ViewData.Model as VerifiedAccountsViewModel;
-            Assert.That(viewModel.Accounts.Count(), Is.EqualTo(2));
-        }
+        //    var viewModel = viewResult.ViewData.Model as VerifiedAccountsViewModel;
+        //    Assert.That(viewModel.Accounts.Count(), Is.EqualTo(2));
+        //}
 
         //[Test]
         //public void should_remove_identifier_from_loggedon_account_and_return_verifiedaccounts_view_on_success() {
@@ -359,28 +359,28 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
             mockOpenAuthenticationService.VerifyAll();
         }
 
-        [Test]
-        public void should_remove_all_assosiated_openididentifiers_checked() {
-            string testUrl1 = "Foo";
-            string testUrl2 = "Bar";
+        //[Test]
+        //public void should_remove_all_assosiated_openididentifiers_checked() {
+        //    string testUrl1 = "Foo";
+        //    string testUrl2 = "Bar";
             
-            var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
-            mockOpenAuthenticationService.Setup(o => o.RemoveOpenIdAssociation(testUrl1));
+        //    var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
+        //    mockOpenAuthenticationService.Setup(o => o.RemoveOpenIdAssociation(testUrl1));
 
-            var accountController = new AccountController(null, null, mockOpenAuthenticationService.Object, null);
-            accountController.ControllerContext = MockControllerContext(accountController);
+        //    var accountController = new AccountController(null, null, mockOpenAuthenticationService.Object, null);
+        //    accountController.ControllerContext = MockControllerContext(accountController);
 
-            var nameValueCollection = new NameValueCollection();
-            nameValueCollection.Add("Accounts[0].Account.ClaimedIdentifier", testUrl1);
-            nameValueCollection.Add("Accounts[0].IsChecked", true.ToString().ToLowerInvariant());
-            nameValueCollection.Add("Accounts[1].Account.ClaimedIdentifier", testUrl2);
-            nameValueCollection.Add("Accounts[1].IsChecked", false.ToString().ToLowerInvariant());
+        //    var nameValueCollection = new NameValueCollection();
+        //    nameValueCollection.Add("Accounts[0].Account.ClaimedIdentifier", testUrl1);
+        //    nameValueCollection.Add("Accounts[0].IsChecked", true.ToString().ToLowerInvariant());
+        //    nameValueCollection.Add("Accounts[1].Account.ClaimedIdentifier", testUrl2);
+        //    nameValueCollection.Add("Accounts[1].IsChecked", false.ToString().ToLowerInvariant());
 
-            var verifiedAccounts = (RedirectToRouteResult)accountController._VerifiedAccounts(new FormCollection(nameValueCollection));
+        //    var verifiedAccounts = (RedirectToRouteResult)accountController._VerifiedAccounts(new FormCollection(nameValueCollection));
 
-            mockOpenAuthenticationService.Verify(o => o.RemoveOpenIdAssociation(testUrl1), Times.Once());
-            mockOpenAuthenticationService.VerifyAll();
-        }
+        //    mockOpenAuthenticationService.Verify(o => o.RemoveOpenIdAssociation(testUrl1), Times.Once());
+        //    mockOpenAuthenticationService.VerifyAll();
+        //}
 
         public ControllerContext MockControllerContext(ControllerBase controllerBase) {
             var mockHttpContext = new Mock<HttpContextBase>();
