@@ -64,7 +64,9 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Core\OpenId\Claims.cs" />
     <Compile Include="Core\OpenId\RegisterModelBuilder.cs" />
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
@@ -120,6 +122,7 @@
     <Content Include="Placement.info" />
     <None Include="Views\Account\Register.cshtml" />
     <Content Include="Views\EditorTemplates\Parts\Accounts.UserOpenAuthentication.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
     <None Include="Views\Wrappers.Account.LogOn.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
