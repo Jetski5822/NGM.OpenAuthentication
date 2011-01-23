@@ -65,7 +65,7 @@ namespace NGM.OpenAuthentication.Controllers
                             var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
 
                             if ((registrationSettings != null) &&
-                                (registrationSettings.UsersCanRegister == true)) {
+                                (registrationSettings.UsersCanRegister == false)) {
                                 AddError("AccessDenied", "User registration is disabled");
                                 break;
                             }
