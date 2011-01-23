@@ -1,3 +1,5 @@
+@using Orchard.Utility.Extensions;
+
 <h1>@Html.TitleForPage(T("Manage OpenID Accounts").ToString())</h1>
 
 @model NGM.OpenAuthentication.ViewModels.IndexViewModel
@@ -13,7 +15,7 @@
         <button type="submit">@T("Apply")</button>
     </fieldset>
     
-    <div class="manage">@Html.ActionLink(T("Add an OpenID account").ToString(), "Create", new { }, new { @class = "button primaryAction" })</div>
+    <div class="manage">@Html.ActionLink(T("Add an OpenID account").ToString(), "Create", new { returnUrl = ViewContext.RequestContext.HttpContext.Request.ToUrlString() }, new { @class = "button primaryAction" })</div>
     
     <table class="items" summary="@T("This is a table of the open id accounts associated with your logon")">
 	    <colgroup>
@@ -41,7 +43,7 @@
             </td>
             <td>
                 <div class="actions">
-                    <a href="@Url.Action("RemoveVerifiedAccount", new { @Model.Accounts[accountIndex].Account.ClaimedIdentifier })" title="@T("Remove")">@T("Remove")</a>
+                    <a href="@Url.Action("Delete", new { claimedIdentifier = @Model.Accounts[accountIndex].Account.ClaimedIdentifier, returnUrl = ViewContext.RequestContext.HttpContext.Request.ToUrlString() })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
                 </div>
             </td>
 	    </tr>
