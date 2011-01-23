@@ -101,24 +101,10 @@ namespace NGM.OpenAuthentication.Controllers
             return DefaultLogOnResult();
         }
 
-        private bool IsIdentifierAssigned(string identifier) {
-            var isIdentifierAssigned = _openAuthenticationService.IsAccountExists(identifier);
-
-            // Check to see if identifier is currently assigned.
-            if (isIdentifierAssigned) {
-                AddError("IdentifierAssigned", "ClaimedIdentifier has already been assigned");
-            }
-            return isIdentifierAssigned;
-        }
-
         [HttpPost, ActionName("LogOn")]
         public ActionResult _LogOn(string returnUrl) {
             LogOnViewModel viewModel = new LogOnViewModel();
             TryUpdateModel(viewModel);
-
-            if (IsIdentifierAssigned(viewModel.OpenIdIdentifier)) {
-                return DefaultLogOnResult();
-            }
 
             return BuildLogOnAuthenticationRedirect(viewModel);
         }
