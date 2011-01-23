@@ -54,6 +54,11 @@ namespace NGM.OpenAuthentication.Controllers
                             // The person is trying to log in as himself.. bit weird
                             return Redirect(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
                         }
+                        if (userFound != null && userLoggedIn != null && !userFound.Id.Equals(userLoggedIn.Id)) {
+                            // The person is trying to log in as himself.. bit weird
+                            AddError("IdentifierAssigned", "ClaimedIdentifier has already been assigned to another account");
+                            break;
+                        }
                         if (userFound == null && userLoggedIn == null) {
                             // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
 
