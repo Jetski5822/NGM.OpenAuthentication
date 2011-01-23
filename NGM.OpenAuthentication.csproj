@@ -117,7 +117,6 @@
     <Content Include="Styles\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Account\VerifiedAccounts.cshtml" />
     <Content Include="Placement.info" />
     <None Include="Views\Account\Register.cshtml" />
     <Content Include="Views\EditorTemplates\Parts\Accounts.UserOpenAuthentication.cshtml" />

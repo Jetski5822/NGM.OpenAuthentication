@@ -140,40 +140,40 @@ namespace NGM.OpenAuthentication.Controllers
             return View("Register", viewModel);
         }
 
-        public ActionResult VerifiedAccounts() {
-            var user = _authenticationService.GetAuthenticatedUser();
-            var entries =
-                _openAuthenticationService
-                    .GetIdentifiersFor(user)
-                    .List()
-                    .ToList()
-                    .Select(account => CreateAccountEntry(account.Record));
+        //public ActionResult VerifiedAccounts() {
+        //    var user = _authenticationService.GetAuthenticatedUser();
+        //    var entries =
+        //        _openAuthenticationService
+        //            .GetIdentifiersFor(user)
+        //            .List()
+        //            .ToList()
+        //            .Select(account => CreateAccountEntry(account.Record));
 
-            var viewModel = new VerifiedAccountsViewModel {
-                Accounts = entries.ToList(), 
-                UserId = user.Id
-            };
+        //    var viewModel = new VerifiedAccountsViewModel {
+        //        Accounts = entries.ToList(), 
+        //        UserId = user.Id
+        //    };
 
-            return View("VerifiedAccounts", viewModel);
-        }
+        //    return View("VerifiedAccounts", viewModel);
+        //}
 
-        private AccountEntry CreateAccountEntry(OpenAuthenticationPartRecord openAuthenticationPart) {
-            return new AccountEntry {
-                Account = openAuthenticationPart
-            };
-        }
+        //private AccountEntry CreateAccountEntry(OpenAuthenticationPartRecord openAuthenticationPart) {
+        //    return new AccountEntry {
+        //        Account = openAuthenticationPart
+        //    };
+        //}
 
-        [HttpPost, ActionName("VerifiedAccounts")]
-        public ActionResult _VerifiedAccounts(FormCollection input) {
-            var viewModel = new VerifiedAccountsViewModel {Accounts = new List<AccountEntry>()};
-            UpdateModel(viewModel, input.ToValueProvider());
+        //[HttpPost, ActionName("VerifiedAccounts")]
+        //public ActionResult _VerifiedAccounts(FormCollection input) {
+        //    var viewModel = new VerifiedAccountsViewModel {Accounts = new List<AccountEntry>()};
+        //    UpdateModel(viewModel, input.ToValueProvider());
 
-            foreach (var accountEntry in viewModel.Accounts.Where(c => c.IsChecked)) {
-                _openAuthenticationService.RemoveOpenIdAssociation(accountEntry.Account.ClaimedIdentifier);
-            }
+        //    foreach (var accountEntry in viewModel.Accounts.Where(c => c.IsChecked)) {
+        //        _openAuthenticationService.RemoveOpenIdAssociation(accountEntry.Account.ClaimedIdentifier);
+        //    }
 
-            return RedirectToRoute("VerifiedAccounts");
-        }
+        //    return RedirectToRoute("VerifiedAccounts");
+        //}
 
         private ActionResult BuildLogOnAuthenticationRedirect(LogOnViewModel viewModel) {
             var identifier = new OpenIdIdentifier(viewModel.OpenIdIdentifier);
