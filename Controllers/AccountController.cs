@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
+using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core.OpenId;
 using NGM.OpenAuthentication.Models;
@@ -148,6 +149,7 @@ namespace NGM.OpenAuthentication.Controllers
                 var request = _openIdRelyingPartyService.CreateRequest(identifier);
                 
                 request.AddExtension(Claims.CreateRequest(_openAuthenticationService.GetSettings()));
+                request.AddExtension(FetchAttributeClaims.CreateRequest(_openAuthenticationService.GetSettings()));
 
                 return request.RedirectingResponse.AsActionResult();
             }

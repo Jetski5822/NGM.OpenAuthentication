@@ -1,4 +1,5 @@
-﻿using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
+﻿using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
+using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
 using NGM.OpenAuthentication.Models;
 
 namespace NGM.OpenAuthentication.Core.OpenId {
@@ -38,6 +39,24 @@ namespace NGM.OpenAuthentication.Core.OpenId {
 
 
             return claimsRequest;
+        }
+    }
+
+    public static class FetchAttributeClaims {
+        public static FetchRequest CreateRequest(OpenAuthenticationSettingsRecord openAuthenticationSettingsRecord) {
+            var fetchRequest = new FetchRequest();
+
+            if (openAuthenticationSettingsRecord.Email == true)
+                fetchRequest.Attributes.AddRequired(WellKnownAttributes.Contact.Email);
+
+            if (openAuthenticationSettingsRecord.FullName == true) {
+                fetchRequest.Attributes.AddRequired(WellKnownAttributes.Name.First);
+                fetchRequest.Attributes.AddRequired(WellKnownAttributes.Name.Last);
+                fetchRequest.Attributes.AddRequired(WellKnownAttributes.Name.FullName);
+                fetchRequest.Attributes.AddRequired(WellKnownAttributes.Name.Alias);
+            }
+
+            return fetchRequest; 
         }
     }
 }
