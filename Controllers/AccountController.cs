@@ -46,15 +46,17 @@ namespace NGM.OpenAuthentication.Controllers
                 // TODO : Not happy about this huge switch statement, consider a stratagy pattern possibly when I come to refactory?
                 switch (_openIdRelyingPartyService.Response.Status) {
                     case AuthenticationStatus.Authenticated:
-                        var user = _authenticationService.GetAuthenticatedUser();
+                        var userFound = _openAuthenticationService.GetUser(_openIdRelyingPartyService.Response.ClaimedIdentifier);
 
-                        bool isClaimedIdentifierAssigned = IsIdentifierAssigned(_openIdRelyingPartyService.Response.ClaimedIdentifier);
+                        var userLoggedIn = _authenticationService.GetAuthenticatedUser();
 
-                        if (isClaimedIdentifierAssigned)
-                            break;
+                        if (userFound != null && userLoggedIn != null && userFound.Id.Equals(userLoggedIn.Id)) {
+                            // The person is trying to log in as himself.. bit weird
+                            return Redirect(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
+                        }
+                        if (userFound == null && userLoggedIn == null) {
+                            // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
 
-                        // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
-                        if (user == null) {
                             var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
 
                             if ((registrationSettings != null) &&
@@ -72,8 +74,12 @@ namespace NGM.OpenAuthentication.Controllers
                             }
                         }
 
-                        // If I am logged in, and no user currently has that identifier.. then associate.
-                        _openAuthenticationService.AssociateOpenIdWithUser(user, _openIdRelyingPartyService.Response.ClaimedIdentifier, _openIdRelyingPartyService.Response.FriendlyIdentifierForDisplay);
+                        var user = userLoggedIn ?? userFound;
+
+                        _openAuthenticationService.AssociateOpenIdWithUser(
+                            user,
+                            _openIdRelyingPartyService.Response.ClaimedIdentifier,
+                            _openIdRelyingPartyService.Response.FriendlyIdentifierForDisplay);
 
                         _authenticationService.SignIn(user, false);
 
