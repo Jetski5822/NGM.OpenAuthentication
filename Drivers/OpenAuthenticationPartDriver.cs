@@ -48,7 +48,7 @@ namespace NGM.OpenAuthentication.Drivers {
                             .ToList()
                             .Select(account => CreateAccountEntry(account.Record));
 
-                    var viewModel = new VerifiedAccountsViewModel {
+                    var viewModel = new IndexViewModel {
                         Accounts = entries.ToList(),
                         UserId = user.Id
                     };

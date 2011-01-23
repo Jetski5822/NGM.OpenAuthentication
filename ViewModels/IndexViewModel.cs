@@ -2,7 +2,7 @@
 using NGM.OpenAuthentication.Models;
 
 namespace NGM.OpenAuthentication.ViewModels {
-    public class VerifiedAccountsViewModel {
+    public class IndexViewModel {
 
         public int UserId { get; set; }
 
