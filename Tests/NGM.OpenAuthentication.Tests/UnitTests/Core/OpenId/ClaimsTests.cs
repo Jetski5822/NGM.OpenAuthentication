@@ -20,7 +20,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Core.OpenId {
             mockSettings.SetupGet(o => o.PostalCode).Returns(true);
             mockSettings.SetupGet(o => o.TimeZone).Returns(true);
 
-            var claimsRequest = Claims.CreateRequest(mockSettings.Object);
+            var claimsRequest = Claims.CreateClaimsRequest(mockSettings.Object);
 
             Assert.That(claimsRequest.BirthDate, Is.EqualTo(DemandLevel.Require));
             Assert.That(claimsRequest.Country, Is.EqualTo(DemandLevel.Require));
@@ -46,7 +46,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Core.OpenId {
             mockSettings.SetupGet(o => o.PostalCode).Returns(false);
             mockSettings.SetupGet(o => o.TimeZone).Returns(true);
 
-            var claimsRequest = Claims.CreateRequest(mockSettings.Object);
+            var claimsRequest = Claims.CreateClaimsRequest(mockSettings.Object);
 
             Assert.That(claimsRequest.BirthDate, Is.EqualTo(DemandLevel.Require));
             Assert.That(claimsRequest.Country, Is.EqualTo(DemandLevel.Require));

@@ -99,7 +99,8 @@ namespace NGM.OpenAuthentication.Controllers {
                 try {
                     var request = _openIdRelyingPartyService.CreateRequest(identifier);
 
-                    request.AddExtension(Claims.CreateRequest(_openAuthenticationService.GetSettings()));
+                    request.AddExtension(Claims.CreateClaimsRequest(_openAuthenticationService.GetSettings()));
+                    request.AddExtension(Claims.CreateFetchRequest(_openAuthenticationService.GetSettings()));
 
                     return request.RedirectingResponse.AsActionResult();
                 }
