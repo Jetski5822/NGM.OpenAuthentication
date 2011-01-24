@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NGM.OpenAuthentication.Models;
+using Orchard;
 using Orchard.ContentManagement;
 using Orchard.Data;
 using Orchard.Security;
@@ -12,23 +13,26 @@ namespace NGM.OpenAuthentication.Services {
         private readonly IRepository<OpenAuthenticationPartRecord> _openAuthenticationPartRecordRespository;
         private readonly IRepository<OpenAuthenticationSettingsRecord> _openAuthenticationSettingsRecordRepository;
         private readonly IMembershipService _membershipService;
+        private readonly IOrchardServices _orchardServices;
 
         public OpenAuthenticationService(IContentManager contentManager, 
             IRepository<OpenAuthenticationPartRecord> openAuthenticationPartRecordRespository, 
             IRepository<OpenAuthenticationSettingsRecord> openAuthenticationSettingsRecordRepository,
-            IMembershipService membershipService) {
+            IMembershipService membershipService,
+            IOrchardServices orchardServices) {
 
             _contentManager = contentManager;
             _openAuthenticationPartRecordRespository = openAuthenticationPartRecordRespository;
             _openAuthenticationSettingsRecordRepository = openAuthenticationSettingsRecordRepository;
             _membershipService = membershipService;
+            _orchardServices = orchardServices;
         }
 
         public void AssociateOpenIdWithUser(IUser user, string openIdIdentifier, string friendlyOpenIdIdentifier) {
-            var account = user.As<OpenAuthenticationPart>();
-            account.Record.ClaimedIdentifier = openIdIdentifier;
-            account.Record.FriendlyIdentifierForDisplay = friendlyOpenIdIdentifier;
-            _openAuthenticationPartRecordRespository.Create(account.Record);
+            var openAuthenticationPart= _orchardServices.ContentManager.Create<OpenAuthenticationPart>("User");
+            openAuthenticationPart.Record.UserId = user.Id;
+            openAuthenticationPart.Record.ClaimedIdentifier = openIdIdentifier;
+            openAuthenticationPart.Record.FriendlyIdentifierForDisplay = friendlyOpenIdIdentifier;
         }
 
         public bool IsAccountExists(string identifier) {
@@ -51,7 +55,7 @@ namespace NGM.OpenAuthentication.Services {
             var record = _openAuthenticationPartRecordRespository.Get(o => o.ClaimedIdentifier == openIdIdentifier);
 
             if (record != null) {
-                return _contentManager.Get<IUser>(record.Id);
+                return _contentManager.Get<IUser>(record.UserId);
             }
 
             return null;
@@ -65,7 +69,7 @@ namespace NGM.OpenAuthentication.Services {
         public IContentQuery<OpenAuthenticationPart, OpenAuthenticationPartRecord> GetIdentifiersFor(IUser user) {
             return _contentManager
                .Query<OpenAuthenticationPart, OpenAuthenticationPartRecord>()
-               .Where(c => c.Id == user.Id);
+               .Where(c => c.UserId == user.Id);
         }
 
         public void RemoveOpenIdAssociation(string openIdIdentifier) {
