@@ -46,6 +46,9 @@ namespace NGM.OpenAuthentication.Core.OpenId {
         public static FetchRequest CreateRequest(OpenAuthenticationSettingsRecord openAuthenticationSettingsRecord) {
             var fetchRequest = new FetchRequest();
 
+            if (openAuthenticationSettingsRecord == null)
+                return fetchRequest;
+
             if (openAuthenticationSettingsRecord.Email == true)
                 fetchRequest.Attributes.AddRequired(WellKnownAttributes.Contact.Email);
 
