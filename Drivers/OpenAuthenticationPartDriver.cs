@@ -48,6 +48,8 @@ namespace NGM.OpenAuthentication.Drivers {
                             .ToList()
                             .Select(account => CreateAccountEntry(account.Record));
 
+                    if (entries.ToList().Count.Equals(0)) return null;
+
                     var viewModel = new IndexViewModel {
                         Accounts = entries.ToList(),
                         UserId = user.Id
