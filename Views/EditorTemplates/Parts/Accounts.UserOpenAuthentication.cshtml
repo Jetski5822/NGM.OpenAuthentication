@@ -1,20 +1,17 @@
 ﻿@model NGM.OpenAuthentication.ViewModels.IndexViewModel
+@using Orchard.Utility.Extensions;
 
-@Html.ValidationSummary() 
+@if (Model.Accounts.Count > 0) {
+    var index = 0;
 <fieldset>
     <legend>Associated OpenID Accounts</legend>
-    @if (Model.Accounts.Count > 0) {
-        var index = 0;
-        foreach (var entry in Model.Accounts) {
-            @Html.Hidden("Accounts[" + index + "].Account.FriendlyIdentifierForDisplay", entry.Account.FriendlyIdentifierForDisplay)
-
-    <div>
-        @Html.CheckBox("Accounts[" + index + "].IsChecked", entry.IsChecked)
-        <label class="forcheckbox" for="@Html.FieldIdFor(m => m.Accounts[index].Account.FriendlyIdentifierForDisplay)">@entry.Account.FriendlyIdentifierForDisplay</label>
-    </div>
+        @foreach (var entry in Model.Accounts) {
+            <div>
+                <label class="forcheckbox" for="@Html.FieldIdFor(m => m.Accounts[index].Account.FriendlyIdentifierForDisplay)">@entry.Account.FriendlyIdentifierForDisplay</label>
+                
+                <a href="@Url.Action("Delete", new { area = "NGM.OpenAuthentication", claimedIdentifier = @Model.Accounts[index].Account.ClaimedIdentifier, returnUrl = ViewContext.RequestContext.HttpContext.Request.ToUrlString() })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
+            </div>
             index++;
         }
-    } else {
-    <p>@T("There are no OpenID accounts.")</p>
-    }
 </fieldset>
+}
