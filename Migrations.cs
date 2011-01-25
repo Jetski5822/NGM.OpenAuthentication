@@ -12,6 +12,19 @@ namespace NGM.OpenAuthentication {
                     .Column<string>("FriendlyIdentifierForDisplay")
                 );
 
+            SchemaBuilder.CreateTable("OpenAuthenticationSettingsPartRecord", table => table
+                .ContentPartRecord()
+                .Column<bool>("Birthdate")
+                .Column<bool>("Country")
+                .Column<bool>("Email")
+                .Column<bool>("FullName")
+                .Column<bool>("Gender")
+                .Column<bool>("Language")
+                .Column<bool>("Nickname")
+                .Column<bool>("PostalCode")
+                .Column<bool>("TimeZone")
+               );
+
             ContentDefinitionManager.AlterTypeDefinition("User",
                cfg => cfg
                    .WithPart("OpenAuthenticationPart")

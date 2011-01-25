@@ -8,11 +8,11 @@ namespace NGM.OpenAuthentication.Services {
         bool IsAccountExists(string identifier);
         
         void AssociateOpenIdWithUser(IUser user, string openIdIdentifier, string friendlyOpenIdIdentifier);
-        
+
         IUser CreateUser(RegisterModel openIdIdentifier);
         IUser GetUser(string openIdIdentifier);
-        
-        OpenAuthenticationSettingsRecord GetSettings();
+
+        OpenAuthenticationSettingsPart GetSettings();
 
         IContentQuery<OpenAuthenticationPart, OpenAuthenticationPartRecord> GetIdentifiersFor(IUser user);
         void RemoveOpenIdAssociation(string openIdIdentifier);

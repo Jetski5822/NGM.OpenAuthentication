@@ -32,13 +32,12 @@
 <fieldset class="login-form group">
     <legend>@T("OpenID account")</legend>
     <ol>
-    <li>
-        <label for="OpenIdIdentifier">@T("Enter manually your OpenID")</label>
-        @Html.TextBox("OpenIdIdentifier", "", new { id = "OpenIdIdentifier", @class = "textMedium", autofocus = "autofocus" })
-        @Html.ValidationMessage("OpenIdIdentifier")
-    </li>
-
-    <button class="primaryAction" type="submit">@T("Sign In")</button>
+        <li>
+            <label for="OpenIdIdentifier">@T("Enter manually your OpenID")</label>
+            @Html.TextBox("OpenIdIdentifier", "", new { id = "OpenIdIdentifier", @class = "textMedium", autofocus = "autofocus" })
+            @Html.ValidationMessage("OpenIdIdentifier")
+        </li>
     </ol>
+    <button class="primaryAction" type="submit">@T("Sign In")</button>
 </fieldset>
 }

@@ -62,7 +62,7 @@ namespace NGM.OpenAuthentication.Controllers
                         }
                         if (userFound == null && userLoggedIn == null) {
                             // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
-
+                            
                             var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
 
                             if ((registrationSettings != null) &&

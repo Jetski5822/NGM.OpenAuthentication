@@ -11,13 +11,13 @@ namespace NGM.OpenAuthentication.Services {
     public class OpenAuthenticationService : IOpenAuthenticationService {
         private readonly IContentManager _contentManager;
         private readonly IRepository<OpenAuthenticationPartRecord> _openAuthenticationPartRecordRespository;
-        private readonly IRepository<OpenAuthenticationSettingsRecord> _openAuthenticationSettingsRecordRepository;
+        private readonly IRepository<OpenAuthenticationSettingsPartRecord> _openAuthenticationSettingsRecordRepository;
         private readonly IMembershipService _membershipService;
         private readonly IOrchardServices _orchardServices;
 
         public OpenAuthenticationService(IContentManager contentManager, 
             IRepository<OpenAuthenticationPartRecord> openAuthenticationPartRecordRespository, 
-            IRepository<OpenAuthenticationSettingsRecord> openAuthenticationSettingsRecordRepository,
+            IRepository<OpenAuthenticationSettingsPartRecord> openAuthenticationSettingsRecordRepository,
             IMembershipService membershipService,
             IOrchardServices orchardServices) {
 
@@ -61,9 +61,8 @@ namespace NGM.OpenAuthentication.Services {
             return null;
         }
 
-        public OpenAuthenticationSettingsRecord GetSettings() {
-            var settings = from openSettings in _openAuthenticationSettingsRecordRepository.Table select openSettings;
-            return settings.FirstOrDefault<OpenAuthenticationSettingsRecord>();
+        public OpenAuthenticationSettingsPart GetSettings() {
+            return _orchardServices.WorkContext.CurrentSite.As<OpenAuthenticationSettingsPart>();
         }
 
         public IContentQuery<OpenAuthenticationPart, OpenAuthenticationPartRecord> GetIdentifiersFor(IUser user) {

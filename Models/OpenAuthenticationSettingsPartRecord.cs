@@ -1,5 +1,7 @@
-﻿namespace NGM.OpenAuthentication.Models {
-    public class OpenAuthenticationSettingsRecord {
+﻿using Orchard.ContentManagement.Records;
+
+namespace NGM.OpenAuthentication.Models {
+    public class OpenAuthenticationSettingsPartRecord : ContentPartRecord {
         public virtual bool Birthdate { get; set; }
         public virtual bool Country { get; set; }
         public virtual bool Email { get; set; }

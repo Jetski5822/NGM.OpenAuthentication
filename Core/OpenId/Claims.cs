@@ -4,8 +4,10 @@ using NGM.OpenAuthentication.Models;
 
 namespace NGM.OpenAuthentication.Core.OpenId {
     public static class Claims {
-        public static ClaimsRequest CreateClaimsRequest(OpenAuthenticationSettingsRecord openAuthenticationSettingsRecord) {
+        public static ClaimsRequest CreateClaimsRequest(OpenAuthenticationSettingsPart openAuthenticationSettings) {
             var claimsRequest = new ClaimsRequest();
+
+            var openAuthenticationSettingsRecord = openAuthenticationSettings.Record;
 
             if (openAuthenticationSettingsRecord == null)
                 return claimsRequest;
@@ -41,8 +43,10 @@ namespace NGM.OpenAuthentication.Core.OpenId {
             return claimsRequest;
         }
 
-        public static FetchRequest CreateFetchRequest(OpenAuthenticationSettingsRecord openAuthenticationSettingsRecord) {
+        public static FetchRequest CreateFetchRequest(OpenAuthenticationSettingsPart openAuthenticationSettings) {
             var fetchRequest = new FetchRequest();
+
+            var openAuthenticationSettingsRecord = openAuthenticationSettings.Record;
 
             if (openAuthenticationSettingsRecord == null)
                 return fetchRequest;

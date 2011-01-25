@@ -70,7 +70,9 @@
     <Compile Include="Core\OpenId\Claims.cs" />
     <Compile Include="Core\OpenId\RegisterModelBuilder.cs" />
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
-    <Compile Include="Models\OpenAuthenticationSettingsRecord.cs" />
+    <Compile Include="Handlers\OpenAuthenticationSettingsPartHandler.cs" />
+    <Compile Include="Models\OpenAuthenticationSettingsPart.cs" />
+    <Compile Include="Models\OpenAuthenticationSettingsPartRecord.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Core\OpenId\IOpenIdRelyingPartyService.cs" />
     <Compile Include="Core\OpenId\OpenIdIdentifier.cs" />
@@ -125,6 +127,7 @@
     <Content Include="Views\EditorTemplates\Parts\Accounts.UserOpenAuthentication.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
+    <Content Include="Views\EditorTemplates\Parts\OpenAuthentication.OpenIDSettings.cshtml" />
     <None Include="Views\Wrappers.Account.LogOn.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
