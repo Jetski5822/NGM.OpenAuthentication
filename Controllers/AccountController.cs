@@ -67,7 +67,7 @@ namespace NGM.OpenAuthentication.Controllers
 
                             if ((registrationSettings != null) &&
                                 (registrationSettings.UsersCanRegister == false)) {
-                                AddError("AccessDenied", "User registration is disabled");
+                                AddError("AccessDenied", "User does not exist on system");
                                 break;
                             }
                             else {
