@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Security;
+﻿using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
-using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core.OpenId;
-using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
 using Orchard;
 using Orchard.ContentManagement;
 using Orchard.Localization;
-using Orchard.Mvc;
 using Orchard.Security;
 using Orchard.Themes;
-using Orchard.UI.Notify;
 using Orchard.Users.Models;
 
 namespace NGM.OpenAuthentication.Controllers
