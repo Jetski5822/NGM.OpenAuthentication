@@ -2,8 +2,6 @@
 
 namespace NGM.OpenAuthentication.Core.OpenId {
     public sealed class OpenIdIdentifier {
-        private OpenIdIdentifier() { }
-
         public OpenIdIdentifier(string identifierString) {
             Identifier id;
             if (Identifier.TryParse(identifierString, out id)) {
@@ -23,9 +21,7 @@ namespace NGM.OpenAuthentication.Core.OpenId {
         }
 
         public override string ToString() {
-            if (Identifier != null)
-                return Identifier.ToString();
-            return null;
+            return Identifier != null ? Identifier.ToString() : string.Empty;
         }
     }
 }
