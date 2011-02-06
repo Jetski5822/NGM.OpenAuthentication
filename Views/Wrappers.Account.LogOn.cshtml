@@ -6,6 +6,19 @@
 
 @{
     Style.Require("Account");
+    Style.Require("openIdStyles");
+    
+    Script.Require("jQuery");
+    Script.Require("openIdSelector");
+    Script.Require("openIdLocalization");
+}
+@using(Script.Foot()) {
+<script type="text/javascript">
+    $(document).ready(function () {
+        openid.init('OpenIdIdentifier');
+        //openid.setDemoMode(true); //Stops form submission for client javascript-only test purposes
+    });
+</script>
 }
 
 @if (TempData.Where(o => o.Key.StartsWith("error-")).ToArray().Count() >= 1) {
@@ -18,16 +31,26 @@
 </div>
 }
 
-@using (Html.BeginFormAntiForgeryPost(Url.Action("LogOn", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] }))) {
+@using (Html.BeginForm("LogOn", "Account", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post, new { id = "openid_form" })) {
+<input type="hidden" name="action" value="verify" />
 <fieldset class="login-form group">
     <legend>@T("OpenID account")</legend>
     <ol>
         <li>
-            <label for="OpenIdIdentifier">@T("Enter manually your OpenID")</label>
-            @Html.TextBox("OpenIdIdentifier", string.Empty, new { id = "OpenIdIdentifier", @class = "textMedium", autofocus = "autofocus" })
-            @Html.ValidationMessage("OpenIdIdentifier")
+            <div id="openid_choice">
+			    <p>Please click your account provider:</p>
+				<div id="openid_btns"></div>
+			</div>
         </li>
+        <li>
+            <div id="openid_input_area">
+                <label for="OpenIdIdentifier">@T("Enter manually your OpenID")</label>
+                @Html.TextBox("OpenIdIdentifier", "http://", new { id = "OpenIdIdentifier", @class = "textMedium", autofocus = "autofocus" })
+                @Html.ValidationMessage("OpenIdIdentifier")
+            </div>
+        </li>
+        <button class="primaryAction" type="submit">@T("Sign In")</button>
+        @Html.AntiForgeryTokenOrchard()
     </ol>
-    <button class="primaryAction" type="submit">@T("Sign In")</button>
 </fieldset>
 }
