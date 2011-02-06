@@ -2,13 +2,16 @@
 using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Models;
+using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Core.OpenId {
     public class RegisterModelBuilder {
         private readonly IAuthenticationResponse _authenticationResponse;
+        private readonly IMembershipService _membershipService;
 
-        public RegisterModelBuilder(IAuthenticationResponse authenticationResponse) {
+        public RegisterModelBuilder(IAuthenticationResponse authenticationResponse, IMembershipService membershipService) {
             _authenticationResponse = authenticationResponse;
+            _membershipService = membershipService;
         }
 
         public RegisterModel Build() {
@@ -35,7 +38,15 @@ namespace NGM.OpenAuthentication.Core.OpenId {
                 return;
 
             registerModel.Email = fetchResponse.GetAttributeValue(WellKnownAttributes.Contact.Email);
-            registerModel.UserName = fetchResponse.GetAttributeValue(WellKnownAttributes.Name.First) + fetchResponse.GetAttributeValue(WellKnownAttributes.Name.Last);
+            registerModel.UserName = BuildUniqueUserName(fetchResponse.GetAttributeValue(WellKnownAttributes.Name.First) + fetchResponse.GetAttributeValue(WellKnownAttributes.Name.Last));
+        }
+
+        private string BuildUniqueUserName(string userName) {
+            var i = 0;
+            while (_membershipService.GetUser(userName) != null) {
+                i++;
+            }
+            return i == 0 ? userName : string.Format("{0}{1}", userName, i);
         }
     }
 }
