@@ -60,7 +60,6 @@
     <Compile Include="UnitTests\Controllers\AccountControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Fakes\FakeOutgoingWebResponse.cs" />
-    <Compile Include="UnitTests\Core\OpenId\ClaimsTests.cs" />
     <Compile Include="UnitTests\Services\OpenAuthenticationServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
