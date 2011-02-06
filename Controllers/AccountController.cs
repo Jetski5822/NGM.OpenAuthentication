@@ -75,9 +75,11 @@ namespace NGM.OpenAuthentication.Controllers
                                 var registerModelBuilder = new RegisterModelBuilder(_openIdRelyingPartyService.Response);
                                 var model = registerModelBuilder.Build();
 
+                                TempData["registermodel"] = model;
+                                
                                 return RedirectToAction("Register", "Account", new {
                                     area = "Orchard.Users",
-                                    claimedidentifier = model.ClaimedIdentifier, 
+                                    claimedidentifier = model.ClaimedIdentifier,
                                     friendlyidentifier = model.FriendlyIdentifier
                                 });
                             }

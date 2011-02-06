@@ -35,6 +35,7 @@ namespace NGM.OpenAuthentication.Core.OpenId {
                 return;
 
             registerModel.Email = fetchResponse.GetAttributeValue(WellKnownAttributes.Contact.Email);
+            registerModel.UserName = fetchResponse.GetAttributeValue(WellKnownAttributes.Name.First) + fetchResponse.GetAttributeValue(WellKnownAttributes.Name.Last);
         }
     }
 }
