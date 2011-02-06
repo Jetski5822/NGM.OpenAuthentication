@@ -1,0 +1,16 @@
+﻿@{
+    var identifier = string.Empty;
+    if (TempData.ContainsKey("RegisterModel")){
+        var model = ((NGM.OpenAuthentication.Models.RegisterModel)TempData["RegisterModel"]);
+        identifier = model.ClaimedIdentifier;
+        TempData["RegisterModel"] = model;
+        HttpContext.Current.Items.Add("blah", "blahblah");
+    }
+}
+
+@if (!string.IsNullOrEmpty(identifier)) {
+    <div class="message message-information">
+        @T("OpenID Association: Your new user account will be linked to ")<span id="openididentifier">@identifier</span>
+    </div>
+}
+@Display(Model.Metadata.ChildContent)

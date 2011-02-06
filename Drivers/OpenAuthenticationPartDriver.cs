@@ -33,10 +33,10 @@ namespace NGM.OpenAuthentication.Drivers {
 
         public Localizer T { get; set; }
 
-        protected override DriverResult Editor(OpenAuthenticationPart userRolesPart, dynamic shapeHelper) {
+        protected override DriverResult Editor(OpenAuthenticationPart openAuthenticationPart, dynamic shapeHelper) {
             var user = _authenticationService.GetAuthenticatedUser();
 
-            if (!_authorizationService.TryCheckAccess(StandardPermissions.SiteOwner, user, userRolesPart))
+            if (!_authorizationService.TryCheckAccess(StandardPermissions.SiteOwner, user, openAuthenticationPart))
                 return null;
 
             return ContentShape("Parts_Accounts_UserOpenAuthentication_Edit",
@@ -50,7 +50,7 @@ namespace NGM.OpenAuthentication.Drivers {
 
                     if (entries.ToList().Count.Equals(0)) return null;
 
-                    var viewModel = new IndexViewModel {
+                    var viewModel = new AdminIndexViewModel {
                         Accounts = entries.ToList(),
                         UserId = user.Id
                     };
@@ -59,12 +59,12 @@ namespace NGM.OpenAuthentication.Drivers {
                 });
         }
 
-        protected override DriverResult Editor(OpenAuthenticationPart userRolesPart, IUpdateModel updater, dynamic shapeHelper) {
+        protected override DriverResult Editor(OpenAuthenticationPart openAuthenticationPart, IUpdateModel updater, dynamic shapeHelper) {
             // don't apply editor without apply roles permission
-            if (!_authorizationService.TryCheckAccess(StandardPermissions.SiteOwner, _authenticationService.GetAuthenticatedUser(), userRolesPart))
+            if (!_authorizationService.TryCheckAccess(StandardPermissions.SiteOwner, _authenticationService.GetAuthenticatedUser(), openAuthenticationPart))
                 return null;
 
-            return null;
+            return Editor(openAuthenticationPart, shapeHelper);
         }
 
         private AccountEntry CreateAccountEntry(OpenAuthenticationPartRecord openAuthenticationPart) {

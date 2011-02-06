@@ -215,49 +215,49 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
             mockOpenAuthenticationService.VerifyAll();
         }
 
-        [Test]
-        public void should_redirect_to_logon_view_if_no_viewmodel_present_on_register_page() {
-            var accountController = new AccountController(null,null,null, null);
-            var redirectToRouteResult = (RedirectToRouteResult)accountController.Register(null);
+        //[Test]
+        //public void should_redirect_to_logon_view_if_no_viewmodel_present_on_register_page() {
+        //    var accountController = new AccountController(null,null,null, null);
+        //    var redirectToRouteResult = (RedirectToRouteResult)accountController.Register(null);
 
-            Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("Orchard.Users"));
-            Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("LogOn"));
-            Assert.That(redirectToRouteResult.RouteValues["controller"], Is.EqualTo("Account"));
-        }
+        //    Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("Orchard.Users"));
+        //    Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("LogOn"));
+        //    Assert.That(redirectToRouteResult.RouteValues["controller"], Is.EqualTo("Account"));
+        //}
 
-        [Test]
-        public void should_redirect_to_logon_view_if_viewmodel_has_null_model_present_on_register_page() {
-            var accountController = new AccountController(null, null, null, null);
+        //[Test]
+        //public void should_redirect_to_logon_view_if_viewmodel_has_null_model_present_on_register_page() {
+        //    var accountController = new AccountController(null, null, null, null);
 
-            var viewModel = new RegisterViewModel();
-            var redirectToRouteResult = (RedirectToRouteResult)accountController.Register(viewModel);
+        //    var viewModel = new RegisterViewModel();
+        //    var redirectToRouteResult = (RedirectToRouteResult)accountController.Register(viewModel);
 
-            Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("Orchard.Users"));
-            Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("LogOn"));
-            Assert.That(redirectToRouteResult.RouteValues["controller"], Is.EqualTo("Account"));
-        }
+        //    Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("Orchard.Users"));
+        //    Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("LogOn"));
+        //    Assert.That(redirectToRouteResult.RouteValues["controller"], Is.EqualTo("Account"));
+        //}
 
-        [Test]
-        public void should_use_passedin_model_from_logon_if_avalible() {
-            var accountController = new AccountController(null, null, null, null);
-            var model = new RegisterModel {ClaimedIdentifier = "Test"};
-            accountController.TempData.Add("RegisterModel", model);
+        //[Test]
+        //public void should_use_passedin_model_from_logon_if_avalible() {
+        //    var accountController = new AccountController(null, null, null, null);
+        //    var model = new RegisterModel {ClaimedIdentifier = "Test"};
+        //    accountController.TempData.Add("RegisterModel", model);
 
-            var viewResult = (ViewResult)accountController.Register(null);
-            Assert.That(viewResult.ViewName, Is.EqualTo("Register"));
-            Assert.That(viewResult.ViewData.Model, Is.TypeOf(typeof(RegisterViewModel)));
-            var viewModel = viewResult.ViewData.Model as RegisterViewModel;
-            Assert.That(viewModel.Model, Is.EqualTo(model));
-        }
+        //    var viewResult = (ViewResult)accountController.Register(null);
+        //    Assert.That(viewResult.ViewName, Is.EqualTo("Register"));
+        //    Assert.That(viewResult.ViewData.Model, Is.TypeOf(typeof(RegisterViewModel)));
+        //    var viewModel = viewResult.ViewData.Model as RegisterViewModel;
+        //    Assert.That(viewModel.Model, Is.EqualTo(model));
+        //}
 
-        [Test]
-        public void should_not_recreate_registration_view_model_if_view_model_exists() {
-            var accountController = new AccountController(null, null, null, null);
-            var viewModel = new RegisterViewModel {Model = new RegisterModel {ClaimedIdentifier = "test"}};
-            var viewResult = (ViewResult)accountController.Register(viewModel);
+        //[Test]
+        //public void should_not_recreate_registration_view_model_if_view_model_exists() {
+        //    var accountController = new AccountController(null, null, null, null);
+        //    var viewModel = new RegisterViewModel {Model = new RegisterModel {ClaimedIdentifier = "test"}};
+        //    var viewResult = (ViewResult)accountController.Register(viewModel);
 
-            Assert.That(viewResult.ViewData.Model, Is.EqualTo(viewModel));
-        }
+        //    Assert.That(viewResult.ViewData.Model, Is.EqualTo(viewModel));
+        //}
 
         //[Test]
         //public void should_show_all_identifiers_associated_with_loggedon_user() {
@@ -309,7 +309,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
         [Test]
         [Ignore("Spiking")]
         public void should_redirect_to_external_openid_logon_for_valid_openid_identifier() {
-            var viewModel = new LogOnViewModel { OpenIdIdentifier = OpenAuthUrlForGoogle };
+            var viewModel = new CreateViewModel { OpenIdIdentifier = OpenAuthUrlForGoogle };
 
             var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
 

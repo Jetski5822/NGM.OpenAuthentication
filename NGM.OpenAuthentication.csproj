@@ -70,7 +70,6 @@
     <Compile Include="Core\OpenId\Claims.cs" />
     <Compile Include="Core\OpenId\RegisterModelBuilder.cs" />
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
-    <Compile Include="Filters\RegistrationFilter.cs" />
     <Compile Include="Handlers\OpenAuthenticationSettingsPartHandler.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPart.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPartRecord.cs" />
@@ -88,11 +87,9 @@
     <Compile Include="Services\OpenAuthenticationService.cs" />
     <Compile Include="Shapes.cs" />
     <Compile Include="ViewModels\CreateViewModel.cs" />
-    <Compile Include="ViewModels\IndexViewModel.cs" />
-    <Compile Include="ViewModels\LogOnViewModel.cs" />
+    <Compile Include="ViewModels\AdminIndexViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routes.cs" />
-    <Compile Include="ViewModels\RegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Account\Images\openid-icon.png" />
@@ -124,11 +121,11 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Placement.info" />
-    <None Include="Views\Account\Register.cshtml" />
     <Content Include="Views\EditorTemplates\Parts\Accounts.UserOpenAuthentication.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
     <Content Include="Views\EditorTemplates\Parts\OpenAuthentication.OpenIDSettings.cshtml" />
+    <Content Include="Views\Wrappers.Account.Register.cshtml" />
     <None Include="Views\Wrappers.Account.LogOn.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>

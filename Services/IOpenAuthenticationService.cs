@@ -9,7 +9,6 @@ namespace NGM.OpenAuthentication.Services {
         
         void AssociateOpenIdWithUser(IUser user, string openIdIdentifier, string friendlyOpenIdIdentifier);
 
-        IUser CreateUser(RegisterModel openIdIdentifier);
         IUser GetUser(string openIdIdentifier);
 
         OpenAuthenticationSettingsPart GetSettings();

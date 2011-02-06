@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using DotNetOpenAuth.OpenId.RelyingParty;
@@ -56,7 +58,6 @@ namespace NGM.OpenAuthentication.Controllers
                             return Redirect(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
                         }
                         if (userFound != null && userLoggedIn != null && !userFound.Id.Equals(userLoggedIn.Id)) {
-                            // The person is trying to log in as himself.. bit weird
                             AddError("IdentifierAssigned", "ClaimedIdentifier has already been assigned to another account");
                             break;
                         }
@@ -73,10 +74,12 @@ namespace NGM.OpenAuthentication.Controllers
                             else {
                                 var registerModelBuilder = new RegisterModelBuilder(_openIdRelyingPartyService.Response);
                                 var model = registerModelBuilder.Build();
-                                model.ReturnUrl = returnUrl;
 
-                                TempData["RegisterModel"] = model;
-                                return RedirectToAction("Register", "Account", new {area = "NGM.OpenAuthentication"});
+                                return RedirectToAction("Register", "Account", new {
+                                    area = "Orchard.Users", 
+                                    cliamedidentifier = model.ClaimedIdentifier, 
+                                    friendlyidentifier = model.FriendlyIdentifier
+                                });
                             }
                         }
 
@@ -104,41 +107,13 @@ namespace NGM.OpenAuthentication.Controllers
 
         [HttpPost, ActionName("LogOn")]
         public ActionResult _LogOn(string returnUrl) {
-            LogOnViewModel viewModel = new LogOnViewModel();
+            CreateViewModel viewModel = new CreateViewModel();
             TryUpdateModel(viewModel);
 
             return BuildLogOnAuthenticationRedirect(viewModel);
         }
 
-        public ActionResult Register(RegisterViewModel viewModel) {
-            if (viewModel == null || viewModel.Model == null) {
-                var model = TempData["RegisterModel"] as RegisterModel;
-                if (model == null)
-                    return DefaultLogOnResult();
-
-                viewModel = new RegisterViewModel {Model = model};
-            }
-
-            return View("Register", viewModel);
-        }
-
-        [HttpPost, ActionName("Register")]
-        public ActionResult _Register(RegisterViewModel viewModel) {
-            if (ModelState.IsValid) {
-                if (!_openAuthenticationService.IsAccountExists(viewModel.Model.ClaimedIdentifier)) {
-                    var user = _openAuthenticationService.CreateUser(viewModel.Model);
-
-                    // Sign In
-                    _authenticationService.SignIn(user, false);
-
-                    return Redirect(!string.IsNullOrEmpty(viewModel.Model.ReturnUrl) ? viewModel.Model.ReturnUrl : "~/");
-                }
-                AddError("IdentifierAssigned", "ClaimedIdentifier has already been assigned");
-            }
-            return View("Register", viewModel);
-        }
-
-        private ActionResult BuildLogOnAuthenticationRedirect(LogOnViewModel viewModel) {
+        private ActionResult BuildLogOnAuthenticationRedirect(CreateViewModel viewModel) {
             var identifier = new OpenIdIdentifier(viewModel.OpenIdIdentifier);
             if (!identifier.IsValid) {
                 AddError("OpenIdIdentifier", "Invalid Open ID identifier");

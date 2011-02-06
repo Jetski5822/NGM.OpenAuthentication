@@ -46,7 +46,7 @@ namespace NGM.OpenAuthentication.Controllers {
                     .ToList()
                     .Select(account => CreateAccountEntry(account.Record));
 
-            var viewModel = new IndexViewModel {
+            var viewModel = new AdminIndexViewModel {
                 Accounts = entries.ToList(),
                 UserId = user.Id
             };
@@ -119,7 +119,7 @@ namespace NGM.OpenAuthentication.Controllers {
 
             try {
                 _openAuthenticationService.RemoveOpenIdAssociation(claimedIdentifier);
-
+                
                 _orchardServices.Notifier.Information(T("OpenID was successfully deleted."));
             } catch (Exception exception) {
                 _orchardServices.Notifier.Error(T("Editing OpenID failed: {0}", exception.Message));

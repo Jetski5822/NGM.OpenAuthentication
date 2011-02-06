@@ -5,17 +5,7 @@
 @Display(Model.Metadata.ChildContent)
 
 @{
-    var userCanRegister = @WorkContext.CurrentSite.As<RegistrationSettingsPart>().UsersCanRegister;
-}
-
-@{
     Style.Require("Account");
-}
-
-@if (userCanRegister) { 
-    <p>        
-    @T("If this is your first time, you will be registered automatically with us.") 
-    </p>   
 }
 
 @if (TempData.Where(o => o.Key.StartsWith("error-")).ToArray().Count() >= 1) {
@@ -34,7 +24,7 @@
     <ol>
         <li>
             <label for="OpenIdIdentifier">@T("Enter manually your OpenID")</label>
-            @Html.TextBox("OpenIdIdentifier", "", new { id = "OpenIdIdentifier", @class = "textMedium", autofocus = "autofocus" })
+            @Html.TextBox("OpenIdIdentifier", string.Empty, new { id = "OpenIdIdentifier", @class = "textMedium", autofocus = "autofocus" })
             @Html.ValidationMessage("OpenIdIdentifier")
         </li>
     </ol>

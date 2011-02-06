@@ -10,6 +10,9 @@ namespace NGM.OpenAuthentication {
             if (context.ShapeType == "LogOn") {
                 context.Shape.Metadata.Wrappers.Add("Wrappers_Account_LogOn");
             }
+            if (context.ShapeType == "Register") {
+                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_Register");
+            }
         }
     }
 }
