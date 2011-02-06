@@ -26,21 +26,7 @@ namespace NGM.OpenAuthentication {
                                                                                       {"area", "NGM.OpenAuthentication"}
                                                                                   },
                                                          new MvcRouteHandler())
-                                                 },
-                             new RouteDescriptor {
-                                                     Route = new Route(
-                                                         "OpenId/Register",
-                                                         new RouteValueDictionary {
-                                                                                      {"area", "NGM.OpenAuthentication"},
-                                                                                      {"controller", "Account"},
-                                                                                      {"action", "Register"}
-                                                                                  },
-                                                         new RouteValueDictionary(),
-                                                         new RouteValueDictionary {
-                                                                                      {"area", "NGM.OpenAuthentication"}
-                                                                                  },
-                                                         new MvcRouteHandler())
-                                                 },
+                                                 }
                          };
         }
     }
