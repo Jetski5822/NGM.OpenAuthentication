@@ -76,8 +76,8 @@ namespace NGM.OpenAuthentication.Controllers
                                 var model = registerModelBuilder.Build();
 
                                 return RedirectToAction("Register", "Account", new {
-                                    area = "Orchard.Users", 
-                                    cliamedidentifier = model.ClaimedIdentifier, 
+                                    area = "Orchard.Users",
+                                    claimedidentifier = model.ClaimedIdentifier, 
                                     friendlyidentifier = model.FriendlyIdentifier
                                 });
                             }

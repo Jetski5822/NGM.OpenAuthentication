@@ -1,7 +1,4 @@
-using System.Linq;
-using System.Web.Routing;
 using JetBrains.Annotations;
-using NGM.OpenAuthentication.Core.OpenId;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using Orchard;
@@ -23,9 +20,12 @@ namespace NGM.OpenAuthentication.Handlers {
             Filters.Add(StorageFilter.For(openAuthenticationPartRepository));
 
             OnCreated<UserPart>((context, user) => {
-                var cliamedIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["cliamedidentifier"];
+                var cliamedIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["claimedidentifier"];
                 var friendlyIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["friendlyidentifier"];
-                _openAuthenticationService.AssociateOpenIdWithUser(user, cliamedIdentifier, friendlyIdentifier);
+
+                if (!string.IsNullOrEmpty(cliamedIdentifier) || !string.IsNullOrEmpty(friendlyIdentifier)) {
+                    _openAuthenticationService.AssociateOpenIdWithUser(user, cliamedIdentifier, friendlyIdentifier);
+                }
             });
         }
     }

@@ -1,11 +1,5 @@
 ﻿@{
-    var identifier = string.Empty;
-    if (TempData.ContainsKey("RegisterModel")){
-        var model = ((NGM.OpenAuthentication.Models.RegisterModel)TempData["RegisterModel"]);
-        identifier = model.ClaimedIdentifier;
-        TempData["RegisterModel"] = model;
-        HttpContext.Current.Items.Add("blah", "blahblah");
-    }
+    var identifier = HttpContext.Current.Request.Params["claimedidentifier"];
 }
 
 @if (!string.IsNullOrEmpty(identifier)) {
