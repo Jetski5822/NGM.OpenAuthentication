@@ -468,6 +468,11 @@
             The name of the &lt;reporting&gt; sub-element.
             </summary>
     </member>
+    <member name="F:DotNetOpenAuth.Configuration.DotNetOpenAuthSection.WebResourceUrlProviderName">
+      <summary>
+            The name of the &lt;webResourceUrlProvider&gt; sub-element.
+            </summary>
+    </member>
     <member name="M:DotNetOpenAuth.Configuration.DotNetOpenAuthSection.#ctor">
       <summary>
             Initializes a new instance of the <see cref="T:DotNetOpenAuth.Configuration.DotNetOpenAuthSection" /> class.
@@ -512,6 +517,11 @@
       <getter>
         <ensures>Contract.Result&lt;ReportingElement&gt;() != null</ensures>
       </getter>
+    </member>
+    <member name="P:DotNetOpenAuth.Configuration.DotNetOpenAuthSection.EmbeddedResourceRetrievalProvider">
+      <summary>
+            Gets or sets the type to use for obtaining URLs that fetch embedded resource streams.
+            </summary>
     </member>
     <member name="T:DotNetOpenAuth.Configuration.MessagingElement">
       <summary>
@@ -965,6 +975,11 @@
             The name of the custom store sub-element.
             </summary>
     </member>
+    <member name="F:DotNetOpenAuth.Configuration.OpenIdRelyingPartyElement.PreserveUserSuppliedIdentifierConfigName">
+      <summary>
+            The name of the attribute that specifies whether dnoa.userSuppliedIdentifier is tacked onto the openid.return_to URL.
+            </summary>
+    </member>
     <member name="F:DotNetOpenAuth.Configuration.OpenIdRelyingPartyElement.SecuritySettingsConfigName">
       <summary>
             Gets the name of the security sub-element.
@@ -989,6 +1004,14 @@
       <summary>
             Initializes a new instance of the <see cref="T:DotNetOpenAuth.Configuration.OpenIdRelyingPartyElement" /> class.
             </summary>
+    </member>
+    <member name="P:DotNetOpenAuth.Configuration.OpenIdRelyingPartyElement.PreserveUserSuppliedIdentifier">
+      <summary>
+            Gets or sets a value indicating whether "dnoa.userSuppliedIdentifier" is tacked onto the openid.return_to URL in order to preserve what the user typed into the OpenID box.
+            </summary>
+      <value>
+            	The default value is <c>true</c>.
+            </value>
     </member>
     <member name="P:DotNetOpenAuth.Configuration.OpenIdRelyingPartyElement.SecuritySettings">
       <summary>
@@ -1602,6 +1625,19 @@
             Gets or sets the proxy to use for resolving XRIs.
             </summary>
       <value>The default value is "xri.net".</value>
+    </member>
+    <member name="T:DotNetOpenAuth.IEmbeddedResourceRetrieval">
+      <summary>
+            An interface that provides URLs from which embedded resources can be obtained.
+            </summary>
+    </member>
+    <member name="M:DotNetOpenAuth.IEmbeddedResourceRetrieval.GetWebResourceUrl(System.Type,System.String)">
+      <summary>
+            Gets the URL from which the given manifest resource may be downloaded by the user agent.
+            </summary>
+      <param name="someTypeInResourceAssembly">Some type in the assembly containing the desired resource.</param>
+      <param name="manifestResourceName">Manifest name of the desired resource.</param>
+      <returns>An absolute URL.</returns>
     </member>
     <member name="T:DotNetOpenAuth.InfoCard.ClaimType">
       <summary>
@@ -2485,6 +2521,12 @@
             in order to ensure successfully sending a large payload to another server
             that might have a maximum allowable size restriction on its GET request.
             </summary>
+    </member>
+    <member name="F:DotNetOpenAuth.Messaging.Channel.RedirectResponseBodyFormat">
+      <summary>
+            The HTML that should be returned to the user agent as part of a 301 Redirect.
+            </summary>
+      <value>A string that should be used as the first argument to String.Format, where the {0} should be replaced with the URL to redirect to.</value>
     </member>
     <member name="F:DotNetOpenAuth.Messaging.Channel.IndirectMessageFormPostFormat">
       <summary>
@@ -8874,6 +8916,11 @@
     <member name="P:DotNetOpenAuth.Messaging.MessagingStrings.ExpiredMessage">
       <summary>
               Looks up a localized string similar to The message expired at {0} and it is now {1}..
+            </summary>
+    </member>
+    <member name="P:DotNetOpenAuth.Messaging.MessagingStrings.ExtraParameterAddFailure">
+      <summary>
+              Looks up a localized string similar to Failed to add extra parameter '{0}' with value '{1}'..
             </summary>
     </member>
     <member name="P:DotNetOpenAuth.Messaging.MessagingStrings.GetOrPostFlagsRequired">
@@ -15959,11 +16006,6 @@
             The factory method that may be used in deserialization of this message.
             </summary>
     </member>
-    <member name="F:DotNetOpenAuth.OpenId.Extensions.SimpleRegistration.ClaimsRequest.additionalTypeUris">
-      <summary>
-            Additional type URIs that this extension is sometimes known by remote parties.
-            </summary>
-    </member>
     <member name="F:DotNetOpenAuth.OpenId.Extensions.SimpleRegistration.ClaimsRequest.typeUriDeserializedFrom">
       <summary>
             The type URI that this particular (deserialized) extension was read in using,
@@ -16313,6 +16355,11 @@
     <member name="T:DotNetOpenAuth.OpenId.Extensions.SimpleRegistration.Constants">
       <summary>
             Simple Registration constants
+            </summary>
+    </member>
+    <member name="F:DotNetOpenAuth.OpenId.Extensions.SimpleRegistration.Constants.AdditionalTypeUris">
+      <summary>
+            Additional type URIs that this extension is sometimes known by remote parties.
             </summary>
     </member>
     <member name="T:DotNetOpenAuth.OpenId.Extensions.SimpleRegistration.DemandLevel">
@@ -17412,6 +17459,11 @@
             and lookup please use the <see cref="P:DotNetOpenAuth.OpenId.Interop.AuthenticationResponseShim.ClaimedIdentifier" /> property.
             </para>
       </remarks>
+    </member>
+    <member name="P:DotNetOpenAuth.OpenId.Interop.AuthenticationResponseShim.ProviderEndpoint">
+      <summary>
+            Gets the provider endpoint that sent the assertion.
+            </summary>
     </member>
     <member name="P:DotNetOpenAuth.OpenId.Interop.AuthenticationResponseShim.Successful">
       <summary>
@@ -28746,6 +28798,11 @@
             know what versions and features are in use.
             </summary>
     </member>
+    <member name="F:DotNetOpenAuth.Reporting.Utf8NoPreamble">
+      <summary>
+            A UTF8 encoder that doesn't emit the preamble.  Used for mid-stream writers.
+            </summary>
+    </member>
     <member name="F:DotNetOpenAuth.Reporting.enabled">
       <summary>
             A value indicating whether reporting is desirable or not.  Must be logical-AND'd with !<see cref="F:DotNetOpenAuth.Reporting.broken" />.
@@ -29151,6 +29208,11 @@
             The base namespace for this library from which all other namespaces derive.
             </summary>
     </member>
+    <member name="F:DotNetOpenAuth.Util.embeddedResourceRetrieval">
+      <summary>
+            The web.config file-specified provider of web resource URLs.
+            </summary>
+    </member>
     <member name="M:DotNetOpenAuth.Util.EqualsNullSafe``1(``0,``0)">
       <summary>
             Tests for equality between two objects.  Safely handles the case where one or both are null.
@@ -29192,6 +29254,14 @@
       <param name="list">The list of elements.</param>
       <param name="multiLineElements">if set to <c>true</c>, special formatting will be applied to the output to make it clear where one element ends and the next begins.</param>
       <returns>An object whose ToString method will perform the actual work of generating the string.</returns>
+    </member>
+    <member name="M:DotNetOpenAuth.Util.GetWebResourceUrl(System.Type,System.String)">
+      <summary>
+            Gets the web resource URL from a Page or <see cref="T:DotNetOpenAuth.IEmbeddedResourceRetrieval" /> object.
+            </summary>
+      <param name="someTypeInResourceAssembly">Some type in resource assembly.</param>
+      <param name="manifestResourceName">Name of the manifest resource.</param>
+      <returns>An absolute URL</returns>
     </member>
     <member name="P:DotNetOpenAuth.Util.LibraryVersion">
       <summary>
@@ -29727,6 +29797,11 @@
     <member name="P:DotNetOpenAuth.Strings.ConfigurationXamlReferenceRequiresHttpContext">
       <summary>
               Looks up a localized string similar to The configuration XAML reference to {0} requires a current HttpContext to resolve..
+            </summary>
+    </member>
+    <member name="P:DotNetOpenAuth.Strings.EmbeddedResourceUrlProviderRequired">
+      <summary>
+              Looks up a localized string similar to The current IHttpHandler is not one of types: {0}.  An embedded resource URL provider must be set in your .config file..
             </summary>
     </member>
     <member name="P:DotNetOpenAuth.Strings.StoreRequiredWhenNoHttpContextAvailable">
@@ -32659,50 +32734,42 @@
             ASP.NET MVC web sites.
             </summary>
     </member>
-    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.OpenIdSelectorStyles(System.Web.Mvc.HtmlHelper,System.Web.UI.Page)">
+    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.OpenIdSelectorStyles(System.Web.Mvc.HtmlHelper)">
       <summary>
             Emits a series of stylesheet import tags to support the AJAX OpenID Selector.
             </summary>
       <param name="html">The <see cref="T:System.Web.Mvc.HtmlHelper" /> on the view.</param>
-      <param name="page">The page being rendered.</param>
       <returns>HTML that should be sent directly to the browser.</returns>
       <requires exception="T:System.ArgumentNullException">html != null</requires>
       <exception cref="T:System.ArgumentNullException">html == null</exception>
-      <requires exception="T:System.ArgumentNullException">page != null</requires>
-      <exception cref="T:System.ArgumentNullException">page == null</exception>
       <ensures>Contract.Result&lt;string&gt;() != null</ensures>
     </member>
-    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.OpenIdSelectorScripts(System.Web.Mvc.HtmlHelper,System.Web.UI.Page)">
+    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.OpenIdSelectorScripts(System.Web.Mvc.HtmlHelper)">
       <summary>
             Emits a series of script import tags and some inline script to support the AJAX OpenID Selector.
             </summary>
       <param name="html">The <see cref="T:System.Web.Mvc.HtmlHelper" /> on the view.</param>
-      <param name="page">The page being rendered.</param>
       <returns>HTML that should be sent directly to the browser.</returns>
     </member>
-    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.OpenIdSelectorScripts(System.Web.Mvc.HtmlHelper,System.Web.UI.Page,DotNetOpenAuth.OpenId.RelyingParty.OpenIdSelector,DotNetOpenAuth.Mvc.OpenIdAjaxOptions)">
+    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.OpenIdSelectorScripts(System.Web.Mvc.HtmlHelper,DotNetOpenAuth.OpenId.RelyingParty.OpenIdSelector,DotNetOpenAuth.Mvc.OpenIdAjaxOptions)">
       <summary>
             Emits a series of script import tags and some inline script to support the AJAX OpenID Selector.
             </summary>
       <param name="html">The <see cref="T:System.Web.Mvc.HtmlHelper" /> on the view.</param>
-      <param name="page">The page being rendered.</param>
-      <param name="selectorOptions">An optional instance of an <see cref="M:DotNetOpenAuth.Mvc.OpenIdHelper.OpenIdSelector(System.Web.Mvc.HtmlHelper,System.Web.UI.Page,DotNetOpenAuth.OpenId.RelyingParty.SelectorButton[])" /> control, whose properties have been customized to express how this MVC control should be rendered.</param>
+      <param name="selectorOptions">An optional instance of an <see cref="M:DotNetOpenAuth.Mvc.OpenIdHelper.OpenIdSelector(System.Web.Mvc.HtmlHelper,DotNetOpenAuth.OpenId.RelyingParty.SelectorButton[])" /> control, whose properties have been customized to express how this MVC control should be rendered.</param>
       <param name="additionalOptions">An optional set of additional script customizations.</param>
       <returns>
             HTML that should be sent directly to the browser.
             </returns>
       <requires exception="T:System.ArgumentNullException">html != null</requires>
       <exception cref="T:System.ArgumentNullException">html == null</exception>
-      <requires exception="T:System.ArgumentNullException">page != null</requires>
-      <exception cref="T:System.ArgumentNullException">page == null</exception>
       <ensures>Contract.Result&lt;string&gt;() != null</ensures>
     </member>
-    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.OpenIdSelectorOPButton(System.Web.Mvc.HtmlHelper,System.Web.UI.Page,DotNetOpenAuth.OpenId.Identifier,System.String)">
+    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.OpenIdSelectorOPButton(System.Web.Mvc.HtmlHelper,DotNetOpenAuth.OpenId.Identifier,System.String)">
       <summary>
             Emits the HTML to render an OpenID Provider button as a part of the overall OpenID Selector UI.
             </summary>
       <param name="html">The <see cref="T:System.Web.Mvc.HtmlHelper" /> on the view.</param>
-      <param name="page">The page being rendered.</param>
       <param name="providerIdentifier">The OP Identifier.</param>
       <param name="imageUrl">The URL of the image to display on the button.</param>
       <returns>
@@ -32710,47 +32777,39 @@
             </returns>
       <requires exception="T:System.ArgumentNullException">html != null</requires>
       <exception cref="T:System.ArgumentNullException">html == null</exception>
-      <requires exception="T:System.ArgumentNullException">page != null</requires>
-      <exception cref="T:System.ArgumentNullException">page == null</exception>
       <requires exception="T:System.ArgumentNullException">providerIdentifier != null</requires>
       <exception cref="T:System.ArgumentNullException">providerIdentifier == null</exception>
       <requires exception="T:System.ArgumentException">!string.IsNullOrEmpty(imageUrl)</requires>
       <exception cref="T:System.ArgumentException">string.IsNullOrEmpty(imageUrl)</exception>
       <ensures>Contract.Result&lt;string&gt;() != null</ensures>
     </member>
-    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.OpenIdSelectorOpenIdButton(System.Web.Mvc.HtmlHelper,System.Web.UI.Page,System.String)">
+    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.OpenIdSelectorOpenIdButton(System.Web.Mvc.HtmlHelper,System.String)">
       <summary>
             Emits the HTML to render a generic OpenID button as a part of the overall OpenID Selector UI,
             allowing the user to enter their own OpenID.
             </summary>
       <param name="html">The <see cref="T:System.Web.Mvc.HtmlHelper" /> on the view.</param>
-      <param name="page">The page being rendered.</param>
       <param name="imageUrl">The URL of the image to display on the button.</param>
       <returns>
             HTML that should be sent directly to the browser.
             </returns>
       <requires exception="T:System.ArgumentNullException">html != null</requires>
       <exception cref="T:System.ArgumentNullException">html == null</exception>
-      <requires exception="T:System.ArgumentNullException">page != null</requires>
-      <exception cref="T:System.ArgumentNullException">page == null</exception>
       <requires exception="T:System.ArgumentException">!string.IsNullOrEmpty(imageUrl)</requires>
       <exception cref="T:System.ArgumentException">string.IsNullOrEmpty(imageUrl)</exception>
       <ensures>Contract.Result&lt;string&gt;() != null</ensures>
     </member>
-    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.OpenIdSelector(System.Web.Mvc.HtmlHelper,System.Web.UI.Page,DotNetOpenAuth.OpenId.RelyingParty.SelectorButton[])">
+    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.OpenIdSelector(System.Web.Mvc.HtmlHelper,DotNetOpenAuth.OpenId.RelyingParty.SelectorButton[])">
       <summary>
             Emits the HTML to render the entire OpenID Selector UI.
             </summary>
       <param name="html">The <see cref="T:System.Web.Mvc.HtmlHelper" /> on the view.</param>
-      <param name="page">The page being rendered.</param>
       <param name="buttons">The buttons to include on the selector.</param>
       <returns>
             HTML that should be sent directly to the browser.
             </returns>
       <requires exception="T:System.ArgumentNullException">html != null</requires>
       <exception cref="T:System.ArgumentNullException">html == null</exception>
-      <requires exception="T:System.ArgumentNullException">page != null</requires>
-      <exception cref="T:System.ArgumentNullException">page == null</exception>
       <requires exception="T:System.ArgumentNullException">buttons != null</requires>
       <exception cref="T:System.ArgumentNullException">buttons == null</exception>
       <ensures>Contract.Result&lt;string&gt;() != null</ensures>
@@ -32765,12 +32824,11 @@
             HTML that should be sent directly to the browser.
             </returns>
     </member>
-    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.OpenIdSelectorButton(System.Web.Mvc.HtmlHelper,System.Web.UI.Page,System.String,System.String,System.String)">
+    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.OpenIdSelectorButton(System.Web.Mvc.HtmlHelper,System.String,System.String,System.String)">
       <summary>
             Emits the HTML to render a button as a part of the overall OpenID Selector UI.
             </summary>
       <param name="html">The <see cref="T:System.Web.Mvc.HtmlHelper" /> on the view.</param>
-      <param name="page">The page being rendered.</param>
       <param name="id">The value to assign to the HTML id attribute.</param>
       <param name="cssClass">The value to assign to the HTML class attribute.</param>
       <param name="imageUrl">The URL of the image to draw on the button.</param>
@@ -32779,15 +32837,13 @@
             </returns>
       <requires exception="T:System.ArgumentNullException">html != null</requires>
       <exception cref="T:System.ArgumentNullException">html == null</exception>
-      <requires exception="T:System.ArgumentNullException">page != null</requires>
-      <exception cref="T:System.ArgumentNullException">page == null</exception>
       <requires exception="T:System.ArgumentNullException">id != null</requires>
       <exception cref="T:System.ArgumentNullException">id == null</exception>
       <requires exception="T:System.ArgumentException">!string.IsNullOrEmpty(imageUrl)</requires>
       <exception cref="T:System.ArgumentException">string.IsNullOrEmpty(imageUrl)</exception>
       <ensures>Contract.Result&lt;string&gt;() != null</ensures>
     </member>
-    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.WriteScriptTags(System.IO.TextWriter,System.Collections.Generic.IEnumerable{System.String})">
+    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.WriteScriptTagsUrls(System.IO.TextWriter,System.Collections.Generic.IEnumerable{System.String})">
       <summary>
             Emits &lt;script&gt; tags that import a given set of scripts given their URLs.
             </summary>
@@ -32798,31 +32854,25 @@
       <requires exception="T:System.ArgumentNullException">scriptUrls != null</requires>
       <exception cref="T:System.ArgumentNullException">scriptUrls == null</exception>
     </member>
-    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.WriteScriptTags(System.IO.TextWriter,System.Web.UI.Page,System.String)">
+    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.WriteScriptTags(System.IO.TextWriter,System.String)">
       <summary>
             Writes out script tags that import a script from resources embedded in this assembly.
             </summary>
       <param name="writer">The writer to emit the tags to.</param>
-      <param name="page">The page being rendered.</param>
       <param name="resourceName">Name of the resource.</param>
       <requires exception="T:System.ArgumentNullException">writer != null</requires>
       <exception cref="T:System.ArgumentNullException">writer == null</exception>
-      <requires exception="T:System.ArgumentNullException">page != null</requires>
-      <exception cref="T:System.ArgumentNullException">page == null</exception>
       <requires exception="T:System.ArgumentException">!string.IsNullOrEmpty(resourceName)</requires>
       <exception cref="T:System.ArgumentException">string.IsNullOrEmpty(resourceName)</exception>
     </member>
-    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.WriteScriptTags(System.IO.TextWriter,System.Web.UI.Page,System.Collections.Generic.IEnumerable{System.String})">
+    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.WriteScriptTags(System.IO.TextWriter,System.Collections.Generic.IEnumerable{System.String})">
       <summary>
             Writes out script tags that import scripts from resources embedded in this assembly.
             </summary>
       <param name="writer">The writer to emit the tags to.</param>
-      <param name="page">The page being rendered.</param>
       <param name="resourceNames">The resource names.</param>
       <requires exception="T:System.ArgumentNullException">writer != null</requires>
       <exception cref="T:System.ArgumentNullException">writer == null</exception>
-      <requires exception="T:System.ArgumentNullException">page != null</requires>
-      <exception cref="T:System.ArgumentNullException">page == null</exception>
       <requires exception="T:System.ArgumentNullException">resourceNames != null</requires>
       <exception cref="T:System.ArgumentNullException">resourceNames == null</exception>
     </member>
@@ -32837,21 +32887,18 @@
       <requires exception="T:System.ArgumentException">!string.IsNullOrEmpty(script)</requires>
       <exception cref="T:System.ArgumentException">string.IsNullOrEmpty(script)</exception>
     </member>
-    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.WriteStylesheetLink(System.IO.TextWriter,System.Web.UI.Page,System.String)">
+    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.WriteStylesheetLink(System.IO.TextWriter,System.String)">
       <summary>
             Writes a given CSS link.
             </summary>
       <param name="writer">The writer to emit the tags to.</param>
-      <param name="page">The page being rendered.</param>
       <param name="resourceName">Name of the resource containing the CSS content.</param>
       <requires exception="T:System.ArgumentNullException">writer != null</requires>
       <exception cref="T:System.ArgumentNullException">writer == null</exception>
-      <requires exception="T:System.ArgumentNullException">page != null</requires>
-      <exception cref="T:System.ArgumentNullException">page == null</exception>
       <requires exception="T:System.ArgumentException">!string.IsNullOrEmpty(resourceName)</requires>
       <exception cref="T:System.ArgumentException">string.IsNullOrEmpty(resourceName)</exception>
     </member>
-    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.WriteStylesheetLink(System.IO.TextWriter,System.String)">
+    <member name="M:DotNetOpenAuth.Mvc.OpenIdHelper.WriteStylesheetLinkUrl(System.IO.TextWriter,System.String)">
       <summary>
             Writes a given CSS link.
             </summary>
@@ -34606,29 +34653,29 @@
     <member name="M:DotNetOpenAuth.Messaging.EnumerableCacheExtensions.EnumerableCache`1.EnumeratorCache.System#Collections#IEnumerator#get_Current">
       <ensures inheritedFrom="M:System.Collections.IEnumerator.get_Current" inheritedFromTypeName="IEnumerator">Contract.Result&lt;object&gt;() == this.Model[this.CurrentIndex]</ensures>
     </member>
-    <member name="M:DotNetOpenAuth.OAuth.Messages.MessageBase.DotNetOpenAuth#Messaging#IMessage#get_ExtraData">
-      <ensures inheritedFrom="M:DotNetOpenAuth.Messaging.IMessage.get_ExtraData" inheritedFromTypeName="IMessage">Contract.Result&lt;IDictionary&lt;string, string&gt;&gt;() != null</ensures>
-    </member>
     <member name="M:DotNetOpenAuth.OAuth.Messages.MessageBase.DotNetOpenAuth#Messaging#IMessage#get_Version">
       <ensures inheritedFrom="M:DotNetOpenAuth.Messaging.IMessage.get_Version" inheritedFromTypeName="IMessage">Contract.Result&lt;Version&gt;() != null</ensures>
     </member>
-    <member name="M:DotNetOpenAuth.OpenId.Extensions.ExtensionBase.DotNetOpenAuth#OpenId#Messages#IOpenIdMessageExtension#get_AdditionalSupportedTypeUris">
-      <ensures inheritedFrom="M:DotNetOpenAuth.OpenId.Messages.IOpenIdMessageExtension.get_AdditionalSupportedTypeUris" inheritedFromTypeName="IOpenIdMessageExtension">Contract.Result&lt;IEnumerable&lt;string&gt;&gt;() != null</ensures>
-    </member>
-    <member name="M:DotNetOpenAuth.OpenId.Extensions.ExtensionBase.DotNetOpenAuth#OpenId#Messages#IOpenIdMessageExtension#get_TypeUri">
-      <ensures inheritedFrom="M:DotNetOpenAuth.OpenId.Messages.IOpenIdMessageExtension.get_TypeUri" inheritedFromTypeName="IOpenIdMessageExtension">!String.IsNullOrEmpty(Contract.Result&lt;string&gt;())</ensures>
-    </member>
-    <member name="M:DotNetOpenAuth.OpenId.Extensions.ExtensionBase.DotNetOpenAuth#Messaging#IMessage#get_ExtraData">
+    <member name="M:DotNetOpenAuth.OAuth.Messages.MessageBase.DotNetOpenAuth#Messaging#IMessage#get_ExtraData">
       <ensures inheritedFrom="M:DotNetOpenAuth.Messaging.IMessage.get_ExtraData" inheritedFromTypeName="IMessage">Contract.Result&lt;IDictionary&lt;string, string&gt;&gt;() != null</ensures>
-    </member>
-    <member name="M:DotNetOpenAuth.OpenId.IdentifierDiscoveryResult.DotNetOpenAuth#OpenId#RelyingParty#IProviderEndpoint#get_Uri">
-      <ensures inheritedFrom="M:DotNetOpenAuth.OpenId.RelyingParty.IProviderEndpoint.get_Uri" inheritedFromTypeName="IProviderEndpoint">Contract.Result&lt;Uri&gt;() != null</ensures>
     </member>
     <member name="M:DotNetOpenAuth.OpenId.Protocol.ToString">
       <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object">Contract.Result&lt;string&gt;() != null</ensures>
     </member>
     <member name="T:DotNetOpenAuth.OpenId.Protocol.QueryParameters">
       <invariant>!string.IsNullOrEmpty(this.Prefix)</invariant>
+    </member>
+    <member name="M:DotNetOpenAuth.OpenId.Extensions.ExtensionBase.DotNetOpenAuth#OpenId#Messages#IOpenIdMessageExtension#get_TypeUri">
+      <ensures inheritedFrom="M:DotNetOpenAuth.OpenId.Messages.IOpenIdMessageExtension.get_TypeUri" inheritedFromTypeName="IOpenIdMessageExtension">!String.IsNullOrEmpty(Contract.Result&lt;string&gt;())</ensures>
+    </member>
+    <member name="M:DotNetOpenAuth.OpenId.Extensions.ExtensionBase.DotNetOpenAuth#OpenId#Messages#IOpenIdMessageExtension#get_AdditionalSupportedTypeUris">
+      <ensures inheritedFrom="M:DotNetOpenAuth.OpenId.Messages.IOpenIdMessageExtension.get_AdditionalSupportedTypeUris" inheritedFromTypeName="IOpenIdMessageExtension">Contract.Result&lt;IEnumerable&lt;string&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:DotNetOpenAuth.OpenId.Extensions.ExtensionBase.DotNetOpenAuth#Messaging#IMessage#get_ExtraData">
+      <ensures inheritedFrom="M:DotNetOpenAuth.Messaging.IMessage.get_ExtraData" inheritedFromTypeName="IMessage">Contract.Result&lt;IDictionary&lt;string, string&gt;&gt;() != null</ensures>
+    </member>
+    <member name="M:DotNetOpenAuth.OpenId.IdentifierDiscoveryResult.DotNetOpenAuth#OpenId#RelyingParty#IProviderEndpoint#get_Uri">
+      <ensures inheritedFrom="M:DotNetOpenAuth.OpenId.RelyingParty.IProviderEndpoint.get_Uri" inheritedFromTypeName="IProviderEndpoint">Contract.Result&lt;Uri&gt;() != null</ensures>
     </member>
     <member name="M:Mono.Math.BigInteger.ToString">
       <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object">Contract.Result&lt;string&gt;() != null</ensures>
