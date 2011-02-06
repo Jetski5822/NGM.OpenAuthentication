@@ -11,17 +11,14 @@ namespace NGM.OpenAuthentication.Services {
     public class OpenAuthenticationService : IOpenAuthenticationService {
         private readonly IContentManager _contentManager;
         private readonly IRepository<OpenAuthenticationPartRecord> _openAuthenticationPartRecordRespository;
-        private readonly IMembershipService _membershipService;
         private readonly IOrchardServices _orchardServices;
 
         public OpenAuthenticationService(IContentManager contentManager, 
             IRepository<OpenAuthenticationPartRecord> openAuthenticationPartRecordRespository,
-            IMembershipService membershipService,
             IOrchardServices orchardServices) {
 
             _contentManager = contentManager;
             _openAuthenticationPartRecordRespository = openAuthenticationPartRecordRespository;
-            _membershipService = membershipService;
             _orchardServices = orchardServices;
         }
 
