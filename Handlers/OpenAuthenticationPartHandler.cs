@@ -4,7 +4,7 @@ using NGM.OpenAuthentication.Services;
 using Orchard;
 using Orchard.ContentManagement.Handlers;
 using Orchard.Data;
-using Orchard.Users.Models;
+using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Handlers {
     [UsedImplicitly]
@@ -19,7 +19,7 @@ namespace NGM.OpenAuthentication.Handlers {
             _openAuthenticationService = openAuthenticationService;
             Filters.Add(StorageFilter.For(openAuthenticationPartRepository));
 
-            OnCreated<UserPart>((context, user) => {
+            OnCreated<IUser>((context, user) => {
                 var cliamedIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["claimedidentifier"];
                 var friendlyIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["friendlyidentifier"];
 

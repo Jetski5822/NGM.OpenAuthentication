@@ -19,17 +19,20 @@ namespace NGM.OpenAuthentication.Controllers
         private readonly IAuthenticationService _authenticationService;
         private readonly IOpenAuthenticationService _openAuthenticationService;
         private readonly IOrchardServices _orchardServices;
+        private readonly IMembershipService _membershipService;
 
         public AccountController(
             IOpenIdRelyingPartyService openIdRelyingPartyService, 
             IAuthenticationService authenticationService,
             IOpenAuthenticationService openAuthenticationService,
-            IOrchardServices orchardServices)
+            IOrchardServices orchardServices,
+            IMembershipService membershipService)
         {
             _openIdRelyingPartyService = openIdRelyingPartyService;
             _authenticationService = authenticationService;
             _openAuthenticationService = openAuthenticationService;
             _orchardServices = orchardServices;
+            _membershipService = membershipService;
             T = NullLocalizer.Instance;
         }
 
@@ -63,7 +66,7 @@ namespace NGM.OpenAuthentication.Controllers
                                 break;
                             }
                             else {
-                                var registerModelBuilder = new RegisterModelBuilder(_openIdRelyingPartyService.Response);
+                                var registerModelBuilder = new RegisterModelBuilder(_openIdRelyingPartyService.Response, _membershipService);
                                 var model = registerModelBuilder.Build();
 
                                 TempData["registermodel"] = model;
