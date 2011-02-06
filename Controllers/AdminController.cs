@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
@@ -8,6 +9,7 @@ using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
 using Orchard;
+using Orchard.Core.Contents.Controllers;
 using Orchard.Localization;
 using Orchard.Mvc.Extensions;
 using Orchard.Security;
@@ -42,12 +44,32 @@ namespace NGM.OpenAuthentication.Controllers {
                     .ToList()
                     .Select(account => CreateAccountEntry(account.Record));
 
-            var viewModel = new AdminIndexViewModel {
+            var viewModel = new OpenIdIndexViewModel {
                 Accounts = entries.ToList(),
-                UserId = user.Id
+                Options = new OpenIdIndexOptions()
             };
 
             return View("Index", viewModel);
+        }
+
+        [HttpPost]
+        [FormValueRequired("submit.BulkEdit")]
+        public ActionResult Index(FormCollection input) {
+            var viewModel = new OpenIdIndexViewModel { Accounts = new List<AccountEntry>() };
+            UpdateModel(viewModel, input);
+
+            var checkedEntries = viewModel.Accounts.Where(c => c.IsChecked);
+            switch (viewModel.Options.BulkAction) {
+                case OpenIdBulkAction.None:
+                    break;
+                case OpenIdBulkAction.Delete:
+                    foreach (var entry in checkedEntries) {
+                        _openAuthenticationService.RemoveOpenIdAssociation(entry.Account.ClaimedIdentifier);
+                    }
+                    break;
+            }
+
+            return RedirectToAction("Index", "Admin");
         }
 
         public ActionResult Create(string returnUrl) {

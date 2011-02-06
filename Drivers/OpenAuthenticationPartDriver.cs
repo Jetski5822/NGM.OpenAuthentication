@@ -50,9 +50,8 @@ namespace NGM.OpenAuthentication.Drivers {
 
                     if (entries.ToList().Count.Equals(0)) return null;
 
-                    var viewModel = new AdminIndexViewModel {
-                        Accounts = entries.ToList(),
-                        UserId = user.Id
+                    var viewModel = new OpenIdIndexViewModel {
+                        Accounts = entries.ToList()
                     };
 
                     return shapeHelper.EditorTemplate(TemplateName: TemplateName, Model: viewModel, Prefix: Prefix);
