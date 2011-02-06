@@ -53,6 +53,7 @@
     <Compile Include="Core\OpenId\Claims.cs" />
     <Compile Include="Core\OpenId\RegisterModelBuilder.cs" />
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
+    <Compile Include="Filters\LogOnFilter.cs" />
     <Compile Include="Filters\RegistrationFilter.cs" />
     <Compile Include="Handlers\OpenAuthenticationSettingsPartHandler.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPart.cs" />
