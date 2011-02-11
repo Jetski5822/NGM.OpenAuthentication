@@ -8,10 +8,10 @@ namespace NGM.OpenAuthentication {
 
         public void Created(ShapeCreatedContext context) {
             if (context.ShapeType == "LogOn") {
-                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_LogOn");
+                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_OpenID_LogOn");
             }
             if (context.ShapeType == "Register") {
-                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_Register");
+                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_OpenID_Register");
             }
         }
     }

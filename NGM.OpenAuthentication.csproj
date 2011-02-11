@@ -206,14 +206,14 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
     <Content Include="Views\EditorTemplates\Parts\OpenAuthentication.OpenIDSettings.cshtml" />
-    <Content Include="Views\Wrappers.Account.Register.cshtml" />
+    <Content Include="Views\Wrappers.Account.OpenID.Register.cshtml" />
     <Content Include="Content\openid-selector\Web.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Scripts\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Views\Wrappers.Account.LogOn.cshtml" />
+    <None Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
