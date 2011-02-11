@@ -32,7 +32,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
             var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
             mockRelyingService.Setup(ctx => ctx.HasResponse).Returns(false);
 
-            var accountController = new AccountController(mockRelyingService.Object, null, null, null, null);
+            var accountController = new OpenIdAccountController(mockRelyingService.Object, null, null, null, null);
             accountController.ControllerContext = MockControllerContext(accountController);
             var redirectResult = (RedirectToRouteResult)accountController.LogOn(string.Empty);
             Assert.That(redirectResult.RouteValues["Action"], Is.EqualTo("LogOn"));
@@ -50,7 +50,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
 
             mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
 
-            var accountController = new AccountController(mockRelyingService.Object, null, null, null, null);
+            var accountController = new OpenIdAccountController(mockRelyingService.Object, null, null, null, null);
             var redirectResult = (RedirectToRouteResult)accountController.LogOn(string.Empty);
 
             Assert.That(accountController.TempData.ContainsKey("error-InvalidProvider"), Is.True);
@@ -71,7 +71,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
 
             mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
 
-            var accountController = new AccountController(mockRelyingService.Object, null, null, null, null);
+            var accountController = new OpenIdAccountController(mockRelyingService.Object, null, null, null, null);
             var redirectResult = (RedirectToRouteResult)accountController.LogOn(string.Empty);
 
             Assert.That(accountController.TempData.ContainsKey("error-UnknownError"), Is.True);
@@ -108,7 +108,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
             var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
             mockOpenAuthenticationService.Setup(ctx => ctx.AssociateOpenIdWithUser(mockUser.Object, identifier.ToString(), friendlyIdentifier.ToString()));
 
-            var accountController = new AccountController(mockRelyingService.Object, mockAuthenticationService.Object, mockOpenAuthenticationService.Object, null, null);
+            var accountController = new OpenIdAccountController(mockRelyingService.Object, mockAuthenticationService.Object, mockOpenAuthenticationService.Object, null, null);
             var actionResult = accountController.LogOn(string.Empty);
 
             mockAuthenticationResponse.VerifyAll();
@@ -140,7 +140,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
 
             var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
 
-            var accountController = new AccountController(mockRelyingService.Object, mockAuthenticationService.Object, mockOpenAuthenticationService.Object, mockOrchardServices.Object, null);
+            var accountController = new OpenIdAccountController(mockRelyingService.Object, mockAuthenticationService.Object, mockOpenAuthenticationService.Object, mockOrchardServices.Object, null);
             var redirectToRouteResult = (RedirectToRouteResult)accountController.LogOn(string.Empty);
 
             Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("Orchard.Users"));
@@ -160,7 +160,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
 
         //[Test]
         //public void should_redirect_to_logon_view_if_no_viewmodel_present_on_register_page() {
-        //    var accountController = new AccountController(null, null, null, null);
+        //    var accountController = new OpenIdAccountController(null, null, null, null);
         //    var redirectToRouteResult = (RedirectToRouteResult)accountController.Register(null);
 
         //    Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("Orchard.Users"));
@@ -170,7 +170,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
 
         //[Test]
         //public void should_redirect_to_logon_view_if_viewmodel_has_null_model_present_on_register_page() {
-        //    var accountController = new AccountController(null, null, null, null);
+        //    var accountController = new OpenIdAccountController(null, null, null, null);
 
         //    var viewModel = new RegisterViewModel();
         //    var redirectToRouteResult = (RedirectToRouteResult)accountController.Register(viewModel);
@@ -182,7 +182,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
 
         //[Test]
         //public void should_use_passedin_model_from_logon_if_avalible() {
-        //    var accountController = new AccountController(null, null, null, null);
+        //    var accountController = new OpenIdAccountController(null, null, null, null);
         //    var model = new RegisterModel { ClaimedIdentifier = "Test" };
         //    accountController.TempData.Add("RegisterModel", model);
 
@@ -195,7 +195,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
 
         //[Test]
         //public void should_not_recreate_registration_view_model_if_view_model_exists() {
-        //    var accountController = new AccountController(null, null, null, null);
+        //    var accountController = new OpenIdAccountController(null, null, null, null);
         //    var viewModel = new RegisterViewModel { Model = new RegisterModel { ClaimedIdentifier = "test" } };
         //    var viewResult = (ViewResult)accountController.Register(viewModel);
 
@@ -221,7 +221,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
         //    var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
         //    mockOpenAuthenticationService.Setup(o => o.GetIdentifiersFor(mockUser.Object)).Returns(mockContentQuery.Object);
 
-        //    var accountController = new AccountController(null, mockAuthenticationService.Object, mockOpenAuthenticationService.Object, null);
+        //    var accountController = new OpenIdAccountController(null, mockAuthenticationService.Object, mockOpenAuthenticationService.Object, null);
         //    var viewResult = (ViewResult)accountController.VerifiedAccounts();
 
         //    var viewModel = viewResult.ViewData.Model as VerifiedAccountsViewModel;
@@ -238,7 +238,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
         //    var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
         //    mockOpenAuthenticationService.Setup(o => o.RemoveIdentifier(mockUser.Object)).Returns(new[] { "foo", "bar" });
 
-        //    var accountController = new AccountController(null, mockAuthenticationService.Object, mockOpenAuthenticationService.Object);
+        //    var accountController = new OpenIdAccountController(null, mockAuthenticationService.Object, mockOpenAuthenticationService.Object);
         //    var viewResult = (ViewResult)accountController.VerifiedAccounts();
 
         //    var viewModel = viewResult.ViewData.Model as VerifiedAccountsViewModel;
@@ -257,7 +257,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
         //    var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
         //    mockOpenAuthenticationService.Setup(o => o.RemoveOpenIdAssociation(testUrl1));
 
-        //    var accountController = new AccountController(null, null, mockOpenAuthenticationService.Object, null);
+        //    var accountController = new OpenIdAccountController(null, null, mockOpenAuthenticationService.Object, null);
         //    accountController.ControllerContext = MockControllerContext(accountController);
 
         //    var nameValueCollection = new NameValueCollection();

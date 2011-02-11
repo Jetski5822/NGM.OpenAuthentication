@@ -14,14 +14,14 @@ using Orchard.Users.Models;
 namespace NGM.OpenAuthentication.Controllers
 {
     [Themed]
-    public class AccountController : Controller {
+    public class OpenIdAccountController : Controller {
         private readonly IOpenIdRelyingPartyService _openIdRelyingPartyService;
         private readonly IAuthenticationService _authenticationService;
         private readonly IOpenAuthenticationService _openAuthenticationService;
         private readonly IOrchardServices _orchardServices;
         private readonly IMembershipService _membershipService;
 
-        public AccountController(
+        public OpenIdAccountController(
             IOpenIdRelyingPartyService openIdRelyingPartyService, 
             IAuthenticationService authenticationService,
             IOpenAuthenticationService openAuthenticationService,

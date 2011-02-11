@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\OpenIdAccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Core\OpenId\Claims.cs" />
     <Compile Include="Core\OpenId\RegisterModelBuilder.cs" />
@@ -213,6 +213,7 @@
     <Content Include="Scripts\Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Wrappers.Account.CardSpace.LogOn.cshtml" />
     <None Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>

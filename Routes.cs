@@ -18,7 +18,7 @@ namespace NGM.OpenAuthentication {
                                                          "OpenId/LogOn",
                                                          new RouteValueDictionary {
                                                                                       {"area", "NGM.OpenAuthentication"},
-                                                                                      {"controller", "Account"},
+                                                                                      {"controller", "OpenIdAccount"},
                                                                                       {"action", "LogOn"}
                                                                                   },
                                                          new RouteValueDictionary(),
