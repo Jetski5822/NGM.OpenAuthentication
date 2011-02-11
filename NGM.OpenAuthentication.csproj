@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
+    <Compile Include="Controllers\CardSpaceAccountController.cs" />
     <Compile Include="Controllers\OpenIdAccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Core\OpenId\Claims.cs" />

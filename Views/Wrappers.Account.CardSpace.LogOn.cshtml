@@ -14,6 +14,6 @@
 </div>
 }
 
-@using (Html.BeginForm("LogOn", "Account", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post, new { id = "cardspace_form" })) {
+@using (Html.BeginForm("LogOn", "CardSpaceAccountController", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post, new { id = "cardspace_form" })) {
 <p>Card Space stuff here.</p>
 }
