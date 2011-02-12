@@ -26,6 +26,20 @@ namespace NGM.OpenAuthentication {
                                                                                       {"area", "NGM.OpenAuthentication"}
                                                                                   },
                                                          new MvcRouteHandler())
+                                                 },
+                             new RouteDescriptor {
+                                                     Route = new Route(
+                                                         "CardSpace/LogOn",
+                                                         new RouteValueDictionary {
+                                                                                      {"area", "NGM.OpenAuthentication"},
+                                                                                      {"controller", "CardSpaceAccount"},
+                                                                                      {"action", "LogOn"}
+                                                                                  },
+                                                         new RouteValueDictionary(),
+                                                         new RouteValueDictionary {
+                                                                                      {"area", "NGM.OpenAuthentication"}
+                                                                                  },
+                                                         new MvcRouteHandler())
                                                  }
                          };
         }
