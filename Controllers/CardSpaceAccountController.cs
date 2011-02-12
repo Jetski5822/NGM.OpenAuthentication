@@ -13,7 +13,11 @@ namespace NGM.OpenAuthentication.Controllers {
         public Localizer T { get; set; }
 
         public ActionResult LogOn(string returnUrl) {
-            return View();
+            return DefaultLogOnResult();
+        }
+
+        private ActionResult DefaultLogOnResult() {
+            return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users" });
         }
     }
 }
