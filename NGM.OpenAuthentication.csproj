@@ -51,6 +51,7 @@
     <Compile Include="Controllers\CardSpaceAccountController.cs" />
     <Compile Include="Controllers\OpenIdAccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Core\CardSpace\NameSpaceConstants.cs" />
     <Compile Include="Core\OpenId\Claims.cs" />
     <Compile Include="Core\OpenId\RegisterModelBuilder.cs" />
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
@@ -79,6 +80,7 @@
   <ItemGroup>
     <Content Include="Content\Account\Images\openid-icon.png" />
     <Content Include="Content\Account\Images\openid-large.png" />
+    <Content Include="Content\cardspace\images\Infocard.png" />
     <Content Include="Styles\openid.css" />
     <Content Include="Content\openid-selector\images.large\aol.gif" />
     <Content Include="Content\openid-selector\images.large\facebook.gif" />
@@ -215,6 +217,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Wrappers.Account.CardSpace.LogOn.cshtml" />
+    <Content Include="Content\cardspace\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>

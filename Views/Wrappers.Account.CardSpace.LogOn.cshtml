@@ -16,4 +16,23 @@
 
 @using (Html.BeginForm("LogOn", "CardSpaceAccountController", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post, new { id = "cardspace_form" })) {
 <p>Card Space stuff here.</p>
+    <button name="CancelButton" id="CancelButton">
+              @Html.Image("../../Modules/NGM.OpenAuthentication/Content/cardspace/images/Infocard.png", "no image", null)
+          
+              <object type="application/x-informationcard" name="xmlToken">
+                <param name="tokenType" value="urn:oasis:names:tc:SAML:1.0:assertion" />
+                <param name="issuer" 
+                       value="http://schemas.xmlsoap.org/ws/2005/05/identity/issuer/self" />
+                <param name="requiredClaims" 
+                     value="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname
+                            http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname
+                            http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress
+                            http://schemas.xmlsoap.org/ws/2005/05/identity/claims/streetaddress
+                            http://schemas.xmlsoap.org/ws/2005/05/identity/claims/locality
+                            http://schemas.xmlsoap.org/ws/2005/05/identity/claims/stateorprovince
+                            http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country
+                            http://schemas.xmlsoap.org/ws/2005/05/identity/claims/postalcode
+                            http://schemas.xmlsoap.org/ws/2005/05/identity/claims/privatepersonalidentifier" />
+          </object>
+          </button>
 }
