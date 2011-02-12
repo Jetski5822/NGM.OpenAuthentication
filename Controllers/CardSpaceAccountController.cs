@@ -16,8 +16,8 @@ namespace NGM.OpenAuthentication.Controllers {
             return DefaultLogOnResult();
         }
 
-        private ActionResult DefaultLogOnResult() {
-            return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users" });
+        private ActionResult DefaultLogOnResult(string returnUrl) {
+            return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users", ReturnUrl = returnUrl });
         }
     }
 }
