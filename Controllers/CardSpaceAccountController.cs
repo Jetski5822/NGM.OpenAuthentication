@@ -13,7 +13,7 @@ namespace NGM.OpenAuthentication.Controllers {
         public Localizer T { get; set; }
 
         public ActionResult LogOn(string returnUrl) {
-            return DefaultLogOnResult();
+            return DefaultLogOnResult(returnUrl);
         }
 
         private ActionResult DefaultLogOnResult(string returnUrl) {
