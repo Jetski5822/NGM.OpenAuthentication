@@ -16,8 +16,8 @@
 
 @using (Html.BeginForm("LogOn", "CardSpaceAccountController", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post, new { id = "cardspace_form" })) {
 <p>Card Space stuff here.</p>
-    <button name="CancelButton" id="CancelButton">
-              @Html.Image("../../Modules/NGM.OpenAuthentication/Content/cardspace/images/Infocard.png", "no image", null)
+    <button class="primaryAction" type="submit">
+              @Html.Image("../../Modules/NGM.OpenAuthentication/Content/cardspace/images/Infocard.png", "Sign In", null)
           
               <object type="application/x-informationcard" name="xmlToken">
                 <param name="tokenType" value="urn:oasis:names:tc:SAML:1.0:assertion" />
