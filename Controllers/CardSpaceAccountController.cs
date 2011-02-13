@@ -1,4 +1,12 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Diagnostics.Contracts;
+using System.Globalization;
+using System.Reflection;
+using System.Resources;
+using System.Web.Handlers;
+using System.Web.Mvc;
+using System.Web.UI;
+using DotNetOpenAuth.InfoCard;
 using Orchard.Localization;
 using Orchard.Themes;
 

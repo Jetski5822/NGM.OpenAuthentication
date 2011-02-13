@@ -1,6 +1,7 @@
 ﻿@using Orchard;
 @using Orchard.ContentManagement;
 @using Orchard.Users.Models;
+@using NGM.OpenAuthentication.Core.CardSpace;
 
 @Display(Model.Metadata.ChildContent)
 
@@ -20,8 +21,8 @@
     <ol>
         <li>
             <button class="primaryAction" type="submit">
-                  @Html.Image("../../Modules/NGM.OpenAuthentication/Content/cardspace/images/Infocard.png", "Sign In", null)
-          
+                  @Html.Image(InfoCardImageHelpers.GetImageManifestResourceStreamUrl(InfoCardImageSize.Size114x80), "Sign In", null)
+
                   <object type="application/x-informationcard" name="xmlToken">
                     <param name="tokenType" value="urn:oasis:names:tc:SAML:1.0:assertion" />
                     <param name="issuer" 

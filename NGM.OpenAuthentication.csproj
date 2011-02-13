@@ -51,6 +51,7 @@
     <Compile Include="Controllers\CardSpaceAccountController.cs" />
     <Compile Include="Controllers\OpenIdAccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Core\CardSpace\InfoCardImageHelpers.cs" />
     <Compile Include="Core\CardSpace\NameSpaceConstants.cs" />
     <Compile Include="Core\OpenId\Claims.cs" />
     <Compile Include="Core\OpenId\RegisterModelBuilder.cs" />
@@ -81,6 +82,19 @@
     <Content Include="Content\Account\Images\openid-icon.png" />
     <Content Include="Content\Account\Images\openid-large.png" />
     <Content Include="Content\cardspace\images\Infocard.png" />
+    <Content Include="Content\cardspace\images\infocard_114x80.png" />
+    <Content Include="Content\cardspace\images\infocard_14x10.png" />
+    <Content Include="Content\cardspace\images\infocard_214x150.png" />
+    <Content Include="Content\cardspace\images\infocard_23x16.png" />
+    <Content Include="Content\cardspace\images\infocard_300x210.png" />
+    <Content Include="Content\cardspace\images\infocard_34x24.png" />
+    <Content Include="Content\cardspace\images\infocard_365x256.png" />
+    <Content Include="Content\cardspace\images\infocard_41x29.png" />
+    <Content Include="Content\cardspace\images\infocard_50x35.png" />
+    <Content Include="Content\cardspace\images\infocard_60x42.png" />
+    <Content Include="Content\cardspace\images\infocard_71x50.png" />
+    <Content Include="Content\cardspace\images\infocard_81x57.png" />
+    <Content Include="Content\cardspace\images\infocard_92x64.png" />
     <Content Include="Styles\openid.css" />
     <Content Include="Content\openid-selector\images.large\aol.gif" />
     <Content Include="Content\openid-selector\images.large\facebook.gif" />
