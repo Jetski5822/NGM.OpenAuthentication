@@ -14,6 +14,8 @@ namespace NGM.OpenAuthentication {
 
             SchemaBuilder.CreateTable("OpenAuthenticationSettingsPartRecord", table => table
                 .ContentPartRecord()
+                .Column<bool>("OpenIdEnabled")
+                .Column<bool>("CardSpaceEnabled")
                 .Column<bool>("Birthdate")
                 .Column<bool>("Country")
                 .Column<bool>("Email")

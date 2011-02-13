@@ -2,7 +2,18 @@
 @using NGM.OpenAuthentication.Models;
 
 <fieldset>
-    <legend>@T("Open ID")</legend>
+    <legend>@T("Authentication Types")</legend>
+    <div>
+        @Html.EditorFor(m => m.OpenIdEnabled)         
+        <label class="forcheckbox" for="OpenIdEnabled">@T("Enable OpenId")</label>
+    </div>
+    <div>
+        @Html.EditorFor(m => m.CardSpaceEnabled)         
+        <label class="forcheckbox" for="CardSpaceEnabled">@T("Enable CardSpace")</label>
+    </div>
+</fieldset>
+<fieldset>
+    <legend>@T("Claim Settings")</legend>
     <div>
         @Html.EditorFor(m => m.Birthdate)         
         <label class="forcheckbox" for="Birthdate">@T("Birthdate")</label>

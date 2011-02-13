@@ -81,7 +81,6 @@
   <ItemGroup>
     <Content Include="Content\Account\Images\openid-icon.png" />
     <Content Include="Content\Account\Images\openid-large.png" />
-    <Content Include="Content\cardspace\images\Infocard.png" />
     <Content Include="Content\cardspace\images\infocard_114x80.png" />
     <Content Include="Content\cardspace\images\infocard_14x10.png" />
     <Content Include="Content\cardspace\images\infocard_214x150.png" />
@@ -222,7 +221,7 @@
     <Content Include="Views\EditorTemplates\Parts\Accounts.UserOpenAuthentication.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
-    <Content Include="Views\EditorTemplates\Parts\OpenAuthentication.OpenIDSettings.cshtml" />
+    <Content Include="Views\EditorTemplates\Parts\OpenAuthentication.Settings.cshtml" />
     <Content Include="Views\Wrappers.Account.OpenID.Register.cshtml" />
     <Content Include="Content\openid-selector\Web.config">
       <SubType>Designer</SubType>
