@@ -164,17 +164,5 @@ namespace NGM.OpenAuthentication.Controllers {
         private void AddError(string value) {
             _orchardServices.Notifier.Error(T(value));
         }
-
-        //[HttpPost, ActionName("VerifiedAccounts")]
-        //public ActionResult _VerifiedAccounts(FormCollection input) {
-        //    var viewModel = new VerifiedAccountsViewModel {Accounts = new List<AccountEntry>()};
-        //    UpdateModel(viewModel, input.ToValueProvider());
-
-        //    foreach (var accountEntry in viewModel.Accounts.Where(c => c.IsChecked)) {
-        //        _openAuthenticationService.RemoveOpenIdAssociation(accountEntry.Account.ClaimedIdentifier);
-        //    }
-
-        //    return RedirectToRoute("VerifiedAccounts");
-        //}
     }
 }
