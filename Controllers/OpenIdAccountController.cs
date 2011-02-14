@@ -98,7 +98,7 @@ namespace NGM.OpenAuthentication.Controllers
                 }
             }
 
-            return DefaultLogOnResult();
+            return DefaultLogOnResult(returnUrl);
         }
 
         [HttpPost, ActionName("LogOn")]
@@ -113,7 +113,7 @@ namespace NGM.OpenAuthentication.Controllers
             var identifier = new OpenIdIdentifier(viewModel.OpenIdIdentifier);
             if (!identifier.IsValid) {
                 AddError("OpenIdIdentifier", "Invalid Open ID identifier");
-                return DefaultLogOnResult();
+                return DefaultLogOnResult(viewModel.ReturnUrl);
             }
 
             try {
@@ -127,7 +127,7 @@ namespace NGM.OpenAuthentication.Controllers
             catch (ProtocolException ex) {
                 AddError("ProtocolException", string.Format("Unable to authenticate: {0}", ex.Message));
             }
-            return DefaultLogOnResult();
+            return DefaultLogOnResult(viewModel.ReturnUrl);
         }
 
         private void AddError(string key, string value) {
@@ -141,8 +141,8 @@ namespace NGM.OpenAuthentication.Controllers
             }
         }
 
-        private ActionResult DefaultLogOnResult() {
-            return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users" });
+        private ActionResult DefaultLogOnResult(string returnUrl) {
+            return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users", ReturnUrl = returnUrl });
         }
     }
 }
