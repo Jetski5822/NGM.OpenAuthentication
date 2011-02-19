@@ -210,7 +210,9 @@
     <Content Include="Scripts\openid-uk.js" />
     <Content Include="Module.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Content\oauth\images\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\account.css" />
   </ItemGroup>
@@ -255,6 +257,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Wrappers.Account.OAuth.LogOn.cshtml" />
+    <Content Include="Content\oauth\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

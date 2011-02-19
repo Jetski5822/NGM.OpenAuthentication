@@ -24,30 +24,35 @@ namespace NGM.OpenAuthentication.Controllers {
 
         public Localizer T { get; set; }
 
-        public ActionResult LogOn(string returnUrl) {
+        public ActionResult LogOn(string returnUrl, string knownProvider) {
             var viewModel = new CreateViewModel();
             TryUpdateModel(viewModel);
-            
-            viewModel.KnownProvider = viewModel.KnownProvider ?? _orchardServices.WorkContext.HttpContext.Session["knownProvider"] as string;
 
-            if (!string.IsNullOrEmpty(viewModel.KnownProvider)) {
-                var wrapper = _oAuthWrappers
-                    .Where(o => o.Provider.ToString() == viewModel.KnownProvider.ToLowerInvariant() && o.IsConsumerConfigured).FirstOrDefault();
-                
-                if (wrapper != null) {
-                    var result = wrapper.Authorize(returnUrl);
-
-                    if (result.AuthenticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
-                        AddError(result.Error.Key, result.Error.Value);
-                        return DefaultLogOnResult(returnUrl);
-                    }
-                    if (result.AuthenticationStatus == OpenAuthenticationStatus.RequiresRegistration) {
-                        TempData["registermodel"] = result.RegisterModel;
-                        return DefaultRegisterResult(returnUrl, result.RegisterModel);
-                    }
-
-                    if (result.Result != null) return result.Result;
+            if (string.IsNullOrEmpty(viewModel.KnownProvider)) {
+                if (_orchardServices.WorkContext.HttpContext.Session["knownProvider"] != null) {
+                    viewModel.KnownProvider = _orchardServices.WorkContext.HttpContext.Session["knownProvider"] as string;
                 }
+                else if (!string.IsNullOrEmpty(knownProvider)) {
+                    viewModel.KnownProvider = knownProvider;
+                }
+            }
+
+            var wrapper = _oAuthWrappers
+                .Where(o => o.Provider.ToString().ToLowerInvariant() == viewModel.KnownProvider.ToLowerInvariant() && o.IsConsumerConfigured).FirstOrDefault();
+
+            if (wrapper != null) {
+                var result = wrapper.Authorize(returnUrl);
+
+                if (result.AuthenticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
+                    AddError(result.Error.Key, result.Error.Value);
+                    return DefaultLogOnResult(returnUrl);
+                }
+                if (result.AuthenticationStatus == OpenAuthenticationStatus.RequiresRegistration) {
+                    TempData["registermodel"] = result.RegisterModel;
+                    return DefaultRegisterResult(returnUrl, result.RegisterModel);
+                }
+
+                if (result.Result != null) return result.Result;
             }
 
             return DefaultLogOnResult(returnUrl);
