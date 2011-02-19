@@ -117,7 +117,8 @@ namespace NGM.OpenAuthentication.Controllers
                 area = "Orchard.Users",
                 ReturnUrl = returnUrl,
                 externalidentifier = model.ExternalIdentifier,
-                externaldisplayidentifier = model.ExternalDisplayIdentifier
+                externaldisplayidentifier = model.ExternalDisplayIdentifier,
+                Provider = "OpenId"
             });
         }
     }

@@ -54,7 +54,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
             return new AuthorizeState(returnUrl, status) {
                 Error = _openAuthorizer.Error,
-                RegisterModel = new RegisterModel {ExternalIdentifier = _authorizer.UserId, ExternalDisplayIdentifier = _authorizer.ScreenName, UserName = _authorizer.ScreenName}
+                RegisterModel = new RegisterModel {ExternalIdentifier = _authorizer.UserId, ExternalDisplayIdentifier = _authorizer.ScreenName, UserName = _authorizer.ScreenName, Provider = Provider.ToString()}
             };
         }
 
