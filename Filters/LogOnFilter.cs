@@ -12,15 +12,12 @@
 //            if (!filterContext.RouteData.Values.ContainsValue("LogOn"))
 //                return;
 
-//            var errors = filterContext.Controller.TempData.Where(o => o.Key.StartsWith("error-")).ToArray();
-
-//            foreach (var error in errors.Where(error => filterContext.Controller.ViewData.ModelState.ContainsKey(error.Key))) {
-//                filterContext.Controller.ViewData.ModelState.AddModelError(error.Key, error.Value.ToString());
-//            }
+//            filterContext.HttpContext.Request.Params.Remove("externalidentifier");
+//            filterContext.HttpContext.Request.Params.Remove("externaldisplayidentifier");
 //        }
 
 //        public void OnResultExecuted(ResultExecutedContext filterContext) {
-            
+
 //        }
 //    }
 //}
