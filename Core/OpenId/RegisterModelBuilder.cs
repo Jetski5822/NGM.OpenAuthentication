@@ -16,8 +16,8 @@ namespace NGM.OpenAuthentication.Core.OpenId {
 
         public RegisterModel Build() {
             var model = new RegisterModel {
-                ClaimedIdentifier = _authenticationResponse.ClaimedIdentifier,
-                FriendlyIdentifier = _authenticationResponse.FriendlyIdentifierForDisplay
+                ExternalIdentifier = _authenticationResponse.ClaimedIdentifier,
+                ExternalDisplayIdentifier = _authenticationResponse.FriendlyIdentifierForDisplay
             };
             
             MapClaimsToModel(_authenticationResponse.GetExtension<ClaimsResponse>(), model);
@@ -38,15 +38,15 @@ namespace NGM.OpenAuthentication.Core.OpenId {
                 return;
 
             registerModel.Email = fetchResponse.GetAttributeValue(WellKnownAttributes.Contact.Email);
-            registerModel.UserName = BuildUniqueUserName(fetchResponse.GetAttributeValue(WellKnownAttributes.Name.First) + fetchResponse.GetAttributeValue(WellKnownAttributes.Name.Last));
+            registerModel.UserName = fetchResponse.GetAttributeValue(WellKnownAttributes.Name.First) + " " + fetchResponse.GetAttributeValue(WellKnownAttributes.Name.Last);
         }
 
-        private string BuildUniqueUserName(string userName) {
-            var i = 0;
-            while (_membershipService.GetUser(userName) != null) {
-                i++;
-            }
-            return i == 0 ? userName : string.Format("{0}{1}", userName, i);
-        }
+        //private string BuildUniqueUserName(string userName) {
+        //    var i = 0;
+        //    while (_membershipService.GetUser(userName) != null) {
+        //        i++;
+        //    }
+        //    return i == 0 ? userName : string.Format("{0}{1}", userName, i);
+        //}
     }
 }

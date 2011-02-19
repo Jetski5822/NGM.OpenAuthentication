@@ -28,15 +28,15 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
         //[Test]
         //public void should_return_all_identifiers_for_specified_user() {
         //    var mockRepository = new Mock<IRepository<OpenAuthenticationPartRecord>>();
-        //    var record1 = new OpenAuthenticationPartRecord { Id = 1, ClaimedIdentifier = "Foo"};
-        //    var record2 = new OpenAuthenticationPartRecord { Id = 1, ClaimedIdentifier = "bar" };
+        //    var record1 = new OpenAuthenticationPartRecord { Id = 1, ExternalIdentifier = "Foo"};
+        //    var record2 = new OpenAuthenticationPartRecord { Id = 1, ExternalIdentifier = "bar" };
         //    mockRepository.Setup(o => o.Fetch(It.IsAny<Expression<Func<OpenAuthenticationPartRecord, bool>>>())).Returns(new [] {record1, record2});
         //    var openAuthenticationService = new OpenAuthenticationService(null, mockRepository.Object, null, null);
 
         //    var mockUser = new Mock<IUser>();
         //    mockUser.SetupGet(o => o.Id).Returns(1);
 
-        //    var identities = openAuthenticationService.GetIdentifiersFor(mockUser.Object).List();
+        //    var identities = openAuthenticationService.GetExternalIdentifiersFor(mockUser.Object).List();
 
         //    Assert.That(identities.Count(), Is.EqualTo(2));
         //}
@@ -55,7 +55,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
             mockContentManager.Setup(o => o.Query()).Returns(mockContentQuery.Object);
 
             var openAuthenticationService = new OpenAuthenticationService(mockContentManager.Object, null, null);
-            var contentQuery = openAuthenticationService.GetIdentifiersFor(null);
+            var contentQuery = openAuthenticationService.GetExternalIdentifiersFor(null);
             Assert.That(contentQuery, Is.EqualTo(mockContentQuerySpecialized.Object));
             Assert.That(contentQuery.List(), Is.EquivalentTo(mockContentQuerySpecialized.Object.List()));
         }
@@ -64,7 +64,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
         [Ignore ("Cant seem to mock the stuff i want to call. I will do this test with a functional test")]
         public void should_return_user_when_identifier_exists_against_user() {
             //var identifier = "foo";
-            //var openAuthenticationPartRecord = new OpenAuthenticationPartRecord {Id = 123, ClaimedIdentifier = identifier};
+            //var openAuthenticationPartRecord = new OpenAuthenticationPartRecord {Id = 123, ExternalIdentifier = identifier};
 
             //var mockRepository = new Mock<IRepository<OpenAuthenticationPartRecord>>();
             //mockRepository.Setup(ctx => ctx.Get(It.IsAny<Expression<Func<OpenAuthenticationPartRecord, bool>>>())).Returns(openAuthenticationPartRecord);
@@ -72,7 +72,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
             //var mockUser = new Mock<IUser>();
 
             //var mockContentItem = new Mock<ContentItem>();
-            //mockContentItem.Setup(ctx => ctx.Get(It.IsAny<Type>())).Returns(mockUser.Object);
+            //mockContentItem.Setup(ctx => ctx.Get(It.IsAny<Provider>())).Returns(mockUser.Object);
 
             //var mockContentManager = new Mock<IContentManager>();
             //mockContentManager.Setup(ctx => ctx.Get(openAuthenticationPartRecord.Id)).Returns(mockContentItem.Object);
@@ -86,7 +86,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
         [Test]
         public void should_remove_account_when_valid_account_is_passed_in() {
             var identifier = "foo";
-            var openAuthenticationPartRecord = new OpenAuthenticationPartRecord {Id = 123, ClaimedIdentifier = identifier};
+            var openAuthenticationPartRecord = new OpenAuthenticationPartRecord {Id = 123, ExternalIdentifier = identifier};
 
             var mockRepository = new Mock<IRepository<OpenAuthenticationPartRecord>>();
             mockRepository.Setup(o => o.Get(It.IsAny<Expression<Func<OpenAuthenticationPartRecord, bool>>>())).Returns(openAuthenticationPartRecord);

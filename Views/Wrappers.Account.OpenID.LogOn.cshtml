@@ -15,7 +15,7 @@
 @using(Script.Foot()) {
 <script type="text/javascript">
     $(document).ready(function () {
-        openid.init('OpenIdIdentifier');
+        openid.init('ExternalIdentifier');
         //openid.setDemoMode(true); //Stops form submission for client javascript-only test purposes
     });
 </script>
@@ -44,9 +44,9 @@
         </li>
         <li>
             <div id="openid_input_area">
-                <label for="OpenIdIdentifier">@T("Enter manually your OpenID")</label>
-                @Html.TextBox("OpenIdIdentifier", "http://", new { id = "OpenIdIdentifier", @class = "textMedium", autofocus = "autofocus" })
-                @Html.ValidationMessage("OpenIdIdentifier")
+                <label for="ExternalIdentifier">@T("Enter manually your OpenID")</label>
+                @Html.TextBox("ExternalIdentifier", "http://", new { id = "ExternalIdentifier", @class = "textMedium", autofocus = "autofocus" })
+                @Html.ValidationMessage("ExternalIdentifier")
             </div>
         </li>
         <button class="primaryAction" type="submit">@T("Sign In")</button>

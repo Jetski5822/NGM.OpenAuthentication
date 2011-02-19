@@ -43,7 +43,7 @@ namespace NGM.OpenAuthentication.Drivers {
                 () => {
                     var entries =
                         _openAuthenticationService
-                            .GetIdentifiersFor(user)
+                            .GetExternalIdentifiersFor(user)
                             .List()
                             .ToList()
                             .Select(account => CreateAccountEntry(account.Record));

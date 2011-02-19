@@ -22,21 +22,21 @@ namespace NGM.OpenAuthentication.Services {
             _orchardServices = orchardServices;
         }
 
-        public void AssociateOpenIdWithUser(IUser user, string openIdIdentifier, string friendlyOpenIdIdentifier) {
+        public void AssociateExternalAccountWithUser(IUser user, string externalIdentifier, string externalDisplayIdentifier) {
             _orchardServices.ContentManager.Create<OpenAuthenticationPart>("User",
                                                                            (o) => {
                                                                                o.Record.UserId = user.Id;
-                                                                               o.Record.ClaimedIdentifier = openIdIdentifier;
-                                                                               o.Record.FriendlyIdentifierForDisplay = friendlyOpenIdIdentifier;
+                                                                               o.Record.ExternalIdentifier = externalIdentifier;
+                                                                               o.Record.ExternalDisplayIdentifier = externalDisplayIdentifier;
                                                                            });
         }
 
-        public bool IsAccountExists(string identifier) {
-            return GetUser(identifier) != null;
+        public bool AccountExists(string externalIdentifier) {
+            return GetUser(externalIdentifier) != null;
         }
 
-        public IUser GetUser(string openIdIdentifier) {
-            var record = _openAuthenticationPartRecordRespository.Get(o => o.ClaimedIdentifier == openIdIdentifier);
+        public IUser GetUser(string externalIdentifier) {
+            var record = _openAuthenticationPartRecordRespository.Get(o => o.ExternalIdentifier == externalIdentifier);
 
             if (record != null) {
                 return _contentManager.Get<IUser>(record.UserId);
@@ -49,14 +49,14 @@ namespace NGM.OpenAuthentication.Services {
             return _orchardServices.WorkContext.CurrentSite.As<OpenAuthenticationSettingsPart>();
         }
 
-        public IContentQuery<OpenAuthenticationPart, OpenAuthenticationPartRecord> GetIdentifiersFor(IUser user) {
+        public IContentQuery<OpenAuthenticationPart, OpenAuthenticationPartRecord> GetExternalIdentifiersFor(IUser user) {
             return _contentManager
                .Query<OpenAuthenticationPart, OpenAuthenticationPartRecord>()
                .Where(c => c.UserId == user.Id);
         }
 
-        public void RemoveOpenIdAssociation(string openIdIdentifier) {
-            var record = _openAuthenticationPartRecordRespository.Get(o => o.ClaimedIdentifier == openIdIdentifier);
+        public void RemoveOpenIdAssociation(string externalIdentifier) {
+            var record = _openAuthenticationPartRecordRespository.Get(o => o.ExternalIdentifier == externalIdentifier);
 
             if (record != null)
                 _openAuthenticationPartRecordRespository.Delete(record);

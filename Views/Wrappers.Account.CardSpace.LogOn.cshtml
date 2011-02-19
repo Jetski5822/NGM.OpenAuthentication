@@ -6,39 +6,37 @@
 @Display(Model.Metadata.ChildContent)
 
 @if (TempData.Where(o => o.Key.StartsWith("error-")).ToArray().Count() >= 1) {
-<div class="validation-summary-errors"><span>Login was unsuccessful. Please correct the errors and try again.</span>
-    <ul>
-        @foreach (var value in TempData.Where(o => o.Key.StartsWith("error-")).ToArray()) {
-            <li>@value.Value</li>
-        }
-    </ul>
-</div>
+    <div class="validation-summary-errors">
+        <span>Login was unsuccessful. Please correct the errors and try again.</span>
+        <ul>
+            @foreach (var value in TempData.Where(o => o.Key.StartsWith("error-")).ToArray()) {
+                <li>@value.Value</li>
+            }
+        </ul>
+    </div>
 }
 
 @using (Html.BeginForm("LogOn", "CardSpaceAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post, new { id = "cardspace_form" })) {
-<fieldset class="login-form group">
-    <legend>@T("CardSpace account")</legend>
-    <ol>
-        <li>
-            Click the InfoCard image below to login. 
-        </li>
-        <li>
-            <button class="primaryAction" type="submit">
-                  @Html.Image(InfoCardImageHelpers.GetImageManifestResourceStreamUrl(InfoCardImageSize.Size114x80), "Sign In", null)
-
-                  <object type="application/x-informationcard" name="xmlToken">
-                    <param name="tokenType" value="urn:oasis:names:tc:SAML:1.0:assertion" />
-                    <param name="issuer" 
-                           value="http://schemas.xmlsoap.org/ws/2005/05/identity/issuer/self" />
-                    <param name="requiredClaims" 
-                         value="@NamespaceConstants.BuildClaimFullNamespaceUrl("givenname")
-                                @NamespaceConstants.BuildClaimFullNamespaceUrl("surname")
-                                @NamespaceConstants.BuildClaimFullNamespaceUrl("emailaddress")
-                                @NamespaceConstants.BuildClaimFullNamespaceUrl("privatepersonalidentifier")" />
-                  </object>
-              </button>
-          </li>
-        @Html.AntiForgeryTokenOrchard()
-    </ol>
-</fieldset>
+    <fieldset class="login-form group">
+        <legend>@T("CardSpace account")</legend>
+        <ol>
+            <li>Click the InfoCard image below to login. </li>
+            <li>
+                <button class="primaryAction" type="submit">
+                    @Html.Image(InfoCardImageHelpers.GetImageManifestResourceStreamUrl(InfoCardImageSize.Size114x80), "Sign In", null)
+                </button>
+                <object type="application/x-informationcard" name="xmlToken">
+                <param name="tokenType" value="urn:oasis:names:tc:SAML:1.0:assertion" />
+                <param name="issuer" 
+                        value="http://schemas.xmlsoap.org/ws/2005/05/identity/issuer/self" />
+                <param name="requiredClaims" 
+                        value="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname
+                            http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname
+                            http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress
+                            http://schemas.xmlsoap.org/ws/2005/05/identity/claims/privatepersonalidentifier" />
+                </object>
+            </li>
+            @Html.AntiForgeryTokenOrchard()
+        </ol>
+    </fieldset>
 }

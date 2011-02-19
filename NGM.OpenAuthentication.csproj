@@ -34,9 +34,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotNetOpenAuth">
-      <HintPath>Lib\DotNetOpenAuth-3.4.6.10357\DotNetOpenAuth.dll</HintPath>
+      <HintPath>Lib\DotNetOpenAuth-3.5.0.10357\DotNetOpenAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqToTwitter">
+      <HintPath>Lib\LinqToTwitterBinaries_v2.0.19.2\LinqToTwitter.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\lib\aspnetmvc\System.Web.Mvc.dll</HintPath>
@@ -45,14 +50,29 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\CardSpaceAccountController.cs" />
+    <Compile Include="Core\IOpenAuthorizer.cs" />
+    <Compile Include="Controllers\OAuthAccountController.cs" />
+    <Compile Include="Core\OAuth\AuthorizeState.cs" />
+    <Compile Include="Core\OpenAuthenticationStatus.cs" />
+    <Compile Include="Core\OpenAuthorizer.cs" />
     <Compile Include="Controllers\OpenIdAccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Core\CardSpace\InfoCardImageHelpers.cs" />
     <Compile Include="Core\CardSpace\NameSpaceConstants.cs" />
+    <Compile Include="Core\CardSpace\RegisterModelBuilder.cs" />
+    <Compile Include="Core\OAuth\DotNetOpenAuth.ApplicationBlock\Facebook\FacebookClient.cs" />
+    <Compile Include="Core\OAuth\DotNetOpenAuth.ApplicationBlock\TokenManager.cs" />
+    <Compile Include="Core\OAuth\DotNetOpenAuth.ApplicationBlock\Facebook\FacebookGraph.cs" />
+    <Compile Include="Core\OAuth\FacebookAuthorizer.cs" />
+    <Compile Include="Core\OAuth\IOAuthSettings.cs" />
+    <Compile Include="Core\OAuth\IOAuthAuthorizer.cs" />
+    <Compile Include="Core\OAuth\TwitterAuthorizer.cs" />
     <Compile Include="Core\OpenId\Claims.cs" />
     <Compile Include="Core\OpenId\RegisterModelBuilder.cs" />
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
@@ -222,7 +242,7 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
     <Content Include="Views\EditorTemplates\Parts\OpenAuthentication.Settings.cshtml" />
-    <Content Include="Views\Wrappers.Account.OpenID.Register.cshtml" />
+    <Content Include="Views\Wrappers.Account.Register.cshtml" />
     <Content Include="Content\openid-selector\Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -233,8 +253,11 @@
     <Content Include="Content\cardspace\Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Wrappers.Account.OAuth.LogOn.cshtml" />
     <None Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
@@ -258,9 +281,8 @@
           <IISUrl>
           </IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://www.themayneissue.com</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

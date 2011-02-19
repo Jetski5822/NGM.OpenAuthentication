@@ -8,8 +8,8 @@ namespace NGM.OpenAuthentication {
                 table => table
                     .ContentPartRecord()
                     .Column<int>("UserId")
-                    .Column<string>("ClaimedIdentifier")
-                    .Column<string>("FriendlyIdentifierForDisplay")
+                    .Column<string>("ExternalIdentifier")
+                    .Column<string>("ExternalDisplayIdentifier")
                 );
 
             SchemaBuilder.CreateTable("OpenAuthenticationSettingsPartRecord", table => table
@@ -25,6 +25,10 @@ namespace NGM.OpenAuthentication {
                 .Column<bool>("Nickname")
                 .Column<bool>("PostalCode")
                 .Column<bool>("TimeZone")
+                .Column<string>("FacebookClientIdentifier")
+                .Column<string>("FacebookClientSecret")
+                .Column<string>("TwitterClientIdentifier")
+                .Column<string>("TwitterClientSecret")
                );
 
             ContentDefinitionManager.AlterTypeDefinition("User",

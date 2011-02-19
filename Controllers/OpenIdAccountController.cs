@@ -1,38 +1,33 @@
 ﻿using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
+using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Core.OpenId;
+using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
-using Orchard;
-using Orchard.ContentManagement;
 using Orchard.Localization;
 using Orchard.Security;
 using Orchard.Themes;
-using Orchard.Users.Models;
 
 namespace NGM.OpenAuthentication.Controllers
 {
     [Themed]
     public class OpenIdAccountController : Controller {
         private readonly IOpenIdRelyingPartyService _openIdRelyingPartyService;
-        private readonly IAuthenticationService _authenticationService;
         private readonly IOpenAuthenticationService _openAuthenticationService;
-        private readonly IOrchardServices _orchardServices;
         private readonly IMembershipService _membershipService;
+        private readonly IOpenAuthorizer _openAuthorizer;
 
-        public OpenIdAccountController(
-            IOpenIdRelyingPartyService openIdRelyingPartyService, 
-            IAuthenticationService authenticationService,
-            IOpenAuthenticationService openAuthenticationService,
-            IOrchardServices orchardServices,
-            IMembershipService membershipService)
+        public OpenIdAccountController(IOpenIdRelyingPartyService openIdRelyingPartyService, 
+            IOpenAuthenticationService openAuthenticationService, 
+            IMembershipService membershipService, 
+            IOpenAuthorizer openAuthorizer)
         {
             _openIdRelyingPartyService = openIdRelyingPartyService;
-            _authenticationService = authenticationService;
             _openAuthenticationService = openAuthenticationService;
-            _orchardServices = orchardServices;
             _membershipService = membershipService;
+            _openAuthorizer = openAuthorizer;
             T = NullLocalizer.Instance;
         }
 
@@ -43,52 +38,24 @@ namespace NGM.OpenAuthentication.Controllers
                 // TODO : Not happy about this huge switch statement, consider a stratagy pattern possibly when I come to refactory?
                 switch (_openIdRelyingPartyService.Response.Status) {
                     case AuthenticationStatus.Authenticated:
-                        var userFound = _openAuthenticationService.GetUser(_openIdRelyingPartyService.Response.ClaimedIdentifier);
+                        OpenAuthenticationStatus autheticationStatus = _openAuthorizer.Authorize(
+                            _openIdRelyingPartyService.Response.ClaimedIdentifier, _openIdRelyingPartyService.Response.FriendlyIdentifierForDisplay);
 
-                        var userLoggedIn = _authenticationService.GetAuthenticatedUser();
-
-                        if (userFound != null && userLoggedIn != null && userFound.Id.Equals(userLoggedIn.Id)) {
-                            // The person is trying to log in as himself.. bit weird
+                        if (autheticationStatus == OpenAuthenticationStatus.Authenticated)
                             return Redirect(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
+                        if (autheticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
+                            AddError(_openAuthorizer.Error.Key, _openAuthorizer.Error.Value);
+                            return DefaultLogOnResult(returnUrl);
                         }
-                        if (userFound != null && userLoggedIn != null && !userFound.Id.Equals(userLoggedIn.Id)) {
-                            AddError("IdentifierAssigned", "ClaimedIdentifier has already been assigned to another account");
-                            break;
+                        if (autheticationStatus == OpenAuthenticationStatus.RequiresRegistration) {
+                            var registerModelBuilder = new RegisterModelBuilder(_openIdRelyingPartyService.Response, _membershipService);
+                            var model = registerModelBuilder.Build();
+
+                            TempData["registermodel"] = model;
+
+                            return DefaultRegisterResult(returnUrl, model);
                         }
-                        if (userFound == null && userLoggedIn == null) {
-                            // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
-                            
-                            var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
-
-                            if ((registrationSettings != null) &&
-                                (registrationSettings.UsersCanRegister == false)) {
-                                AddError("AccessDenied", "User does not exist on system");
-                                break;
-                            }
-                            else {
-                                var registerModelBuilder = new RegisterModelBuilder(_openIdRelyingPartyService.Response, _membershipService);
-                                var model = registerModelBuilder.Build();
-
-                                TempData["registermodel"] = model;
-                                
-                                return RedirectToAction("Register", "Account", new {
-                                    area = "Orchard.Users",
-                                    claimedidentifier = model.ClaimedIdentifier,
-                                    friendlyidentifier = model.FriendlyIdentifier
-                                });
-                            }
-                        }
-
-                        var user = userLoggedIn ?? userFound;
-
-                        _openAuthenticationService.AssociateOpenIdWithUser(
-                            user,
-                            _openIdRelyingPartyService.Response.ClaimedIdentifier,
-                            _openIdRelyingPartyService.Response.FriendlyIdentifierForDisplay);
-
-                        _authenticationService.SignIn(user, false);
-
-                        return Redirect(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
+                        break;
                     case AuthenticationStatus.Canceled:
                         AddError("InvalidProvider", "Canceled at provider");
                         break;
@@ -110,9 +77,9 @@ namespace NGM.OpenAuthentication.Controllers
         }
 
         private ActionResult BuildLogOnAuthenticationRedirect(CreateViewModel viewModel) {
-            var identifier = new OpenIdIdentifier(viewModel.OpenIdIdentifier);
+            var identifier = new OpenIdIdentifier(viewModel.ExternalIdentifier);
             if (!identifier.IsValid) {
-                AddError("OpenIdIdentifier", "Invalid Open ID identifier");
+                AddError("ExternalIdentifier", "Invalid Open ID identifier");
                 return DefaultLogOnResult(viewModel.ReturnUrl);
             }
 
@@ -143,6 +110,15 @@ namespace NGM.OpenAuthentication.Controllers
 
         private ActionResult DefaultLogOnResult(string returnUrl) {
             return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users", ReturnUrl = returnUrl });
+        }
+
+        private ActionResult DefaultRegisterResult(string returnUrl, RegisterModel model) {
+            return RedirectToAction("Register", "Account", new {
+                area = "Orchard.Users",
+                ReturnUrl = returnUrl,
+                externalidentifier = model.ExternalIdentifier,
+                externaldisplayidentifier = model.ExternalDisplayIdentifier
+            });
         }
     }
 }

@@ -5,15 +5,15 @@ using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Services {
     public interface IOpenAuthenticationService : IDependency {
-        bool IsAccountExists(string identifier);
+        bool AccountExists(string externalIdentifier);
         
-        void AssociateOpenIdWithUser(IUser user, string openIdIdentifier, string friendlyOpenIdIdentifier);
+        void AssociateExternalAccountWithUser(IUser user, string externalIdentifier, string externalDisplayIdentifier);
 
-        IUser GetUser(string openIdIdentifier);
+        IUser GetUser(string externalIdentifier);
 
         OpenAuthenticationSettingsPart GetSettings();
 
-        IContentQuery<OpenAuthenticationPart, OpenAuthenticationPartRecord> GetIdentifiersFor(IUser user);
-        void RemoveOpenIdAssociation(string openIdIdentifier);
+        IContentQuery<OpenAuthenticationPart, OpenAuthenticationPartRecord> GetExternalIdentifiersFor(IUser user);
+        void RemoveOpenIdAssociation(string externalIdentifier);
     }
 }

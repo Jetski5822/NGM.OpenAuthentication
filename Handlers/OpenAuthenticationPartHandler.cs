@@ -20,11 +20,11 @@ namespace NGM.OpenAuthentication.Handlers {
             Filters.Add(StorageFilter.For(openAuthenticationPartRepository));
 
             OnCreated<IUser>((context, user) => {
-                var cliamedIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["claimedidentifier"];
-                var friendlyIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["friendlyidentifier"];
+                var externalIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["externalidentifier"];
+                var externalDisplayIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["externaldisplayidentifier"];
 
-                if (!string.IsNullOrEmpty(cliamedIdentifier) || !string.IsNullOrEmpty(friendlyIdentifier)) {
-                    _openAuthenticationService.AssociateOpenIdWithUser(user, cliamedIdentifier, friendlyIdentifier);
+                if (!string.IsNullOrEmpty(externalIdentifier) || !string.IsNullOrEmpty(externalDisplayIdentifier)) {
+                    _openAuthenticationService.AssociateExternalAccountWithUser(user, externalIdentifier, externalDisplayIdentifier);
                 }
             });
         }

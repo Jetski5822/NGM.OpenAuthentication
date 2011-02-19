@@ -1,0 +1,10 @@
+﻿@{
+    var identifier = HttpContext.Current.Request.Params["externalidentifier"];
+}
+
+@if (!string.IsNullOrEmpty(identifier)) {
+    <div class="message message-information">
+        @T("Account Association: Your new user account will be linked to ")<span id="identifier">@identifier</span>
+    </div>
+}
+@Display(Model.Metadata.ChildContent)

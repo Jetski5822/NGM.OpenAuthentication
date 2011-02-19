@@ -1,17 +1,12 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using System.Globalization;
-using System.Reflection;
-using System.Resources;
-using System.Web.Handlers;
+﻿using System.Diagnostics.Contracts;
 using System.Web.Mvc;
-using System.Web.UI;
 using DotNetOpenAuth.InfoCard;
 using Orchard.Localization;
 using Orchard.Themes;
 
 namespace NGM.OpenAuthentication.Controllers {
     [Themed]
+    [ContractVerification(true)]
     public class CardSpaceAccountController : Controller {
 
         public CardSpaceAccountController() {
@@ -20,7 +15,13 @@ namespace NGM.OpenAuthentication.Controllers {
 
         public Localizer T { get; set; }
 
+        [ValidateInput(false)]
         public ActionResult LogOn(string returnUrl) {
+            string xmlToken = this.HttpContext.Request.Params["xmlToken"];
+
+            Token token = Token.Read(xmlToken);
+            //token.
+            //var fi token.Claims[ClaimTypes.GivenName];
             return DefaultLogOnResult(returnUrl);
         }
 

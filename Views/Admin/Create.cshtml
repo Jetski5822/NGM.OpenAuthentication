@@ -9,9 +9,9 @@
     <legend>@T("OpenID Details")</legend>
     <ol>
         <li>
-            <label for="OpenIdIdentifier">@T("Enter manually your OpenID")</label>
-            @Html.TextBox("OpenIdIdentifier", "", new { id = "OpenIdIdentifier", @class = "textMedium", autofocus = "autofocus" })
-            @Html.ValidationMessage("OpenIdIdentifier")
+            <label for="ExternalIdentifier">@T("Enter manually your OpenID")</label>
+            @Html.TextBox("ExternalIdentifier", "", new { id = "ExternalIdentifier", @class = "textMedium", autofocus = "autofocus" })
+            @Html.ValidationMessage("ExternalIdentifier")
         </li>
     </ol>
     <button class="primaryAction" type="submit">@T("Associate OpenID")</button>

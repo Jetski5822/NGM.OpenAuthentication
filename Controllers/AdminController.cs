@@ -39,7 +39,7 @@ namespace NGM.OpenAuthentication.Controllers {
             var user = _authenticationService.GetAuthenticatedUser();
             var entries =
                 _openAuthenticationService
-                    .GetIdentifiersFor(user)
+                    .GetExternalIdentifiersFor(user)
                     .List()
                     .ToList()
                     .Select(account => CreateAccountEntry(account.Record));
@@ -64,7 +64,7 @@ namespace NGM.OpenAuthentication.Controllers {
                     break;
                 case OpenIdBulkAction.Delete:
                     foreach (var entry in checkedEntries) {
-                        _openAuthenticationService.RemoveOpenIdAssociation(entry.Account.ClaimedIdentifier);
+                        _openAuthenticationService.RemoveOpenIdAssociation(entry.Account.ExternalIdentifier);
                     }
                     break;
             }
@@ -82,13 +82,13 @@ namespace NGM.OpenAuthentication.Controllers {
                         if (user == null)
                             break;
 
-                        bool isClaimedIdentifierAssigned = IsIdentifierAssigned(_openIdRelyingPartyService.Response.ClaimedIdentifier);
+                        bool isExternalIdentifierAssigned = IsExternalIdentifierAssigned(_openIdRelyingPartyService.Response.ClaimedIdentifier);
 
-                        if (isClaimedIdentifierAssigned)
+                        if (isExternalIdentifierAssigned)
                             break;
 
                         // If I am logged in, and no user currently has that identifier.. then associate.
-                        _openAuthenticationService.AssociateOpenIdWithUser(user, _openIdRelyingPartyService.Response.ClaimedIdentifier, _openIdRelyingPartyService.Response.FriendlyIdentifierForDisplay);
+                        _openAuthenticationService.AssociateExternalAccountWithUser(user, _openIdRelyingPartyService.Response.ClaimedIdentifier, _openIdRelyingPartyService.Response.FriendlyIdentifierForDisplay);
 
                         _orchardServices.Notifier.Information(T("OpenID succesfully associated to logged in account"));
 
@@ -110,7 +110,7 @@ namespace NGM.OpenAuthentication.Controllers {
             var viewModel = new CreateViewModel();
             TryUpdateModel(viewModel, formCollection);
 
-            var identifier = new OpenIdIdentifier(viewModel.OpenIdIdentifier);
+            var identifier = new OpenIdIdentifier(viewModel.ExternalIdentifier);
             if (!identifier.IsValid) {
                 AddError("Invalid Open ID identifier");
             } else {
@@ -131,12 +131,12 @@ namespace NGM.OpenAuthentication.Controllers {
 
 
         [HttpPost]
-        public ActionResult Delete(string claimedIdentifier, string returnUrl) {
+        public ActionResult Delete(string externalIdentifier, string returnUrl) {
             if (!_orchardServices.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to manage OpenID")))
                 return new HttpUnauthorizedResult();
 
             try {
-                _openAuthenticationService.RemoveOpenIdAssociation(claimedIdentifier);
+                _openAuthenticationService.RemoveOpenIdAssociation(externalIdentifier);
                 
                 _orchardServices.Notifier.Information(T("OpenID was successfully deleted."));
             } catch (Exception exception) {
@@ -151,14 +151,14 @@ namespace NGM.OpenAuthentication.Controllers {
             };
         }
 
-        private bool IsIdentifierAssigned(string identifier) {
-            var isIdentifierAssigned = _openAuthenticationService.IsAccountExists(identifier);
+        private bool IsExternalIdentifierAssigned(string externalIdentifier) {
+            var isExternalIdentifierAssigned = _openAuthenticationService.AccountExists(externalIdentifier);
 
             // Check to see if identifier is currently assigned.
-            if (isIdentifierAssigned) {
+            if (isExternalIdentifierAssigned) {
                 AddError("ClaimedIdentifier has already been assigned");
             }
-            return isIdentifierAssigned;
+            return isExternalIdentifierAssigned;
         }
 
         private void AddError(string value) {

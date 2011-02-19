@@ -1,0 +1,36 @@
+﻿@using Orchard;
+@using Orchard.ContentManagement;
+@using Orchard.Users.Models;
+
+@Display(Model.Metadata.ChildContent)
+
+@{
+    Style.Require("Account");
+}
+
+@if (TempData.Where(o => o.Key.StartsWith("error-")).ToArray().Count() >= 1) {
+<div class="validation-summary-errors"><span>Login was unsuccessful. Please correct the errors and try again.</span>
+    <ul>
+        @foreach (var value in TempData.Where(o => o.Key.StartsWith("error-")).ToArray()) {
+            <li>@value.Value</li>
+        }
+    </ul>
+</div>
+}
+
+@using (Html.BeginForm("LogOn", "OAuthAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post, new { id = "oauth_form" })) {
+<fieldset class="login-form group">
+    <legend>@T("OAuth account")</legend>
+    <ol>
+        <li>
+            <div id="oauth_input_area">
+                <label for="KnownProvider">@T("Type Provider")</label>
+                @Html.TextBox("KnownProvider", "Twitter", new { id = "KnownProvider", @class = "textMedium", autofocus = "autofocus" })
+                @Html.ValidationMessage("KnownProvider")
+            </div>
+        </li>
+        <button class="primaryAction" type="submit">@T("Sign In")</button>
+        @Html.AntiForgeryTokenOrchard()
+    </ol>
+</fieldset>
+}
