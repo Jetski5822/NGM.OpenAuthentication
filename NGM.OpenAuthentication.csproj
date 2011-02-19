@@ -78,6 +78,7 @@
     <Compile Include="Core\OpenId\RegisterModelBuilder.cs" />
     <Compile Include="Core\OrchardShapeChecker.cs" />
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
+    <Compile Include="Extensions\ControllerExtensions.cs" />
     <Compile Include="Filters\LogOnFilter.cs" />
     <Compile Include="Filters\RegistrationFilter.cs" />
     <Compile Include="Handlers\OpenAuthenticationSettingsPartHandler.cs" />

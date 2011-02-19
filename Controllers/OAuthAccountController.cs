@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Core.OAuth;
+using NGM.OpenAuthentication.Extensions;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.ViewModels;
 using Orchard;
@@ -44,7 +45,7 @@ namespace NGM.OpenAuthentication.Controllers {
                 var result = wrapper.Authorize(returnUrl);
 
                 if (result.AuthenticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
-                    AddError(result.Error.Key, result.Error.Value);
+                    this.AddError(result.Error.Key, result.Error.Value);
                     return DefaultLogOnResult(returnUrl);
                 }
                 if (result.AuthenticationStatus == OpenAuthenticationStatus.RequiresRegistration) {
@@ -56,17 +57,6 @@ namespace NGM.OpenAuthentication.Controllers {
             }
 
             return DefaultLogOnResult(returnUrl);
-        }
-
-        private void AddError(string key, string value) {
-            var errorKey = string.Format("error-{0}", key);
-
-            if (!TempData.ContainsKey(errorKey)) {
-                TempData.Add(errorKey, value);
-                ModelState.AddModelError(errorKey, value);
-            } else {
-                TempData[errorKey] = value;
-            }
         }
 
         private ActionResult DefaultLogOnResult(string returnUrl) {

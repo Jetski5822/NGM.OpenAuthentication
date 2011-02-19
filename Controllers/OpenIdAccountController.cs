@@ -3,6 +3,7 @@ using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Core.OpenId;
+using NGM.OpenAuthentication.Extensions;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
@@ -44,7 +45,7 @@ namespace NGM.OpenAuthentication.Controllers
                         if (autheticationStatus == OpenAuthenticationStatus.Authenticated)
                             return Redirect(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
                         if (autheticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
-                            AddError(_openAuthorizer.Error.Key, _openAuthorizer.Error.Value);
+                            this.AddError(_openAuthorizer.Error.Key, _openAuthorizer.Error.Value);
                             return DefaultLogOnResult(returnUrl);
                         }
                         if (autheticationStatus == OpenAuthenticationStatus.RequiresRegistration) {
@@ -57,10 +58,10 @@ namespace NGM.OpenAuthentication.Controllers
                         }
                         break;
                     case AuthenticationStatus.Canceled:
-                        AddError("InvalidProvider", "Canceled at provider");
+                        this.AddError("InvalidProvider", "Canceled at provider");
                         break;
                     case AuthenticationStatus.Failed:
-                        AddError("UnknownError", _openIdRelyingPartyService.Response.Exception.Message);
+                        this.AddError("UnknownError", _openIdRelyingPartyService.Response.Exception.Message);
                         break;
                 }
             }
@@ -79,7 +80,7 @@ namespace NGM.OpenAuthentication.Controllers
         private ActionResult BuildLogOnAuthenticationRedirect(CreateViewModel viewModel) {
             var identifier = new OpenIdIdentifier(viewModel.ExternalIdentifier);
             if (!identifier.IsValid) {
-                AddError("ExternalIdentifier", "Invalid Open ID identifier");
+                this.AddError("ExternalIdentifier", "Invalid Open ID identifier");
                 return DefaultLogOnResult(viewModel.ReturnUrl);
             }
 
@@ -92,20 +93,9 @@ namespace NGM.OpenAuthentication.Controllers
                 return request.RedirectingResponse.AsActionResult();
             }
             catch (ProtocolException ex) {
-                AddError("ProtocolException", string.Format("Unable to authenticate: {0}", ex.Message));
+                this.AddError("ProtocolException", string.Format("Unable to authenticate: {0}", ex.Message));
             }
             return DefaultLogOnResult(viewModel.ReturnUrl);
-        }
-
-        private void AddError(string key, string value) {
-            var errorKey = string.Format("error-{0}", key);
-
-            if (!TempData.ContainsKey(errorKey)) {
-                TempData.Add(errorKey, value);
-                ModelState.AddModelError(errorKey, value);
-            } else {
-                TempData[errorKey] = value;
-            }
         }
 
         private ActionResult DefaultLogOnResult(string returnUrl) {
