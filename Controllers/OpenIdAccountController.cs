@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.Web.Routing;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core;
@@ -40,7 +41,7 @@ namespace NGM.OpenAuthentication.Controllers
                 switch (_openIdRelyingPartyService.Response.Status) {
                     case AuthenticationStatus.Authenticated:
                         OpenAuthenticationStatus autheticationStatus = _openAuthorizer.Authorize(
-                            _openIdRelyingPartyService.Response.ClaimedIdentifier, _openIdRelyingPartyService.Response.FriendlyIdentifierForDisplay);
+                            new OpenIdAuthenticationParameters(_openIdRelyingPartyService.Response.ClaimedIdentifier, _openIdRelyingPartyService.Response.FriendlyIdentifierForDisplay));
 
                         if (autheticationStatus == OpenAuthenticationStatus.Authenticated)
                             return Redirect(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
@@ -103,12 +104,7 @@ namespace NGM.OpenAuthentication.Controllers
         }
 
         private ActionResult DefaultRegisterResult(string returnUrl, RegisterModel model) {
-            return RedirectToAction("Register", "Account", new {
-                area = "Orchard.Users",
-                ReturnUrl = returnUrl,
-                externalidentifier = model.ExternalIdentifier,
-                externaldisplayidentifier = model.ExternalDisplayIdentifier
-            });
+            return RedirectToAction("Register", "Account", RouteValuesHelper.CreateRegisterRouteValueDictionary(returnUrl, model));
         }
     }
 }

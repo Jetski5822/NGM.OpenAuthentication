@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IdentityModel.Claims;
+using NGM.OpenAuthentication.Core.OpenId;
 using NGM.OpenAuthentication.Models;
 using Orchard.Security;
 
@@ -12,11 +13,13 @@ namespace NGM.OpenAuthentication.Core.CardSpace {
         }
 
         public RegisterModel Build(string uniqueId, string siteSpecificId, IDictionary<string, string> claims) {
-            //TODO : uniqueId
-            var model = new RegisterModel {
+            var parameters = new CardSpaceAuthenticationParameters() {
                 ExternalIdentifier = siteSpecificId,
                 ExternalDisplayIdentifier = siteSpecificId
             };
+            
+            //TODO : uniqueId
+            var model = new RegisterModel(parameters);
 
             MapClaimsToModel(claims, model);
 

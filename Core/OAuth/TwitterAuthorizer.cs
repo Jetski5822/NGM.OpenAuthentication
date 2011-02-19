@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Linq;
 using LinqToTwitter;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using Orchard;
+using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Core.OAuth {
-    public class TwitterAuthorizer : IOAuthAuthorizer {
+    public class TwitterAuthorizer : IOAuthTwitterAuthorizer {
         private readonly IOrchardServices _orchardServices;
         private readonly IOpenAuthorizer _openAuthorizer;
         private readonly IOpenAuthenticationService _openAuthenticationService;
@@ -25,7 +27,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                 ConsumerSecret = ClientSecret
             };
 
-            _authorizer = new MvcAuthorizer {Credentials = _credentials};
+            _authorizer = new MvcAuthorizer { Credentials = _credentials };
         }
 
         public string ClientKeyIdentifier {
@@ -44,7 +46,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         public AuthorizeState Authorize(string returnUrl) {
             _authorizer.CompleteAuthorization(GenerateReturnUri());
-            
+
             if (!_authorizer.IsAuthorized) {
                 _orchardServices.WorkContext.HttpContext.Session["knownProvider"] = Provider.ToString();
 
@@ -53,16 +55,18 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
             _orchardServices.WorkContext.HttpContext.Session.Remove("knownProvider");
 
-            var status = _openAuthorizer.Authorize(_authorizer.UserId, _authorizer.ScreenName);
+            var parameters = new OAuthAuthenticationParameters(Provider) {
+                ExternalIdentifier = _authorizer.OAuthTwitter.OAuthToken,
+                ExternalDisplayIdentifier = _authorizer.ScreenName,
+                OAuthToken = _authorizer.OAuthTwitter.OAuthToken,
+                OAuthAccessToken = _authorizer.OAuthTwitter.OAuthTokenSecret,
+            };
+
+            var status = _openAuthorizer.Authorize(parameters);
 
             return new AuthorizeState(returnUrl, status) {
                 Error = _openAuthorizer.Error,
-                RegisterModel = new RegisterModel {
-                    ExternalIdentifier = _authorizer.OAuthTwitter.OAuthToken, 
-                    ExternalDisplayIdentifier = _authorizer.ScreenName, 
-                    UserName = _authorizer.ScreenName, 
-                    Provider = Provider.ToString()
-                }
+                RegisterModel = new RegisterModel(parameters) 
             };
         }
 
@@ -81,6 +85,18 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         public OAuthProvider Provider {
             get { return OAuthProvider.Twitter; }
+        }
+
+        public ITwitterAuthorizer GetAuthorizer(IUser user) {
+            var parameters = new OAuthAuthenticationParameters(Provider);
+            var identifier = _openAuthenticationService.GetExternalIdentifiersFor(_orchardServices.WorkContext.CurrentUser).Where(o => o.HashedProvider == parameters.HashedProvider)
+                .List()
+                .FirstOrDefault();
+
+            _authorizer.Credentials.OAuthToken = identifier.Record.OAuthToken;
+            _authorizer.Credentials.AccessToken = identifier.Record.OAuthAccessToken;
+
+            return _authorizer;
         }
     }
 }

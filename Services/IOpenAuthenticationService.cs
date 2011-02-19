@@ -1,19 +1,20 @@
-﻿using NGM.OpenAuthentication.Models;
+﻿using NGM.OpenAuthentication.Core;
+using NGM.OpenAuthentication.Models;
 using Orchard;
 using Orchard.ContentManagement;
 using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Services {
     public interface IOpenAuthenticationService : IDependency {
-        bool AccountExists(string externalIdentifier);
+        bool AccountExists(OpenAuthenticationParameters parameters);
         
-        void AssociateExternalAccountWithUser(IUser user, string externalIdentifier, string externalDisplayIdentifier);
+        void AssociateExternalAccountWithUser(IUser user, OpenAuthenticationParameters parameters);
 
-        IUser GetUser(string externalIdentifier);
+        IUser GetUser(OpenAuthenticationParameters parameters);
 
         OpenAuthenticationSettingsPart GetSettings();
 
         IContentQuery<OpenAuthenticationPart, OpenAuthenticationPartRecord> GetExternalIdentifiersFor(IUser user);
-        void RemoveOpenIdAssociation(string externalIdentifier);
+        void RemoveOpenIdAssociation(OpenAuthenticationParameters parameters);
     }
 }

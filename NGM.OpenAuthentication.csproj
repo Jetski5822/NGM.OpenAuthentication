@@ -56,14 +56,18 @@
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\CardSpaceAccountController.cs" />
+    <Compile Include="Core\RouteValuesHelper.cs" />
+    <Compile Include="Core\CardSpace\CardSpaceAuthenticationParameters.cs" />
+    <Compile Include="Core\HashedOpenAuthenticationParameters.cs" />
     <Compile Include="Core\IOpenAuthorizer.cs" />
     <Compile Include="Controllers\OAuthAccountController.cs" />
     <Compile Include="Core\OAuth\AuthorizeState.cs" />
+    <Compile Include="Core\OAuth\IOAuthTwitterAuthorizer.cs" />
     <Compile Include="Core\OAuth\OAuthProvider.cs" />
     <Compile Include="Core\OpenAuthenticationStatus.cs" />
     <Compile Include="Core\OpenAuthorizer.cs" />
     <Compile Include="Controllers\OpenIdAccountController.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\OpenIdAdminController.cs" />
     <Compile Include="Core\CardSpace\InfoCardImageHelpers.cs" />
     <Compile Include="Core\CardSpace\NameSpaceConstants.cs" />
     <Compile Include="Core\CardSpace\RegisterModelBuilder.cs" />
@@ -93,7 +97,10 @@
     <Compile Include="Models\OpenAuthenticationPartRecord.cs" />
     <Compile Include="ResourceManifest.cs" />
     <Compile Include="Services\IOpenAuthenticationService.cs" />
+    <Compile Include="Core\OAuth\OAuthAuthenticationParameters.cs" />
+    <Compile Include="Core\OpenAuthenticationParameters.cs" />
     <Compile Include="Services\OpenAuthenticationService.cs" />
+    <Compile Include="Core\OpenId\OpenIdAuthenticationParameters.cs" />
     <Compile Include="Shapes.cs" />
     <Compile Include="ViewModels\CreateViewModel.cs" />
     <Compile Include="ViewModels\OpenIdIndexViewModel.cs" />
@@ -242,8 +249,8 @@
     </Content>
     <Content Include="Placement.info" />
     <Content Include="Views\EditorTemplates\Parts\Accounts.UserOpenAuthentication.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\Create.cshtml" />
+    <Content Include="Views\OpenIdAdmin\Index.cshtml" />
+    <Content Include="Views\OpenIdAdmin\Create.cshtml" />
     <Content Include="Views\EditorTemplates\Parts\OpenAuthentication.Settings.cshtml" />
     <Content Include="Views\Wrappers.Account.Register.cshtml" />
     <Content Include="Content\openid-selector\Web.config">

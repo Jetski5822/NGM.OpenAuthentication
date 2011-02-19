@@ -2,6 +2,7 @@
 using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Models;
+using NGM.OpenAuthentication.Services;
 
 namespace NGM.OpenAuthentication.Core.OpenId {
     public class RegisterModelBuilder {
@@ -12,10 +13,12 @@ namespace NGM.OpenAuthentication.Core.OpenId {
         }
 
         public RegisterModel Build() {
-            var model = new RegisterModel {
+            var parametres = new OpenIdAuthenticationParameters {
                 ExternalIdentifier = _authenticationResponse.ClaimedIdentifier,
                 ExternalDisplayIdentifier = _authenticationResponse.FriendlyIdentifierForDisplay
             };
+
+            var model = new RegisterModel(parametres);
             
             MapClaimsToModel(_authenticationResponse.GetExtension<ClaimsResponse>(), model);
             MapFetchClaimsToModel(_authenticationResponse.GetExtension<FetchResponse>(), model);

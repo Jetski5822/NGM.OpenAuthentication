@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
+using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Core.OpenId;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
@@ -13,23 +14,28 @@ using Orchard.Core.Contents.Controllers;
 using Orchard.Localization;
 using Orchard.Mvc.Extensions;
 using Orchard.Security;
+using Orchard.UI.Admin;
 using Orchard.UI.Notify;
 
 namespace NGM.OpenAuthentication.Controllers {
-    public class AdminController : Controller {
+    [Admin]
+    public class OpenIdAdminController : Controller {
         private readonly IAuthenticationService _authenticationService;
         private readonly IOpenAuthenticationService _openAuthenticationService;
         private readonly IOpenIdRelyingPartyService _openIdRelyingPartyService;
         private readonly IOrchardServices _orchardServices;
+        private readonly IOpenAuthorizer _openAuthorizer;
 
-        public AdminController(IAuthenticationService authenticationService,
+        public OpenIdAdminController(IAuthenticationService authenticationService,
             IOpenAuthenticationService openAuthenticationService,
             IOpenIdRelyingPartyService openIdRelyingPartyService,
-            IOrchardServices orchardServices) {
+            IOrchardServices orchardServices,
+            IOpenAuthorizer openAuthorizer) {
             _authenticationService = authenticationService;
             _openAuthenticationService = openAuthenticationService;
             _openIdRelyingPartyService = openIdRelyingPartyService;
             _orchardServices = orchardServices;
+            _openAuthorizer = openAuthorizer;
             T = NullLocalizer.Instance;
         }
 
@@ -64,12 +70,12 @@ namespace NGM.OpenAuthentication.Controllers {
                     break;
                 case OpenIdBulkAction.Delete:
                     foreach (var entry in checkedEntries) {
-                        _openAuthenticationService.RemoveOpenIdAssociation(entry.Account.ExternalIdentifier);
+                        _openAuthenticationService.RemoveOpenIdAssociation(new OpenIdAuthenticationParameters(entry.Account.ExternalIdentifier) );
                     }
                     break;
             }
-
-            return RedirectToAction("Index", "Admin");
+            
+            return RedirectToAction("Index", "OpenIdAdmin");
         }
 
         public ActionResult Create(string returnUrl) {
@@ -77,27 +83,21 @@ namespace NGM.OpenAuthentication.Controllers {
                 // TODO : Not happy about this huge switch statement, consider a stratagy pattern possibly when I come to refactory?
                 switch (_openIdRelyingPartyService.Response.Status) {
                     case AuthenticationStatus.Authenticated:
-                        var user = _authenticationService.GetAuthenticatedUser();
+                        var parameters = new OpenIdAuthenticationParameters(_openIdRelyingPartyService.Response.ClaimedIdentifier, _openIdRelyingPartyService.Response.FriendlyIdentifierForDisplay);
+                        var status = _openAuthorizer.Authorize(parameters);
 
-                        if (user == null)
-                            break;
+                        if (status == OpenAuthenticationStatus.Authenticated) {
+                            _orchardServices.Notifier.Information(T("OpenID succesfully associated to logged in account"));
+                            return Redirect(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
+                        }
 
-                        bool isExternalIdentifierAssigned = IsExternalIdentifierAssigned(_openIdRelyingPartyService.Response.ClaimedIdentifier);
-
-                        if (isExternalIdentifierAssigned)
-                            break;
-
-                        // If I am logged in, and no user currently has that identifier.. then associate.
-                        _openAuthenticationService.AssociateExternalAccountWithUser(user, _openIdRelyingPartyService.Response.ClaimedIdentifier, _openIdRelyingPartyService.Response.FriendlyIdentifierForDisplay);
-
-                        _orchardServices.Notifier.Information(T("OpenID succesfully associated to logged in account"));
-
-                        return Redirect(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
+                        _orchardServices.Notifier.Error(T(_openAuthorizer.Error.Value));
+                        break;
                     case AuthenticationStatus.Canceled:
-                        AddError("Canceled at provider");
+                        _orchardServices.Notifier.Error(T("Canceled at provider"));
                         break;
                     case AuthenticationStatus.Failed:
-                        AddError(_openIdRelyingPartyService.Response.Exception.Message);
+                        _orchardServices.Notifier.Error(T(_openIdRelyingPartyService.Response.Exception.Message));
                         break;
                 }
             }
@@ -112,7 +112,7 @@ namespace NGM.OpenAuthentication.Controllers {
 
             var identifier = new OpenIdIdentifier(viewModel.ExternalIdentifier);
             if (!identifier.IsValid) {
-                AddError("Invalid Open ID identifier");
+                _orchardServices.Notifier.Error(T("Invalid Open ID identifier"));
             } else {
                 try {
                     var request = _openIdRelyingPartyService.CreateRequest(identifier);
@@ -123,7 +123,7 @@ namespace NGM.OpenAuthentication.Controllers {
                     return request.RedirectingResponse.AsActionResult();
                 }
                 catch (ProtocolException ex) {
-                    AddError(string.Format("Unable to authenticate: {0}", ex.Message));
+                    _orchardServices.Notifier.Error(T("Unable to authenticate: {0}", ex.Message));
                 }
             }
             return View("Create", viewModel);
@@ -136,7 +136,7 @@ namespace NGM.OpenAuthentication.Controllers {
                 return new HttpUnauthorizedResult();
 
             try {
-                _openAuthenticationService.RemoveOpenIdAssociation(externalIdentifier);
+                _openAuthenticationService.RemoveOpenIdAssociation(new OpenIdAuthenticationParameters(externalIdentifier));
                 
                 _orchardServices.Notifier.Information(T("OpenID was successfully deleted."));
             } catch (Exception exception) {
@@ -151,18 +151,14 @@ namespace NGM.OpenAuthentication.Controllers {
             };
         }
 
-        private bool IsExternalIdentifierAssigned(string externalIdentifier) {
-            var isExternalIdentifierAssigned = _openAuthenticationService.AccountExists(externalIdentifier);
+        private bool IsExternalIdentifierAssigned(OpenIdAuthenticationParameters parameters) {
+            var isExternalIdentifierAssigned = _openAuthenticationService.AccountExists(parameters);
 
             // Check to see if identifier is currently assigned.
             if (isExternalIdentifierAssigned) {
-                AddError("ClaimedIdentifier has already been assigned");
+                _orchardServices.Notifier.Error(T("ClaimedIdentifier has already been assigned"));
             }
             return isExternalIdentifierAssigned;
-        }
-
-        private void AddError(string value) {
-            _orchardServices.Notifier.Error(T(value));
         }
     }
 }

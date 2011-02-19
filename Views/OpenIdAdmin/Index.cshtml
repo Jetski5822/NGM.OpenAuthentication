@@ -39,7 +39,7 @@
                 </td>
                 <td>@accountModel.Account.ExternalDisplayIdentifier</td>
                 <td>
-                    <a href="@Url.Action("Delete", new { claimedIdentifier = @Model.Accounts[accountIndex].Account.ExternalIdentifier, returnUrl = ViewContext.RequestContext.HttpContext.Request.ToUrlString() })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
+                    <a href="@Url.Action("Delete", new { externalIdentifier = @Model.Accounts[accountIndex].Account.ExternalIdentifier, returnUrl = ViewContext.RequestContext.HttpContext.Request.ToUrlString() })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
                 </td>
 	        </tr>
             }

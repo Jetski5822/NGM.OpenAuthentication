@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Models;
 using Orchard;
 using Orchard.ContentManagement;
@@ -22,21 +20,24 @@ namespace NGM.OpenAuthentication.Services {
             _orchardServices = orchardServices;
         }
 
-        public void AssociateExternalAccountWithUser(IUser user, string externalIdentifier, string externalDisplayIdentifier) {
+        public void AssociateExternalAccountWithUser(IUser user, OpenAuthenticationParameters parameters) {
             _orchardServices.ContentManager.Create<OpenAuthenticationPart>("User",
                                                                            (o) => {
                                                                                o.Record.UserId = user.Id;
-                                                                               o.Record.ExternalIdentifier = externalIdentifier;
-                                                                               o.Record.ExternalDisplayIdentifier = externalDisplayIdentifier;
+                                                                               o.Record.ExternalIdentifier = parameters.ExternalIdentifier;
+                                                                               o.Record.ExternalDisplayIdentifier = parameters.ExternalDisplayIdentifier;
+                                                                               o.Record.OAuthToken = parameters.OAuthToken;
+                                                                               o.Record.OAuthAccessToken = parameters.OAuthAccessToken;
+                                                                               o.Record.HashedProvider = parameters.HashedProvider;
                                                                            });
         }
 
-        public bool AccountExists(string externalIdentifier) {
-            return GetUser(externalIdentifier) != null;
+        public bool AccountExists(OpenAuthenticationParameters parameters) {
+            return GetUser(parameters) != null;
         }
 
-        public IUser GetUser(string externalIdentifier) {
-            var record = _openAuthenticationPartRecordRespository.Get(o => o.ExternalIdentifier == externalIdentifier);
+        public IUser GetUser(OpenAuthenticationParameters parameters) {
+            var record = _openAuthenticationPartRecordRespository.Get(o => o.ExternalIdentifier == parameters.ExternalIdentifier && o.HashedProvider == parameters.HashedProvider);
 
             if (record != null) {
                 return _contentManager.Get<IUser>(record.UserId);
@@ -55,8 +56,8 @@ namespace NGM.OpenAuthentication.Services {
                .Where(c => c.UserId == user.Id);
         }
 
-        public void RemoveOpenIdAssociation(string externalIdentifier) {
-            var record = _openAuthenticationPartRecordRespository.Get(o => o.ExternalIdentifier == externalIdentifier);
+        public void RemoveOpenIdAssociation(OpenAuthenticationParameters parameters) {
+            var record = _openAuthenticationPartRecordRespository.Get(o => o.ExternalIdentifier == parameters.ExternalIdentifier && o.HashedProvider == parameters.HashedProvider);
 
             if (record != null)
                 _openAuthenticationPartRecordRespository.Delete(record);

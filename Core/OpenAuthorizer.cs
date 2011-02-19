@@ -21,8 +21,8 @@ namespace NGM.OpenAuthentication.Core {
 
         public KeyValuePair<string, string> Error { get; private set; }
 
-        public OpenAuthenticationStatus Authorize(string externalIdentifier, string externalDisplayIdentifier) {
-            var userFound = _openAuthenticationService.GetUser(externalIdentifier);
+        public OpenAuthenticationStatus Authorize(OpenAuthenticationParameters parameters) {
+            var userFound = _openAuthenticationService.GetUser(parameters);
 
             var userLoggedIn = _authenticationService.GetAuthenticatedUser();
 
@@ -46,15 +46,11 @@ namespace NGM.OpenAuthentication.Core {
 
                 return OpenAuthenticationStatus.RequiresRegistration;
             }
+            if (userFound == null) {
+                _openAuthenticationService.AssociateExternalAccountWithUser(userLoggedIn, parameters);
+            }
 
-            var user = userLoggedIn ?? userFound;
-
-            _openAuthenticationService.AssociateExternalAccountWithUser(
-                user,
-                externalIdentifier,
-                externalDisplayIdentifier);
-
-            _authenticationService.SignIn(user, false);
+            _authenticationService.SignIn(userFound ?? userLoggedIn, false);
 
             return OpenAuthenticationStatus.Authenticated;
         }

@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using Orchard;
@@ -22,10 +23,20 @@ namespace NGM.OpenAuthentication.Handlers {
             OnCreated<IUser>((context, user) => {
                 var externalIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["externalidentifier"];
                 var externalDisplayIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["externaldisplayidentifier"];
+                var oAuthToken = _orchardServices.WorkContext.HttpContext.Request.Params["oauthtoken"];
+                var oAuthAccessToken = _orchardServices.WorkContext.HttpContext.Request.Params["oauthaccesstoken"];
+                var provider = int.Parse(_orchardServices.WorkContext.HttpContext.Request.Params["provider"]);
 
-                if (!string.IsNullOrEmpty(externalIdentifier) || !string.IsNullOrEmpty(externalDisplayIdentifier)) {
-                    if (!_openAuthenticationService.AccountExists(externalIdentifier)) {
-                        _openAuthenticationService.AssociateExternalAccountWithUser(user, externalIdentifier, externalDisplayIdentifier);
+                if (!string.IsNullOrEmpty(externalIdentifier)) {
+                    var parameters = new HashedOpenAuthenticationParameters(provider) {
+                        ExternalIdentifier = externalIdentifier,
+                        ExternalDisplayIdentifier = externalDisplayIdentifier,
+                        OAuthToken = oAuthToken,
+                        OAuthAccessToken = oAuthAccessToken
+                    };
+
+                    if (!_openAuthenticationService.AccountExists(parameters)) {
+                        _openAuthenticationService.AssociateExternalAccountWithUser(user, parameters);
                     }
                 }
             });

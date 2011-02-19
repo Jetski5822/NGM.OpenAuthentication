@@ -10,6 +10,9 @@ namespace NGM.OpenAuthentication {
                     .Column<int>("UserId")
                     .Column<string>("ExternalIdentifier")
                     .Column<string>("ExternalDisplayIdentifier")
+                    .Column<string>("OAuthToken")
+                    .Column<string>("OAuthAccessToken")
+                    .Column<int>("HashedProvider")
                 );
 
             SchemaBuilder.CreateTable("OpenAuthenticationSettingsPartRecord", table => table

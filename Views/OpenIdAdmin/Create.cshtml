@@ -1,0 +1,42 @@
+@{
+    Style.Require("Account");
+    Style.Require("openIdStyles");
+    
+    Script.Require("jQuery");
+    Script.Require("openIdSelector");
+    Script.Require("openIdLocalization");
+}
+@using(Script.Foot()) {
+<script type="text/javascript">
+    $(document).ready(function () {
+        openid.init('ExternalIdentifier');
+        //openid.setDemoMode(true); //Stops form submission for client javascript-only test purposes
+    });
+</script>
+}
+
+<h1>@Html.TitleForPage(T("Register OpenID Account").ToString())</h1>
+
+@using (Html.BeginForm("Create", "OpenIdAdmin", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post, new { id = "openid_form" })) {
+<input type="hidden" name="action" value="verify" />
+<fieldset class="login-form group">
+    <legend>@T("OpenID Details")</legend>
+    <ol>
+        <li>
+            <div id="openid_choice">
+			    <p>Please click your account provider:</p>
+				<div id="openid_btns"></div>
+			</div>
+        </li>
+        <li>
+            <div id="openid_input_area">
+                <label for="ExternalIdentifier">@T("Enter manually your OpenID")</label>
+                @Html.TextBox("ExternalIdentifier", "http://", new { id = "ExternalIdentifier", @class = "textMedium", autofocus = "autofocus" })
+                @Html.ValidationMessage("ExternalIdentifier")
+            </div>
+        </li>
+        @Html.AntiForgeryTokenOrchard()
+    </ol>
+    <button class="primaryAction" type="submit">@T("Associate OpenID")</button>
+</fieldset>
+}

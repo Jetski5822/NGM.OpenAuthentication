@@ -64,12 +64,7 @@ namespace NGM.OpenAuthentication.Controllers {
         }
 
         private ActionResult DefaultRegisterResult(string returnUrl, RegisterModel model) {
-            return RedirectToAction("Register", "Account", new {
-                area = "Orchard.Users",
-                ReturnUrl = returnUrl,
-                externalidentifier = model.ExternalIdentifier,
-                externaldisplayidentifier = model.ExternalDisplayIdentifier
-            });
+            return RedirectToAction("Register", "Account", RouteValuesHelper.CreateRegisterRouteValueDictionary(returnUrl, model));
         }
     }
 }
