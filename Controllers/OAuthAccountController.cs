@@ -32,7 +32,7 @@ namespace NGM.OpenAuthentication.Controllers {
 
             if (!string.IsNullOrEmpty(viewModel.KnownProvider)) {
                 var wrapper = _oAuthWrappers
-                    .Where(o => o.Provider.ToLowerInvariant() == viewModel.KnownProvider.ToLowerInvariant() && o.IsConsumerConfigured).FirstOrDefault();
+                    .Where(o => o.Provider.ToString() == viewModel.KnownProvider.ToLowerInvariant() && o.IsConsumerConfigured).FirstOrDefault();
                 
                 if (wrapper != null) {
                     var result = wrapper.Authorize(returnUrl);

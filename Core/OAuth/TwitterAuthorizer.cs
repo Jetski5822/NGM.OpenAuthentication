@@ -71,8 +71,8 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             return new Uri(currentUrl);
         }
 
-        public string Provider {
-            get { return "Twitter"; }
+        public OAuthProvider Provider {
+            get { return OAuthProvider.Twitter; }
         }
     }
 }

@@ -59,6 +59,7 @@
     <Compile Include="Core\IOpenAuthorizer.cs" />
     <Compile Include="Controllers\OAuthAccountController.cs" />
     <Compile Include="Core\OAuth\AuthorizeState.cs" />
+    <Compile Include="Core\OAuth\OAuthProvider.cs" />
     <Compile Include="Core\OpenAuthenticationStatus.cs" />
     <Compile Include="Core\OpenAuthorizer.cs" />
     <Compile Include="Controllers\OpenIdAccountController.cs" />
