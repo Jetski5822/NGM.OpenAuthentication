@@ -6,7 +6,7 @@
     width: 400px;
 }
 
-#oauth_btn {
+.oauth_btn {
 	background-attachment: scroll;
     background-clip: border-box;
     background-color: #FFFFFF;

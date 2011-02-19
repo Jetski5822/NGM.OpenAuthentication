@@ -115,6 +115,7 @@
     <Content Include="Content\cardspace\images\infocard_71x50.png" />
     <Content Include="Content\cardspace\images\infocard_81x57.png" />
     <Content Include="Content\cardspace\images\infocard_92x64.png" />
+    <Content Include="Content\oauth\images\twitter-logo.jpg" />
     <Content Include="Styles\openid.css" />
     <Content Include="Content\openid-selector\images.large\aol.gif" />
     <Content Include="Content\openid-selector\images.large\facebook.gif" />
@@ -210,9 +211,7 @@
     <Content Include="Scripts\openid-uk.js" />
     <Content Include="Module.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\oauth\images\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Styles\account.css" />
   </ItemGroup>

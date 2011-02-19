@@ -18,21 +18,15 @@
 </div>
 }
 
-@using (Html.BeginForm("LogOn", "OAuthAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post, new { id = "oauth_form" })) {
 <fieldset class="login-form group">
     <legend>@T("OAuth account")</legend>
     <ol>
         <li>
             <div id="oauth_input_area">
-                
-                @Html.ActionLink("Twitter", "LogOn", "OAuthAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"], KnownProvider = "Twitter" }, null)
-                <label for="KnownProvider">@T("Type Provider")</label>
-                @Html.TextBox("KnownProvider", string.Empty, new { id = "KnownProvider", @class = "textMedium", autofocus = "autofocus" })
-                @Html.ValidationMessage("KnownProvider")
+                <a href="@Url.Action("LogOn", "OAuthAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"], KnownProvider = "Twitter" })">
+                    @Html.Image("../../Modules/NGM.OpenAuthentication/Content/oauth/images/twitter-logo.jpg", "Twitter", new { @Class = "oauth_btn openid_large_btn" })
+                </a>
             </div>
         </li>
-        <button class="primaryAction" type="submit">@T("Sign In")</button>
-        @Html.AntiForgeryTokenOrchard()
     </ol>
 </fieldset>
-}
