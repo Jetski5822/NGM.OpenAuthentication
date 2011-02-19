@@ -22,7 +22,7 @@ namespace NGM.OpenAuthentication {
                     context.Shape.Metadata.Wrappers.Add("Wrappers_Account_OpenID_LogOn");
                 if (settings.Record.CardSpaceEnabled)
                     context.Shape.Metadata.Wrappers.Add("Wrappers_Account_CardSpace_LogOn");
-
+                if (settings.Record.OAuthEnabled)
                 context.Shape.Metadata.Wrappers.Add("Wrappers_Account_OAuth_LogOn");
             }
             if (context.ShapeType == "Register") {

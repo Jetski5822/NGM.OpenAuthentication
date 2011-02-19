@@ -16,6 +16,7 @@ namespace NGM.OpenAuthentication {
                 .ContentPartRecord()
                 .Column<bool>("OpenIdEnabled")
                 .Column<bool>("CardSpaceEnabled")
+                .Column<bool>("OAuthEnabled")
                 .Column<bool>("Birthdate")
                 .Column<bool>("Country")
                 .Column<bool>("Email")

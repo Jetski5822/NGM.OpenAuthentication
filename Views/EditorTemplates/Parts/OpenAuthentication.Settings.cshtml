@@ -7,9 +7,13 @@
         @Html.EditorFor(m => m.OpenIdEnabled)         
         <label class="forcheckbox" for="OpenIdEnabled">@T("Enable OpenId")</label>
     </div>
-    <div>
+@*    <div>
         @Html.EditorFor(m => m.CardSpaceEnabled)         
         <label class="forcheckbox" for="CardSpaceEnabled">@T("Enable CardSpace")</label>
+    </div>*@
+    <div>
+        @Html.EditorFor(m => m.OAuthEnabled)         
+        <label class="forcheckbox" for="OAuthEnabled">@T("Enable OAuth")</label>
     </div>
 </fieldset>
 <fieldset>
