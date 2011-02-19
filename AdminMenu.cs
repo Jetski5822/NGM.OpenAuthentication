@@ -17,7 +17,7 @@ namespace NGM.OpenAuthentication {
         public void GetNavigation(NavigationBuilder builder) {
             if (_openAuthenticationService.GetSettings().Record.OpenIdEnabled)
                 builder.Add(T("Users"), "40",
-                    menu => menu.Add(T("Open ID"), "3.0", item => item.Action("Index", "OpenIdAdmin", new { area = "NGM.OpenAuthentication" })
+                    menu => menu.Add(T("Associated Accounts"), "3.0", item => item.Action("Index", "Admin", new { area = "NGM.OpenAuthentication" })
                         .Permission(StandardPermissions.SiteOwner)));
         }
     }

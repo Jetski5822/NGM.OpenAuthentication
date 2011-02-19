@@ -3,7 +3,7 @@
 @using NGM.OpenAuthentication.Models;
 @using NGM.OpenAuthentication.ViewModels;
 
-<h1>@Html.TitleForPage(T("Manage OpenID Accounts").ToString())</h1>
+<h1>@Html.TitleForPage(T("Manage External Accounts").ToString())</h1>
 @using (Html.BeginFormAntiForgeryPost()) { 
     @Html.ValidationSummary() 
     <fieldset class="bulk-actions">
@@ -18,7 +18,7 @@
         @Html.ActionLink(T("Add an account").ToString(), "Create", new { returnUrl = ViewContext.RequestContext.HttpContext.Request.ToUrlString() }, new { @class = "button primaryAction" })
     </div>
     <fieldset>
-        <table class="items" summary="@T("This is a table of the OpenID accounts associated with your logon")">
+        <table class="items" summary="@T("This is a table of external accounts associated with your logon")">
 	        <colgroup>
 		        <col id="Col1" />
 		        <col id="Col2" />
