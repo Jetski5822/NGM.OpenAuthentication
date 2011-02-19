@@ -3,7 +3,7 @@ AntiForgery: enabled
 Author: Nicholas Mayne
 Website: http://themayneissue.com
 Version: 0.1.0
-OrchardVersion: 1.0.0
+OrchardVersion: 1.0.20.0
 Description: The Open Authentication Module to wrap up the use of DotNetOpenAuth in Orchard.
 Features:
     NGM.OpenAuthentication:
