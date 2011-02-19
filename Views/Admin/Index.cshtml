@@ -31,15 +31,15 @@
 	        </thead>    
             @{var accountIndex = 0;}
             @foreach (var accountModel in Model.Accounts) {
-            <tr itemscope="itemscope" itemid="@Model.Accounts[accountIndex].Account.ClaimedIdentifier">
+            <tr itemscope="itemscope" itemid="@Model.Accounts[accountIndex].Account.ExternalIdentifier">
                 <input type="hidden" value="@Model.Accounts[accountIndex].Account.UserId" name="@Html.NameOf(m => m.Accounts[accountIndex].Account.UserId)"/>
                 <td>
-                    <input type="hidden" value="@Model.Accounts[accountIndex].Account.ClaimedIdentifier" name="@Html.NameOf(m => m.Accounts[accountIndex].Account.ClaimedIdentifier)"/>
+                    <input type="hidden" value="@Model.Accounts[accountIndex].Account.ExternalIdentifier" name="@Html.NameOf(m => m.Accounts[accountIndex].Account.ExternalIdentifier)"/>
                     <input type="checkbox" value="true" name="@Html.NameOf(m => m.Accounts[accountIndex].IsChecked)"/>
                 </td>
-                <td>@accountModel.Account.FriendlyIdentifierForDisplay</td>
+                <td>@accountModel.Account.ExternalDisplayIdentifier</td>
                 <td>
-                    <a href="@Url.Action("Delete", new { claimedIdentifier = @Model.Accounts[accountIndex].Account.ClaimedIdentifier, returnUrl = ViewContext.RequestContext.HttpContext.Request.ToUrlString() })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
+                    <a href="@Url.Action("Delete", new { claimedIdentifier = @Model.Accounts[accountIndex].Account.ExternalIdentifier, returnUrl = ViewContext.RequestContext.HttpContext.Request.ToUrlString() })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
                 </td>
 	        </tr>
             }
