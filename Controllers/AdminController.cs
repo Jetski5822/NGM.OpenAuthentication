@@ -19,14 +19,14 @@ using Orchard.UI.Notify;
 
 namespace NGM.OpenAuthentication.Controllers {
     [Admin]
-    public class OpenIdAdminController : Controller {
+    public class AdminController : Controller {
         private readonly IAuthenticationService _authenticationService;
         private readonly IOpenAuthenticationService _openAuthenticationService;
         private readonly IOpenIdRelyingPartyService _openIdRelyingPartyService;
         private readonly IOrchardServices _orchardServices;
         private readonly IOpenAuthorizer _openAuthorizer;
 
-        public OpenIdAdminController(IAuthenticationService authenticationService,
+        public AdminController(IAuthenticationService authenticationService,
             IOpenAuthenticationService openAuthenticationService,
             IOpenIdRelyingPartyService openIdRelyingPartyService,
             IOrchardServices orchardServices,
@@ -75,7 +75,7 @@ namespace NGM.OpenAuthentication.Controllers {
                     break;
             }
             
-            return RedirectToAction("Index", "OpenIdAdmin");
+            return RedirectToAction("Index", "Admin");
         }
 
         public ActionResult Create(string returnUrl) {
@@ -101,12 +101,12 @@ namespace NGM.OpenAuthentication.Controllers {
                         break;
                 }
             }
-            
+
             return View("Create");
         }
 
-        [HttpPost, ActionName("Create")]
-        public ActionResult _Create(FormCollection formCollection) {
+        [HttpPost, ActionName("CreateOpenId")]
+        public ActionResult _CreateOpenId(FormCollection formCollection) {
             var viewModel = new CreateViewModel();
             TryUpdateModel(viewModel, formCollection);
 
@@ -131,12 +131,14 @@ namespace NGM.OpenAuthentication.Controllers {
 
 
         [HttpPost]
-        public ActionResult Delete(string externalIdentifier, string returnUrl) {
+        public ActionResult Delete(string externalIdentifier, string returnUrl, int? hashedProvider) {
             if (!_orchardServices.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to manage OpenID")))
                 return new HttpUnauthorizedResult();
 
+            var provider = new HashedOpenAuthenticationParameters(hashedProvider.GetValueOrDefault()) { ExternalIdentifier = externalIdentifier };
+
             try {
-                _openAuthenticationService.RemoveAssociation(new OpenIdAuthenticationParameters(externalIdentifier));
+                _openAuthenticationService.RemoveAssociation(provider);
                 
                 _orchardServices.Notifier.Information(T("OpenID was successfully deleted."));
             } catch (Exception exception) {
@@ -149,16 +151,6 @@ namespace NGM.OpenAuthentication.Controllers {
             return new AccountEntry {
                 Account = openAuthenticationPart
             };
-        }
-
-        private bool IsExternalIdentifierAssigned(OpenIdAuthenticationParameters parameters) {
-            var isExternalIdentifierAssigned = _openAuthenticationService.AccountExists(parameters);
-
-            // Check to see if identifier is currently assigned.
-            if (isExternalIdentifierAssigned) {
-                _orchardServices.Notifier.Error(T("ClaimedIdentifier has already been assigned"));
-            }
-            return isExternalIdentifierAssigned;
         }
     }
 }

@@ -56,7 +56,6 @@
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\CardSpaceAccountController.cs" />
-    <Compile Include="Controllers\OAuthAdminController.cs" />
     <Compile Include="Core\RouteValuesHelper.cs" />
     <Compile Include="Core\CardSpace\CardSpaceAuthenticationParameters.cs" />
     <Compile Include="Core\HashedOpenAuthenticationParameters.cs" />
@@ -68,7 +67,7 @@
     <Compile Include="Core\OpenAuthenticationStatus.cs" />
     <Compile Include="Core\OpenAuthorizer.cs" />
     <Compile Include="Controllers\OpenIdAccountController.cs" />
-    <Compile Include="Controllers\OpenIdAdminController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Core\CardSpace\InfoCardImageHelpers.cs" />
     <Compile Include="Core\CardSpace\NameSpaceConstants.cs" />
     <Compile Include="Core\CardSpace\RegisterModelBuilder.cs" />
@@ -250,8 +249,8 @@
     </Content>
     <Content Include="Placement.info" />
     <Content Include="Views\EditorTemplates\Parts\Accounts.UserOpenAuthentication.cshtml" />
-    <Content Include="Views\OpenIdAdmin\Index.cshtml" />
-    <Content Include="Views\OpenIdAdmin\Create.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Create.cshtml" />
     <Content Include="Views\EditorTemplates\Parts\OpenAuthentication.Settings.cshtml" />
     <Content Include="Views\Wrappers.Account.Register.cshtml" />
     <Content Include="Content\openid-selector\Web.config">

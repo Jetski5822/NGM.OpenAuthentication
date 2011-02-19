@@ -14,7 +14,9 @@
         </select>
         <button type="submit" name="submit.BulkEdit" value="@T("Apply")">@T("Apply")</button>
     </fieldset>
-    <div class="manage">@Html.ActionLink(T("Add an OpenID account").ToString(), "Create", new { returnUrl = ViewContext.RequestContext.HttpContext.Request.ToUrlString() }, new { @class = "button primaryAction" })</div>
+    <div class="manage">
+        @Html.ActionLink(T("Add an account").ToString(), "Create", new { returnUrl = ViewContext.RequestContext.HttpContext.Request.ToUrlString() }, new { @class = "button primaryAction" })
+    </div>
     <fieldset>
         <table class="items" summary="@T("This is a table of the OpenID accounts associated with your logon")">
 	        <colgroup>
@@ -39,7 +41,11 @@
                 </td>
                 <td>@accountModel.Account.ExternalDisplayIdentifier</td>
                 <td>
-                    <a href="@Url.Action("Delete", new { externalIdentifier = @Model.Accounts[accountIndex].Account.ExternalIdentifier, returnUrl = ViewContext.RequestContext.HttpContext.Request.ToUrlString() })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
+                    <a href="@Url.Action("Delete", new { 
+                            externalIdentifier = @Model.Accounts[accountIndex].Account.ExternalIdentifier, 
+                            returnUrl = ViewContext.RequestContext.HttpContext.Request.ToUrlString(),
+                            hashedProvider = @Model.Accounts[accountIndex].Account.HashedProvider
+                        })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
                 </td>
 	        </tr>
             }
