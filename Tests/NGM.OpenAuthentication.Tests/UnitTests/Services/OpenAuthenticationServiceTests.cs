@@ -95,7 +95,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
             mockRepository.Setup(o => o.Delete(openAuthenticationPartRecord));
 
             var openAuthenticationService = new OpenAuthenticationService(null, mockRepository.Object, null);
-            openAuthenticationService.RemoveOpenIdAssociation(new OpenIdAuthenticationParameters(OpenAuthUrlForGoogle));
+            openAuthenticationService.RemoveAssociation(new OpenIdAuthenticationParameters(OpenAuthUrlForGoogle));
 
             mockRepository.VerifyAll();
         }
@@ -108,7 +108,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
             mockRepository.Setup(o => o.Get(It.IsAny<Expression<Func<OpenAuthenticationPartRecord, bool>>>())).Returns(openAuthenticationPartRecord);
 
             var openAuthenticationService = new OpenAuthenticationService(null, mockRepository.Object, null);
-            openAuthenticationService.RemoveOpenIdAssociation(new OpenIdAuthenticationParameters(OpenAuthUrlForGoogle));
+            openAuthenticationService.RemoveAssociation(new OpenIdAuthenticationParameters(OpenAuthUrlForGoogle));
 
             mockRepository.Verify(o => o.Delete(openAuthenticationPartRecord), Times.Never());
             mockRepository.VerifyAll();

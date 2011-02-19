@@ -70,7 +70,7 @@ namespace NGM.OpenAuthentication.Controllers {
                     break;
                 case OpenIdBulkAction.Delete:
                     foreach (var entry in checkedEntries) {
-                        _openAuthenticationService.RemoveOpenIdAssociation(new OpenIdAuthenticationParameters(entry.Account.ExternalIdentifier) );
+                        _openAuthenticationService.RemoveAssociation(new OpenIdAuthenticationParameters(entry.Account.ExternalIdentifier) );
                     }
                     break;
             }
@@ -136,7 +136,7 @@ namespace NGM.OpenAuthentication.Controllers {
                 return new HttpUnauthorizedResult();
 
             try {
-                _openAuthenticationService.RemoveOpenIdAssociation(new OpenIdAuthenticationParameters(externalIdentifier));
+                _openAuthenticationService.RemoveAssociation(new OpenIdAuthenticationParameters(externalIdentifier));
                 
                 _orchardServices.Notifier.Information(T("OpenID was successfully deleted."));
             } catch (Exception exception) {

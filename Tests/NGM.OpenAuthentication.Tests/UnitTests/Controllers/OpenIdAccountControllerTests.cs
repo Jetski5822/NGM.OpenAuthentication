@@ -244,7 +244,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
         //    string testUrl2 = "Bar";
             
         //    var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
-        //    mockOpenAuthenticationService.Setup(o => o.RemoveOpenIdAssociation(testUrl1));
+        //    mockOpenAuthenticationService.Setup(o => o.RemoveAssociation(testUrl1));
 
         //    var accountController = new OpenIdAccountController(null, null, mockOpenAuthenticationService.Object, null);
         //    accountController.ControllerContext = MockControllerContext(accountController);
@@ -257,7 +257,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
 
         //    var verifiedAccounts = (RedirectToRouteResult)accountController._VerifiedAccounts(new FormCollection(nameValueCollection));
 
-        //    mockOpenAuthenticationService.Verify(o => o.RemoveOpenIdAssociation(testUrl1), Times.Once());
+        //    mockOpenAuthenticationService.Verify(o => o.RemoveAssociation(testUrl1), Times.Once());
         //    mockOpenAuthenticationService.VerifyAll();
         //}
 

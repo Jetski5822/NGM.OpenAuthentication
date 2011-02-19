@@ -56,7 +56,7 @@ namespace NGM.OpenAuthentication.Services {
                .Where(c => c.UserId == user.Id);
         }
 
-        public void RemoveOpenIdAssociation(OpenAuthenticationParameters parameters) {
+        public void RemoveAssociation(OpenAuthenticationParameters parameters) {
             var record = _openAuthenticationPartRecordRespository.Get(o => o.ExternalIdentifier == parameters.ExternalIdentifier && o.HashedProvider == parameters.HashedProvider);
 
             if (record != null)

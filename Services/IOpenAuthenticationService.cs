@@ -15,6 +15,6 @@ namespace NGM.OpenAuthentication.Services {
         OpenAuthenticationSettingsPart GetSettings();
 
         IContentQuery<OpenAuthenticationPart, OpenAuthenticationPartRecord> GetExternalIdentifiersFor(IUser user);
-        void RemoveOpenIdAssociation(OpenAuthenticationParameters parameters);
+        void RemoveAssociation(OpenAuthenticationParameters parameters);
     }
 }
