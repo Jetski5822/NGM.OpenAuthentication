@@ -41,7 +41,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         public AuthorizeState Authorize(string returnUrl) {
             _authorizer.CompleteAuthorization(GenerateReturnUri());
-
+            
             if (!_authorizer.IsAuthorized) {
                 _orchardServices.WorkContext.HttpContext.Session["knownProvider"] = Provider.ToString();
 
@@ -54,7 +54,12 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
             return new AuthorizeState(returnUrl, status) {
                 Error = _openAuthorizer.Error,
-                RegisterModel = new RegisterModel {ExternalIdentifier = _authorizer.UserId, ExternalDisplayIdentifier = _authorizer.ScreenName, UserName = _authorizer.ScreenName, Provider = Provider.ToString()}
+                RegisterModel = new RegisterModel {
+                    ExternalIdentifier = _authorizer.OAuthTwitter.OAuthToken, 
+                    ExternalDisplayIdentifier = _authorizer.ScreenName, 
+                    UserName = _authorizer.ScreenName, 
+                    Provider = Provider.ToString()
+                }
             };
         }
 
