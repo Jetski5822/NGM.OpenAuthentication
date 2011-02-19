@@ -43,7 +43,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             _authorizer.CompleteAuthorization(GenerateReturnUri());
 
             if (!_authorizer.IsAuthorized) {
-                _orchardServices.WorkContext.HttpContext.Session["knownProvider"] = Provider;
+                _orchardServices.WorkContext.HttpContext.Session["knownProvider"] = Provider.ToString();
 
                 return new AuthorizeState(returnUrl, OpenAuthenticationStatus.RequresRedirect) { Result = _authorizer.BeginAuthorization() };
             }
