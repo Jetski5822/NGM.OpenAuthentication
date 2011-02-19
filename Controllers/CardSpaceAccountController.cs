@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System;
+using System.Diagnostics.Contracts;
 using System.Web.Mvc;
 using DotNetOpenAuth.InfoCard;
 using Orchard.Localization;
@@ -17,6 +18,7 @@ namespace NGM.OpenAuthentication.Controllers {
 
         [ValidateInput(false)]
         public ActionResult LogOn(string returnUrl) {
+            throw new NotImplementedException("Not implemented just yet.");
             string xmlToken = this.HttpContext.Request.Params["xmlToken"];
 
             Token token = Token.Read(xmlToken);
