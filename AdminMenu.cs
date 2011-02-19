@@ -15,10 +15,13 @@ namespace NGM.OpenAuthentication {
         public string MenuName { get { return "admin"; } }
 
         public void GetNavigation(NavigationBuilder builder) {
-            if (_openAuthenticationService.GetSettings().Record.OpenIdEnabled)
+            if (_openAuthenticationService.GetSettings().Record.OpenIdEnabled
+                || _openAuthenticationService.GetSettings().Record.OAuthEnabled
+                || _openAuthenticationService.GetSettings().Record.CardSpaceEnabled) {
                 builder.Add(T("Users"), "40",
-                    menu => menu.Add(T("Associated Accounts"), "3.0", item => item.Action("Index", "Admin", new { area = "NGM.OpenAuthentication" })
-                        .Permission(StandardPermissions.AccessAdminPanel)));
+                            menu => menu.Add(T("Associated Accounts"), "3.0", item => item.Action("Index", "Admin", new {area = "NGM.OpenAuthentication"})
+                                                                                          .Permission(StandardPermissions.AccessAdminPanel)));
+            }
         }
     }
 }

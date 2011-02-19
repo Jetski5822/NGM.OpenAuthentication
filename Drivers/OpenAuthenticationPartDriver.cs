@@ -50,7 +50,7 @@ namespace NGM.OpenAuthentication.Drivers {
 
                     if (entries.ToList().Count.Equals(0)) return null;
 
-                    var viewModel = new OpenIdIndexViewModel {
+                    var viewModel = new AdminIndexViewModel {
                         Accounts = entries.ToList()
                     };
 

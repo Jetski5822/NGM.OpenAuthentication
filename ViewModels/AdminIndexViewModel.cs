@@ -2,9 +2,9 @@
 using NGM.OpenAuthentication.Models;
 
 namespace NGM.OpenAuthentication.ViewModels {
-    public class OpenIdIndexViewModel {
+    public class AdminIndexViewModel {
         public IList<AccountEntry> Accounts { get; set; }
-        public OpenIdIndexOptions Options { get; set; }
+        public AdminIndexOptions Options { get; set; }
     }
 
     public class AccountEntry {
@@ -12,11 +12,11 @@ namespace NGM.OpenAuthentication.ViewModels {
         public bool IsChecked { get; set; }
     }
 
-    public class OpenIdIndexOptions {
-        public OpenIdBulkAction BulkAction { get; set; }
+    public class AdminIndexOptions {
+        public AdminBulkAction BulkAction { get; set; }
     }
 
-    public enum OpenIdBulkAction {
+    public enum AdminBulkAction {
         None,
         Delete
     }

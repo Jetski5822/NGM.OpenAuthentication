@@ -50,9 +50,9 @@ namespace NGM.OpenAuthentication.Controllers {
                     .ToList()
                     .Select(account => CreateAccountEntry(account.Record));
 
-            var viewModel = new OpenIdIndexViewModel {
+            var viewModel = new AdminIndexViewModel {
                 Accounts = entries.ToList(),
-                Options = new OpenIdIndexOptions()
+                Options = new AdminIndexOptions()
             };
 
             return View("Index", viewModel);
@@ -61,14 +61,14 @@ namespace NGM.OpenAuthentication.Controllers {
         [HttpPost]
         [FormValueRequired("submit.BulkEdit")]
         public ActionResult Index(FormCollection input) {
-            var viewModel = new OpenIdIndexViewModel { Accounts = new List<AccountEntry>() };
+            var viewModel = new AdminIndexViewModel { Accounts = new List<AccountEntry>() };
             UpdateModel(viewModel, input);
 
             var checkedEntries = viewModel.Accounts.Where(c => c.IsChecked);
             switch (viewModel.Options.BulkAction) {
-                case OpenIdBulkAction.None:
+                case AdminBulkAction.None:
                     break;
-                case OpenIdBulkAction.Delete:
+                case AdminBulkAction.Delete:
                     foreach (var entry in checkedEntries) {
                         _openAuthenticationService.RemoveAssociation(new OpenIdAuthenticationParameters(entry.Account.ExternalIdentifier) );
                     }
