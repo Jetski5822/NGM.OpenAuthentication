@@ -76,6 +76,7 @@
     <Compile Include="Core\OAuth\TwitterAuthorizer.cs" />
     <Compile Include="Core\OpenId\Claims.cs" />
     <Compile Include="Core\OpenId\RegisterModelBuilder.cs" />
+    <Compile Include="Core\OrchardShapeChecker.cs" />
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
     <Compile Include="Filters\LogOnFilter.cs" />
     <Compile Include="Filters\RegistrationFilter.cs" />
