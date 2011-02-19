@@ -1,7 +1,4 @@
-﻿using System;
-using DotNetOpenAuth.OpenId;
-
-namespace NGM.OpenAuthentication.Core.OpenId {
+﻿namespace NGM.OpenAuthentication.Core.OpenId {
     public sealed class OpenIdAuthenticationParameters : OpenAuthenticationParameters {
         public OpenIdAuthenticationParameters() {}
 

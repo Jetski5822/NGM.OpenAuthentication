@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using System.Web.Routing;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core;
@@ -9,7 +8,6 @@ using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
 using Orchard.Localization;
-using Orchard.Security;
 using Orchard.Themes;
 
 namespace NGM.OpenAuthentication.Controllers
