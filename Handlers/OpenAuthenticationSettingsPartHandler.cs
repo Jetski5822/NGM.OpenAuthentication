@@ -19,6 +19,7 @@ namespace NGM.OpenAuthentication.Handlers {
 
             settings.Record.OpenIdEnabled = true;
             settings.Record.CardSpaceEnabled = false;
+            settings.Record.OAuthEnabled = true;
 
             settings.Record.FacebookClientIdentifier = "152472704810628";
             settings.Record.FacebookClientSecret = "bca66bafbd39c83f60ed85668ab090fc";
