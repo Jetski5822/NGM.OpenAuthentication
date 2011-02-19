@@ -2,9 +2,9 @@
 
 namespace NGM.OpenAuthentication.Core.OpenId {
     public sealed class OpenIdIdentifier {
-        public OpenIdIdentifier(string identifierString) {
+        public OpenIdIdentifier(string externalIdentifier) {
             Identifier id;
-            if (Identifier.TryParse(identifierString, out id)) {
+            if (Identifier.TryParse(externalIdentifier, out id)) {
                 Identifier = id;
             }
         }

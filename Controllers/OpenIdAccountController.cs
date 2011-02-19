@@ -49,7 +49,7 @@ namespace NGM.OpenAuthentication.Controllers
                             return DefaultLogOnResult(returnUrl);
                         }
                         if (autheticationStatus == OpenAuthenticationStatus.RequiresRegistration) {
-                            var registerModelBuilder = new RegisterModelBuilder(_openIdRelyingPartyService.Response, _membershipService);
+                            var registerModelBuilder = new RegisterModelBuilder(_openIdRelyingPartyService.Response);
                             var model = registerModelBuilder.Build();
 
                             TempData["registermodel"] = model;
