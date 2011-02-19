@@ -23,7 +23,7 @@ namespace NGM.OpenAuthentication {
                 if (settings.Record.CardSpaceEnabled)
                     context.Shape.Metadata.Wrappers.Add("Wrappers_Account_CardSpace_LogOn");
                 if (settings.Record.OAuthEnabled)
-                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_OAuth_LogOn");
+                    context.Shape.Metadata.Wrappers.Add("Wrappers_Account_OAuth_LogOn");
             }
             if (context.ShapeType == "Register") {
                 context.Shape.Metadata.Wrappers.Add("Wrappers_Account_Register");
