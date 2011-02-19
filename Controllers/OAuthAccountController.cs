@@ -45,7 +45,7 @@ namespace NGM.OpenAuthentication.Controllers {
                 var result = wrapper.Authorize(returnUrl);
 
                 if (result.AuthenticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
-                    this.AddError(result.Error.Key, result.Error.Value);
+                    this.AddError(result.Error.Key, T(result.Error.Value));
                     return DefaultLogOnResult(returnUrl);
                 }
                 if (result.AuthenticationStatus == OpenAuthenticationStatus.RequiresRegistration) {

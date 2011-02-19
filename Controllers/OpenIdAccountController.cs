@@ -45,7 +45,7 @@ namespace NGM.OpenAuthentication.Controllers
                         if (autheticationStatus == OpenAuthenticationStatus.Authenticated)
                             return Redirect(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
                         if (autheticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
-                            this.AddError(_openAuthorizer.Error.Key, _openAuthorizer.Error.Value);
+                            this.AddError(_openAuthorizer.Error.Key, T(_openAuthorizer.Error.Value));
                             return DefaultLogOnResult(returnUrl);
                         }
                         if (autheticationStatus == OpenAuthenticationStatus.RequiresRegistration) {
@@ -58,10 +58,10 @@ namespace NGM.OpenAuthentication.Controllers
                         }
                         break;
                     case AuthenticationStatus.Canceled:
-                        this.AddError("InvalidProvider", "Canceled at provider");
+                        this.AddError("InvalidProvider", T("Canceled at provider"));
                         break;
                     case AuthenticationStatus.Failed:
-                        this.AddError("UnknownError", _openIdRelyingPartyService.Response.Exception.Message);
+                        this.AddError("UnknownError", T(_openIdRelyingPartyService.Response.Exception.Message));
                         break;
                 }
             }
@@ -80,7 +80,7 @@ namespace NGM.OpenAuthentication.Controllers
         private ActionResult BuildLogOnAuthenticationRedirect(CreateViewModel viewModel) {
             var identifier = new OpenIdIdentifier(viewModel.ExternalIdentifier);
             if (!identifier.IsValid) {
-                this.AddError("ExternalIdentifier", "Invalid Open ID identifier");
+                this.AddError("ExternalIdentifier", T("Invalid Open ID identifier"));
                 return DefaultLogOnResult(viewModel.ReturnUrl);
             }
 
@@ -93,7 +93,7 @@ namespace NGM.OpenAuthentication.Controllers
                 return request.RedirectingResponse.AsActionResult();
             }
             catch (ProtocolException ex) {
-                this.AddError("ProtocolException", string.Format("Unable to authenticate: {0}", ex.Message));
+                this.AddError("ProtocolException", T("Unable to authenticate: {0}", ex.Message));
             }
             return DefaultLogOnResult(viewModel.ReturnUrl);
         }
