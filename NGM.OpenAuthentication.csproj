@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\CardSpaceAccountController.cs" />
+    <Compile Include="Controllers\OAuthAdminController.cs" />
     <Compile Include="Core\RouteValuesHelper.cs" />
     <Compile Include="Core\CardSpace\CardSpaceAuthenticationParameters.cs" />
     <Compile Include="Core\HashedOpenAuthenticationParameters.cs" />

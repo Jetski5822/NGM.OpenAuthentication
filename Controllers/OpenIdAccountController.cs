@@ -18,17 +18,12 @@ namespace NGM.OpenAuthentication.Controllers
     public class OpenIdAccountController : Controller {
         private readonly IOpenIdRelyingPartyService _openIdRelyingPartyService;
         private readonly IOpenAuthenticationService _openAuthenticationService;
-        private readonly IMembershipService _membershipService;
         private readonly IOpenAuthorizer _openAuthorizer;
 
-        public OpenIdAccountController(IOpenIdRelyingPartyService openIdRelyingPartyService, 
-            IOpenAuthenticationService openAuthenticationService, 
-            IMembershipService membershipService, 
-            IOpenAuthorizer openAuthorizer)
+        public OpenIdAccountController(IOpenIdRelyingPartyService openIdRelyingPartyService, IOpenAuthenticationService openAuthenticationService, IOpenAuthorizer openAuthorizer)
         {
             _openIdRelyingPartyService = openIdRelyingPartyService;
             _openAuthenticationService = openAuthenticationService;
-            _membershipService = membershipService;
             _openAuthorizer = openAuthorizer;
             T = NullLocalizer.Instance;
         }

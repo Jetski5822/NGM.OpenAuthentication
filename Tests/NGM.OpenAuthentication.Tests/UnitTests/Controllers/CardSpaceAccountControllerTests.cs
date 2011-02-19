@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
     [TestFixture]
     public class CardSpaceAccountControllerTests {
-        [Test]
+        [Test, Ignore("Not implemented yet")]
         public void ShouldLoadToken() {
             CardSpaceAccountController controller = new CardSpaceAccountController();
             FormCollection collection = new FormCollection();

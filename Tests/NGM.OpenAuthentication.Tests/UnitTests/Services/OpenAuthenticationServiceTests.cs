@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Moq;
+using NGM.OpenAuthentication.Core;
+using NGM.OpenAuthentication.Core.OpenId;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using NUnit.Framework;
@@ -20,7 +22,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
             var mockRepository = new Mock<IRepository<OpenAuthenticationPartRecord>>();
 
             var openAuthenticationService = new OpenAuthenticationService(null, mockRepository.Object, null);
-            var user = openAuthenticationService.GetUser("test");
+            var user = openAuthenticationService.GetUser(new HashedOpenAuthenticationParameters(1));
 
             Assert.That(user, Is.Null);
         }
@@ -93,7 +95,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
             mockRepository.Setup(o => o.Delete(openAuthenticationPartRecord));
 
             var openAuthenticationService = new OpenAuthenticationService(null, mockRepository.Object, null);
-            openAuthenticationService.RemoveOpenIdAssociation(OpenAuthUrlForGoogle);
+            openAuthenticationService.RemoveOpenIdAssociation(new OpenIdAuthenticationParameters(OpenAuthUrlForGoogle));
 
             mockRepository.VerifyAll();
         }
@@ -106,7 +108,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Services {
             mockRepository.Setup(o => o.Get(It.IsAny<Expression<Func<OpenAuthenticationPartRecord, bool>>>())).Returns(openAuthenticationPartRecord);
 
             var openAuthenticationService = new OpenAuthenticationService(null, mockRepository.Object, null);
-            openAuthenticationService.RemoveOpenIdAssociation(OpenAuthUrlForGoogle);
+            openAuthenticationService.RemoveOpenIdAssociation(new OpenIdAuthenticationParameters(OpenAuthUrlForGoogle));
 
             mockRepository.Verify(o => o.Delete(openAuthenticationPartRecord), Times.Never());
             mockRepository.VerifyAll();

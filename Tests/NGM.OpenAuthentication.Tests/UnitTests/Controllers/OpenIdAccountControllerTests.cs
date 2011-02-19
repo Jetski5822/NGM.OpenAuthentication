@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Net;
-using System.Linq;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
@@ -10,17 +6,14 @@ using System.Web.Routing;
 using DotNetOpenAuth.OpenId;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using Moq;
-using NGM.OpenAuthentication.Tests.Fakes;
+using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Controllers;
 using NGM.OpenAuthentication.Core.OpenId;
-using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
-using NGM.OpenAuthentication.ViewModels;
 using NUnit.Framework;
 using Orchard;
-using Orchard.ContentManagement;
+using Orchard.Localization;
 using Orchard.Security;
-using Orchard.Settings;
 
 namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
     [TestFixture]
@@ -32,7 +25,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
             var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
             mockRelyingService.Setup(ctx => ctx.HasResponse).Returns(false);
 
-            var accountController = new OpenIdAccountController(mockRelyingService.Object, null, null, null);
+            var accountController = new OpenIdAccountController(mockRelyingService.Object, null, null);
             accountController.ControllerContext = MockControllerContext(accountController);
             var redirectResult = (RedirectToRouteResult)accountController.LogOn(string.Empty);
             Assert.That(redirectResult.RouteValues["Action"], Is.EqualTo("LogOn"));
@@ -50,7 +43,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
 
             mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
 
-            var accountController = new OpenIdAccountController(mockRelyingService.Object, null, null, null);
+            var accountController = new OpenIdAccountController(mockRelyingService.Object, null, null);
             var redirectResult = (RedirectToRouteResult)accountController.LogOn(string.Empty);
 
             Assert.That(accountController.TempData.ContainsKey("error-InvalidProvider"), Is.True);
@@ -71,21 +64,21 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
 
             mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
 
-            var accountController = new OpenIdAccountController(mockRelyingService.Object, null, null, null);
+            var accountController = new OpenIdAccountController(mockRelyingService.Object, null, null);
             var redirectResult = (RedirectToRouteResult)accountController.LogOn(string.Empty);
 
             Assert.That(accountController.TempData.ContainsKey("error-UnknownError"), Is.True);
 
             object value;
             accountController.TempData.TryGetValue("error-UnknownError", out value);
-            Assert.That(value as string, Is.EqualTo(exception.Message));
+            Assert.That((value as LocalizedString).Text, Is.EqualTo(exception.Message));
 
             mockRelyingService.VerifyAll();
             mockAuthenticationResponse.VerifyAll();
         }
 
         [Test]
-        public void should_assign_identifier_to_logged_in_account() {
+        public void should_authentiate_identifier_to_logged_in_account() {
 
             var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
             mockRelyingService.Setup(ctx => ctx.HasResponse).Returns(true);
@@ -100,21 +93,14 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
 
             mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
 
-            var mockUser = new Mock<IUser>();
+            var mockOpenAuthorizer = new Mock<IOpenAuthorizer>();
+            mockOpenAuthorizer.Setup(o => o.Authorize(It.IsAny<OpenAuthenticationParameters>())).Returns(OpenAuthenticationStatus.Authenticated);
 
-            var mockAuthenticationService = new Mock<IAuthenticationService>();
-            mockAuthenticationService.Setup(o => o.GetAuthenticatedUser()).Returns(mockUser.Object);
-
-            var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
-            mockOpenAuthenticationService.Setup(ctx => ctx.AssociateExternalAccountWithUser(mockUser.Object, identifier.ToString(), friendlyIdentifier.ToString()));
-
-            var accountController = new OpenIdAccountController(mockRelyingService.Object, mockOpenAuthenticationService.Object, null, null);
+            var accountController = new OpenIdAccountController(mockRelyingService.Object, null, mockOpenAuthorizer.Object);
             var actionResult = accountController.LogOn(string.Empty);
 
             mockAuthenticationResponse.VerifyAll();
-            mockAuthenticationService.VerifyAll();
             mockRelyingService.VerifyAll();
-            mockOpenAuthenticationService.VerifyAll();
         }
 
         [Test]
@@ -140,7 +126,10 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
 
             var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
 
-            var accountController = new OpenIdAccountController(mockRelyingService.Object, mockOpenAuthenticationService.Object, null, null);
+            var mockOpenAuthorizer = new Mock<IOpenAuthorizer>();
+            mockOpenAuthorizer.Setup(o => o.Authorize(It.IsAny<OpenAuthenticationParameters>())).Returns(OpenAuthenticationStatus.RequiresRegistration);
+
+            var accountController = new OpenIdAccountController(mockRelyingService.Object, mockOpenAuthenticationService.Object, mockOpenAuthorizer.Object);
             var redirectToRouteResult = (RedirectToRouteResult)accountController.LogOn(string.Empty);
 
             Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("Orchard.Users"));
@@ -150,7 +139,7 @@ namespace NGM.OpenAuthentication.Tests.UnitTests.Controllers {
             Assert.That(accountController.TempData.ContainsKey("RegisterModel"), Is.True);
 
             mockAuthenticationService.Verify(ctx => ctx.SignIn(It.IsAny<IUser>(), It.IsAny<bool>()), Times.Never());
-            mockOpenAuthenticationService.Verify(ctx => ctx.AssociateExternalAccountWithUser(It.IsAny<IUser>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+            mockOpenAuthenticationService.Verify(ctx => ctx.AssociateExternalAccountWithUser(It.IsAny<IUser>(), It.IsAny<OpenAuthenticationParameters>()), Times.Never());
 
             mockAuthenticationResponse.VerifyAll();
             mockAuthenticationService.VerifyAll();
