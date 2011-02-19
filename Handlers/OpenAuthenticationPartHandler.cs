@@ -24,7 +24,9 @@ namespace NGM.OpenAuthentication.Handlers {
                 var externalDisplayIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["externaldisplayidentifier"];
 
                 if (!string.IsNullOrEmpty(externalIdentifier) || !string.IsNullOrEmpty(externalDisplayIdentifier)) {
-                    _openAuthenticationService.AssociateExternalAccountWithUser(user, externalIdentifier, externalDisplayIdentifier);
+                    if (!_openAuthenticationService.AccountExists(externalIdentifier)) {
+                        _openAuthenticationService.AssociateExternalAccountWithUser(user, externalIdentifier, externalDisplayIdentifier);
+                    }
                 }
             });
         }
