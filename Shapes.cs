@@ -1,14 +1,12 @@
-﻿using NGM.OpenAuthentication.Models;
-using Orchard;
-using Orchard.ContentManagement;
+﻿using NGM.OpenAuthentication.Services;
 using Orchard.DisplayManagement.Implementation;
 
 namespace NGM.OpenAuthentication {
     public class Shapes : IShapeFactoryEvents {
-        private readonly IOrchardServices _orchardServices;
+        private readonly IOpenAuthenticationService _openAuthenticationService;
 
-        public Shapes(IOrchardServices orchardServices) {
-            _orchardServices = orchardServices;
+        public Shapes(IOpenAuthenticationService openAuthenticationService) {
+            _openAuthenticationService = openAuthenticationService;
         }
 
         public void Creating(ShapeCreatingContext context) {
@@ -17,7 +15,7 @@ namespace NGM.OpenAuthentication {
 
         public void Created(ShapeCreatedContext context) {
             if (context.ShapeType == "LogOn") {
-                var settings = _orchardServices.WorkContext.CurrentSite.As<OpenAuthenticationSettingsPart>();
+                var settings = _openAuthenticationService.GetSettings();
                 if (settings.Record.OpenIdEnabled)
                     context.Shape.Metadata.Wrappers.Add("Wrappers_Account_OpenID_LogOn");
                 if (settings.Record.CardSpaceEnabled)

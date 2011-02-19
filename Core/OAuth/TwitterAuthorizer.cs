@@ -1,21 +1,24 @@
 ﻿using System;
 using LinqToTwitter;
 using NGM.OpenAuthentication.Models;
+using NGM.OpenAuthentication.Services;
 using Orchard;
-using Orchard.ContentManagement;
 
 namespace NGM.OpenAuthentication.Core.OAuth {
     public class TwitterAuthorizer : IOAuthAuthorizer {
         private readonly IOrchardServices _orchardServices;
         private readonly IOpenAuthorizer _openAuthorizer;
+        private readonly IOpenAuthenticationService _openAuthenticationService;
 
         private readonly IOAuthCredentials _credentials;
         private readonly MvcAuthorizer _authorizer;
 
         public TwitterAuthorizer(IOrchardServices orchardServices,
-            IOpenAuthorizer openAuthorizer) {
+            IOpenAuthorizer openAuthorizer,
+            IOpenAuthenticationService openAuthenticationService) {
             _orchardServices = orchardServices;
             _openAuthorizer = openAuthorizer;
+            _openAuthenticationService = openAuthenticationService;
 
             _credentials = new SessionStateCredentials {
                 ConsumerKey = ClientKeyIdentifier,
@@ -26,11 +29,11 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         }
 
         public string ClientKeyIdentifier {
-            get { return _orchardServices.WorkContext.CurrentSite.As<OpenAuthenticationSettingsPart>().Record.TwitterClientIdentifier; }
+            get { return _openAuthenticationService.GetSettings().Record.TwitterClientIdentifier; }
         }
 
         public string ClientSecret {
-            get { return _orchardServices.WorkContext.CurrentSite.As<OpenAuthenticationSettingsPart>().Record.TwitterClientSecret; }
+            get { return _openAuthenticationService.GetSettings().Record.TwitterClientSecret; }
         }
 
         public bool IsConsumerConfigured {
