@@ -92,7 +92,7 @@ namespace NGM.OpenAuthentication.Controllers {
 
                         if (status == OpenAuthenticationStatus.Authenticated) {
                             _orchardServices.Notifier.Information(T("Account succesfully associated to logged in account"));
-                            return View("Index");
+                            return this.RedirectLocal(returnUrl, "~/");
                         }
 
                         _orchardServices.Notifier.Error(T(_openAuthorizer.Error.Value));
@@ -106,7 +106,7 @@ namespace NGM.OpenAuthentication.Controllers {
                 }
             }
 
-            return View("Create");
+            return this.RedirectLocal(returnUrl, () => RedirectToAction("Create"));
         }
 
         [HttpPost, ActionName("CreateOpenId")]
@@ -151,16 +151,17 @@ namespace NGM.OpenAuthentication.Controllers {
             if (wrapper != null) {
                 var result = wrapper.Authorize(returnUrl);
 
-                if (result.AuthenticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
+                if (result.AuthenticationStatus == OpenAuthenticationStatus.Authenticated) {
+                    _orchardServices.Notifier.Information(T("Account succesfully associated to logged in account"));
+                    return this.RedirectLocal(returnUrl, "~/");
+                }
+                else if (result.AuthenticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
                     _orchardServices.Notifier.Error(T(result.Error.Value));
                 }
-                else if (result.AuthenticationStatus == OpenAuthenticationStatus.Authenticated) {
-                    _orchardServices.Notifier.Information(T("Account succesfully associated to logged in account"));
-                    return View("Index");
-                }
+
                 if (result.Result != null) return result.Result;
             }
-
+            
             return View("Create", viewModel);
         }
 

@@ -1,15 +1,15 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Core.OAuth;
 using NGM.OpenAuthentication.Extensions;
-using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.ViewModels;
 using Orchard;
 using Orchard.Localization;
+using Orchard.Mvc.Extensions;
 using Orchard.Themes;
+using Orchard.UI.Notify;
 
 namespace NGM.OpenAuthentication.Controllers {
     [Themed]
@@ -45,26 +45,21 @@ namespace NGM.OpenAuthentication.Controllers {
                 var result = wrapper.Authorize(returnUrl);
 
                 if (result.AuthenticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
-                    this.AddError(result.Error.Key, T(result.Error.Value));
-                    return DefaultLogOnResult(returnUrl);
+                    _orchardServices.Notifier.Error(T(result.Error.Value));
                 }
-                if (result.AuthenticationStatus == OpenAuthenticationStatus.RequiresRegistration) {
+                else if (result.AuthenticationStatus == OpenAuthenticationStatus.RequiresRegistration) {
                     TempData["registermodel"] = result.RegisterModel;
-                    return DefaultRegisterResult(returnUrl, result.RegisterModel);
+                    return new RedirectResult(Url.Register(returnUrl, result.RegisterModel));
+                }
+                else if (result.AuthenticationStatus == OpenAuthenticationStatus.Authenticated) {
+                    _orchardServices.Notifier.Information(T("Account succesfully associated to logged in account"));
+                    return this.RedirectLocal(returnUrl);
                 }
 
                 if (result.Result != null) return result.Result;
             }
 
-            return DefaultLogOnResult(returnUrl);
-        }
-
-        private ActionResult DefaultLogOnResult(string returnUrl) {
-            return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users", ReturnUrl = returnUrl });
-        }
-
-        private ActionResult DefaultRegisterResult(string returnUrl, RegisterModel model) {
-            return RedirectToAction("Register", "Account", RouteValuesHelper.CreateRegisterRouteValueDictionary(returnUrl, model));
+            return new RedirectResult(Url.LogOn(returnUrl));
         }
     }
 }
