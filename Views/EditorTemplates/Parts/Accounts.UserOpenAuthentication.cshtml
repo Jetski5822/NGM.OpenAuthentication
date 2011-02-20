@@ -1,4 +1,4 @@
-﻿@model NGM.OpenAuthentication.ViewModels.OpenIdIndexViewModel
+﻿@model NGM.OpenAuthentication.ViewModels.AdminIndexViewModel
 @using Orchard.Utility.Extensions;
 
 @{var index = 0;}
@@ -9,7 +9,7 @@
             <li>
                 @entry.Account.ExternalDisplayIdentifier
                 
-                <a href="@Url.Action("Delete", new { area = "NGM.OpenAuthentication", externalIdentifier = @Model.Accounts[index].Account.ExternalIdentifier, returnUrl = ViewContext.RequestContext.HttpContext.Request.ToUrlString() })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
+                <a href="@Url.Action("Delete", new { area = "NGM.OpenAuthentication", externalIdentifier = @Model.Accounts[index].Account.ExternalIdentifier, hashedProvider = @Model.Accounts[index].Account.HashedProvider, returnUrl = Context.Request.RawUrl })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
             </li>
             index++;
         }
