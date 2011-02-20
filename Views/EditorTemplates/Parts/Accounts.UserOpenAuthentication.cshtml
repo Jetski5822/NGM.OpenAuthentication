@@ -1,17 +1,17 @@
 ﻿@model NGM.OpenAuthentication.ViewModels.AdminIndexViewModel
 @using Orchard.Utility.Extensions;
 
-@{var index = 0;}
 <fieldset>
-    <legend>Associated OpenID Accounts</legend>
+    <legend>Associated Accounts</legend>
         <ol>
-        @foreach (var entry in Model.Accounts) {
-            <li>
-                @entry.Account.ExternalDisplayIdentifier
+        @if (Model.Accounts.Count >= 0) {
+            @for (int index = 0; index < Model.Accounts.Count - 1; index++) {
+                <li>
+                     @Model.Accounts[index].Account.ExternalIdentifier
                 
-                <a href="@Url.Action("Delete", new { area = "NGM.OpenAuthentication", externalIdentifier = @Model.Accounts[index].Account.ExternalIdentifier, hashedProvider = @Model.Accounts[index].Account.HashedProvider, returnUrl = Context.Request.RawUrl })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
-            </li>
-            index++;
+                    <a href="@Url.Action("Delete", new { area = "NGM.OpenAuthentication", externalIdentifier = @Model.Accounts[index].Account.ExternalIdentifier, hashedProvider = @Model.Accounts[index].Account.HashedProvider, returnUrl = Context.Request.RawUrl })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
+                </li>
+            }
         }
         </ol>
 </fieldset>
