@@ -42,7 +42,7 @@ namespace NGM.OpenAuthentication.Controllers
 
                         if (autheticationStatus == OpenAuthenticationStatus.Authenticated) {
                             _orchardServices.Notifier.Information(T("Account succesfully associated to logged in account"));
-                            return this.RedirectLocal(returnUrl, "~/");
+                            return new RedirectResult(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
                         }
                         else if (autheticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
                             _orchardServices.Notifier.Error(T(_openAuthorizer.Error.Value));

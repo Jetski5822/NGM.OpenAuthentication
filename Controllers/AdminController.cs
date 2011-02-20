@@ -74,7 +74,6 @@ namespace NGM.OpenAuthentication.Controllers {
                     }
                     break;
             }
-            
             return RedirectToAction("Index", "Admin");
         }
 
@@ -84,14 +83,15 @@ namespace NGM.OpenAuthentication.Controllers {
                 switch (_openIdRelyingPartyService.Response.Status) {
                     case AuthenticationStatus.Authenticated:
                         var parameters = new OpenIdAuthenticationParameters(_openIdRelyingPartyService.Response.ClaimedIdentifier, _openIdRelyingPartyService.Response.FriendlyIdentifierForDisplay);
-                        var status = _openAuthorizer.Authorize(parameters);
+                        var autheticationStatus = _openAuthorizer.Authorize(parameters);
 
-                        if (status == OpenAuthenticationStatus.Authenticated) {
+                        if (autheticationStatus == OpenAuthenticationStatus.Authenticated) {
                             _orchardServices.Notifier.Information(T("Account succesfully associated to logged in account"));
-                            return this.RedirectLocal(returnUrl, "~/");
+                            return new RedirectResult(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
+                        } 
+                        else if (autheticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
+                            _orchardServices.Notifier.Error(T(_openAuthorizer.Error.Value));
                         }
-
-                        _orchardServices.Notifier.Error(T(_openAuthorizer.Error.Value));
                         break;
                     case AuthenticationStatus.Canceled:
                         _orchardServices.Notifier.Error(T("Canceled at provider"));
