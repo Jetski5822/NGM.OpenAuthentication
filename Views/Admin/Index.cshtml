@@ -3,14 +3,14 @@
 @using NGM.OpenAuthentication.Models;
 @using NGM.OpenAuthentication.ViewModels;
 
-<h1>@Html.TitleForPage(T("Manage External Accounts").ToString())</h1>
+<h1>@Html.TitleForPage(T("Manage Associated Accounts").ToString())</h1>
 @using (Html.BeginFormAntiForgeryPost()) { 
     @Html.ValidationSummary() 
     <fieldset class="bulk-actions">
         <label for="publishActions">@T("Actions:")</label>
         <select id="publishActions" name="@Html.NameOf(m => m.Options.BulkAction)">
-            @Html.SelectOption(Model.Options.BulkAction, OpenIdBulkAction.None, T("Choose action...").ToString())
-            @Html.SelectOption(Model.Options.BulkAction, OpenIdBulkAction.Delete, T("Remove").ToString())
+            @Html.SelectOption(Model.Options.BulkAction, AdminBulkAction.None, T("Choose action...").ToString())
+            @Html.SelectOption(Model.Options.BulkAction, AdminBulkAction.Delete, T("Remove").ToString())
         </select>
         <button type="submit" name="submit.BulkEdit" value="@T("Apply")">@T("Apply")</button>
     </fieldset>
