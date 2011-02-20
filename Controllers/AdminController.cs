@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core;
+using NGM.OpenAuthentication.Core.OAuth;
 using NGM.OpenAuthentication.Core.OpenId;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
@@ -25,17 +26,20 @@ namespace NGM.OpenAuthentication.Controllers {
         private readonly IOpenIdRelyingPartyService _openIdRelyingPartyService;
         private readonly IOrchardServices _orchardServices;
         private readonly IOpenAuthorizer _openAuthorizer;
+        private readonly IEnumerable<IOAuthAuthorizer> _oAuthWrappers;
 
         public AdminController(IAuthenticationService authenticationService,
             IOpenAuthenticationService openAuthenticationService,
             IOpenIdRelyingPartyService openIdRelyingPartyService,
             IOrchardServices orchardServices,
-            IOpenAuthorizer openAuthorizer) {
+            IOpenAuthorizer openAuthorizer,
+            IEnumerable<IOAuthAuthorizer> oAuthWrappers) {
             _authenticationService = authenticationService;
             _openAuthenticationService = openAuthenticationService;
             _openIdRelyingPartyService = openIdRelyingPartyService;
             _orchardServices = orchardServices;
             _openAuthorizer = openAuthorizer;
+            _oAuthWrappers = oAuthWrappers;
             T = NullLocalizer.Instance;
         }
 
@@ -87,8 +91,8 @@ namespace NGM.OpenAuthentication.Controllers {
                         var status = _openAuthorizer.Authorize(parameters);
 
                         if (status == OpenAuthenticationStatus.Authenticated) {
-                            _orchardServices.Notifier.Information(T("OpenID succesfully associated to logged in account"));
-                            return Redirect(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
+                            _orchardServices.Notifier.Information(T("Account succesfully associated to logged in account"));
+                            return View("Index");
                         }
 
                         _orchardServices.Notifier.Error(T(_openAuthorizer.Error.Value));
@@ -106,7 +110,7 @@ namespace NGM.OpenAuthentication.Controllers {
         }
 
         [HttpPost, ActionName("CreateOpenId")]
-        public ActionResult _CreateOpenId(FormCollection formCollection) {
+        public ActionResult CreateOpenId(FormCollection formCollection) {
             var viewModel = new CreateViewModel();
             TryUpdateModel(viewModel, formCollection);
 
@@ -129,6 +133,36 @@ namespace NGM.OpenAuthentication.Controllers {
             return View("Create", viewModel);
         }
 
+        public ActionResult CreateOAuth(string returnUrl, string knownProvider) {
+            var viewModel = new CreateViewModel();
+            TryUpdateModel(viewModel);
+
+            if (string.IsNullOrEmpty(viewModel.KnownProvider)) {
+                if (_orchardServices.WorkContext.HttpContext.Session["knownProvider"] != null) {
+                    viewModel.KnownProvider = _orchardServices.WorkContext.HttpContext.Session["knownProvider"] as string;
+                } else if (!string.IsNullOrEmpty(knownProvider)) {
+                    viewModel.KnownProvider = knownProvider;
+                }
+            }
+
+            var wrapper = _oAuthWrappers
+                .Where(o => o.Provider.ToString().ToLowerInvariant() == viewModel.KnownProvider.ToLowerInvariant() && o.IsConsumerConfigured).FirstOrDefault();
+
+            if (wrapper != null) {
+                var result = wrapper.Authorize(returnUrl);
+
+                if (result.AuthenticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
+                    _orchardServices.Notifier.Error(T(result.Error.Value));
+                }
+                else if (result.AuthenticationStatus == OpenAuthenticationStatus.Authenticated) {
+                    _orchardServices.Notifier.Information(T("Account succesfully associated to logged in account"));
+                    return View("Index");
+                }
+                if (result.Result != null) return result.Result;
+            }
+
+            return View("Create", viewModel);
+        }
 
         [HttpPost]
         public ActionResult Delete(string externalIdentifier, string returnUrl, int? hashedProvider) {

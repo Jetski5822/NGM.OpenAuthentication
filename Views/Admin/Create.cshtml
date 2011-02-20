@@ -40,3 +40,16 @@
     <button class="primaryAction" type="submit">@T("Associate OpenID")</button>
 </fieldset>
 }
+
+<fieldset class="login-form group">
+    <legend>@T("OAuth account")</legend>
+    <ol>
+        <li>
+            <div id="oauth_input_area">
+                <a href="@Url.Action("CreateOAuth", "Admin", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"], KnownProvider = "Twitter" })">
+                    @Html.Image("../../Modules/NGM.OpenAuthentication/Content/oauth/images/twitter-logo.jpg", "Twitter", new { @Class = "oauth_btn openid_large_btn" })
+                </a>
+            </div>
+        </li>
+    </ol>
+</fieldset>
