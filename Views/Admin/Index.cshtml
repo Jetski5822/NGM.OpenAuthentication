@@ -15,7 +15,7 @@
         <button type="submit" name="submit.BulkEdit" value="@T("Apply")">@T("Apply")</button>
     </fieldset>
     <div class="manage">
-        @Html.ActionLink(T("Add an account").ToString(), "Create", new { returnUrl = ViewContext.RequestContext.HttpContext.Request.ToUrlString() }, new { @class = "button primaryAction" })
+        @Html.ActionLink(T("Add an account").ToString(), "Create", new { returnUrl = Context.Request.RawUrl }, new { @class = "button primaryAction" })
     </div>
     <fieldset>
         <table class="items" summary="@T("This is a table of external accounts associated with your logon")">

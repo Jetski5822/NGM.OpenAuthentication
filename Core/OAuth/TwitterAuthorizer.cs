@@ -45,7 +45,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         }
 
         public AuthorizeState Authorize(string returnUrl) {
-            _authorizer.CompleteAuthorization(GenerateReturnUri());
+            _authorizer.CompleteAuthorization(GenerateCallbackUri());
 
             if (!_authorizer.IsAuthorized) {
                 _orchardServices.WorkContext.HttpContext.Session["knownProvider"] = Provider.ToString();
@@ -70,7 +70,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             };
         }
 
-        private Uri GenerateReturnUri() {
+        private Uri GenerateCallbackUri() {
             string currentUrl = _orchardServices.WorkContext.HttpContext.Request.Url.ToString();
             string seperator = "?";
 
