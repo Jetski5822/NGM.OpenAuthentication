@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core;
-using NGM.OpenAuthentication.Core.OAuth;
 using NGM.OpenAuthentication.Core.OpenId;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
@@ -26,20 +25,17 @@ namespace NGM.OpenAuthentication.Controllers {
         private readonly IOpenIdRelyingPartyService _openIdRelyingPartyService;
         private readonly IOrchardServices _orchardServices;
         private readonly IOpenAuthorizer _openAuthorizer;
-        private readonly IEnumerable<IOAuthAuthorizer> _oAuthWrappers;
 
         public AdminController(IAuthenticationService authenticationService,
             IOpenAuthenticationService openAuthenticationService,
             IOpenIdRelyingPartyService openIdRelyingPartyService,
             IOrchardServices orchardServices,
-            IOpenAuthorizer openAuthorizer,
-            IEnumerable<IOAuthAuthorizer> oAuthWrappers) {
+            IOpenAuthorizer openAuthorizer) {
             _authenticationService = authenticationService;
             _openAuthenticationService = openAuthenticationService;
             _openIdRelyingPartyService = openIdRelyingPartyService;
             _orchardServices = orchardServices;
             _openAuthorizer = openAuthorizer;
-            _oAuthWrappers = oAuthWrappers;
             T = NullLocalizer.Instance;
         }
 
@@ -106,7 +102,7 @@ namespace NGM.OpenAuthentication.Controllers {
                 }
             }
 
-            return this.RedirectLocal(returnUrl, () => RedirectToAction("Create"));
+            return View("Create");
         }
 
         [HttpPost, ActionName("CreateOpenId")]
@@ -133,38 +129,6 @@ namespace NGM.OpenAuthentication.Controllers {
             return View("Create", viewModel);
         }
 
-        public ActionResult CreateOAuth(string returnUrl, string knownProvider) {
-            var viewModel = new CreateViewModel();
-            TryUpdateModel(viewModel);
-
-            if (string.IsNullOrEmpty(viewModel.KnownProvider)) {
-                if (_orchardServices.WorkContext.HttpContext.Session["knownProvider"] != null) {
-                    viewModel.KnownProvider = _orchardServices.WorkContext.HttpContext.Session["knownProvider"] as string;
-                } else if (!string.IsNullOrEmpty(knownProvider)) {
-                    viewModel.KnownProvider = knownProvider;
-                }
-            }
-
-            var wrapper = _oAuthWrappers
-                .Where(o => o.Provider.ToString().ToLowerInvariant() == viewModel.KnownProvider.ToLowerInvariant() && o.IsConsumerConfigured).FirstOrDefault();
-
-            if (wrapper != null) {
-                var result = wrapper.Authorize(returnUrl);
-
-                if (result.AuthenticationStatus == OpenAuthenticationStatus.Authenticated) {
-                    _orchardServices.Notifier.Information(T("Account succesfully associated to logged in account"));
-                    return this.RedirectLocal(returnUrl, "~/");
-                }
-                else if (result.AuthenticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
-                    _orchardServices.Notifier.Error(T(result.Error.Value));
-                }
-
-                if (result.Result != null) return result.Result;
-            }
-            
-            return View("Create", viewModel);
-        }
-
         [HttpPost]
         public ActionResult Delete(string externalIdentifier, string returnUrl, int? hashedProvider) {
             if (!_orchardServices.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to manage OpenID")))
@@ -175,9 +139,9 @@ namespace NGM.OpenAuthentication.Controllers {
             try {
                 _openAuthenticationService.RemoveAssociation(provider);
                 
-                _orchardServices.Notifier.Information(T("OpenID was successfully deleted."));
+                _orchardServices.Notifier.Information(T("Account was successfully deleted."));
             } catch (Exception exception) {
-                _orchardServices.Notifier.Error(T("Editing OpenID failed: {0}", exception.Message));
+                _orchardServices.Notifier.Error(T("Editing Account failed: {0}", exception.Message));
             }
             return this.RedirectLocal(returnUrl, () => RedirectToAction("Index"));
         }

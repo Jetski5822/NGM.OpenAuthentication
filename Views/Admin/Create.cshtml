@@ -46,7 +46,7 @@
     <ol>
         <li>
             <div id="oauth_input_area">
-                <a href="@Url.Action("CreateOAuth", "Admin", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"], KnownProvider = "Twitter" })">
+                <a href="@Url.Action("LogOn", "OAuthAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"], KnownProvider = "Twitter" })">
                     @Html.Image("../../Modules/NGM.OpenAuthentication/Content/oauth/images/twitter-logo.jpg", "Twitter", new { @Class = "oauth_btn openid_large_btn" })
                 </a>
             </div>
