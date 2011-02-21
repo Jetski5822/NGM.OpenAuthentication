@@ -124,7 +124,9 @@
     <Content Include="Content\cardspace\images\infocard_71x50.png" />
     <Content Include="Content\cardspace\images\infocard_81x57.png" />
     <Content Include="Content\cardspace\images\infocard_92x64.png" />
+    <Content Include="Content\oauth\images\facebook-logo.jpg" />
     <Content Include="Content\oauth\images\twitter-logo.jpg" />
+    <Content Include="Content\oauth\images\twitter_logo_75x17.jpg" />
     <Content Include="Styles\openid.css" />
     <Content Include="Content\openid-selector\images.large\aol.gif" />
     <Content Include="Content\openid-selector\images.large\facebook.gif" />
