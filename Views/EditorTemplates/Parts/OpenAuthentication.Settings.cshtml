@@ -15,6 +15,14 @@
         @Html.EditorFor(m => m.OAuthEnabled)         
         <label class="forcheckbox" for="OAuthEnabled">@T("Enable OAuth")</label>
     </div>
+    <div>
+        @Html.EditorFor(m => m.FacebookClientIdentifier)         
+        <label class="forcheckbox" for="FacebookClientIdentifier">@T("Facebook Client Identifier")</label>
+    </div>
+    <div>
+        @Html.EditorFor(m => m.FacebookClientSecret)         
+        <label class="forcheckbox" for="FacebookClientSecret">@T("Facebook Client Secret")</label>
+    </div>
 </fieldset>
 <fieldset>
     <legend>@T("Claim Settings")</legend>

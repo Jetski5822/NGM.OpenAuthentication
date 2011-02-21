@@ -36,6 +36,9 @@
     <Reference Include="DotNetOpenAuth">
       <HintPath>Lib\DotNetOpenAuth-3.5.0.10357\DotNetOpenAuth.dll</HintPath>
     </Reference>
+    <Reference Include="Facebook">
+      <HintPath>Lib\FacebookSDK_Net40_V5.0.3\Facebook.dll</HintPath>
+    </Reference>
     <Reference Include="LinqToTwitter">
       <HintPath>Lib\LinqToTwitterBinaries_v2.0.19.2\LinqToTwitter.dll</HintPath>
     </Reference>
@@ -56,6 +59,7 @@
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\CardSpaceAccountController.cs" />
+    <Compile Include="Core\OAuth\FacebookApplication.cs" />
     <Compile Include="Core\RouteValuesHelper.cs" />
     <Compile Include="Core\CardSpace\CardSpaceAuthenticationParameters.cs" />
     <Compile Include="Core\HashedOpenAuthenticationParameters.cs" />
@@ -71,9 +75,6 @@
     <Compile Include="Core\CardSpace\InfoCardImageHelpers.cs" />
     <Compile Include="Core\CardSpace\NameSpaceConstants.cs" />
     <Compile Include="Core\CardSpace\RegisterModelBuilder.cs" />
-    <Compile Include="Core\OAuth\DotNetOpenAuth.ApplicationBlock\Facebook\FacebookClient.cs" />
-    <Compile Include="Core\OAuth\DotNetOpenAuth.ApplicationBlock\TokenManager.cs" />
-    <Compile Include="Core\OAuth\DotNetOpenAuth.ApplicationBlock\Facebook\FacebookGraph.cs" />
     <Compile Include="Core\OAuth\FacebookAuthorizer.cs" />
     <Compile Include="Core\OAuth\IOAuthSettings.cs" />
     <Compile Include="Core\OAuth\IOAuthAuthorizer.cs" />

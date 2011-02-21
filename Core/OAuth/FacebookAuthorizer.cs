@@ -1,64 +1,77 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Net;
-//using System.Web;
-//using DotNetOpenAuth.OAuth2;
-//using NGM.OpenAuthentication.Core.OAuth.DotNetOpenAuth.ApplicationBlock.Facebook;
-//using NGM.OpenAuthentication.Models;
-//using Orchard;
-//using Orchard.ContentManagement;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Web.Mvc;
+using Facebook;
+using NGM.OpenAuthentication.Services;
+using Orchard;
 
-//namespace NGM.OpenAuthentication.Core.OAuth {
-//    public class FacebookAuthorizer : IOAuthAuthorizer {
-//        private readonly IOrchardServices _orchardServices;
+namespace NGM.OpenAuthentication.Core.OAuth {
+    public class FacebookAuthorizer : IOAuthAuthorizer {
+        private readonly IOrchardServices _orchardServices;
+        private readonly IOpenAuthenticationService _openAuthenticationService;
 
-//        private static readonly FacebookClient client = new FacebookClient();
+        private readonly FacebookApplication _facebookApplication;
 
-//        public FacebookAuthorizer(IOrchardServices orchardServices) {
-//            _orchardServices = orchardServices;
+        public FacebookAuthorizer(IOrchardServices orchardServices,
+            IOpenAuthenticationService openAuthenticationService) {
+            _orchardServices = orchardServices;
+            _openAuthenticationService = openAuthenticationService;
 
-//            client.ClientIdentifier = ClientKeyIdentifier;
-//            client.ClientSecret = ClientSecret;
-//        }
+            _facebookApplication = new FacebookApplication(ClientKeyIdentifier, ClientSecret);
+        }
 
-//        public string ClientKeyIdentifier {
-//            get { return _orchardServices.WorkContext.CurrentSite.As<OpenAuthenticationSettingsPart>().Record.FacebookClientIdentifier; }
-//        }
+        public string ClientKeyIdentifier {
+            get { return _openAuthenticationService.GetSettings().Record.FacebookClientIdentifier; }
+        }
 
-//        public string ClientSecret {
-//            get { return _orchardServices.WorkContext.CurrentSite.As<OpenAuthenticationSettingsPart>().Record.FacebookClientSecret; }
-//        }
+        public string ClientSecret {
+            get { return _openAuthenticationService.GetSettings().Record.FacebookClientSecret; }
+        }
 
-//        public bool IsConsumerConfigured {
-//            get {
-//                return !string.IsNullOrEmpty(ClientKeyIdentifier) && !string.IsNullOrEmpty(ClientSecret);
-//            }
-//        }
+        public bool IsConsumerConfigured {
+            get {
+                return !string.IsNullOrEmpty(ClientKeyIdentifier) && !string.IsNullOrEmpty(ClientSecret);
+            }
+        }
 
-//        public RegisterModel Authorize() {
-//            IAuthorizationState authorization = client.ProcessUserAuthorization();
-//            if (authorization == null) {
-//                // Kick off authorization request
-//                client.RequestUserAuthorization();
-//            } else {
-//                var request = WebRequest.Create("https://graph.facebook.com/me?access_token=" + Uri.EscapeDataString(authorization.AccessToken));
-//                using (var response = request.GetResponse()) {
-//                    using (var responseStream = response.GetResponseStream()) {
-//                        var graph = FacebookGraph.Deserialize(responseStream);
-//                        return new RegisterModel {
-//                            UserName = HttpUtility.HtmlEncode(graph.FirstName) + HttpUtility.HtmlEncode(graph.LastName), 
-//                            ExternalIdentifier = HttpUtility.HtmlEncode(graph.Id), 
-//                            FriendlyIdentifier = HttpUtility.HtmlEncode(graph.Id)
-//                        };
-//                    }
-//                }
-//            }
-//            return null;
-//        }
+        public AuthorizeState Authorize(string returnUrl) {
+            var facebookClient = new FacebookOAuthClient(_facebookApplication);
 
-//        public string Provider {
-//            get { return "Facebook"; }
-//        }
-//    }
-//}
+            var extendedPermissions = new[] { "publish_stream", "offline_access", "email" };
+            var parameters = new Dictionary<string, object>
+                    {
+                        { "response_type", "token" },
+                        { "display", "popup" },
+                        { "redirect_uri", GenerateCallbackUri() }
+                    };
+            
+            if (extendedPermissions != null && extendedPermissions.Length > 0) {
+                var scope = new StringBuilder();
+                scope.Append(string.Join(",", extendedPermissions));
+                parameters["scope"] = scope.ToString();
+            }
+            
+            var result = new RedirectResult(facebookClient.GetLoginUrl(parameters).ToString());
+
+            return new AuthorizeState(returnUrl, OpenAuthenticationStatus.RequresRedirect) { Result = result };
+        }
+
+        private Uri GenerateCallbackUri() {
+            string currentUrl = _orchardServices.WorkContext.HttpContext.Request.Url.ToString();
+            string seperator = "?";
+
+            if (currentUrl.Contains(seperator))
+                seperator = "&";
+
+            if (!currentUrl.Contains("knownProvider="))
+                currentUrl = string.Format("{0}{1}knownProvider={2}", currentUrl, seperator, Provider);
+
+            return new Uri(currentUrl);
+        }
+
+        public OAuthProvider Provider {
+            get { return OAuthProvider.Facebook; }
+        }
+    }
+}
