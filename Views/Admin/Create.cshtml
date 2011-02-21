@@ -9,6 +9,7 @@
 @using(Script.Foot()) {
 <script type="text/javascript">
     $(document).ready(function () {
+        openid.setSignInText('Associate OpenID');
         openid.init('ExternalIdentifier');
         //openid.setDemoMode(true); //Stops form submission for client javascript-only test purposes
     });
@@ -33,11 +34,11 @@
                 <label for="ExternalIdentifier">@T("Enter manually your OpenID")</label>
                 @Html.TextBox("ExternalIdentifier", "http://", new { id = "ExternalIdentifier", @class = "textMedium", autofocus = "autofocus" })
                 @Html.ValidationMessage("ExternalIdentifier")
+                <button class="primaryAction" type="submit">@T("Associate OpenID")</button>
             </div>
         </li>
         @Html.AntiForgeryTokenOrchard()
     </ol>
-    <button class="primaryAction" type="submit">@T("Associate OpenID")</button>
 </fieldset>
 }
 

@@ -20,7 +20,7 @@ openid = {
 	locale : null, // is set in openid-<locale>.js
 	sprite : null, // usually equals to locale, is set in
 	// openid-<locale>.js
-	signin_text : null, // text on submit button on the form
+	signin_text : 'Sign In', // text on submit button on the form
 	all_small : false, // output large providers w/ small icons
 	no_sprite : false, // don't use sprite image
 	image_title : '{provider}', // for image title
@@ -189,6 +189,7 @@ openid = {
 			style = 'background: #FFF url(' + this.img_path + 'openid-inputicon.gif) no-repeat scroll 0 50%; padding-left:18px;';
 		}
 		html += '<input id="' + id + '" type="text" style="' + style + '" name="' + id + '" value="' + value + '" />'
+            + '<button class="primaryAction" type="submit">' + this.signin_text + '</button>'
 //				+ '<input id="openid_submit" type="submit" value="' + this.signin_text + '"/>';
 		input_area.empty();
 		input_area.append(html);
@@ -197,6 +198,10 @@ openid = {
 
 	setDemoMode : function(demoMode) {
 		this.demo = demoMode;
-	}
+	},
+
+    setSignInText : function(signintext){
+        this.signin_text = signintext;
+    }
 };
 })(jQuery);

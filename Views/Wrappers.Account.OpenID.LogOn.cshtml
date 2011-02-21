@@ -15,6 +15,7 @@
 @using(Script.Foot()) {
 <script type="text/javascript">
     $(document).ready(function () {
+        openid.setSignInText('Sign In');
         openid.init('ExternalIdentifier');
         //openid.setDemoMode(true); //Stops form submission for client javascript-only test purposes
     });
@@ -38,9 +39,9 @@
                 <label for="ExternalIdentifier">@T("Enter manually your OpenID")</label>
                 @Html.TextBox("ExternalIdentifier", "http://", new { id = "ExternalIdentifier", @class = "textMedium", autofocus = "autofocus" })
                 @Html.ValidationMessage("ExternalIdentifier")
+                <button class="primaryAction" type="submit">@T("Sign In")</button>
             </div>
         </li>
-        <button class="primaryAction" type="submit">@T("Sign In")</button>
         @Html.AntiForgeryTokenOrchard()
     </ol>
 </fieldset>
