@@ -8,16 +8,6 @@
     Style.Require("Account");
 }
 
-@if (TempData.Where(o => o.Key.StartsWith("error-")).ToArray().Count() >= 1) {
-<div class="validation-summary-errors"><span>Login was unsuccessful. Please correct the errors and try again.</span>
-    <ul>
-        @foreach (var value in TempData.Where(o => o.Key.StartsWith("error-")).ToArray()) {
-            <li>@value.Value</li>
-        }
-    </ul>
-</div>
-}
-
 <fieldset class="login-form group">
     <legend>@T("OAuth account")</legend>
     <ol>
