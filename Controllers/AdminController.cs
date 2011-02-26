@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using DotNetOpenAuth.Messaging;
-using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core;
-using NGM.OpenAuthentication.Core.OpenId;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
@@ -22,20 +19,14 @@ namespace NGM.OpenAuthentication.Controllers {
     public class AdminController : Controller {
         private readonly IAuthenticationService _authenticationService;
         private readonly IOpenAuthenticationService _openAuthenticationService;
-        private readonly IOpenIdRelyingPartyService _openIdRelyingPartyService;
         private readonly IOrchardServices _orchardServices;
-        private readonly IOpenAuthorizer _openAuthorizer;
 
         public AdminController(IAuthenticationService authenticationService,
             IOpenAuthenticationService openAuthenticationService,
-            IOpenIdRelyingPartyService openIdRelyingPartyService,
-            IOrchardServices orchardServices,
-            IOpenAuthorizer openAuthorizer) {
+            IOrchardServices orchardServices) {
             _authenticationService = authenticationService;
             _openAuthenticationService = openAuthenticationService;
-            _openIdRelyingPartyService = openIdRelyingPartyService;
             _orchardServices = orchardServices;
-            _openAuthorizer = openAuthorizer;
             T = NullLocalizer.Instance;
         }
 
@@ -83,7 +74,7 @@ namespace NGM.OpenAuthentication.Controllers {
 
         [HttpPost]
         public ActionResult Delete(string externalIdentifier, string returnUrl, int? hashedProvider) {
-            RemoveAccountAssociation(new HashedOpenAuthenticationParameters(hashedProvider.GetValueOrDefault()) { ExternalIdentifier = externalIdentifier };);
+            RemoveAccountAssociation(new HashedOpenAuthenticationParameters(hashedProvider.GetValueOrDefault()) { ExternalIdentifier = externalIdentifier });
 
             return this.RedirectLocal(returnUrl, () => RedirectToAction("Index"));
         }
@@ -98,7 +89,7 @@ namespace NGM.OpenAuthentication.Controllers {
             }
         }
 
-        private AccountEntry CreateAccountEntry(OpenAuthenticationPartRecord openAuthenticationPart) {
+        private static AccountEntry CreateAccountEntry(OpenAuthenticationPartRecord openAuthenticationPart) {
             return new AccountEntry {
                 Account = openAuthenticationPart
             };
