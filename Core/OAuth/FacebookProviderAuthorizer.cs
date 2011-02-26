@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
 using Facebook;
 using NGM.OpenAuthentication.Models;
@@ -43,19 +44,26 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         public AuthorizeState Authorize(string returnUrl) {
             FacebookOAuthResult oAuthResult;
-            if (FacebookOAuthResult.TryParse(_orchardServices.WorkContext.HttpContext.Request.Url, out oAuthResult)) {
+            if (FacebookOAuthResult.TryParse(HttpContext.Current.Request.Url, out oAuthResult)) {
                 return TranslateResponseState(returnUrl, oAuthResult);
             }
-            return GenerateRequestState(returnUrl);
+            if (_orchardServices.WorkContext.HttpContext.Session["knownProvider"] == null)
+                return GenerateRequestState(returnUrl);
+
+            _orchardServices.WorkContext.HttpContext.Session.Remove("knownProvider");
+
+            return new AuthorizeState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
+                Error = new KeyValuePair<string, string>("Provider", "No callback recieved from provider.")
+            };
         }
 
         private AuthorizeState TranslateResponseState(string returnUrl, FacebookOAuthResult oAuthResult) {
-            if (oAuthResult.IsSuccess) {
-                if (_orchardServices.WorkContext.HttpContext.Session == null)
-                    throw new NullReferenceException("Session is required.");
+            if (_orchardServices.WorkContext.HttpContext.Session == null)
+                throw new NullReferenceException("Session is required.");
 
-                _orchardServices.WorkContext.HttpContext.Session.Remove("knownProvider");
-                
+            _orchardServices.WorkContext.HttpContext.Session.Remove("knownProvider");
+
+            if (oAuthResult.IsSuccess) {                
                 var parameters = new OAuthAuthenticationParameters(Provider) {
                     ExternalIdentifier = oAuthResult.AccessToken,
                     OAuthToken = oAuthResult.AccessToken,
@@ -76,7 +84,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         private AuthorizeState GenerateRequestState(string returnUrl) {
             var facebookClient = new FacebookOAuthClient(_facebookApplication);
-
+            
             if (_orchardServices.WorkContext.HttpContext.Session == null)
                 throw new NullReferenceException("Session is required.");
 
@@ -84,8 +92,6 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
             var extendedPermissions = new[] { "publish_stream", "offline_access", "email" };
             var parameters = new Dictionary<string, object> {
-                {"response_type", "token"},
-                {"display", "popup"},
                 {"redirect_uri", GenerateCallbackUri()}
             };
 
@@ -102,13 +108,13 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         private Uri GenerateCallbackUri() {
             string currentUrl = _orchardServices.WorkContext.HttpContext.Request.Url.ToString();
-            string seperator = "?";
+            //string seperator = "?";
 
-            if (currentUrl.Contains(seperator))
-                seperator = "&";
+            //if (currentUrl.Contains(seperator))
+            //    seperator = "&";
 
-            if (!currentUrl.Contains("knownProvider="))
-                currentUrl = string.Format("{0}{1}knownProvider={2}", currentUrl, seperator, Provider);
+            //if (!currentUrl.ToLowerInvariant().Contains("knownprovider="))
+            //    currentUrl = string.Format("{0}{1}knownProvider={2}", currentUrl, seperator, Provider);
 
             return new Uri(currentUrl);
         }

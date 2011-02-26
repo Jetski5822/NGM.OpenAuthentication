@@ -62,7 +62,7 @@ namespace NGM.OpenAuthentication.Controllers {
                 if (result.Result != null) return result.Result;
             }
 
-            return new RedirectResult(Url.Referer(this.Request));
+            return new RedirectResult(returnUrl);
         }
     }
 }
