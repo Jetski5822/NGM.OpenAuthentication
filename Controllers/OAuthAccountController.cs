@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using NGM.OpenAuthentication.Core;
@@ -39,7 +40,8 @@ namespace NGM.OpenAuthentication.Controllers {
             }
 
             var wrapper = _oAuthWrappers
-                .Where(o => o.Provider.ToString().ToLowerInvariant() == viewModel.KnownProvider.ToLowerInvariant() && o.IsConsumerConfigured).FirstOrDefault();
+                .Where(o => o.Provider.ToString().Equals(viewModel.KnownProvider, StringComparison.InvariantCultureIgnoreCase) 
+                    && o.IsConsumerConfigured).FirstOrDefault();
 
             if (wrapper != null) {
                 var result = wrapper.Authorize(returnUrl);
