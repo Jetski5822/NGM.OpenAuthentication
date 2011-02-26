@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Models;

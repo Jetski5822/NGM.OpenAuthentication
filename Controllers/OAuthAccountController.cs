@@ -8,7 +8,6 @@ using NGM.OpenAuthentication.Extensions;
 using NGM.OpenAuthentication.ViewModels;
 using Orchard;
 using Orchard.Localization;
-using Orchard.Mvc.Extensions;
 using Orchard.Themes;
 using Orchard.UI.Notify;
 

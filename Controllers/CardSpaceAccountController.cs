@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Web.Mvc;
-using DotNetOpenAuth.InfoCard;
-using NGM.OpenAuthentication.Extensions;
 using Orchard.Localization;
 using Orchard.Themes;
 
@@ -20,12 +18,12 @@ namespace NGM.OpenAuthentication.Controllers {
         [ValidateInput(false)]
         public ActionResult LogOn(string returnUrl) {
             throw new NotImplementedException("Not implemented just yet.");
-            string xmlToken = this.HttpContext.Request.Params["xmlToken"];
+            //string xmlToken = this.HttpContext.Request.Params["xmlToken"];
 
-            Token token = Token.Read(xmlToken);
-            //token.
-            //var fi token.Claims[ClaimTypes.GivenName];
-            return new RedirectResult(Url.Referer(this.Request));
+            //Token token = Token.Read(xmlToken);
+            ////token.
+            ////var fi token.Claims[ClaimTypes.GivenName];
+            //return new RedirectResult(Url.Referer(this.Request));
         }
     }
 }

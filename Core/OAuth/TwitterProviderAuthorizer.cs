@@ -47,6 +47,9 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         public AuthorizeState Authorize(string returnUrl) {
             _mvcAuthorizer.CompleteAuthorization(GenerateCallbackUri());
 
+            if (_orchardServices.WorkContext.HttpContext.Session == null)
+                throw new NullReferenceException("Session is required.");
+
             if (!_mvcAuthorizer.IsAuthorized) {
                 _orchardServices.WorkContext.HttpContext.Session["knownProvider"] = Provider.ToString();
 
@@ -71,8 +74,11 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         }
 
         private Uri GenerateCallbackUri() {
-            string currentUrl = _orchardServices.WorkContext.HttpContext.Request.Url.ToString();
-            string seperator = "?";
+            var currentUrl = string.Empty;
+            if (_orchardServices.WorkContext.HttpContext.Request.Url != null)
+                currentUrl = _orchardServices.WorkContext.HttpContext.Request.Url.ToString();
+
+            var seperator = "?";
 
             if (currentUrl.Contains(seperator))
                 seperator = "&";
