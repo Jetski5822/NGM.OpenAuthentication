@@ -95,7 +95,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         public ITwitterAuthorizer GetAuthorizer(IUser user) {
             var parameters = new OAuthAuthenticationParameters(Provider);
-            var identifier = _openAuthenticationService.GetExternalIdentifiersFor(_orchardServices.WorkContext.CurrentUser).Where(o => o.HashedProvider == parameters.HashedProvider)
+            var identifier = _openAuthenticationService.GetExternalIdentifiersFor(user).Where(o => o.HashedProvider == parameters.HashedProvider)
                 .List()
                 .FirstOrDefault();
 
