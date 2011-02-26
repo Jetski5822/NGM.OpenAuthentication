@@ -7,19 +7,19 @@ using Orchard;
 using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Core.OAuth {
-    public class TwitterAuthorizer : IOAuthTwitterAuthorizer {
+    public class TwitterProviderAuthorizer : IOAuthProviderTwitterAuthorizer {
         private readonly IOrchardServices _orchardServices;
-        private readonly IOpenAuthorizer _openAuthorizer;
+        private readonly IAuthorizer _authorizer;
         private readonly IOpenAuthenticationService _openAuthenticationService;
 
         private readonly IOAuthCredentials _credentials;
-        private readonly MvcAuthorizer _authorizer;
+        private readonly MvcAuthorizer _mvcAuthorizer;
 
-        public TwitterAuthorizer(IOrchardServices orchardServices,
-            IOpenAuthorizer openAuthorizer,
+        public TwitterProviderAuthorizer(IOrchardServices orchardServices,
+            IAuthorizer authorizer,
             IOpenAuthenticationService openAuthenticationService) {
             _orchardServices = orchardServices;
-            _openAuthorizer = openAuthorizer;
+            _authorizer = authorizer;
             _openAuthenticationService = openAuthenticationService;
 
             _credentials = new SessionStateCredentials {
@@ -27,7 +27,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                 ConsumerSecret = ClientSecret
             };
 
-            _authorizer = new MvcAuthorizer { Credentials = _credentials };
+            _mvcAuthorizer = new MvcAuthorizer { Credentials = _credentials };
         }
 
         public string ClientKeyIdentifier {
@@ -45,27 +45,27 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         }
 
         public AuthorizeState Authorize(string returnUrl) {
-            _authorizer.CompleteAuthorization(GenerateCallbackUri());
+            _mvcAuthorizer.CompleteAuthorization(GenerateCallbackUri());
 
-            if (!_authorizer.IsAuthorized) {
+            if (!_mvcAuthorizer.IsAuthorized) {
                 _orchardServices.WorkContext.HttpContext.Session["knownProvider"] = Provider.ToString();
 
-                return new AuthorizeState(returnUrl, OpenAuthenticationStatus.RequresRedirect) { Result = _authorizer.BeginAuthorization() };
+                return new AuthorizeState(returnUrl, OpenAuthenticationStatus.RequresRedirect) { Result = _mvcAuthorizer.BeginAuthorization() };
             }
 
             _orchardServices.WorkContext.HttpContext.Session.Remove("knownProvider");
 
             var parameters = new OAuthAuthenticationParameters(Provider) {
-                ExternalIdentifier = _authorizer.OAuthTwitter.OAuthToken,
-                ExternalDisplayIdentifier = _authorizer.ScreenName,
-                OAuthToken = _authorizer.OAuthTwitter.OAuthToken,
-                OAuthAccessToken = _authorizer.OAuthTwitter.OAuthTokenSecret,
+                ExternalIdentifier = _mvcAuthorizer.OAuthTwitter.OAuthToken,
+                ExternalDisplayIdentifier = _mvcAuthorizer.ScreenName,
+                OAuthToken = _mvcAuthorizer.OAuthTwitter.OAuthToken,
+                OAuthAccessToken = _mvcAuthorizer.OAuthTwitter.OAuthTokenSecret,
             };
 
-            var status = _openAuthorizer.Authorize(parameters);
+            var status = _authorizer.Authorize(parameters);
 
             return new AuthorizeState(returnUrl, status) {
-                Error = _openAuthorizer.Error,
+                Error = _authorizer.Error,
                 RegisterModel = new RegisterModel(parameters) 
             };
         }
@@ -93,10 +93,10 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                 .List()
                 .FirstOrDefault();
 
-            _authorizer.Credentials.OAuthToken = identifier.Record.OAuthToken;
-            _authorizer.Credentials.AccessToken = identifier.Record.OAuthAccessToken;
+            _mvcAuthorizer.Credentials.OAuthToken = identifier.Record.OAuthToken;
+            _mvcAuthorizer.Credentials.AccessToken = identifier.Record.OAuthAccessToken;
 
-            return _authorizer;
+            return _mvcAuthorizer;
         }
     }
 }

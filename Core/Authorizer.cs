@@ -6,12 +6,12 @@ using Orchard.Security;
 using Orchard.Users.Models;
 
 namespace NGM.OpenAuthentication.Core {
-    public class OpenAuthorizer : IOpenAuthorizer {
+    public class Authorizer : IAuthorizer {
         private readonly IAuthenticationService _authenticationService;
         private readonly IOpenAuthenticationService _openAuthenticationService;
         private readonly IOrchardServices _orchardServices;
 
-        public OpenAuthorizer(IAuthenticationService authenticationService,
+        public Authorizer(IAuthenticationService authenticationService,
                               IOpenAuthenticationService openAuthenticationService,
                               IOrchardServices orchardServices) {
             _authenticationService = authenticationService;

@@ -7,13 +7,13 @@ using NGM.OpenAuthentication.Services;
 using Orchard;
 
 namespace NGM.OpenAuthentication.Core.OAuth {
-    public class FacebookAuthorizer : IOAuthAuthorizer {
+    public class FacebookProviderAuthorizer : IOAuthProviderAuthorizer {
         private readonly IOrchardServices _orchardServices;
         private readonly IOpenAuthenticationService _openAuthenticationService;
 
         private readonly FacebookApplication _facebookApplication;
 
-        public FacebookAuthorizer(IOrchardServices orchardServices,
+        public FacebookProviderAuthorizer(IOrchardServices orchardServices,
             IOpenAuthenticationService openAuthenticationService) {
             _orchardServices = orchardServices;
             _openAuthenticationService = openAuthenticationService;

@@ -2,7 +2,7 @@
 using Orchard;
 
 namespace NGM.OpenAuthentication.Core {
-    public interface IOpenAuthorizer : IDependency {
+    public interface IAuthorizer : IDependency {
         KeyValuePair<string, string> Error { get; }
         OpenAuthenticationStatus Authorize(OpenAuthenticationParameters parameters);
     }

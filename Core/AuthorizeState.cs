@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using NGM.OpenAuthentication.Models;
 
-namespace NGM.OpenAuthentication.Core.OAuth {
+namespace NGM.OpenAuthentication.Core {
     public class AuthorizeState {
         private readonly string _returnUrl;
 

@@ -15,10 +15,10 @@ using Orchard.UI.Notify;
 namespace NGM.OpenAuthentication.Controllers {
     [Themed]
     public class OAuthAccountController : Controller {
-        private readonly IEnumerable<IOAuthAuthorizer> _oAuthWrappers;
+        private readonly IEnumerable<IOAuthProviderAuthorizer> _oAuthWrappers;
         private readonly IOrchardServices _orchardServices;
 
-        public OAuthAccountController(IEnumerable<IOAuthAuthorizer> oAuthWrappers, IOrchardServices orchardServices) {
+        public OAuthAccountController(IEnumerable<IOAuthProviderAuthorizer> oAuthWrappers, IOrchardServices orchardServices) {
             _oAuthWrappers = oAuthWrappers;
             _orchardServices = orchardServices;
             T = NullLocalizer.Instance;
@@ -49,19 +49,21 @@ namespace NGM.OpenAuthentication.Controllers {
                 if (result.AuthenticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
                     _orchardServices.Notifier.Error(T(result.Error.Value));
                 }
-                else if (result.AuthenticationStatus == OpenAuthenticationStatus.RequiresRegistration) {
+                
+                if (result.AuthenticationStatus == OpenAuthenticationStatus.RequiresRegistration) {
                     TempData["registermodel"] = result.RegisterModel;
                     return new RedirectResult(Url.Register(returnUrl, result.RegisterModel));
                 }
-                else if (result.AuthenticationStatus == OpenAuthenticationStatus.Authenticated) {
+                
+                if (result.AuthenticationStatus == OpenAuthenticationStatus.Authenticated) {
                     _orchardServices.Notifier.Information(T("Account succesfully associated to logged in account"));
-                    return new RedirectResult(returnUrl);
+                    return new RedirectResult(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
                 }
 
                 if (result.Result != null) return result.Result;
             }
 
-            return new RedirectResult(Url.LogOn(returnUrl));
+            return new RedirectResult(Url.Referer(this.Request));
         }
     }
 }
