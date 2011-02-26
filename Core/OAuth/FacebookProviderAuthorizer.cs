@@ -65,8 +65,8 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
             if (oAuthResult.IsSuccess) {                
                 var parameters = new OAuthAuthenticationParameters(Provider) {
-                    ExternalIdentifier = oAuthResult.AccessToken,
-                    OAuthToken = oAuthResult.AccessToken,
+                    ExternalIdentifier = oAuthResult.Code,
+                    OAuthToken = oAuthResult.Code,
                 };
 
                 var status = _authorizer.Authorize(parameters);

@@ -42,12 +42,13 @@
                 <td>@accountModel.Account.ExternalDisplayIdentifier</td>
                 <td>
                     <a href="@Url.Action("Delete", new { 
-                            externalIdentifier = @Model.Accounts[accountIndex].Account.ExternalIdentifier,
+                            externalIdentifier = Model.Accounts[accountIndex].Account.ExternalIdentifier,
                             returnUrl = Context.Request.RawUrl,
-                            hashedProvider = @Model.Accounts[accountIndex].Account.HashedProvider
+                            hashedProvider = Model.Accounts[accountIndex].Account.HashedProvider
                         })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
                 </td>
 	        </tr>
+                accountIndex++;
             }
         </table>
     </fieldset>
