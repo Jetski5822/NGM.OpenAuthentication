@@ -99,10 +99,13 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                 .List()
                 .FirstOrDefault();
 
-            _mvcAuthorizer.Credentials.OAuthToken = identifier.Record.OAuthToken;
-            _mvcAuthorizer.Credentials.AccessToken = identifier.Record.OAuthAccessToken;
+            if (identifier != null) {
+                _mvcAuthorizer.Credentials.OAuthToken = identifier.Record.OAuthToken;
+                _mvcAuthorizer.Credentials.AccessToken = identifier.Record.OAuthAccessToken;
 
-            return _mvcAuthorizer;
+                return _mvcAuthorizer;
+            }
+            return null;
         }
     }
 }

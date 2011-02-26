@@ -113,7 +113,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                 .List()
                 .FirstOrDefault();
 
-            return new FacebookClient(identifier.Record.OAuthToken);
+            return identifier != null ? new FacebookClient(identifier.Record.OAuthToken) : null;
         }
     }
 }
