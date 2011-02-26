@@ -59,6 +59,7 @@
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\CardSpaceAccountController.cs" />
     <Compile Include="Core\OAuth\FacebookApplication.cs" />
+    <Compile Include="Core\OAuth\IOAuthProviderFacebookAuthorizer.cs" />
     <Compile Include="Core\OpenId\IOpenIdProviderAuthorizer.cs" />
     <Compile Include="Core\IProviderAuthorizer.cs" />
     <Compile Include="Core\OpenId\OpenIdAuthorizer.cs" />
