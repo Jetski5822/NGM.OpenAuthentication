@@ -66,7 +66,7 @@ namespace NGM.OpenAuthentication.Drivers {
             return Editor(openAuthenticationPart, shapeHelper);
         }
 
-        private AccountEntry CreateAccountEntry(OpenAuthenticationPartRecord openAuthenticationPart) {
+        private static AccountEntry CreateAccountEntry(OpenAuthenticationPartRecord openAuthenticationPart) {
             return new AccountEntry {
                 Account = openAuthenticationPart
             };
