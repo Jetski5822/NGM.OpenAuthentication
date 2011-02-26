@@ -76,7 +76,7 @@ namespace NGM.OpenAuthentication.Controllers
             var identifier = new OpenIdIdentifier(viewModel.ExternalIdentifier);
             if (!identifier.IsValid) {
                 _orchardServices.Notifier.Error(T("Invalid Open ID identifier"));
-                return new RedirectResult(Url.LogOn(viewModel.ReturnUrl));
+                return new RedirectResult(Url.Referer(this.Request));
             }
 
             try {
@@ -90,7 +90,8 @@ namespace NGM.OpenAuthentication.Controllers
             catch (ProtocolException ex) {
                 _orchardServices.Notifier.Error(T("Unable to authenticate: {0}", ex.Message));
             }
-            return new RedirectResult(Url.LogOn(viewModel.ReturnUrl));
+            
+            return new RedirectResult(Url.Referer(this.Request));
         }
     }
 }

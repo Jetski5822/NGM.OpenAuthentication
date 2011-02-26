@@ -105,30 +105,6 @@ namespace NGM.OpenAuthentication.Controllers {
             return View("Create");
         }
 
-        [HttpPost, ActionName("CreateOpenId")]
-        public ActionResult CreateOpenId(FormCollection formCollection) {
-            var viewModel = new CreateViewModel();
-            TryUpdateModel(viewModel, formCollection);
-
-            var identifier = new OpenIdIdentifier(viewModel.ExternalIdentifier);
-            if (!identifier.IsValid) {
-                _orchardServices.Notifier.Error(T("Invalid Open ID identifier"));
-            } else {
-                try {
-                    var request = _openIdRelyingPartyService.CreateRequest(identifier);
-
-                    request.AddExtension(Claims.CreateClaimsRequest(_openAuthenticationService.GetSettings()));
-                    request.AddExtension(Claims.CreateFetchRequest(_openAuthenticationService.GetSettings()));
-
-                    return request.RedirectingResponse.AsActionResult();
-                }
-                catch (ProtocolException ex) {
-                    _orchardServices.Notifier.Error(T("Unable to authenticate: {0}", ex.Message));
-                }
-            }
-            return View("Create", viewModel);
-        }
-
         [HttpPost]
         public ActionResult Delete(string externalIdentifier, string returnUrl, int? hashedProvider) {
             if (!_orchardServices.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to manage OpenID")))
