@@ -5,17 +5,6 @@
 
 @Display(Model.Metadata.ChildContent)
 
-@if (TempData.Where(o => o.Key.StartsWith("error-")).ToArray().Count() >= 1) {
-    <div class="validation-summary-errors">
-        <span>Login was unsuccessful. Please correct the errors and try again.</span>
-        <ul>
-            @foreach (var value in TempData.Where(o => o.Key.StartsWith("error-")).ToArray()) {
-                <li>@value.Value</li>
-            }
-        </ul>
-    </div>
-}
-
 @using (Html.BeginForm("LogOn", "CardSpaceAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post, new { id = "cardspace_form" })) {
     <fieldset class="login-form group">
         <legend>@T("CardSpace account")</legend>
