@@ -51,6 +51,11 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         private AuthorizeState TranslateResponseState(string returnUrl, FacebookOAuthResult oAuthResult) {
             if (oAuthResult.IsSuccess) {
+                if (_orchardServices.WorkContext.HttpContext.Session == null)
+                    throw new NullReferenceException("Session is required.");
+
+                _orchardServices.WorkContext.HttpContext.Session.Remove("knownProvider");
+                
                 var parameters = new OAuthAuthenticationParameters(Provider) {
                     ExternalIdentifier = oAuthResult.AccessToken,
                     OAuthToken = oAuthResult.AccessToken,
@@ -71,6 +76,11 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         private AuthorizeState GenerateRequestState(string returnUrl) {
             var facebookClient = new FacebookOAuthClient(_facebookApplication);
+
+            if (_orchardServices.WorkContext.HttpContext.Session == null)
+                throw new NullReferenceException("Session is required.");
+
+            _orchardServices.WorkContext.HttpContext.Session["knownProvider"] = Provider.ToString();
 
             var extendedPermissions = new[] { "publish_stream", "offline_access", "email" };
             var parameters = new Dictionary<string, object> {
