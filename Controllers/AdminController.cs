@@ -70,7 +70,7 @@ namespace NGM.OpenAuthentication.Controllers {
                     break;
                 case AdminBulkAction.Delete:
                     foreach (var entry in checkedEntries) {
-                        _openAuthenticationService.RemoveAssociation(new OpenIdAuthenticationParameters(entry.Account.ExternalIdentifier) );
+                        RemoveAccountAssociation(new HashedOpenAuthenticationParameters(entry.Account.HashedProvider) { ExternalIdentifier = entry.Account.ExternalIdentifier } );
                     }
                     break;
             }
@@ -83,19 +83,19 @@ namespace NGM.OpenAuthentication.Controllers {
 
         [HttpPost]
         public ActionResult Delete(string externalIdentifier, string returnUrl, int? hashedProvider) {
-            if (!_orchardServices.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to manage OpenID")))
-                return new HttpUnauthorizedResult();
+            RemoveAccountAssociation(new HashedOpenAuthenticationParameters(hashedProvider.GetValueOrDefault()) { ExternalIdentifier = externalIdentifier };);
 
-            var provider = new HashedOpenAuthenticationParameters(hashedProvider.GetValueOrDefault()) { ExternalIdentifier = externalIdentifier };
+            return this.RedirectLocal(returnUrl, () => RedirectToAction("Index"));
+        }
 
+        private void RemoveAccountAssociation(OpenAuthenticationParameters parameters) {
             try {
-                _openAuthenticationService.RemoveAssociation(provider);
-                
+                _openAuthenticationService.RemoveAssociation(parameters);
+
                 _orchardServices.Notifier.Information(T("Account was successfully deleted."));
             } catch (Exception exception) {
                 _orchardServices.Notifier.Error(T("Editing Account failed: {0}", exception.Message));
             }
-            return this.RedirectLocal(returnUrl, () => RedirectToAction("Index"));
         }
 
         private AccountEntry CreateAccountEntry(OpenAuthenticationPartRecord openAuthenticationPart) {
