@@ -50,9 +50,9 @@
                 <a href="@Url.Action("LogOn", "OAuthAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"], KnownProvider = "Twitter" })">
                     @Html.Image("../../Modules/NGM.OpenAuthentication/Content/oauth/images/twitter-logo.jpg", "Twitter", new { @Class = "oauth_btn openid_large_btn" })
                 </a>
-@*                <a href="@Url.Action("LogOn", "OAuthAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"], KnownProvider = "Facebook" })">
+                <a href="@Url.Action("LogOn", "OAuthAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"], KnownProvider = "Facebook" })">
                     @Html.Image("../../Modules/NGM.OpenAuthentication/Content/oauth/images/facebook-logo.jpg", "Facebook", new { @Class = "oauth_btn openid_large_btn" })
-                </a>*@
+                </a>
             </div>
         </li>
     </ol>
