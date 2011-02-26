@@ -61,7 +61,7 @@ namespace NGM.OpenAuthentication.Controllers {
                     break;
                 case AdminBulkAction.Delete:
                     foreach (var entry in checkedEntries) {
-                        RemoveAccountAssociation(new HashedOpenAuthenticationParameters(entry.Account.HashedProvider) { ExternalIdentifier = entry.Account.ExternalIdentifier } );
+                        RemoveAccountAssociation(new HashedOpenAuthenticationParameters(entry.Account.HashedProvider, entry.Account.ExternalIdentifier));
                     }
                     break;
             }
@@ -74,7 +74,7 @@ namespace NGM.OpenAuthentication.Controllers {
 
         [HttpPost]
         public ActionResult Delete(string externalIdentifier, string returnUrl, int? hashedProvider) {
-            RemoveAccountAssociation(new HashedOpenAuthenticationParameters(hashedProvider.GetValueOrDefault()) { ExternalIdentifier = externalIdentifier });
+            RemoveAccountAssociation(new HashedOpenAuthenticationParameters(hashedProvider.GetValueOrDefault(), externalIdentifier));
 
             return this.RedirectLocal(returnUrl, () => RedirectToAction("Index"));
         }

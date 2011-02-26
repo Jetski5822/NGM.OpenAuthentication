@@ -8,6 +8,10 @@ namespace NGM.OpenAuthentication.Core {
             _hashedProvider = hashedProvider;
         }
 
+        public HashedOpenAuthenticationParameters(int hashedProvider, string externalIdentifier) : this(hashedProvider) {
+            base.ExternalIdentifier = externalIdentifier;
+        }
+
         public override string Provider {
             get { throw new NotSupportedException();}
         }
