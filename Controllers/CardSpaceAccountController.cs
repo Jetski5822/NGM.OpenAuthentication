@@ -2,6 +2,7 @@
 using System.Diagnostics.Contracts;
 using System.Web.Mvc;
 using DotNetOpenAuth.InfoCard;
+using NGM.OpenAuthentication.Extensions;
 using Orchard.Localization;
 using Orchard.Themes;
 
@@ -24,11 +25,7 @@ namespace NGM.OpenAuthentication.Controllers {
             Token token = Token.Read(xmlToken);
             //token.
             //var fi token.Claims[ClaimTypes.GivenName];
-            return DefaultLogOnResult(returnUrl);
-        }
-
-        private ActionResult DefaultLogOnResult(string returnUrl) {
-            return RedirectToAction("LogOn", "Account", new { area = "Orchard.Users", ReturnUrl = returnUrl });
+            return new RedirectResult(Url.Referer(this.Request));
         }
     }
 }
