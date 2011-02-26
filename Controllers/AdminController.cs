@@ -78,30 +78,6 @@ namespace NGM.OpenAuthentication.Controllers {
         }
 
         public ActionResult Create(string returnUrl) {
-            if (_openIdRelyingPartyService.HasResponse) {
-                // TODO : Not happy about this huge switch statement, consider a stratagy pattern possibly when I come to refactory?
-                switch (_openIdRelyingPartyService.Response.Status) {
-                    case AuthenticationStatus.Authenticated:
-                        var parameters = new OpenIdAuthenticationParameters(_openIdRelyingPartyService.Response.ClaimedIdentifier, _openIdRelyingPartyService.Response.FriendlyIdentifierForDisplay);
-                        var autheticationStatus = _openAuthorizer.Authorize(parameters);
-
-                        if (autheticationStatus == OpenAuthenticationStatus.Authenticated) {
-                            _orchardServices.Notifier.Information(T("Account succesfully associated to logged in account"));
-                            return new RedirectResult(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
-                        } 
-                        else if (autheticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
-                            _orchardServices.Notifier.Error(T(_openAuthorizer.Error.Value));
-                        }
-                        break;
-                    case AuthenticationStatus.Canceled:
-                        _orchardServices.Notifier.Error(T("Canceled at provider"));
-                        break;
-                    case AuthenticationStatus.Failed:
-                        _orchardServices.Notifier.Error(T(_openIdRelyingPartyService.Response.Exception.Message));
-                        break;
-                }
-            }
-
             return View("Create");
         }
 

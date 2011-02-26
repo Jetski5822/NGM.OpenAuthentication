@@ -65,7 +65,7 @@ namespace NGM.OpenAuthentication.Controllers
                 }
             }
 
-            return new RedirectResult(Url.LogOn(returnUrl));
+            return new RedirectResult(Url.Referer(this.Request));
         }
 
         [HttpPost, ActionName("LogOn")]
