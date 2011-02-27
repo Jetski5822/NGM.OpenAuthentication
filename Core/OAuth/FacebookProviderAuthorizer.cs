@@ -124,7 +124,8 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         private Uri GenerateCallbackUri() {
             UriBuilder builder = new UriBuilder(_orchardServices.WorkContext.HttpContext.Request.Url.GetLeftPart(UriPartial.Authority));
-            builder.Path = _orchardServices.WorkContext.HttpContext.Request.ApplicationPath + "/OAuth/LogOn";
+            var path = _orchardServices.WorkContext.HttpContext.Request.ApplicationPath + "/OAuth/LogOn";
+            builder.Path = path.Replace(@"//", @"/");
 
             return builder.Uri;
         }
