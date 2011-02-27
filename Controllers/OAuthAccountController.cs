@@ -29,17 +29,8 @@ namespace NGM.OpenAuthentication.Controllers {
             var viewModel = new CreateViewModel();
             TryUpdateModel(viewModel);
 
-            if (string.IsNullOrEmpty(viewModel.KnownProvider)) {
-                if (_orchardServices.WorkContext.HttpContext.Session["knownProvider"] != null) {
-                    viewModel.KnownProvider = _orchardServices.WorkContext.HttpContext.Session["knownProvider"] as string;
-                }
-                else if (!string.IsNullOrEmpty(knownProvider)) {
-                    viewModel.KnownProvider = knownProvider;
-                }
-            }
-
             var wrapper = _oAuthWrappers
-                .Where(o => o.Provider.ToString().Equals(viewModel.KnownProvider, StringComparison.InvariantCultureIgnoreCase) 
+                .Where(o => o.Provider.ToString().Equals(GetKnownProvider(viewModel, knownProvider), StringComparison.InvariantCultureIgnoreCase) 
                     && o.IsConsumerConfigured).FirstOrDefault();
 
             if (wrapper != null) {
@@ -63,6 +54,19 @@ namespace NGM.OpenAuthentication.Controllers {
             }
 
             return HttpContext.Request.IsAuthenticated ? new RedirectResult(returnUrl) : new RedirectResult(Url.LogOn(returnUrl));
+        }
+
+        public string GetKnownProvider(CreateViewModel viewModel, string tempKnownProvider) {
+            var provider = string.Empty;
+            if (string.IsNullOrEmpty(viewModel.KnownProvider)) {
+                if (_orchardServices.WorkContext.HttpContext.Session["knownProvider"] != null) {
+                    provider = _orchardServices.WorkContext.HttpContext.Session["knownProvider"] as string;
+                }
+                else if (!string.IsNullOrEmpty(tempKnownProvider)) {
+                    provider = tempKnownProvider;
+                }
+            }
+            return provider;
         }
     }
 }
