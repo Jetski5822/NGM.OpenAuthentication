@@ -23,6 +23,18 @@
         @Html.EditorFor(m => m.FacebookClientSecret)         
         <label class="forcheckbox" for="FacebookClientSecret">@T("Facebook Client Secret")</label>
     </div>
+    <div>
+        @Html.EditorFor(m => m.TwitterClientIdentifier)         
+        <label class="forcheckbox" for="TwitterClientIdentifier">@T("Twitter Client Identifier")</label>
+    </div>
+    <div>
+        @Html.EditorFor(m => m.TwitterClientSecret)         
+        <label class="forcheckbox" for="TwitterClientSecret">@T("Twitter Client Secret")</label>
+    </div>
+    <div>
+        @Html.EditorFor(m => m.AutoRegisterEnabled)         
+        <label class="forcheckbox" for="AutoRegisterEnabled">@T("Enable Auto Register")</label>
+    </div>
 </fieldset>
 <fieldset>
     <legend>@T("Claim Settings")</legend>

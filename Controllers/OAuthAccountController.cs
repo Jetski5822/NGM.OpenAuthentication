@@ -57,16 +57,15 @@ namespace NGM.OpenAuthentication.Controllers {
         }
 
         public string GetKnownProvider(CreateViewModel viewModel, string tempKnownProvider) {
-            var provider = string.Empty;
             if (string.IsNullOrEmpty(viewModel.KnownProvider)) {
                 if (_orchardServices.WorkContext.HttpContext.Session["knownProvider"] != null) {
-                    provider = _orchardServices.WorkContext.HttpContext.Session["knownProvider"] as string;
+                    return _orchardServices.WorkContext.HttpContext.Session["knownProvider"] as string;
                 }
-                else if (!string.IsNullOrEmpty(tempKnownProvider)) {
-                    provider = tempKnownProvider;
+                if (!string.IsNullOrEmpty(tempKnownProvider)) {
+                    return tempKnownProvider;
                 }
             }
-            return provider;
+            return viewModel.KnownProvider;
         }
     }
 }

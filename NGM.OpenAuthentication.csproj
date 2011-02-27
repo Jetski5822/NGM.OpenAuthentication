@@ -58,6 +58,11 @@
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\CardSpaceAccountController.cs" />
+    <Compile Include="Core\Claims\ClaimTypes.cs" />
+    <Compile Include="Core\Claims\ClaimsTranslator.cs" />
+    <Compile Include="Core\OAuth\FacebookClaimsTranslator.cs" />
+    <Compile Include="Core\OpenId\OpenIdClaimsResponseClaimsTranslator.cs" />
+    <Compile Include="Core\OpenId\OpenIdFetchResponseClaimsTranslator.cs" />
     <Compile Include="Core\OAuth\FacebookApplication.cs" />
     <Compile Include="Core\OAuth\IOAuthProviderFacebookAuthorizer.cs" />
     <Compile Include="Core\OpenId\IOpenIdProviderAuthorizer.cs" />
@@ -83,7 +88,7 @@
     <Compile Include="Core\OAuth\IOAuthProviderAuthorizer.cs" />
     <Compile Include="Core\OAuth\TwitterProviderAuthorizer.cs" />
     <Compile Include="Core\OpenId\Claims.cs" />
-    <Compile Include="Core\OpenId\RegisterModelBuilder.cs" />
+    <Compile Include="Core\OpenId\RegisterModelHelper.cs" />
     <Compile Include="Core\OrchardShapeChecker.cs" />
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
+using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 
 namespace NGM.OpenAuthentication.Core.OpenId {
@@ -27,12 +28,15 @@ namespace NGM.OpenAuthentication.Core.OpenId {
         private AuthorizeState TranslateResponseState(string returnUrl) {
             switch (_openIdRelyingPartyService.Response.Status) {
                 case AuthenticationStatus.Authenticated:
-                    var parameters = new OpenIdAuthenticationParameters(_openIdRelyingPartyService.Response.ClaimedIdentifier, _openIdRelyingPartyService.Response.FriendlyIdentifierForDisplay);
+                    var parameters = new OpenIdAuthenticationParameters(_openIdRelyingPartyService.Response);
                     var status = _authorizer.Authorize(parameters);
+
+                    var model = new RegisterModel(parameters);
+                    RegisterModelHelper.PopulateModel(parameters.UserClaims, model);
 
                     return new AuthorizeState(returnUrl, status) {
                         Error = _authorizer.Error,
-                        RegisterModel = new RegisterModelBuilder(_openIdRelyingPartyService.Response).Build()
+                        RegisterModel = model
                     };
                 case AuthenticationStatus.Canceled:
                     return new AuthorizeState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {

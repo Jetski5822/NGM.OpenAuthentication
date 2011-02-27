@@ -33,6 +33,7 @@ namespace NGM.OpenAuthentication {
                 .Column<string>("FacebookClientSecret")
                 .Column<string>("TwitterClientIdentifier")
                 .Column<string>("TwitterClientSecret")
+                .Column<bool>("AutoRegisterEnabled")
                );
 
             ContentDefinitionManager.AlterTypeDefinition("User",

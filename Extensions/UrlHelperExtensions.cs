@@ -6,7 +6,9 @@ using NGM.OpenAuthentication.Models;
 namespace NGM.OpenAuthentication.Extensions {
     public static class UrlHelperExtensions {
         public static string LogOn(this UrlHelper urlHelper, string returnUrl) {
-            return urlHelper.Action("LogOn", "Account", new { area = "Orchard.Users", ReturnUrl = returnUrl });
+            if (!string.IsNullOrEmpty(returnUrl))
+                return urlHelper.Action("LogOn", "Account", new { area = "Orchard.Users", ReturnUrl = returnUrl });
+            return urlHelper.Action("LogOn", "Account", new { area = "Orchard.Users" });
         }
 
         public static string Register(this UrlHelper urlHelper, string returnUrl, RegisterModel model) {
@@ -14,7 +16,10 @@ namespace NGM.OpenAuthentication.Extensions {
         }
 
         public static string Referer(this UrlHelper urlHelper, HttpRequestBase httpRequestBase) {
-            return httpRequestBase.UrlReferrer.ToString();
+            if (httpRequestBase.UrlReferrer != null) {
+                return httpRequestBase.UrlReferrer.ToString();
+            }
+            return "~/";
         }
     }
 }

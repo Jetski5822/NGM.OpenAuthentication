@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using NGM.OpenAuthentication.Core.OpenId;
+using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using Orchard;
 using Orchard.ContentManagement;
@@ -9,13 +12,16 @@ namespace NGM.OpenAuthentication.Core {
     public class Authorizer : IAuthorizer {
         private readonly IAuthenticationService _authenticationService;
         private readonly IOpenAuthenticationService _openAuthenticationService;
+        private readonly IMembershipService _membershipService;
         private readonly IOrchardServices _orchardServices;
 
         public Authorizer(IAuthenticationService authenticationService,
                               IOpenAuthenticationService openAuthenticationService,
+                              IMembershipService membershipService,
                               IOrchardServices orchardServices) {
             _authenticationService = authenticationService;
             _openAuthenticationService = openAuthenticationService;
+            _membershipService = membershipService;
             _orchardServices = orchardServices;
         }
 
@@ -38,13 +44,22 @@ namespace NGM.OpenAuthentication.Core {
                 // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
                 var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
 
-                if ((registrationSettings != null) &&
-                    (registrationSettings.UsersCanRegister == false)) {
+                if (registrationSettings.UsersCanRegister == true && _openAuthenticationService.GetSettings().Record.AutoRegisterEnabled == true) {
+                    if (CanCreateAccount(parameters)) {
+                        _orchardServices.WorkContext.HttpContext.Session["parameters"] = parameters;
+                        userFound = CreateUser(parameters);
+                    }
+                    else
+                    {
+                        Error = new KeyValuePair<string, string>("AccessDenied", "User does not have enough details to auto create account");
+                        return OpenAuthenticationStatus.RequiresRegistration;
+                    }
+                } else if (registrationSettings.UsersCanRegister == true && _openAuthenticationService.GetSettings().Record.AutoRegisterEnabled == false) {
+                    return OpenAuthenticationStatus.RequiresRegistration;
+                } else {
                     Error = new KeyValuePair<string, string>("AccessDenied", "User does not exist on system");
                     return OpenAuthenticationStatus.ErrorAuthenticating;
                 }
-
-                return OpenAuthenticationStatus.RequiresRegistration;
             }
             if (userFound == null) {
                 _openAuthenticationService.AssociateExternalAccountWithUser(userLoggedIn, parameters);
@@ -53,6 +68,20 @@ namespace NGM.OpenAuthentication.Core {
             _authenticationService.SignIn(userFound ?? userLoggedIn, false);
 
             return OpenAuthenticationStatus.Authenticated;
+        }
+
+        private bool CanCreateAccount(OpenAuthenticationParameters parameters) {
+            var registerModel = new RegisterModel(parameters);
+            RegisterModelHelper.PopulateModel(parameters.UserClaims, registerModel);
+
+            return !string.IsNullOrEmpty(registerModel.UserName) && (!string.IsNullOrEmpty(registerModel.Email));
+        }
+
+        private IUser CreateUser(OpenAuthenticationParameters parameters) {
+            var registerModel = new RegisterModel(parameters);
+            RegisterModelHelper.PopulateModel(parameters.UserClaims, registerModel);
+
+            return _membershipService.CreateUser(new CreateUserParams(registerModel.UserName, new Byte[10].ToString(), registerModel.Email, null, null, true));
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Facebook;
+using NGM.OpenAuthentication.Extensions;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using Orchard;
@@ -71,6 +72,9 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
                 var status = _authorizer.Authorize(parameters);
 
+                if ((status == OpenAuthenticationStatus.RequiresRegistration) && _openAuthenticationService.GetSettings().Record.AutoRegisterEnabled)
+                    status = GetUserNameAndRetryAuthorization(parameters);
+                
                 return new AuthorizeState(returnUrl, status) {
                     Error = _authorizer.Error,
                     RegisterModel = new RegisterModel(parameters)
@@ -80,6 +84,18 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             return new AuthorizeState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
                 Error = new KeyValuePair<string, string>("Provider", string.Format("Reason: {0}, Description: {1}", oAuthResult.ErrorReason, oAuthResult.ErrorDescription))
             };
+        }
+
+        private OpenAuthenticationStatus GetUserNameAndRetryAuthorization(OAuthAuthenticationParameters parameters) {
+            var client = new FacebookClient(GetAccessToken(parameters.OAuthToken));
+            var me = client.Get("/me");
+
+            FacebookClaimsTranslator claimsTranslator = new FacebookClaimsTranslator();
+            var claims = claimsTranslator.Translate((IDictionary<string, object>)me);
+
+            parameters.AddClaim(claims);
+
+            return _authorizer.Authorize(parameters);
         }
 
         private AuthorizeState GenerateRequestState(string returnUrl) {
@@ -92,7 +108,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
             var extendedPermissions = new[] { "publish_stream", "offline_access", "email" };
             var parameters = new Dictionary<string, object> {
-                {"redirect_uri", GenerateCallbackUri()}
+                {"redirect_uri", _orchardServices.WorkContext.HttpContext.Request.Url.GetLeftPart(UriPartial.Path).ToString() }
             };
 
             if (extendedPermissions != null && extendedPermissions.Length > 0) {
@@ -129,7 +145,21 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                 .List()
                 .FirstOrDefault();
 
-            return identifier != null ? new FacebookClient(identifier.Record.OAuthToken) : null;
+            var token = GetAccessToken(identifier.Record.OAuthToken);
+
+            return !string.IsNullOrEmpty(token) ? new FacebookClient(token) : null;
+        }
+
+        private string GetAccessToken(string code) {
+            FacebookOAuthClient cl = new FacebookOAuthClient(_facebookApplication);
+            var extendedPermissions = new Dictionary<string, object>();
+            cl.RedirectUri = new Uri(_orchardServices.WorkContext.HttpContext.Request.Url.GetLeftPart(UriPartial.Path));
+            cl.ClientId = _facebookApplication.AppId;
+            cl.ClientSecret = _facebookApplication.AppSecret;
+            extendedPermissions.Add("permissions", "offline_access");
+            var dict = (Dictionary<String, Object>)cl.ExchangeCodeForAccessToken(code, extendedPermissions);
+            Object Token = dict.Values.ElementAt(0);
+            return Token.ToString();
         }
     }
 }

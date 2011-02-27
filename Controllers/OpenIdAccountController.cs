@@ -48,8 +48,8 @@ namespace NGM.OpenAuthentication.Controllers
             }
 
             if (result.Result != null) return result.Result;
-            
-            return new RedirectResult(Url.Referer(this.Request));
+
+            return HttpContext.Request.IsAuthenticated ? new RedirectResult(returnUrl) : new RedirectResult(Url.LogOn(returnUrl));
         }
     }
 }

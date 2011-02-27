@@ -19,5 +19,7 @@ namespace NGM.OpenAuthentication.Models {
         public virtual string FacebookClientSecret { get; set; }
         public virtual string TwitterClientIdentifier { get; set; }
         public virtual string TwitterClientSecret { get; set; }
+
+        public virtual bool AutoRegisterEnabled { get; set; }
     }
 }
