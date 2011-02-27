@@ -53,7 +53,7 @@ namespace NGM.OpenAuthentication.Controllers {
                 if (result.Result != null) return result.Result;
             }
 
-            return HttpContext.Request.IsAuthenticated ? new RedirectResult(returnUrl) : new RedirectResult(Url.LogOn(returnUrl));
+            return HttpContext.Request.IsAuthenticated ? new RedirectResult(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/") : new RedirectResult(Url.LogOn(returnUrl));
         }
 
         public string GetKnownProvider(CreateViewModel viewModel, string tempKnownProvider) {
