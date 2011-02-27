@@ -108,7 +108,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
             var extendedPermissions = new[] { "publish_stream", "offline_access", "email" };
             var parameters = new Dictionary<string, object> {
-                {"redirect_uri", _orchardServices.WorkContext.HttpContext.Request.Url.GetLeftPart(UriPartial.Path).ToString() }
+                {"redirect_uri", GenerateCallbackUri() }
             };
 
             if (extendedPermissions != null && extendedPermissions.Length > 0) {
@@ -123,7 +123,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         }
 
         private Uri GenerateCallbackUri() {
-            string currentUrl = _orchardServices.WorkContext.HttpContext.Request.Url.ToString();
+            var url = _orchardServices.WorkContext.HttpContext.Request.Url.GetLeftPart(UriPartial.Authority) + _orchardServices.WorkContext.HttpContext.Request.ApplicationPath;
             //string seperator = "?";
 
             //if (currentUrl.Contains(seperator))
@@ -132,7 +132,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             //if (!currentUrl.ToLowerInvariant().Contains("knownprovider="))
             //    currentUrl = string.Format("{0}{1}knownProvider={2}", currentUrl, seperator, Provider);
 
-            return new Uri(currentUrl);
+            return new Uri(url);
         }
 
         public OAuthProvider Provider {
@@ -153,7 +153,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         private string GetAccessToken(string code) {
             FacebookOAuthClient cl = new FacebookOAuthClient(_facebookApplication);
             var extendedPermissions = new Dictionary<string, object>();
-            cl.RedirectUri = new Uri(_orchardServices.WorkContext.HttpContext.Request.Url.GetLeftPart(UriPartial.Path));
+            cl.RedirectUri = GenerateCallbackUri();
             cl.ClientId = _facebookApplication.AppId;
             cl.ClientSecret = _facebookApplication.AppSecret;
             extendedPermissions.Add("permissions", "offline_access");
