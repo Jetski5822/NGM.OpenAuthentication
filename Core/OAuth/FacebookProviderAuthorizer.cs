@@ -123,16 +123,10 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         }
 
         private Uri GenerateCallbackUri() {
-            var url = _orchardServices.WorkContext.HttpContext.Request.Url.GetLeftPart(UriPartial.Authority) + _orchardServices.WorkContext.HttpContext.Request.ApplicationPath;
-            //string seperator = "?";
+            UriBuilder builder = new UriBuilder(_orchardServices.WorkContext.HttpContext.Request.Url.GetLeftPart(UriPartial.Authority));
+            builder.Path = _orchardServices.WorkContext.HttpContext.Request.ApplicationPath + "/OAuth/LogOn";
 
-            //if (currentUrl.Contains(seperator))
-            //    seperator = "&";
-
-            //if (!currentUrl.ToLowerInvariant().Contains("knownprovider="))
-            //    currentUrl = string.Format("{0}{1}knownProvider={2}", currentUrl, seperator, Provider);
-
-            return new Uri(url);
+            return builder.Uri;
         }
 
         public OAuthProvider Provider {
