@@ -67,6 +67,11 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
             var status = _authorizer.Authorize(parameters);
 
+            var tempReturnUrl = _orchardServices.WorkContext.HttpContext.Request.QueryString["?ReturnUrl"];
+            if (!string.IsNullOrEmpty(tempReturnUrl) && string.IsNullOrEmpty(returnUrl)) {
+                returnUrl = tempReturnUrl;
+            }
+
             return new AuthorizeState(returnUrl, status) {
                 Error = _authorizer.Error,
                 RegisterModel = new RegisterModel(parameters) 
@@ -83,7 +88,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             if (currentUrl.Contains(seperator))
                 seperator = "&";
 
-            if (!currentUrl.Contains("knownProvider="))
+            if (!currentUrl.ToLowerInvariant().Contains("knownprovider="))
                 currentUrl = string.Format("{0}{1}knownProvider={2}", currentUrl, seperator, Provider);
 
             return new Uri(currentUrl);
