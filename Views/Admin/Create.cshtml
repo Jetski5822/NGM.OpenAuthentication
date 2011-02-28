@@ -10,6 +10,8 @@
 
     var settings = @WorkContext.CurrentSite.As<NGM.OpenAuthentication.Models.OpenAuthenticationSettingsPart>().Record;
 }
+<h1>@Html.TitleForPage(T("Associate Account").ToString())</h1>
+
 @if (settings.OpenIdEnabled) {
 using (Script.Foot()) {
     <script type="text/javascript">
@@ -20,8 +22,6 @@ using (Script.Foot()) {
         });
     </script>
     }
-
-    <h1>@Html.TitleForPage(T("Associate Account").ToString())</h1>
 
     using (Html.BeginForm("LogOn", "OpenIdAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post, new { id = "openid_form" })) {
     <input type="hidden" name="action" value="verify" />
