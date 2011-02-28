@@ -1,3 +1,5 @@
+@using Orchard.ContentManagement;
+
 @{
     Style.Require("Account");
     Style.Require("openIdStyles");
@@ -5,55 +7,60 @@
     Script.Require("jQuery");
     Script.Require("openIdSelector");
     Script.Require("openIdLocalization");
-}
-@using(Script.Foot()) {
-<script type="text/javascript">
-    $(document).ready(function () {
-        openid.setSignInText('Associate OpenID');
-        openid.init('ExternalIdentifier');
-        //openid.setDemoMode(true); //Stops form submission for client javascript-only test purposes
-    });
-</script>
-}
 
-<h1>@Html.TitleForPage(T("Associate Account").ToString())</h1>
-
-@using (Html.BeginForm("LogOn", "OpenIdAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post, new { id = "openid_form" })) {
-<input type="hidden" name="action" value="verify" />
-<fieldset class="login-form group">
-    <legend>@T("OpenID Details")</legend>
-    <ol>
-        <li>
-            <div id="openid_choice">
-			    <p>Please click your account provider:</p>
-				<div id="openid_btns"></div>
-			</div>
-        </li>
-        <li>
-            <div id="openid_input_area">
-                <label for="ExternalIdentifier">@T("Enter manually your OpenID")</label>
-                @Html.TextBox("ExternalIdentifier", "http://", new { id = "ExternalIdentifier", @class = "textMedium", autofocus = "autofocus" })
-                @Html.ValidationMessage("ExternalIdentifier")
-                <button class="primaryAction" type="submit">@T("Associate OpenID")</button>
-            </div>
-        </li>
-        @Html.AntiForgeryTokenOrchard()
-    </ol>
-</fieldset>
+    var settings = @WorkContext.CurrentSite.As<NGM.OpenAuthentication.Models.OpenAuthenticationSettingsPart>().Record;
 }
+@if (settings.OpenIdEnabled) {
+using (Script.Foot()) {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            openid.setSignInText('Associate OpenID');
+            openid.init('ExternalIdentifier');
+            //openid.setDemoMode(true); //Stops form submission for client javascript-only test purposes
+        });
+    </script>
+    }
 
-<fieldset class="login-form group">
-    <legend>@T("OAuth account")</legend>
-    <ol>
-        <li>
-            <div id="oauth_input_area">
-                <a href="@Url.Action("LogOn", "OAuthAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"], KnownProvider = "Twitter" })">
-                    @Html.Image("../../Modules/NGM.OpenAuthentication/Content/oauth/images/twitter-logo.jpg", "Twitter", new { @Class = "oauth_btn openid_large_btn" })
-                </a>
-                <a href="@Url.Action("LogOn", "OAuthAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"], KnownProvider = "Facebook" })">
-                    @Html.Image("../../Modules/NGM.OpenAuthentication/Content/oauth/images/facebook-logo.jpg", "Facebook", new { @Class = "oauth_btn openid_large_btn" })
-                </a>
-            </div>
-        </li>
-    </ol>
-</fieldset>
+    <h1>@Html.TitleForPage(T("Associate Account").ToString())</h1>
+
+    using (Html.BeginForm("LogOn", "OpenIdAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post, new { id = "openid_form" })) {
+    <input type="hidden" name="action" value="verify" />
+    <fieldset class="login-form group">
+        <legend>@T("OpenID Details")</legend>
+        <ol>
+            <li>
+                <div id="openid_choice">
+			        <p>Please click your account provider:</p>
+				    <div id="openid_btns"></div>
+			    </div>
+            </li>
+            <li>
+                <div id="openid_input_area">
+                    <label for="ExternalIdentifier">@T("Enter manually your OpenID")</label>
+                    @Html.TextBox("ExternalIdentifier", "http://", new { id = "ExternalIdentifier", @class = "textMedium", autofocus = "autofocus" })
+                    @Html.ValidationMessage("ExternalIdentifier")
+                    <button class="primaryAction" type="submit">@T("Associate OpenID")</button>
+                </div>
+            </li>
+            @Html.AntiForgeryTokenOrchard()
+        </ol>
+    </fieldset>
+    }
+}
+@if (settings.OAuthEnabled) {
+    <fieldset class="login-form group">
+        <legend>@T("OAuth account")</legend>
+        <ol>
+            <li>
+                <div id="oauth_input_area">
+                    <a href="@Url.Action("LogOn", "OAuthAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"], KnownProvider = "Twitter" })">
+                        @Html.Image("../../Modules/NGM.OpenAuthentication/Content/oauth/images/twitter-logo.jpg", "Twitter", new { @Class = "oauth_btn openid_large_btn" })
+                    </a>
+                    <a href="@Url.Action("LogOn", "OAuthAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"], KnownProvider = "Facebook" })">
+                        @Html.Image("../../Modules/NGM.OpenAuthentication/Content/oauth/images/facebook-logo.jpg", "Facebook", new { @Class = "oauth_btn openid_large_btn" })
+                    </a>
+                </div>
+            </li>
+        </ol>
+    </fieldset>
+}
