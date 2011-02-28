@@ -5,7 +5,6 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Facebook;
-using NGM.OpenAuthentication.Extensions;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using Orchard;
@@ -64,14 +63,15 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
             _orchardServices.WorkContext.HttpContext.Session.Remove("knownProvider");
 
-            if (oAuthResult.IsSuccess) {                
+            if (oAuthResult.IsSuccess) {
                 var parameters = new OAuthAuthenticationParameters(Provider) {
                     ExternalIdentifier = oAuthResult.Code,
                     OAuthToken = oAuthResult.Code,
+                    OAuthAccessToken = GetAccessToken(oAuthResult.Code)
                 };
 
                 var status = _authorizer.Authorize(parameters);
-
+                
                 if ((status == OpenAuthenticationStatus.RequiresRegistration) && _openAuthenticationService.GetSettings().Record.AutoRegisterEnabled)
                     status = GetUserNameAndRetryAuthorization(parameters);
                 
@@ -87,10 +87,10 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         }
 
         private OpenAuthenticationStatus GetUserNameAndRetryAuthorization(OAuthAuthenticationParameters parameters) {
-            var client = new FacebookClient(GetAccessToken(parameters.OAuthToken));
+            var client = new FacebookClient(parameters.OAuthAccessToken);
             var me = client.Get("/me");
 
-            FacebookClaimsTranslator claimsTranslator = new FacebookClaimsTranslator();
+            var claimsTranslator = new FacebookClaimsTranslator();
             var claims = claimsTranslator.Translate((IDictionary<string, object>)me);
 
             parameters.AddClaim(claims);
