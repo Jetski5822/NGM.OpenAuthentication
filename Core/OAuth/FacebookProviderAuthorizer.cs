@@ -66,15 +66,18 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             if (oAuthResult.IsSuccess) {
                 var parameters = new OAuthAuthenticationParameters(Provider) {
                     ExternalIdentifier = oAuthResult.Code,
-                    OAuthToken = oAuthResult.Code,
-                    OAuthAccessToken = GetAccessToken(oAuthResult.Code)
+                    OAuthToken = oAuthResult.Code
                 };
 
                 var status = _authorizer.Authorize(parameters);
-                
-                if ((status == OpenAuthenticationStatus.RequiresRegistration) && _openAuthenticationService.GetSettings().Record.AutoRegisterEnabled)
-                    status = GetUserNameAndRetryAuthorization(parameters);
-                
+
+                if (status == OpenAuthenticationStatus.RequiresRegistration) {
+                    parameters.OAuthAccessToken = GetAccessToken(oAuthResult.Code);
+                    
+                    if (_openAuthenticationService.GetSettings().Record.AutoRegisterEnabled)
+                        status = GetUserNameAndRetryAuthorization(parameters);
+                }
+
                 return new AuthorizeState(returnUrl, status) {
                     Error = _authorizer.Error,
                     RegisterModel = new RegisterModel(parameters)
@@ -140,9 +143,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                 .List()
                 .FirstOrDefault();
 
-            var token = GetAccessToken(identifier.Record.OAuthToken);
-
-            return !string.IsNullOrEmpty(token) ? new FacebookClient(token) : null;
+            return !string.IsNullOrEmpty(identifier.Record.OAuthAccessToken) ? new FacebookClient(identifier.Record.OAuthAccessToken) : null;
         }
 
         private string GetAccessToken(string code) {
