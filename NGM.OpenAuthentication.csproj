@@ -62,6 +62,7 @@
     <Compile Include="Core\Claims\ClaimTypes.cs" />
     <Compile Include="Core\Claims\ClaimsTranslator.cs" />
     <Compile Include="Core\OAuth\FacebookClaimsTranslator.cs" />
+    <Compile Include="Core\OAuth\LiveIdProviderAuthorizer.cs" />
     <Compile Include="Core\OpenId\OpenIdClaimsResponseClaimsTranslator.cs" />
     <Compile Include="Core\OpenId\OpenIdFetchResponseClaimsTranslator.cs" />
     <Compile Include="Core\OAuth\FacebookApplication.cs" />
@@ -239,7 +240,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\Hybrid\" />
-    <Folder Include="Core\LiveId\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\account.css" />
