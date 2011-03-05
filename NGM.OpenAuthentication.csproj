@@ -58,11 +58,11 @@
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\CardSpaceAccountController.cs" />
-    <Compile Include="Controllers\OAuthAdminController.cs" />
     <Compile Include="Core\Claims\ClaimTypes.cs" />
     <Compile Include="Core\Claims\ClaimsTranslator.cs" />
     <Compile Include="Core\OAuth\FacebookClaimsTranslator.cs" />
     <Compile Include="Core\OAuth\LiveIdProviderAuthorizer.cs" />
+    <Compile Include="Core\OAuth\WindowsLive\WindowsLiveLogin.cs" />
     <Compile Include="Core\OpenId\OpenIdClaimsResponseClaimsTranslator.cs" />
     <Compile Include="Core\OpenId\OpenIdFetchResponseClaimsTranslator.cs" />
     <Compile Include="Core\OAuth\FacebookApplication.cs" />
@@ -95,10 +95,7 @@
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Filters\RegistrationFilter.cs" />
-    <Compile Include="Handlers\OAuthProviderSettingsPartHandler.cs" />
     <Compile Include="Handlers\OpenAuthenticationSettingsPartHandler.cs" />
-    <Compile Include="Models\OAuthProviderSettingsPart.cs" />
-    <Compile Include="Models\OAuthProviderSettingsPartRecord.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPart.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPartRecord.cs" />
     <Compile Include="Models\RegisterModel.cs" />
@@ -110,15 +107,12 @@
     <Compile Include="Models\OpenAuthenticationPart.cs" />
     <Compile Include="Models\OpenAuthenticationPartRecord.cs" />
     <Compile Include="ResourceManifest.cs" />
-    <Compile Include="Services\IOAuthProviderServices.cs" />
     <Compile Include="Services\IOpenAuthenticationService.cs" />
     <Compile Include="Core\OAuth\OAuthAuthenticationParameters.cs" />
     <Compile Include="Core\OpenAuthenticationParameters.cs" />
-    <Compile Include="Services\OAuthProviderServices.cs" />
     <Compile Include="Services\OpenAuthenticationService.cs" />
     <Compile Include="Core\OpenId\OpenIdAuthenticationParameters.cs" />
     <Compile Include="Shapes.cs" />
-    <Compile Include="ViewModels\OAuthAdminIndexViewModel.cs" />
     <Compile Include="ViewModels\CreateViewModel.cs" />
     <Compile Include="ViewModels\AdminIndexViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -289,6 +283,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\OAuthAdmin\Index.cshtml" />
+    <Content Include="Views\Wrappers.Account.LiveId.LogOn.cshtml" />
     <None Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

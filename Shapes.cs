@@ -20,7 +20,9 @@ namespace NGM.OpenAuthentication {
         public void Created(ShapeCreatedContext context) {
             if (context.ShapeType == "LogOn") {
                 var settings = _openAuthenticationService.GetSettings();
-
+                
+                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_LiveId_LogOn");
+                
                 if (settings.Record.OpenIdEnabled)
                     context.Shape.Metadata.Wrappers.Add("Wrappers_Account_OpenID_LogOn");
                 if (settings.Record.CardSpaceEnabled)

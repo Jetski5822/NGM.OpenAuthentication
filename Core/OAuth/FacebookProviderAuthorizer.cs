@@ -15,28 +15,25 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         private readonly IOrchardServices _orchardServices;
         private readonly IAuthorizer _authorizer;
         private readonly IOpenAuthenticationService _openAuthenticationService;
-        private readonly IOAuthProviderServices _oAuthProviderServices;
 
         private readonly FacebookApplication _facebookApplication;
 
         public FacebookProviderAuthorizer(IOrchardServices orchardServices,
             IAuthorizer authorizer,
-            IOpenAuthenticationService openAuthenticationService,
-            IOAuthProviderServices oAuthProviderServices) {
+            IOpenAuthenticationService openAuthenticationService) {
             _orchardServices = orchardServices;
             _authorizer = authorizer;
             _openAuthenticationService = openAuthenticationService;
-            _oAuthProviderServices = oAuthProviderServices;
 
             _facebookApplication = new FacebookApplication(ClientKeyIdentifier, ClientSecret);
         }
 
         public string ClientKeyIdentifier {
-            get { return _oAuthProviderServices.GetProviderSettings(this.Provider).Record.ClientIdentifier; }
+            get { return _openAuthenticationService.GetSettings().Record.FacebookClientIdentifier; }
         }
 
         public string ClientSecret {
-            get { return _oAuthProviderServices.GetProviderSettings(this.Provider).Record.ClientSecret; }
+            get { return _openAuthenticationService.GetSettings().Record.FacebookClientSecret; }
         }
 
         public bool IsConsumerConfigured {
