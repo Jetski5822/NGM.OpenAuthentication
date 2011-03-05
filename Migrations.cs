@@ -43,5 +43,28 @@ namespace NGM.OpenAuthentication {
         
             return 1;
         }
+
+        public int UpgradeFrom1() {
+            SchemaBuilder.CreateTable("OAuthProviderSettingsPartRecord",
+                table => table
+                    .ContentPartRecord()
+                    .Column<string>("Provider")
+                    .Column<string>("ClientIdentifier")
+                    .Column<string>("ClientSecret")
+                );
+
+            SchemaBuilder.ExecuteSql("Insert into OAuthProviderSettingsPartRecord (\"Provider\", \"ClientIdentifier\", \"ClientSecret\"))" +
+                                     "Select \"Facebook\", FacebookClientIdentifier, FacebookClientSecret From OpenAuthenticationSettingsPartRecord");
+
+            SchemaBuilder.ExecuteSql("Insert into OAuthProviderSettingsPartRecord (\"Provider\", \"ClientIdentifier\", \"ClientSecret\"))" +
+                                     "Select \"Twitter\", FacebookClientIdentifier, FacebookClientSecret From OpenAuthenticationSettingsPartRecord");
+
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", table => table.DropColumn("FacebookClientIdentifier"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", table => table.DropColumn("FacebookClientSecret"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", table => table.DropColumn("TwitterClientIdentifier"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", table => table.DropColumn("TwitterClientSecret"));
+
+            return 2;
+        }
     }
 }

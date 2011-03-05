@@ -1,0 +1,34 @@
+@model NGM.OpenAuthentication.ViewModels.OAuthAdminIndexViewModel
+@using Orchard.Utility.Extensions;
+@using NGM.OpenAuthentication.Models;
+@using NGM.OpenAuthentication.ViewModels;
+
+<h1>@Html.TitleForPage(T("Manage OAuth Providers").ToString())</h1>
+@using (Html.BeginFormAntiForgeryPost()) { 
+    @Html.ValidationSummary() 
+    <fieldset>
+        <table class="items" summary="@T("This is a table of oauth providers associated with your site")">
+	        <colgroup>
+		        <col id="Col1" />
+		        <col id="Col2" />
+		        <col id="Col3" />
+	        </colgroup>
+	        <thead>
+		        <tr>
+			        <th scope="col">@T("Provider")</th>
+                    <th scope="col">@T("Identifier")</th>
+                    <th scope="col">@T("Secret")</th>
+		        </tr>
+	        </thead>    
+            @{var index = 0;}
+            @foreach (var providerEntry in Model.Providers) {
+            <tr itemscope="itemscope" itemid="@Model.Providers[index].Record.Provider">
+                <td>@providerEntry.Record.Provider</td>
+                <td>@providerEntry.Record.ClientIdentifier</td>
+                <td>@providerEntry.Record.ClientSecret</td>
+	        </tr>
+                index++;
+            }
+        </table>
+    </fieldset>
+} 

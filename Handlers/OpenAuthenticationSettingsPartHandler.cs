@@ -20,11 +20,6 @@ namespace NGM.OpenAuthentication.Handlers {
             settings.Record.OpenIdEnabled = true;
             settings.Record.CardSpaceEnabled = false;
             settings.Record.OAuthEnabled = true;
-
-            settings.Record.FacebookClientIdentifier = "137176593016708";
-            settings.Record.FacebookClientSecret = "c7d138e1058fd15224af664bd1ccea5b";
-            settings.Record.TwitterClientIdentifier = "l7id92UykSoqTBJHhzg";
-            settings.Record.TwitterClientSecret = "ZmbZKxvYV0rPblNI0HHhrLX8dU87yTk2EI2dzWf4ImQ";
         }
     }
 }

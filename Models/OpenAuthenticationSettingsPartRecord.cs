@@ -15,11 +15,6 @@ namespace NGM.OpenAuthentication.Models {
         public virtual bool PostalCode { get; set; }
         public virtual bool TimeZone { get; set;}
 
-        public virtual string FacebookClientIdentifier { get; set; }
-        public virtual string FacebookClientSecret { get; set; }
-        public virtual string TwitterClientIdentifier { get; set; }
-        public virtual string TwitterClientSecret { get; set; }
-
         public virtual bool AutoRegisterEnabled { get; set; }
     }
 }
