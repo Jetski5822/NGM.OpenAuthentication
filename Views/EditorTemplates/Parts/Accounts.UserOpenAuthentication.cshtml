@@ -5,7 +5,7 @@
     <legend>Associated Accounts</legend>
         <ol>
         @if (Model.Accounts.Count >= 0) {
-            @for (int index = 0; index < Model.Accounts.Count - 1; index++) {
+            for (int index = 0; index < Model.Accounts.Count - 1; index++) {
                 <li>
                      @Model.Accounts[index].Account.ExternalIdentifier
                 
