@@ -282,7 +282,6 @@
     <Content Include="Content\oauth\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\OAuthAdmin\Index.cshtml" />
     <Content Include="Views\Wrappers.Account.LiveId.LogOn.cshtml" />
     <None Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
     <Content Include="Web.config">

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Web;
 using NGM.OpenAuthentication.Models;
+using NGM.OpenAuthentication.Services;
 using Orchard;
 using WindowsLive;
 
@@ -10,24 +9,28 @@ namespace NGM.OpenAuthentication.Core.OAuth {
     public class LiveIdProviderAuthorizer : IOAuthProviderAuthorizer {
         private readonly IOrchardServices _orchardServices;
         private readonly IAuthorizer _authorizer;
+        private readonly IOpenAuthenticationService _openAuthenticationService;
 
         const string LoginCookie = "webauthtoken";
 
         public LiveIdProviderAuthorizer(IOrchardServices orchardServices,
-            IAuthorizer authorizer) {
+            IAuthorizer authorizer,
+            IOpenAuthenticationService openAuthenticationService) {
             _orchardServices = orchardServices;
             _authorizer = authorizer;
+            _openAuthenticationService = openAuthenticationService;
         }
 
         public AuthorizeState Authorize(string returnUrl) {
-            var login = new WindowsLiveLogin(ClientKeyIdentifier, ClientSecret);
-
             var cookie = GetCookie();
             if (cookie != null) {
+                var login = new WindowsLiveLogin(ClientKeyIdentifier, ClientSecret);
                 return CompleteAuthorization(returnUrl, cookie, login);
             }
 
-            return new AuthorizeState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating);
+            return new AuthorizeState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
+                Error = new KeyValuePair<string, string>("error", "Cookie not found.")
+            };
         }
 
         private AuthorizeState CompleteAuthorization(string returnUrl, HttpCookie loginCookie, WindowsLiveLogin login) {
@@ -59,15 +62,17 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         }
 
         public string ClientKeyIdentifier {
-            get { throw new NotImplementedException(); }
+            get { return _openAuthenticationService.GetSettings().Record.LiveIdClientIdentifier; }
         }
 
         public string ClientSecret {
-            get { throw new NotImplementedException(); }
+            get { return _openAuthenticationService.GetSettings().Record.LiveIdClientSecret; }
         }
 
         public bool IsConsumerConfigured {
-            get { throw new NotImplementedException(); }
+            get {
+                return !string.IsNullOrEmpty(ClientKeyIdentifier) && !string.IsNullOrEmpty(ClientSecret);
+            }
         }
 
         public OAuthProvider Provider {
