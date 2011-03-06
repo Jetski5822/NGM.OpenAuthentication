@@ -13,52 +13,46 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         const string LoginCookie = "webauthtoken";
 
+        private WindowsLiveLogin _login;
+
         public LiveIdProviderAuthorizer(IOrchardServices orchardServices,
             IAuthorizer authorizer,
             IOpenAuthenticationService openAuthenticationService) {
             _orchardServices = orchardServices;
             _authorizer = authorizer;
             _openAuthenticationService = openAuthenticationService;
+
+            _login = new WindowsLiveLogin(ClientKeyIdentifier, ClientSecret);
         }
 
         public AuthorizeState Authorize(string returnUrl) {
-            var cookie = GetCookie();
-            if (cookie != null) {
-                var login = new WindowsLiveLogin(ClientKeyIdentifier, ClientSecret);
-                return CompleteAuthorization(returnUrl, cookie, login);
+            if (_orchardServices.WorkContext.HttpContext.Request.Form["stoken"] != null) {
+                return CompleteAuthorization(returnUrl);
             }
-
+            
             return new AuthorizeState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
                 Error = new KeyValuePair<string, string>("error", "Cookie not found.")
             };
         }
 
-        private AuthorizeState CompleteAuthorization(string returnUrl, HttpCookie loginCookie, WindowsLiveLogin login) {
-            string token = loginCookie.Value;
+        private AuthorizeState CompleteAuthorization(string returnUrl) {
+            WindowsLiveLogin.User user = _login.ProcessLogin(_orchardServices.WorkContext.HttpContext.Request.Form);
 
-            if (!string.IsNullOrEmpty(token)) {
-                WindowsLiveLogin.User user = login.ProcessToken(token);
+            if (user != null) {
+                var parameters = new OAuthAuthenticationParameters(this.Provider) {
+                    ExternalIdentifier = user.Id,
+                    OAuthToken = user.Token
+                };
 
-                if (user != null) {
-                    var parameters = new OAuthAuthenticationParameters(this.Provider) {
-                        ExternalIdentifier = user.Id,
-                        ExternalDisplayIdentifier = user.Id,
-                        OAuthToken = user.Token
-                    };
+                var status = _authorizer.Authorize(parameters);
 
-                    var status = _authorizer.Authorize(parameters);
-
-                    return new AuthorizeState(returnUrl, status) {
-                        Error = _authorizer.Error,
-                        RegisterModel = new RegisterModel(parameters)
-                    };
-                }
+                return new AuthorizeState(returnUrl, status) {
+                    Error = _authorizer.Error,
+                    RegisterModel = new RegisterModel(parameters)
+                };
             }
-            return new AuthorizeState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating);
-        }
 
-        private HttpCookie GetCookie() {
-            return _orchardServices.WorkContext.HttpContext.Request.Cookies[LoginCookie];
+            return new AuthorizeState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating);
         }
 
         public string ClientKeyIdentifier {
