@@ -8,11 +8,6 @@
     Style.Require("Account");
 
     var settings = @WorkContext.CurrentSite.As<NGM.OpenAuthentication.Models.OpenAuthenticationSettingsPart>().Record;
-    var returnUrl = Request.QueryString["ReturnUrl"];
-    if (!string.IsNullOrEmpty(returnUrl)){
-        returnUrl = "returnUrl=" + returnUrl;
-    }
-    var pagecontext = returnUrl;
 }
 
 @Display(Model.Metadata.ChildContent)
@@ -22,7 +17,7 @@
     <iframe 
         id="WebAuthControl" 
         name="WebAuthControl"
-        src="http://login.live.com/controls/WebAuthButton.htm?appid=@settings.LiveIdClientIdentifier&context=@pagecontext&style=font-size%3A+10pt%3B+font-family%3A+verdana%3B+background%3A+white%3B"
+        src="http://login.live.com/controls/WebAuthButton.htm?appid=@settings.LiveIdClientIdentifier&style=font-size%3A+10pt%3B+font-family%3A+verdana%3B+background%3A+white%3B"
         width="80px"
         height="20px"
         marginwidth="0"
@@ -31,4 +26,5 @@
         frameborder="0"
         scrolling="no">
     </iframe>
+    using Windows Live™ ID
 </fieldset>
