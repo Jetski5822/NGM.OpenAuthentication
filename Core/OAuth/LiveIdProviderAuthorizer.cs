@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using NGM.OpenAuthentication.Extensions;
-using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using Orchard;
 using Orchard.Security;
@@ -21,7 +20,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         static DateTime ExpireCookie = DateTime.Now.AddYears(-10);
         static DateTime PersistCookie = DateTime.Now.AddYears(10);
 
-        private WindowsLiveLogin _login;
+        private readonly WindowsLiveLogin _login;
 
         public LiveIdProviderAuthorizer(IOrchardServices orchardServices,
             IAuthorizer authorizer,
