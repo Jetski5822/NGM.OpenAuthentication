@@ -47,7 +47,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                 ProcessLogOut(returnUrl, request, response);
             }
             if (action == "clearcookie") {
-                ProcessClearCookie(returnUrl, response);
+                ProcessClearCookie(response);
             }
 
             return new AuthorizeState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
@@ -55,7 +55,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             };
         }
 
-        private void ProcessClearCookie(string returnUrl, HttpResponseBase response) {
+        private void ProcessClearCookie(HttpResponseBase response) {
             // Unsure I need this
             HttpCookie loginCookie = new HttpCookie(LoginCookie);
             loginCookie.Expires = ExpireCookie;
