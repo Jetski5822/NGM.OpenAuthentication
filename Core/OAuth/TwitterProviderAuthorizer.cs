@@ -51,12 +51,8 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                 throw new NullReferenceException("Session is required.");
 
             if (!_mvcAuthorizer.IsAuthorized) {
-                _orchardServices.WorkContext.HttpContext.Session["knownProvider"] = Provider.ToString();
-
                 return new AuthorizeState(returnUrl, OpenAuthenticationStatus.RequresRedirect) { Result = _mvcAuthorizer.BeginAuthorization() };
             }
-
-            _orchardServices.WorkContext.HttpContext.Session.Remove("knownProvider");
 
             var parameters = new OAuthAuthenticationParameters(Provider) {
                 ExternalIdentifier = _mvcAuthorizer.OAuthTwitter.OAuthToken,
@@ -79,20 +75,28 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         }
 
         private Uri GenerateCallbackUri() {
-            var currentUrl = string.Empty;
-            if (_orchardServices.WorkContext.HttpContext.Request.Url != null)
-                currentUrl = _orchardServices.WorkContext.HttpContext.Request.Url.ToString();
+            //var currentUrl = string.Empty;
+            //if (_orchardServices.WorkContext.HttpContext.Request.Url != null)
+            //    currentUrl = _orchardServices.WorkContext.HttpContext.Request.Url.ToString();
 
-            var seperator = "?";
+            //var seperator = "?";
 
-            if (currentUrl.Contains(seperator))
-                seperator = "&";
+            //if (currentUrl.Contains(seperator))
+            //    seperator = "&";
 
-            if (!currentUrl.ToLowerInvariant().Contains("knownprovider="))
-                currentUrl = string.Format("{0}{1}knownProvider={2}", currentUrl, seperator, Provider);
+            //if (!currentUrl.ToLowerInvariant().Contains("knownprovider="))
+            //    currentUrl = string.Format("{0}{1}knownProvider={2}", currentUrl, seperator, Provider);
 
-            return new Uri(currentUrl);
+            //return new Uri(currentUrl);
+
+            UriBuilder builder = new UriBuilder(_orchardServices.WorkContext.HttpContext.Request.Url);
+            var path = _orchardServices.WorkContext.HttpContext.Request.ApplicationPath + "/OAuth/LogOn/" + Provider.ToString();
+            builder.Path = path.Replace(@"//", @"/");
+
+            return builder.Uri;
         }
+
+
 
         public OAuthProvider Provider {
             get { return OAuthProvider.Twitter; }
