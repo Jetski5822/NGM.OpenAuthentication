@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using JetBrains.Annotations;
 using NGM.OpenAuthentication.Core;
@@ -14,6 +15,8 @@ namespace NGM.OpenAuthentication.Handlers {
     public class OpenAuthenticationPartHandler : ContentHandler {
         private readonly IOrchardServices _orchardServices;
         private readonly IOpenAuthenticationService _openAuthenticationService;
+
+        private static readonly Object _syncLock = new Object();
 
         public OpenAuthenticationPartHandler(IRepository<OpenAuthenticationPartRecord> openAuthenticationPartRepository,
             IOrchardServices orchardServices,
@@ -32,17 +35,17 @@ namespace NGM.OpenAuthentication.Handlers {
                                      // Clean up
                                      _orchardServices.WorkContext.HttpContext.Session.Remove("parameters");
                                  }
-                                 // This may be unnessesary as we have the it duplicated in the OnLoaded event.
-                                 // TODO: Check event stack
-                                 if (HasLiveIdCookie())
-                                    TryAssociateLiveIdParameters(user);
+                                 //// This may be unnessesary as we have the it duplicated in the OnLoaded event.
+                                 //// TODO: Check event stack
+                                 //if (HasLiveIdCookie())
+                                 //   TryAssociateLiveIdParameters(user);
                              });
             
             OnLoaded<IUser>((context, user) => {
-                                if (_orchardServices.WorkContext.CurrentUser != null) return;
-
-                                if (HasLiveIdCookie())
-                                    TryAssociateLiveIdParameters(user);
+                                lock (_syncLock) {
+                                    if (HasLiveIdCookie())
+                                        TryAssociateLiveIdParameters(user);
+                                }
                             });
 
             OnRemoved<IUser>((context, user) => _openAuthenticationService.GetExternalIdentifiersFor(user)
@@ -96,10 +99,10 @@ namespace NGM.OpenAuthentication.Handlers {
             var cookie = _orchardServices.WorkContext.HttpContext.Request.Cookies[LiveIdProviderAuthorizer.LoginCookie];
             if (cookie == null) return;
 
-            var parameters = new HashedOpenAuthenticationParameters(OAuthProvider.LiveId.GetHashCode()) {
-                ExternalIdentifier = cookie.Value,
+            var parameters = new HashedOpenAuthenticationParameters(OAuthProvider.LiveId.ToString().GetHashCode()) {
+                ExternalIdentifier = cookie.Values["UserId"],
                 ExternalDisplayIdentifier = cookie.Values["UserId"],
-                OAuthToken = cookie.Value
+                OAuthAccessToken = cookie.Value
             };
 
             TryAssociateAccount(user, parameters);

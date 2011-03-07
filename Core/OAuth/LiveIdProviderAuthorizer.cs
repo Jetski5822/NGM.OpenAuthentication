@@ -85,9 +85,9 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
             if (user != null) {
                 var parameters = new OAuthAuthenticationParameters(this.Provider) {
-                    ExternalIdentifier = user.Token,
+                    ExternalIdentifier = user.Id,
                     ExternalDisplayIdentifier = user.Id,
-                    OAuthToken = user.Token
+                    OAuthAccessToken = user.Token
                 };
 
                 _authorizer.Authorize(parameters);

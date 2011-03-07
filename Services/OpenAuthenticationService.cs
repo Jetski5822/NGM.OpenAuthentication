@@ -21,7 +21,7 @@ namespace NGM.OpenAuthentication.Services {
         }
 
         public void AssociateExternalAccountWithUser(IUser user, OpenAuthenticationParameters parameters) {
-            _orchardServices.ContentManager.Create<OpenAuthenticationPart>("User",
+            var part = _orchardServices.ContentManager.Create<OpenAuthenticationPart>("User",
                                                                            (o) => {
                                                                                o.Record.UserId = user.Id;
                                                                                o.Record.ExternalIdentifier = parameters.ExternalIdentifier;
@@ -30,6 +30,7 @@ namespace NGM.OpenAuthentication.Services {
                                                                                o.Record.OAuthAccessToken = parameters.OAuthAccessToken;
                                                                                o.Record.HashedProvider = parameters.HashedProvider;
                                                                            });
+            part.ContentItem.ContentManager.Flush();
         }
 
         public bool AccountExists(OpenAuthenticationParameters parameters) {
