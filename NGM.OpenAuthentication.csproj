@@ -61,6 +61,7 @@
     <Compile Include="Core\Claims\ClaimTypes.cs" />
     <Compile Include="Core\Claims\ClaimsTranslator.cs" />
     <Compile Include="Core\OAuth\FacebookClaimsTranslator.cs" />
+    <Compile Include="Core\OAuth\IOAuthProviderLiveIdAuthorizer.cs" />
     <Compile Include="Core\OAuth\LiveIdProviderAuthorizer.cs" />
     <Compile Include="Core\OAuth\WindowsLive\WindowsLiveLogin.cs" />
     <Compile Include="Core\OpenId\OpenIdClaimsResponseClaimsTranslator.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Core\OrchardShapeChecker.cs" />
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
+    <Compile Include="Filters\LogOutFilter.cs" />
     <Compile Include="Filters\RegistrationFilter.cs" />
     <Compile Include="Handlers\OpenAuthenticationSettingsPartHandler.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPart.cs" />

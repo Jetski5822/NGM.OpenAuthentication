@@ -9,7 +9,7 @@ using Orchard.Security;
 using WindowsLive;
 
 namespace NGM.OpenAuthentication.Core.OAuth {
-    public class LiveIdProviderAuthorizer : IOAuthProviderAuthorizer {
+    public class LiveIdProviderAuthorizer : IOAuthProviderLiveIdAuthorizer {
         private readonly IOrchardServices _orchardServices;
         private readonly IAuthorizer _authorizer;
         private readonly IOpenAuthenticationService _openAuthenticationService;
@@ -48,10 +48,14 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             if (action == "clearcookie") {
                 ProcessClearCookie(response);
             }
-
+            
             return new AuthorizeState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
                 Error = new KeyValuePair<string, string>("error", "Unknown Action")
             };
+        }
+
+        public void LogOut(string returnUrl) {
+            HttpContext.Current.Response.Redirect(_login.GetLogoutUrl());
         }
 
         private void ProcessClearCookie(HttpResponseBase response) {
