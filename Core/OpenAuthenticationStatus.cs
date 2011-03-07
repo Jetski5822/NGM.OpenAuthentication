@@ -8,6 +8,8 @@
 
         RequiresRegistration,
 
-        RequresRedirect
+        RequresRedirect,
+
+        AssociateOnLogon
     }
 }

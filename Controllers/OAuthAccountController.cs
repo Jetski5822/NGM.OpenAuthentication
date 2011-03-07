@@ -44,7 +44,12 @@ namespace NGM.OpenAuthentication.Controllers {
                     TempData["registermodel"] = result.RegisterModel;
                     return new RedirectResult(Url.Register(returnUrl, result.RegisterModel));
                 }
-                
+
+                if (result.AuthenticationStatus == OpenAuthenticationStatus.AssociateOnLogon) {
+                    TempData["registermodel"] = result.RegisterModel;
+                    return new RedirectResult(Url.LogOn(returnUrl, result.RegisterModel));
+                }
+
                 if (result.AuthenticationStatus == OpenAuthenticationStatus.Authenticated) {
                     _orchardServices.Notifier.Information(T("Account authenticated"));
                 }

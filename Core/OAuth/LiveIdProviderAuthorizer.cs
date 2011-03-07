@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web;
+using System.Web.Mvc;
+using NGM.OpenAuthentication.Extensions;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using Orchard;
+using Orchard.Security;
 using WindowsLive;
 
 namespace NGM.OpenAuthentication.Core.OAuth {
@@ -10,49 +14,93 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         private readonly IOrchardServices _orchardServices;
         private readonly IAuthorizer _authorizer;
         private readonly IOpenAuthenticationService _openAuthenticationService;
+        private readonly IAuthenticationService _authenticationService;
 
-        const string LoginCookie = "webauthtoken";
+        public const string LoginCookie = "webauthtoken";
+
+        static DateTime ExpireCookie = DateTime.Now.AddYears(-10);
+        static DateTime PersistCookie = DateTime.Now.AddYears(10);
 
         private WindowsLiveLogin _login;
 
         public LiveIdProviderAuthorizer(IOrchardServices orchardServices,
             IAuthorizer authorizer,
-            IOpenAuthenticationService openAuthenticationService) {
+            IOpenAuthenticationService openAuthenticationService,
+            IAuthenticationService authenticationService) {
             _orchardServices = orchardServices;
             _authorizer = authorizer;
             _openAuthenticationService = openAuthenticationService;
+            _authenticationService = authenticationService;
 
             _login = new WindowsLiveLogin(ClientKeyIdentifier, ClientSecret);
         }
 
         public AuthorizeState Authorize(string returnUrl) {
-            if (_orchardServices.WorkContext.HttpContext.Request.Form["stoken"] != null) {
-                return CompleteAuthorization(returnUrl);
+            var request = _orchardServices.WorkContext.HttpContext.Request;
+            var response = _orchardServices.WorkContext.HttpContext.Response;
+            var action = request["action"];
+
+            if (action == "login") {
+                CompleteAuthorization(returnUrl, request, response);
             }
-            
+            if (action == "logout") {
+                ProcessLogOut(returnUrl, request, response);
+            }
+            if (action == "clearcookie") {
+                ProcessClearCookie(returnUrl, response);
+            }
+
             return new AuthorizeState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
-                Error = new KeyValuePair<string, string>("error", "Cookie not found.")
+                Error = new KeyValuePair<string, string>("error", "Unknown Action")
             };
         }
 
-        private AuthorizeState CompleteAuthorization(string returnUrl) {
-            WindowsLiveLogin.User user = _login.ProcessLogin(_orchardServices.WorkContext.HttpContext.Request.Form);
+        private void ProcessClearCookie(string returnUrl, HttpResponseBase response) {
+            // Unsure I need this
+            HttpCookie loginCookie = new HttpCookie(LoginCookie);
+            loginCookie.Expires = ExpireCookie;
+            response.Cookies.Add(loginCookie);
+
+            string type;
+            byte[] content;
+            _login.GetClearCookieResponse(out type, out content);
+            response.ContentType = type;
+            response.OutputStream.Write(content, 0, content.Length);
+
+            response.End();
+        }
+
+        private void ProcessLogOut(string returnUrl, HttpRequestBase request, HttpResponseBase response) {
+            _authenticationService.SignOut();
+            // Expire cookie.
+            HttpCookie loginCookie = new HttpCookie(LoginCookie);
+            loginCookie.Expires = ExpireCookie;
+            response.Cookies.Add(loginCookie);
+            var requestContext = new UrlHelper(request.RequestContext);
+            response.Redirect(requestContext.LogOff(returnUrl));
+            response.End();
+        }
+
+        private void CompleteAuthorization(string returnUrl, HttpRequestBase request, HttpResponseBase response) {
+            WindowsLiveLogin.User user = _login.ProcessLogin(request.Form);
 
             if (user != null) {
                 var parameters = new OAuthAuthenticationParameters(this.Provider) {
-                    ExternalIdentifier = user.Id,
+                    ExternalIdentifier = user.Token,
+                    ExternalDisplayIdentifier = user.Id,
                     OAuthToken = user.Token
                 };
 
-                var status = _authorizer.Authorize(parameters);
+                _authorizer.Authorize(parameters);
 
-                return new AuthorizeState(returnUrl, status) {
-                    Error = _authorizer.Error,
-                    RegisterModel = new RegisterModel(parameters)
-                };
+                HttpCookie loginCookie = new HttpCookie(LoginCookie);
+                loginCookie.Value = user.Token;
+                loginCookie.Values.Add("UserId", user.Id);
+                response.Cookies.Add(loginCookie);
+                var requestContext = new UrlHelper(request.RequestContext);
+                response.Redirect(requestContext.LogOn(returnUrl));
+                response.End();
             }
-
-            return new AuthorizeState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating);
         }
 
         public string ClientKeyIdentifier {

@@ -1,4 +1,6 @@
-﻿using NGM.OpenAuthentication.Services;
+﻿using System.Web;
+using NGM.OpenAuthentication.Core.OAuth;
+using NGM.OpenAuthentication.Services;
 using Orchard.DisplayManagement;
 using Orchard.DisplayManagement.Implementation;
 
@@ -19,9 +21,11 @@ namespace NGM.OpenAuthentication {
 
         public void Created(ShapeCreatedContext context) {
             if (context.ShapeType == "LogOn") {
+                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_AssociateMessage");
+
                 var settings = _openAuthenticationService.GetSettings();
-                
-                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_LiveId_LogOn");
+                if (HttpContext.Current.Request.Cookies[LiveIdProviderAuthorizer.LoginCookie] == null)
+                    context.Shape.Metadata.Wrappers.Add("Wrappers_Account_LiveId_LogOn");
                 
                 if (settings.Record.OpenIdEnabled)
                     context.Shape.Metadata.Wrappers.Add("Wrappers_Account_OpenID_LogOn");
@@ -31,6 +35,7 @@ namespace NGM.OpenAuthentication {
                     context.Shape.Metadata.Wrappers.Add("Wrappers_Account_OAuth_LogOn");
             }
             if (context.ShapeType == "Register") {
+                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_AssociateMessage");
                 context.Shape.Metadata.Wrappers.Add("Wrappers_Account_Register");
             }
         }

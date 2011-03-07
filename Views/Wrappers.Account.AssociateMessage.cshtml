@@ -1,0 +1,10 @@
+﻿@{
+    var cookie = HttpContext.Current.Request.Cookies[NGM.OpenAuthentication.Core.OAuth.LiveIdProviderAuthorizer.LoginCookie];
+}
+
+@if (cookie != null) {
+    <div class="message message-information">
+        @T("Signing in will associate your local account with your logged in Windows Live ID account")
+    </div>
+}
+@Display(Model.Metadata.ChildContent)
