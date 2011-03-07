@@ -8,7 +8,6 @@ using Orchard;
 using Orchard.ContentManagement.Handlers;
 using Orchard.Data;
 using Orchard.Security;
-using Orchard.UI.Notify;
 
 namespace NGM.OpenAuthentication.Handlers {
     [UsedImplicitly]
@@ -52,6 +51,7 @@ namespace NGM.OpenAuthentication.Handlers {
                                                     .ForEach(o => _openAuthenticationService.RemoveAssociation(new HashedOpenAuthenticationParameters(o.Record.HashedProvider, o.Record.ExternalIdentifier))));
         }
 
+        // TODO Move to more appropriate location
         private OpenAuthenticationParameters GetQueryStringParameters() {
             var externalIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["externalidentifier"];
             var externalDisplayIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["externaldisplayidentifier"];
@@ -74,8 +74,7 @@ namespace NGM.OpenAuthentication.Handlers {
         private bool HasOpenAutheticationSessionLocator() {
             if (_orchardServices.WorkContext.HttpContext.Session != null) {
                 if (_orchardServices.WorkContext.HttpContext.Session["parameters"] != null) {
-                    var parameters = GetSessionParameters();
-                    return parameters != null;
+                    return GetSessionParameters() != null;
                 }
             }
 
@@ -83,7 +82,10 @@ namespace NGM.OpenAuthentication.Handlers {
         }
 
         private OpenAuthenticationParameters GetSessionParameters() {
-            return _orchardServices.WorkContext.HttpContext.Session["parameters"] as OpenAuthenticationParameters;           
+            if (_orchardServices.WorkContext.HttpContext.Session != null) {
+                return _orchardServices.WorkContext.HttpContext.Session["parameters"] as OpenAuthenticationParameters;
+            }
+            return null;
         }
 
         private bool HasLiveIdCookie() {
