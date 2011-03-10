@@ -30,21 +30,24 @@ namespace NGM.OpenAuthentication.Handlers {
                                      TryAssociateAccount(user, GetQueryStringParameters());
                                  }
 
-                                 if (HasOpenAutheticationSessionLocator()) {
-                                     TryAssociateAccount(user, GetSessionParameters());
-                                     // Clean up
-                                     _orchardServices.WorkContext.HttpContext.Session.Remove("parameters");
+                                 var parameters = NGM.OpenAuthentication.Core.Authorizer.RetrieveParametersFromRoundTrip(true);
+                                 if (parameters != null) {
+                                     TryAssociateAccount(user, parameters);
                                  }
-                                 //// This may be unnessesary as we have the it duplicated in the OnLoaded event.
-                                 //// TODO: Check event stack
-                                 //if (HasLiveIdCookie())
-                                 //   TryAssociateLiveIdParameters(user);
                              });
             
             OnLoaded<IUser>((context, user) => {
                                 lock (_syncLock) {
-                                    if (HasLiveIdCookie())
-                                        TryAssociateLiveIdParameters(user);
+                                    //if (HasLiveIdCookie())
+                                    //    TryAssociateLiveIdParameters(user);
+                                    if (HasQueryParamsLocator()) {
+                                        TryAssociateAccount(user, GetQueryStringParameters());
+                                    }
+
+                                    var parameters = NGM.OpenAuthentication.Core.Authorizer.RetrieveParametersFromRoundTrip(true);
+                                    if (parameters != null) {
+                                        TryAssociateAccount(user, parameters);
+                                    }
                                 }
                             });
 
@@ -72,40 +75,6 @@ namespace NGM.OpenAuthentication.Handlers {
 
         private bool HasQueryParamsLocator() {
             return !string.IsNullOrEmpty(_orchardServices.WorkContext.HttpContext.Request.Params["externalidentifier"] as string);
-        }
-
-        private bool HasOpenAutheticationSessionLocator() {
-            if (_orchardServices.WorkContext.HttpContext.Session != null) {
-                if (_orchardServices.WorkContext.HttpContext.Session["parameters"] != null) {
-                    return GetSessionParameters() != null;
-                }
-            }
-
-            return false;
-        }
-
-        private OpenAuthenticationParameters GetSessionParameters() {
-            if (_orchardServices.WorkContext.HttpContext.Session != null) {
-                return _orchardServices.WorkContext.HttpContext.Session["parameters"] as OpenAuthenticationParameters;
-            }
-            return null;
-        }
-
-        private bool HasLiveIdCookie() {
-            return _orchardServices.WorkContext.HttpContext.Request.Cookies[LiveIdProviderAuthorizer.LoginCookie] != null;
-        }
-
-        private void TryAssociateLiveIdParameters(IUser user) {
-            var cookie = _orchardServices.WorkContext.HttpContext.Request.Cookies[LiveIdProviderAuthorizer.LoginCookie];
-            if (cookie == null) return;
-
-            var parameters = new HashedOpenAuthenticationParameters(OAuthProvider.LiveId.ToString().GetHashCode()) {
-                ExternalIdentifier = cookie.Values["UserId"],
-                ExternalDisplayIdentifier = cookie.Values["UserId"],
-                OAuthAccessToken = cookie.Value
-            };
-
-            TryAssociateAccount(user, parameters);
         }
 
         private void TryAssociateAccount(IUser user, OpenAuthenticationParameters parameters) {

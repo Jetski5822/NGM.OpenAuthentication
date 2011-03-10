@@ -1,10 +1,16 @@
-﻿@{
-    var cookie = HttpContext.Current.Request.Cookies[NGM.OpenAuthentication.Core.OAuth.LiveIdProviderAuthorizer.LoginCookie];
-}
-
-@if (cookie != null) {
+﻿@*@if (HttpContext.Current.Request.Cookies["wl_complete"] != null && !string.IsNullOrEmpty(HttpContext.Current.Request.Cookies["wl_complete"].Value)) {
     <div class="message message-information">
         @T("Signing in will associate your local account with your logged in Windows Live ID account")
+    </div>
+}
+@Display(Model.Metadata.ChildContent)*@
+@{
+    var identifier = HttpContext.Current.Request.Params["externalidentifier"];
+}
+
+@if (!string.IsNullOrEmpty(identifier)) {
+    <div class="message message-information">
+        @T("Account Association: Your new user account will be linked to ")<span id="identifier">@identifier</span>
     </div>
 }
 @Display(Model.Metadata.ChildContent)

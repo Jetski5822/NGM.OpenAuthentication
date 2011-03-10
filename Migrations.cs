@@ -8,10 +8,10 @@ namespace NGM.OpenAuthentication {
                 table => table
                     .ContentPartRecord()
                     .Column<int>("UserId")
-                    .Column<string>("ExternalIdentifier", c => c.WithLength(500))
+                    .Column<string>("ExternalIdentifier", c => c.WithLength(1000))
                     .Column<string>("ExternalDisplayIdentifier", c => c.WithLength(500))
-                    .Column<string>("OAuthToken", c => c.WithLength(500))
-                    .Column<string>("OAuthAccessToken", c => c.WithLength(500))
+                    .Column<string>("OAuthToken", c => c.WithLength(1000))
+                    .Column<string>("OAuthAccessToken", c => c.WithLength(1000))
                     .Column<int>("HashedProvider")
                 );
 

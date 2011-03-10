@@ -8,12 +8,8 @@ namespace NGM.OpenAuthentication {
     public class Shapes : IShapeFactoryEvents {
         private readonly IOpenAuthenticationService _openAuthenticationService;
         
-        dynamic Shape { get; set; }
-
-        public Shapes(IOpenAuthenticationService openAuthenticationService,
-            IShapeFactory shapeFactory) {
+        public Shapes(IOpenAuthenticationService openAuthenticationService) {
             _openAuthenticationService = openAuthenticationService;
-            Shape = shapeFactory;
         }
 
         public void Creating(ShapeCreatingContext context) {
@@ -24,9 +20,10 @@ namespace NGM.OpenAuthentication {
                 context.Shape.Metadata.Wrappers.Add("Wrappers_Account_AssociateMessage");
 
                 var settings = _openAuthenticationService.GetSettings();
-                if (HttpContext.Current.Request.Cookies[LiveIdProviderAuthorizer.LoginCookie] == null)
-                    context.Shape.Metadata.Wrappers.Add("Wrappers_Account_LiveId_LogOn");
-                
+
+                if (HttpContext.Current.Request.Params["provider"] != OAuthProvider.LiveId.ToString().GetHashCode().ToString())
+                    context.Shape.Metadata.Wrappers.Add("Account_LiveId_LogOn");
+
                 if (settings.Record.OpenIdEnabled)
                     context.Shape.Metadata.Wrappers.Add("Wrappers_Account_OpenID_LogOn");
                 if (settings.Record.CardSpaceEnabled)

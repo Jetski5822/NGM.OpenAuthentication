@@ -9,7 +9,6 @@ namespace NGM.OpenAuthentication {
             manifest.DefineStyle("openIdStyles").SetUrl("openid.css").SetVersion("1.3b1");
             manifest.DefineScript("openIdSelector").SetUrl("openid-jquery-1.3b1.js").SetVersion("1.3b1").SetDependencies("jQuery");
             manifest.DefineScript("openIdLocalization").SetUrl("openid-en.js").SetDependencies("openIdSelector").SetVersion("1.3b1");
-
         }
     }
 }

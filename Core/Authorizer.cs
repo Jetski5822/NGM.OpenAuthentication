@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 using NGM.OpenAuthentication.Core.OpenId;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
@@ -44,9 +45,10 @@ namespace NGM.OpenAuthentication.Core {
                 // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
                 var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
 
+                StoreParametersForRoundTrip(parameters);
+
                 if (registrationSettings.UsersCanRegister == true && _openAuthenticationService.GetSettings().Record.AutoRegisterEnabled == true) {
                     if (CanCreateAccount(parameters)) {
-                        _orchardServices.WorkContext.HttpContext.Session["parameters"] = parameters;
                         userFound = CreateUser(parameters);
                     }
                     else
@@ -68,6 +70,18 @@ namespace NGM.OpenAuthentication.Core {
             _authenticationService.SignIn(userFound ?? userLoggedIn, false);
 
             return OpenAuthenticationStatus.Authenticated;
+        }
+
+        public static OpenAuthenticationParameters RetrieveParametersFromRoundTrip(bool removeOnRetrieval) {
+            var parameters = HttpContext.Current.Session["parameters"];
+            if (parameters != null && removeOnRetrieval)
+                HttpContext.Current.Session.Remove("parameters");
+
+            return parameters as OpenAuthenticationParameters;
+        }
+
+        private void StoreParametersForRoundTrip(OpenAuthenticationParameters parameters) {
+            _orchardServices.WorkContext.HttpContext.Session["parameters"] = parameters;
         }
 
         private bool CanCreateAccount(OpenAuthenticationParameters parameters) {

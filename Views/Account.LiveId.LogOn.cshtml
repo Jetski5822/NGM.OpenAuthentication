@@ -1,0 +1,26 @@
+﻿﻿@using Orchard.ContentManagement;@using NGM.OpenAuthentication.Models;@using NGM.OpenAuthentication.Core.OAuth;@using System.Linq;@using NGM.OpenAuthentication.Services;
+@using NGM.OpenAuthentication.Core.OAuth;
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wl="http://apis.live.net/js/2010">
+
+@Display(Model.Metadata.ChildContent)
+
+@{
+    var settings = WorkContext.CurrentSite.As<NGM.OpenAuthentication.Models.OpenAuthenticationSettingsPart>().Record; }
+
+<script type="text/javascript" src="http://js.live.net/4.1/loader.js"></script>
+
+<wl:signin onsignout="signOutCallback" ></wl:signin>
+
+<script type="text/javascript">
+        function signOutCallback() {
+            $.post("/Users/Account/LogOff");
+        }
+</script>
+
+<wl:app 
+    channel-url="../../Modules/NGM.OpenAuthentication/Pages/channel.htm" 
+    callback-url="@LiveIdParametersHelpers.LiveIdCallback()"
+    client-id=@settings.LiveIdClientIdentifier
+    scope="WL_Contacts.View, WL_Profiles.View, Messenger.SignIn">
+</wl:app>

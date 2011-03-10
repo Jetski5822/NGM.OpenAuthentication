@@ -1,0 +1,3 @@
+The following files may be redistributed with applications.
+
+<Install Path>\Windows Live SDK\v4.1\API Toolkits\Microsoft.Live.AuthHandler.dll
