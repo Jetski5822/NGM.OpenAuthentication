@@ -33,23 +33,19 @@ namespace NGM.OpenAuthentication.Controllers
             }
             var result = _openIdProviderAuthorizer.Authorize(returnUrl);
 
-            if (result.AuthenticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
-                _orchardServices.Notifier.Error(T(result.Error.Value));
+            if (result.AuthenticationStatus == OpenAuthenticationStatus.AssociateOnLogon) {
+                return new RedirectResult(Url.LogOn(returnUrl));
             }
-
-            if (result.AuthenticationStatus == OpenAuthenticationStatus.RequiresRegistration) {
-                TempData["registermodel"] = result.RegisterModel;
-                return new RedirectResult(Url.Register(returnUrl, result.RegisterModel));
-            }
-
-            if (result.AuthenticationStatus == OpenAuthenticationStatus.Authenticated) {
+            else if (result.AuthenticationStatus == OpenAuthenticationStatus.Authenticated) {
                 _orchardServices.Notifier.Information(T("Account authenticated"));
-                return new RedirectResult(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
+            } 
+            else if (result.AuthenticationStatus != OpenAuthenticationStatus.RequresRedirect) {
+                _orchardServices.Notifier.Error(T(result.Error.Value));
             }
 
             if (result.Result != null) return result.Result;
 
-            return HttpContext.Request.IsAuthenticated ? new RedirectResult(returnUrl) : new RedirectResult(Url.LogOn(returnUrl));
+            return HttpContext.Request.IsAuthenticated ? new RedirectResult(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/") : new RedirectResult(Url.LogOn(returnUrl));
         }
     }
 }

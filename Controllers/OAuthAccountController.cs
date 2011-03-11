@@ -36,22 +36,14 @@ namespace NGM.OpenAuthentication.Controllers {
             if (wrapper != null) {
                 var result = wrapper.Authorize(returnUrl);
 
-                if (result.AuthenticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
-                    _orchardServices.Notifier.Error(T(result.Error.Value));
-                }
-                
-                if (result.AuthenticationStatus == OpenAuthenticationStatus.RequiresRegistration) {
-                    TempData["registermodel"] = result.RegisterModel;
-                    return new RedirectResult(Url.Register(returnUrl, result.RegisterModel));
-                }
-
                 if (result.AuthenticationStatus == OpenAuthenticationStatus.AssociateOnLogon) {
-                    TempData["registermodel"] = result.RegisterModel;
-                    return new RedirectResult(Url.LogOn(returnUrl, result.RegisterModel));
+                    return new RedirectResult(Url.LogOn(returnUrl));
                 }
-
-                if (result.AuthenticationStatus == OpenAuthenticationStatus.Authenticated) {
+                else if (result.AuthenticationStatus == OpenAuthenticationStatus.Authenticated) {
                     _orchardServices.Notifier.Information(T("Account authenticated"));
+                } 
+                else if (result.AuthenticationStatus != OpenAuthenticationStatus.RequresRedirect) {
+                    _orchardServices.Notifier.Error(T(result.Error.Value));
                 }
 
                 if (result.Result != null) return result.Result;

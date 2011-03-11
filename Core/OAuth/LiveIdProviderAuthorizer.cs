@@ -4,9 +4,6 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
-using System.Web.Mvc;
-using NGM.OpenAuthentication.Extensions;
-using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using Orchard;
 
@@ -83,20 +80,14 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                 }
             }
 
-            var status = _authorizer.Authorize(parameters);
+            var result = _authorizer.Authorize(parameters);
 
             var tempReturnUrl = _orchardServices.WorkContext.HttpContext.Request.QueryString["?ReturnUrl"];
             if (!string.IsNullOrEmpty(tempReturnUrl) && string.IsNullOrEmpty(returnUrl)) {
                 returnUrl = tempReturnUrl;
             }
 
-            if (status != OpenAuthenticationStatus.Authenticated)
-                status = OpenAuthenticationStatus.AssociateOnLogon;
-
-            return new AuthorizeState(returnUrl, status) {
-                Error = _authorizer.Error,
-                RegisterModel = new RegisterModel(parameters)
-            };
+            return new AuthorizeState(returnUrl, result);
         }
 
         private bool HasVerificationToken() {

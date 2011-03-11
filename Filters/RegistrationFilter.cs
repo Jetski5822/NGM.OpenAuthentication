@@ -1,7 +1,6 @@
 ﻿using System.Web.Mvc;
 ﻿using NGM.OpenAuthentication.Core;
-﻿using NGM.OpenAuthentication.Models;
-﻿using Orchard;
+using Orchard;
 ﻿using Orchard.DisplayManagement;
 ﻿using Orchard.Mvc.Filters;
 
@@ -23,16 +22,8 @@ namespace NGM.OpenAuthentication.Filters {
             if (!OrchardShapeChecker.HasRegisterAsShape()) {
                 var zone = _workContextAccessor.GetContext(filterContext).Layout.Zones["BeforeContent"]; ;
 
-                zone.Add(_shapeFactory.Wrappers_Account_Register());
+                zone.Add(_shapeFactory.Wrappers_Account_AssociateMessage());
             }
-
-            var model = filterContext.Controller.TempData["registermodel"] as RegisterModel;
-
-            if (model == null)
-                return;
-
-            filterContext.Controller.ViewData["email"] = model.Email;
-            filterContext.Controller.ViewData["username"] = model.UserName;
         }
 
         public void OnResultExecuted(ResultExecutedContext filterContext) {

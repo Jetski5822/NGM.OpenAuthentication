@@ -1,10 +1,4 @@
-﻿@*@if (HttpContext.Current.Request.Cookies["wl_complete"] != null && !string.IsNullOrEmpty(HttpContext.Current.Request.Cookies["wl_complete"].Value)) {
-    <div class="message message-information">
-        @T("Signing in will associate your local account with your logged in Windows Live ID account")
-    </div>
-}
-@Display(Model.Metadata.ChildContent)*@
-@{
+﻿@{
     var identifier = HttpContext.Current.Request.Params["externalidentifier"];
 }
 

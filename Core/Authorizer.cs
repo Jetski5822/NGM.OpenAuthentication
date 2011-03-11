@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web;
-using NGM.OpenAuthentication.Core.OpenId;
-using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using Orchard;
 using Orchard.ContentManagement;
@@ -26,9 +24,7 @@ namespace NGM.OpenAuthentication.Core {
             _orchardServices = orchardServices;
         }
 
-        public KeyValuePair<string, string> Error { get; private set; }
-
-        public OpenAuthenticationStatus Authorize(OpenAuthenticationParameters parameters) {
+        public AuthorizationResult Authorize(OpenAuthenticationParameters parameters) {
             var userFound = _openAuthenticationService.GetUser(parameters);
 
             var userLoggedIn = _authenticationService.GetAuthenticatedUser();
@@ -36,10 +32,11 @@ namespace NGM.OpenAuthentication.Core {
             if (userFound != null && userLoggedIn != null) {
                 if (userFound.Id.Equals(userLoggedIn.Id)) {
                     // The person is trying to log in as himself.. bit weird
-                    return OpenAuthenticationStatus.Authenticated;
+                    return new AuthorizationResult(OpenAuthenticationStatus.Authenticated);
                 }
-                Error = new KeyValuePair<string, string>("AccountAssigned", "Account is already assigned");
-                return OpenAuthenticationStatus.ErrorAuthenticating;
+
+                return new AuthorizationResult(OpenAuthenticationStatus.ErrorAuthenticating, 
+                    new KeyValuePair<string, string>("AccountAssigned", "Account is already assigned"));
             }
             if (userFound == null && userLoggedIn == null) {
                 // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
@@ -53,14 +50,14 @@ namespace NGM.OpenAuthentication.Core {
                     }
                     else
                     {
-                        Error = new KeyValuePair<string, string>("AccessDenied", "User does not have enough details to auto create account");
-                        return OpenAuthenticationStatus.RequiresRegistration;
+                        return new AuthorizationResult(OpenAuthenticationStatus.AssociateOnLogon,
+                            new KeyValuePair<string, string>("AccessDenied", "User does not have enough details to auto create account"));
                     }
                 } else if (registrationSettings.UsersCanRegister == true && _openAuthenticationService.GetSettings().Record.AutoRegisterEnabled == false) {
-                    return OpenAuthenticationStatus.RequiresRegistration;
+                    return new AuthorizationResult(OpenAuthenticationStatus.AssociateOnLogon);
                 } else {
-                    Error = new KeyValuePair<string, string>("AccessDenied", "User does not exist on system");
-                    return OpenAuthenticationStatus.ErrorAuthenticating;
+                    return new AuthorizationResult(OpenAuthenticationStatus.UserDoesNotExist,
+                            new KeyValuePair<string, string>("AccessDenied", "User does not exist on system"));
                 }
             }
             if (userFound == null) {
@@ -69,7 +66,7 @@ namespace NGM.OpenAuthentication.Core {
 
             _authenticationService.SignIn(userFound ?? userLoggedIn, false);
 
-            return OpenAuthenticationStatus.Authenticated;
+            return new AuthorizationResult(OpenAuthenticationStatus.Authenticated);
         }
 
         public static OpenAuthenticationParameters RetrieveParametersFromRoundTrip(bool removeOnRetrieval) {
@@ -85,17 +82,12 @@ namespace NGM.OpenAuthentication.Core {
         }
 
         private bool CanCreateAccount(OpenAuthenticationParameters parameters) {
-            var registerModel = new RegisterModel(parameters);
-            RegisterModelHelper.PopulateModel(parameters.UserClaims, registerModel);
-
-            return !string.IsNullOrEmpty(registerModel.UserName) && (!string.IsNullOrEmpty(registerModel.Email));
+            return new RegistrationDetails(parameters).IsValid();
         }
 
         private IUser CreateUser(OpenAuthenticationParameters parameters) {
-            var registerModel = new RegisterModel(parameters);
-            RegisterModelHelper.PopulateModel(parameters.UserClaims, registerModel);
-
-            return _membershipService.CreateUser(new CreateUserParams(registerModel.UserName, new Byte[10].ToString(), registerModel.Email, null, null, true));
+            var details = new RegistrationDetails(parameters);
+            return _membershipService.CreateUser(new CreateUserParams(details.UserName, new Byte[10].ToString(), details.EmailAddress, null, null, true));
         }
     }
 }

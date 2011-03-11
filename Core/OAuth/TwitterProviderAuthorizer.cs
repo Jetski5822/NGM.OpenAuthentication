@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using LinqToTwitter;
-using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using Orchard;
 using Orchard.Security;
@@ -61,42 +60,23 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                 OAuthAccessToken = _mvcAuthorizer.OAuthTwitter.OAuthTokenSecret,
             };
 
-            var status = _authorizer.Authorize(parameters);
+            var result = _authorizer.Authorize(parameters);
 
             var tempReturnUrl = _orchardServices.WorkContext.HttpContext.Request.QueryString["?ReturnUrl"];
             if (!string.IsNullOrEmpty(tempReturnUrl) && string.IsNullOrEmpty(returnUrl)) {
                 returnUrl = tempReturnUrl;
             }
 
-            return new AuthorizeState(returnUrl, status) {
-                Error = _authorizer.Error,
-                RegisterModel = new RegisterModel(parameters) 
-            };
+            return new AuthorizeState(returnUrl, result);
         }
 
         private Uri GenerateCallbackUri() {
-            //var currentUrl = string.Empty;
-            //if (_orchardServices.WorkContext.HttpContext.Request.Url != null)
-            //    currentUrl = _orchardServices.WorkContext.HttpContext.Request.Url.ToString();
-
-            //var seperator = "?";
-
-            //if (currentUrl.Contains(seperator))
-            //    seperator = "&";
-
-            //if (!currentUrl.ToLowerInvariant().Contains("knownprovider="))
-            //    currentUrl = string.Format("{0}{1}knownProvider={2}", currentUrl, seperator, Provider);
-
-            //return new Uri(currentUrl);
-
             UriBuilder builder = new UriBuilder(_orchardServices.WorkContext.HttpContext.Request.Url);
             var path = _orchardServices.WorkContext.HttpContext.Request.ApplicationPath + "/OAuth/LogOn/" + Provider.ToString();
             builder.Path = path.Replace(@"//", @"/");
 
             return builder.Uri;
         }
-
-
 
         public OAuthProvider Provider {
             get { return OAuthProvider.Twitter; }

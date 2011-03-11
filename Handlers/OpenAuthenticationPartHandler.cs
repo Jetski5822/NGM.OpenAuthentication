@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using JetBrains.Annotations;
 using NGM.OpenAuthentication.Core;
-using NGM.OpenAuthentication.Core.OAuth;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using Orchard;
@@ -38,8 +37,6 @@ namespace NGM.OpenAuthentication.Handlers {
             
             OnLoaded<IUser>((context, user) => {
                                 lock (_syncLock) {
-                                    //if (HasLiveIdCookie())
-                                    //    TryAssociateLiveIdParameters(user);
                                     if (HasQueryParamsLocator()) {
                                         TryAssociateAccount(user, GetQueryStringParameters());
                                     }

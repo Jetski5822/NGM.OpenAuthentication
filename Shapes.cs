@@ -1,7 +1,6 @@
 ﻿using System.Web;
 using NGM.OpenAuthentication.Core.OAuth;
 using NGM.OpenAuthentication.Services;
-using Orchard.DisplayManagement;
 using Orchard.DisplayManagement.Implementation;
 
 namespace NGM.OpenAuthentication {
@@ -33,7 +32,6 @@ namespace NGM.OpenAuthentication {
             }
             if (context.ShapeType == "Register") {
                 context.Shape.Metadata.Wrappers.Add("Wrappers_Account_AssociateMessage");
-                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_Register");
             }
         }
     }

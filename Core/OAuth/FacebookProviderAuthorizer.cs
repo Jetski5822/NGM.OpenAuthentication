@@ -5,7 +5,6 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Facebook;
-using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using Orchard;
 using Orchard.Security;
@@ -58,19 +57,16 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                     OAuthToken = oAuthResult.Code
                 };
 
-                var status = _authorizer.Authorize(parameters);
+                var result = _authorizer.Authorize(parameters);
 
-                if (status == OpenAuthenticationStatus.RequiresRegistration) {
+                if (result.Status == OpenAuthenticationStatus.AssociateOnLogon) {
                     parameters.OAuthAccessToken = GetAccessToken(oAuthResult.Code);
                     
                     if (_openAuthenticationService.GetSettings().Record.AutoRegisterEnabled)
-                        status = GetUserNameAndRetryAuthorization(parameters);
+                        result = GetUserNameAndRetryAuthorization(parameters);
                 }
 
-                return new AuthorizeState(returnUrl, status) {
-                    Error = _authorizer.Error,
-                    RegisterModel = new RegisterModel(parameters)
-                };
+                return new AuthorizeState(returnUrl, result);
             }
 
             return new AuthorizeState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
@@ -78,7 +74,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             };
         }
 
-        private OpenAuthenticationStatus GetUserNameAndRetryAuthorization(OAuthAuthenticationParameters parameters) {
+        private AuthorizationResult GetUserNameAndRetryAuthorization(OAuthAuthenticationParameters parameters) {
             var client = new FacebookClient(parameters.OAuthAccessToken);
             var me = client.Get("/me");
 

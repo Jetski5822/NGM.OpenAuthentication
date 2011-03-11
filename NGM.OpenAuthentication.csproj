@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\CardSpaceAccountController.cs" />
+    <Compile Include="Core\AuthorizationResult.cs" />
     <Compile Include="Core\Claims\ClaimTypes.cs" />
     <Compile Include="Core\Claims\ClaimsTranslator.cs" />
     <Compile Include="Core\Enviroment\InitializingModuleEvents.cs" />
@@ -78,7 +79,7 @@
     <Compile Include="Core\OpenId\IOpenIdProviderAuthorizer.cs" />
     <Compile Include="Core\IProviderAuthorizer.cs" />
     <Compile Include="Core\OpenId\OpenIdAuthorizer.cs" />
-    <Compile Include="Core\RouteValuesHelper.cs" />
+    <Compile Include="Core\RegistrationDetails.cs" />
     <Compile Include="Core\CardSpace\CardSpaceAuthenticationParameters.cs" />
     <Compile Include="Core\HashedOpenAuthenticationParameters.cs" />
     <Compile Include="Core\IAuthorizer.cs" />
@@ -92,13 +93,11 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Core\CardSpace\InfoCardImageHelpers.cs" />
     <Compile Include="Core\CardSpace\NameSpaceConstants.cs" />
-    <Compile Include="Core\CardSpace\RegisterModelBuilder.cs" />
     <Compile Include="Core\OAuth\FacebookProviderAuthorizer.cs" />
     <Compile Include="Core\OAuth\IOAuthSettings.cs" />
     <Compile Include="Core\OAuth\IOAuthProviderAuthorizer.cs" />
     <Compile Include="Core\OAuth\TwitterProviderAuthorizer.cs" />
     <Compile Include="Core\OpenId\Claims.cs" />
-    <Compile Include="Core\OpenId\RegisterModelHelper.cs" />
     <Compile Include="Core\OrchardShapeChecker.cs" />
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
@@ -107,7 +106,6 @@
     <Compile Include="Handlers\OpenAuthenticationSettingsPartHandler.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPart.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPartRecord.cs" />
-    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Core\OpenId\IOpenIdRelyingPartyService.cs" />
     <Compile Include="Core\OpenId\OpenIdIdentifier.cs" />
     <Compile Include="Core\OpenId\OpenIdRelyingPartyService.cs" />
@@ -280,7 +278,6 @@
     </Content>
     <None Include="Views\Admin\Create.cshtml" />
     <Content Include="Views\EditorTemplates\Parts\OpenAuthentication.Settings.cshtml" />
-    <Content Include="Views\Wrappers.Account.Register.cshtml" />
     <Content Include="Content\openid-selector\Web.config">
       <SubType>Designer</SubType>
     </Content>
