@@ -2,7 +2,7 @@
 AntiForgery: enabled
 Author: Nicholas Mayne
 Website: http://themayneissue.com
-Version: 0.1.0
+Version: 0.2.0
 OrchardVersion: 1.0.20.0
 Description: Provides an multiple authentication interface's to Orchard
 Features:
