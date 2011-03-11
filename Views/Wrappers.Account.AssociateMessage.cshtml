@@ -1,10 +1,9 @@
 ﻿@{
-    var identifier = HttpContext.Current.Request.Params["externalidentifier"];
+    var parameters = HttpContext.Current.Session["parameters"] as NGM.OpenAuthentication.Core.OpenAuthenticationParameters;
 }
 
-@if (!string.IsNullOrEmpty(identifier)) {
-    <div class="message message-information">
-        @T("Account Association: Your new user account will be linked to ")<span id="identifier">@identifier</span>
-    </div>
-}
+<div class="message message-information">
+    @T("Account Association: Your new user account will be linked to ")<span id="identifier">@parameters.ExternalIdentifier</span>
+</div>
+
 @Display(Model.Metadata.ChildContent)

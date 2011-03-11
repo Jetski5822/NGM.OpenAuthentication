@@ -16,7 +16,8 @@ namespace NGM.OpenAuthentication {
 
         public void Created(ShapeCreatedContext context) {
             if (context.ShapeType == "LogOn") {
-                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_AssociateMessage");
+                if ((HttpContext.Current.Session["parameters"] as Core.OpenAuthenticationParameters) != null)
+                    context.Shape.Metadata.Wrappers.Add("Wrappers_Account_AssociateMessage");
 
                 var settings = _openAuthenticationService.GetSettings();
 
@@ -31,7 +32,8 @@ namespace NGM.OpenAuthentication {
                     context.Shape.Metadata.Wrappers.Add("Wrappers_Account_OAuth_LogOn");
             }
             if (context.ShapeType == "Register") {
-                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_AssociateMessage");
+                if ((HttpContext.Current.Session["parameters"] as Core.OpenAuthenticationParameters) != null)
+                    context.Shape.Metadata.Wrappers.Add("Wrappers_Account_AssociateMessage");
             }
         }
     }
