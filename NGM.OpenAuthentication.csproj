@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	<ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B262A7C7-8205-4B94-A359-F5379025DF32}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
@@ -69,7 +69,7 @@
     <Compile Include="Core\Claims\ClaimsTranslator.cs" />
     <Compile Include="Core\Enviroment\InitializingModuleEvents.cs" />
     <Compile Include="Core\OAuth\FacebookClaimsTranslator.cs" />
-    <Compile Include="Core\OAuth\LiveIdHtmlExtensions.cs" />
+    <Compile Include="Core\OAuth\LiveIdParametersHelpers.cs" />
     <Compile Include="Core\OAuth\LiveIdProviderAuthorizer.cs" />
     <Compile Include="Core\OpenId\OpenIdClaimsResponseClaimsTranslator.cs" />
     <Compile Include="Core\OpenId\OpenIdFetchResponseClaimsTranslator.cs" />
@@ -291,7 +291,7 @@
     <Content Include="Content\oauth\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Account.LiveId.LogOn.cshtml" />
+    <Content Include="Views\Parts.LiveId.LogOn.cshtml" />
     <Content Include="Views\Wrappers.Account.AssociateMessage.cshtml" />
     <None Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
     <Content Include="Web.config">
