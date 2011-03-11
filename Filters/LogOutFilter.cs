@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Web;
+using System.Web.Mvc;
 using Orchard.Mvc.Filters;
 
 namespace NGM.OpenAuthentication.Filters {
@@ -13,7 +14,7 @@ namespace NGM.OpenAuthentication.Filters {
             if (filterContext.RouteData.Values["action"] as string != "LogOff")
                 return;
 
-            filterContext.HttpContext.Request.Cookies.Clear();
+            HttpContext.Current.Session.Remove("parameters");
 
             return;
         }
