@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using JetBrains.Annotations;
 using NGM.OpenAuthentication.Core;
@@ -14,44 +15,69 @@ namespace NGM.OpenAuthentication.Handlers {
         private readonly IOrchardServices _orchardServices;
         private readonly IOpenAuthenticationService _openAuthenticationService;
 
+        private static readonly Object _syncLock = new Object();
+
         public OpenAuthenticationPartHandler(IRepository<OpenAuthenticationPartRecord> openAuthenticationPartRepository,
             IOrchardServices orchardServices,
             IOpenAuthenticationService openAuthenticationService) {
             _orchardServices = orchardServices;
             _openAuthenticationService = openAuthenticationService;
             Filters.Add(StorageFilter.For(openAuthenticationPartRepository));
-
+            
             OnCreated<IUser>((context, user) => {
-                                 var parameters = _orchardServices.WorkContext.HttpContext.Session["parameters"] as OpenAuthenticationParameters;
-                                 if (parameters == null) {
-                                     var externalIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["externalidentifier"];
-                                     var externalDisplayIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["externaldisplayidentifier"];
-                                     var oAuthToken = _orchardServices.WorkContext.HttpContext.Request.Params["oauthtoken"];
-                                     var oAuthAccessToken = _orchardServices.WorkContext.HttpContext.Request.Params["oauthaccesstoken"];
-                                     var provider = int.Parse(_orchardServices.WorkContext.HttpContext.Request.Params["provider"]);
-
-                                     if (!string.IsNullOrEmpty(externalIdentifier)) {
-                                         parameters = new HashedOpenAuthenticationParameters(provider) {
-                                             ExternalIdentifier = externalIdentifier,
-                                             ExternalDisplayIdentifier = externalDisplayIdentifier,
-                                             OAuthToken = oAuthToken,
-                                             OAuthAccessToken = oAuthAccessToken
-                                         };
-                                     }
-                                 }
-                                 else {
-                                     _orchardServices.WorkContext.HttpContext.Session.Remove("parameters");
+                                 if (HasQueryParamsLocator()) {
+                                     TryAssociateAccount(user, GetQueryStringParameters());
                                  }
 
-                                 if (parameters != null && !_openAuthenticationService.AccountExists(parameters)) {
-                                     _openAuthenticationService.AssociateExternalAccountWithUser(user, parameters);
+                                 var parameters = NGM.OpenAuthentication.Core.Authorizer.RetrieveParametersFromRoundTrip(true);
+                                 if (parameters != null) {
+                                     TryAssociateAccount(user, parameters);
                                  }
                              });
+            
+            OnLoaded<IUser>((context, user) => {
+                                lock (_syncLock) {
+                                    if (HasQueryParamsLocator()) {
+                                        TryAssociateAccount(user, GetQueryStringParameters());
+                                    }
+
+                                    var parameters = NGM.OpenAuthentication.Core.Authorizer.RetrieveParametersFromRoundTrip(true);
+                                    if (parameters != null) {
+                                        TryAssociateAccount(user, parameters);
+                                    }
+                                }
+                            });
 
             OnRemoved<IUser>((context, user) => _openAuthenticationService.GetExternalIdentifiersFor(user)
                                                     .List()
                                                     .ToList()
                                                     .ForEach(o => _openAuthenticationService.RemoveAssociation(new HashedOpenAuthenticationParameters(o.Record.HashedProvider, o.Record.ExternalIdentifier))));
+        }
+
+        // TODO Move to more appropriate location
+        private OpenAuthenticationParameters GetQueryStringParameters() {
+            var externalIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["externalidentifier"];
+            var externalDisplayIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["externaldisplayidentifier"];
+            var oAuthToken = _orchardServices.WorkContext.HttpContext.Request.Params["oauthtoken"];
+            var oAuthAccessToken = _orchardServices.WorkContext.HttpContext.Request.Params["oauthaccesstoken"];
+            var provider = int.Parse(_orchardServices.WorkContext.HttpContext.Request.Params["provider"]);
+
+            return new HashedOpenAuthenticationParameters(provider) {
+                ExternalIdentifier = externalIdentifier,
+                ExternalDisplayIdentifier = externalDisplayIdentifier,
+                OAuthToken = oAuthToken,
+                OAuthAccessToken = oAuthAccessToken
+            };
+        }
+
+        private bool HasQueryParamsLocator() {
+            return !string.IsNullOrEmpty(_orchardServices.WorkContext.HttpContext.Request.Params["externalidentifier"] as string);
+        }
+
+        private void TryAssociateAccount(IUser user, OpenAuthenticationParameters parameters) {
+            if (parameters != null && !_openAuthenticationService.AccountExists(parameters)) {
+                _openAuthenticationService.AssociateExternalAccountWithUser(user, parameters);
+            }
         }
     }
 }

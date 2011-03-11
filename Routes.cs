@@ -54,6 +54,20 @@ namespace NGM.OpenAuthentication {
                                                                                       {"area", "NGM.OpenAuthentication"}
                                                                                   },
                                                          new MvcRouteHandler())
+                                                 },
+                             new RouteDescriptor {
+                                                     Route = new Route(
+                                                         "OAuth/LogOn/{knownProvider}",
+                                                         new RouteValueDictionary {
+                                                                                      {"area", "NGM.OpenAuthentication"},
+                                                                                      {"controller", "OAuthAccount"},
+                                                                                      {"action", "LogOn"}
+                                                                                  },
+                                                         new RouteValueDictionary(),
+                                                         new RouteValueDictionary {
+                                                                                      {"area", "NGM.OpenAuthentication"}
+                                                                                  },
+                                                         new MvcRouteHandler())
                                                  }
                          };
         }

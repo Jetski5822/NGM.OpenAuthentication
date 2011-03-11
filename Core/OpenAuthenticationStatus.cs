@@ -6,8 +6,10 @@
 
         Authenticated,
 
-        RequiresRegistration,
+        RequresRedirect,
 
-        RequresRedirect
+        AssociateOnLogon,
+        
+        UserDoesNotExist
     }
 }

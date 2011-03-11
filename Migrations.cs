@@ -8,10 +8,10 @@ namespace NGM.OpenAuthentication {
                 table => table
                     .ContentPartRecord()
                     .Column<int>("UserId")
-                    .Column<string>("ExternalIdentifier")
-                    .Column<string>("ExternalDisplayIdentifier")
-                    .Column<string>("OAuthToken")
-                    .Column<string>("OAuthAccessToken")
+                    .Column<string>("ExternalIdentifier", c => c.WithLength(1000))
+                    .Column<string>("ExternalDisplayIdentifier", c => c.WithLength(500))
+                    .Column<string>("OAuthToken", c => c.WithLength(1000))
+                    .Column<string>("OAuthAccessToken", c => c.WithLength(1000))
                     .Column<int>("HashedProvider")
                 );
 
@@ -33,6 +33,8 @@ namespace NGM.OpenAuthentication {
                 .Column<string>("FacebookClientSecret")
                 .Column<string>("TwitterClientIdentifier")
                 .Column<string>("TwitterClientSecret")
+                .Column<string>("LiveIdClientIdentifier")
+                .Column<string>("LiveIdClientSecret")
                 .Column<bool>("AutoRegisterEnabled")
                );
 

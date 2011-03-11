@@ -36,17 +36,14 @@ namespace NGM.OpenAuthentication.Controllers {
             if (wrapper != null) {
                 var result = wrapper.Authorize(returnUrl);
 
-                if (result.AuthenticationStatus == OpenAuthenticationStatus.ErrorAuthenticating) {
-                    _orchardServices.Notifier.Error(T(result.Error.Value));
+                if (result.AuthenticationStatus == OpenAuthenticationStatus.AssociateOnLogon) {
+                    return new RedirectResult(Url.LogOn(returnUrl));
                 }
-                
-                if (result.AuthenticationStatus == OpenAuthenticationStatus.RequiresRegistration) {
-                    TempData["registermodel"] = result.RegisterModel;
-                    return new RedirectResult(Url.Register(returnUrl, result.RegisterModel));
-                }
-                
-                if (result.AuthenticationStatus == OpenAuthenticationStatus.Authenticated) {
+                else if (result.AuthenticationStatus == OpenAuthenticationStatus.Authenticated) {
                     _orchardServices.Notifier.Information(T("Account authenticated"));
+                } 
+                else if (result.AuthenticationStatus != OpenAuthenticationStatus.RequresRedirect) {
+                    _orchardServices.Notifier.Error(T(result.Error.Value));
                 }
 
                 if (result.Result != null) return result.Result;
@@ -56,15 +53,7 @@ namespace NGM.OpenAuthentication.Controllers {
         }
 
         public string GetKnownProvider(CreateViewModel viewModel, string tempKnownProvider) {
-            if (string.IsNullOrEmpty(viewModel.KnownProvider)) {
-                if (_orchardServices.WorkContext.HttpContext.Session["knownProvider"] != null) {
-                    return _orchardServices.WorkContext.HttpContext.Session["knownProvider"] as string;
-                }
-                if (!string.IsNullOrEmpty(tempKnownProvider)) {
-                    return tempKnownProvider;
-                }
-            }
-            return viewModel.KnownProvider;
+            return string.IsNullOrEmpty(viewModel.KnownProvider) && !string.IsNullOrEmpty(tempKnownProvider) ? tempKnownProvider : viewModel.KnownProvider;
         }
     }
 }

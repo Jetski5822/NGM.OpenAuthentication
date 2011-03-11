@@ -5,7 +5,6 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Facebook;
-using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using Orchard;
 using Orchard.Security;
@@ -47,41 +46,27 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             if (FacebookOAuthResult.TryParse(HttpContext.Current.Request.Url, out oAuthResult)) {
                 return TranslateResponseState(returnUrl, oAuthResult);
             }
-            if (_orchardServices.WorkContext.HttpContext.Session["knownProvider"] == null)
-                return GenerateRequestState(returnUrl);
 
-            _orchardServices.WorkContext.HttpContext.Session.Remove("knownProvider");
-
-            return new AuthorizeState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
-                Error = new KeyValuePair<string, string>("Provider", "No callback recieved from provider.")
-            };
+            return GenerateRequestState(returnUrl);
         }
 
         private AuthorizeState TranslateResponseState(string returnUrl, FacebookOAuthResult oAuthResult) {
-            if (_orchardServices.WorkContext.HttpContext.Session == null)
-                throw new NullReferenceException("Session is required.");
-
-            _orchardServices.WorkContext.HttpContext.Session.Remove("knownProvider");
-
             if (oAuthResult.IsSuccess) {
                 var parameters = new OAuthAuthenticationParameters(Provider) {
                     ExternalIdentifier = oAuthResult.Code,
                     OAuthToken = oAuthResult.Code
                 };
 
-                var status = _authorizer.Authorize(parameters);
+                var result = _authorizer.Authorize(parameters);
 
-                if (status == OpenAuthenticationStatus.RequiresRegistration) {
+                if (result.Status == OpenAuthenticationStatus.AssociateOnLogon) {
                     parameters.OAuthAccessToken = GetAccessToken(oAuthResult.Code);
                     
                     if (_openAuthenticationService.GetSettings().Record.AutoRegisterEnabled)
-                        status = GetUserNameAndRetryAuthorization(parameters);
+                        result = GetUserNameAndRetryAuthorization(parameters);
                 }
 
-                return new AuthorizeState(returnUrl, status) {
-                    Error = _authorizer.Error,
-                    RegisterModel = new RegisterModel(parameters)
-                };
+                return new AuthorizeState(returnUrl, result);
             }
 
             return new AuthorizeState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
@@ -89,7 +74,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             };
         }
 
-        private OpenAuthenticationStatus GetUserNameAndRetryAuthorization(OAuthAuthenticationParameters parameters) {
+        private AuthorizationResult GetUserNameAndRetryAuthorization(OAuthAuthenticationParameters parameters) {
             var client = new FacebookClient(parameters.OAuthAccessToken);
             var me = client.Get("/me");
 
@@ -104,11 +89,6 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         private AuthorizeState GenerateRequestState(string returnUrl) {
             var facebookClient = new FacebookOAuthClient(_facebookApplication);
             
-            if (_orchardServices.WorkContext.HttpContext.Session == null)
-                throw new NullReferenceException("Session is required.");
-
-            _orchardServices.WorkContext.HttpContext.Session["knownProvider"] = Provider.ToString();
-
             var extendedPermissions = new[] { "publish_stream", "offline_access", "email" };
             var parameters = new Dictionary<string, object> {
                 {"redirect_uri", GenerateCallbackUri() }
@@ -127,7 +107,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         private Uri GenerateCallbackUri() {
             UriBuilder builder = new UriBuilder(_orchardServices.WorkContext.HttpContext.Request.Url.GetLeftPart(UriPartial.Authority));
-            var path = _orchardServices.WorkContext.HttpContext.Request.ApplicationPath + "/OAuth/LogOn";
+            var path = _orchardServices.WorkContext.HttpContext.Request.ApplicationPath + "/OAuth/LogOn/" + Provider.ToString();
             builder.Path = path.Replace(@"//", @"/");
 
             return builder.Uri;

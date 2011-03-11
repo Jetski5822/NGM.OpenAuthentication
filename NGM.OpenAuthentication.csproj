@@ -3,11 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>
-    </ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B262A7C7-8205-4B94-A359-F5379025DF32}</ProjectGuid>
-    <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NGM.OpenAuthentication</RootNamespace>
@@ -42,7 +41,14 @@
     <Reference Include="LinqToTwitter">
       <HintPath>Lib\LinqToTwitterBinaries_v2.0.19.2\LinqToTwitter.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.CSharp">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Live.AuthHandler, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\WindowsLiveSDK_v4.1\Microsoft.Live.AuthHandler.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -58,9 +64,13 @@
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\CardSpaceAccountController.cs" />
+    <Compile Include="Core\AuthorizationResult.cs" />
     <Compile Include="Core\Claims\ClaimTypes.cs" />
     <Compile Include="Core\Claims\ClaimsTranslator.cs" />
+    <Compile Include="Core\Enviroment\InitializingModuleEvents.cs" />
     <Compile Include="Core\OAuth\FacebookClaimsTranslator.cs" />
+    <Compile Include="Core\OAuth\LiveIdParametersHelpers.cs" />
+    <Compile Include="Core\OAuth\LiveIdProviderAuthorizer.cs" />
     <Compile Include="Core\OpenId\OpenIdClaimsResponseClaimsTranslator.cs" />
     <Compile Include="Core\OpenId\OpenIdFetchResponseClaimsTranslator.cs" />
     <Compile Include="Core\OAuth\FacebookApplication.cs" />
@@ -68,7 +78,7 @@
     <Compile Include="Core\OpenId\IOpenIdProviderAuthorizer.cs" />
     <Compile Include="Core\IProviderAuthorizer.cs" />
     <Compile Include="Core\OpenId\OpenIdAuthorizer.cs" />
-    <Compile Include="Core\RouteValuesHelper.cs" />
+    <Compile Include="Core\RegistrationDetails.cs" />
     <Compile Include="Core\CardSpace\CardSpaceAuthenticationParameters.cs" />
     <Compile Include="Core\HashedOpenAuthenticationParameters.cs" />
     <Compile Include="Core\IAuthorizer.cs" />
@@ -82,21 +92,19 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Core\CardSpace\InfoCardImageHelpers.cs" />
     <Compile Include="Core\CardSpace\NameSpaceConstants.cs" />
-    <Compile Include="Core\CardSpace\RegisterModelBuilder.cs" />
     <Compile Include="Core\OAuth\FacebookProviderAuthorizer.cs" />
     <Compile Include="Core\OAuth\IOAuthSettings.cs" />
     <Compile Include="Core\OAuth\IOAuthProviderAuthorizer.cs" />
     <Compile Include="Core\OAuth\TwitterProviderAuthorizer.cs" />
     <Compile Include="Core\OpenId\Claims.cs" />
-    <Compile Include="Core\OpenId\RegisterModelHelper.cs" />
     <Compile Include="Core\OrchardShapeChecker.cs" />
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
+    <Compile Include="Filters\LogOutFilter.cs" />
     <Compile Include="Filters\RegistrationFilter.cs" />
     <Compile Include="Handlers\OpenAuthenticationSettingsPartHandler.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPart.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPartRecord.cs" />
-    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Core\OpenId\IOpenIdRelyingPartyService.cs" />
     <Compile Include="Core\OpenId\OpenIdIdentifier.cs" />
     <Compile Include="Core\OpenId\OpenIdRelyingPartyService.cs" />
@@ -230,7 +238,9 @@
     <Content Include="Scripts\openid-uk.js" />
     <Content Include="Module.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Core\Hybrid\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\account.css" />
   </ItemGroup>
@@ -249,6 +259,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Pages\channel.htm" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -261,9 +272,11 @@
     <Content Include="Placement.info" />
     <Content Include="Views\EditorTemplates\Parts\Accounts.UserOpenAuthentication.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Pages\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Views\Admin\Create.cshtml" />
     <Content Include="Views\EditorTemplates\Parts\OpenAuthentication.Settings.cshtml" />
-    <Content Include="Views\Wrappers.Account.Register.cshtml" />
     <Content Include="Content\openid-selector\Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -278,6 +291,8 @@
     <Content Include="Content\oauth\Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Parts.LiveId.LogOn.cshtml" />
+    <Content Include="Views\Wrappers.Account.AssociateMessage.cshtml" />
     <None Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
