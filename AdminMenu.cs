@@ -23,11 +23,11 @@ namespace NGM.OpenAuthentication {
                                                                                           .Permission(StandardPermissions.AccessAdminPanel)));
             }
 
-            if (_openAuthenticationService.GetSettings().Record.OAuthEnabled) {
-                builder.Add(T("Providers"), "40",
-                    menu => menu.Add(T("Providers"), "1.0", item => item.Action("Index", "OAuthAdmin", new { area = "NGM.OpenAuthentication" })
-                        .Permission(StandardPermissions.SiteOwner)));
-            }
+            //if (_openAuthenticationService.GetSettings().Record.OAuthEnabled) {
+            //    builder.Add(T("Providers"), "40",
+            //        menu => menu.Add(T("Providers"), "1.0", item => item.Action("Index", "OAuthAdmin", new { area = "NGM.OpenAuthentication" })
+            //            .Permission(StandardPermissions.SiteOwner)));
+            //}
         }
     }
 }
