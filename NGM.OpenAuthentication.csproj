@@ -291,8 +291,9 @@
     <Content Include="Content\oauth\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Parts.LiveId.LogOn.cshtml" />
     <Content Include="Views\Wrappers.Account.AssociateMessage.cshtml" />
+    <Content Include="Views\FacebookConnectSignIn.cshtml" />
+    <Content Include="Views\MicrosoftConnectSignIn.cshtml" />
     <None Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
