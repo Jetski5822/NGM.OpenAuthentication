@@ -295,6 +295,7 @@
     <Content Include="Views\MicrosoftConnectSignIn.cshtml" />
     <Content Include="Views\Wrappers.Account.Facebook.LogOn.cshtml" />
     <Content Include="Views\Create.cshtml" />
+    <Content Include="Views\Admin\Create.cshtml" />
     <None Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
