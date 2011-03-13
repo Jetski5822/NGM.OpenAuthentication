@@ -3,9 +3,11 @@ using System.Linq;
 using LinqToTwitter;
 using NGM.OpenAuthentication.Services;
 using Orchard;
+using Orchard.Environment.Extensions;
 using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Core.OAuth {
+    [OrchardFeature("Twitter")]
     public class TwitterProviderAuthorizer : IOAuthProviderTwitterAuthorizer {
         private readonly IOrchardServices _orchardServices;
         private readonly IAuthorizer _authorizer;
@@ -39,7 +41,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         public bool IsConsumerConfigured {
             get {
-                return !string.IsNullOrEmpty(ClientKeyIdentifier) && !string.IsNullOrEmpty(ClientSecret);
+                return !string.IsNullOrEmpty(ClientKeyIdentifier) && !string.IsNullOrEmpty(ClientSecret) && _openAuthenticationService.GetSettings().Record.OAuthEnabled;
             }
         }
 

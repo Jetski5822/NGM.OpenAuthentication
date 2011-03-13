@@ -8,6 +8,7 @@ using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
 using Orchard;
 using Orchard.Core.Contents.Controllers;
+using Orchard.DisplayManagement;
 using Orchard.Localization;
 using Orchard.Mvc.Extensions;
 using Orchard.Security;
@@ -23,13 +24,16 @@ namespace NGM.OpenAuthentication.Controllers {
 
         public AdminController(IAuthenticationService authenticationService,
             IOpenAuthenticationService openAuthenticationService,
-            IOrchardServices orchardServices) {
+            IOrchardServices orchardServices,
+            IShapeFactory shapeFactory) {
             _authenticationService = authenticationService;
             _openAuthenticationService = openAuthenticationService;
             _orchardServices = orchardServices;
             T = NullLocalizer.Instance;
+            Shape = shapeFactory;
         }
 
+        dynamic Shape { get; set; }
         public Localizer T { get; set; }
 
         public ActionResult Index() {
@@ -69,7 +73,13 @@ namespace NGM.OpenAuthentication.Controllers {
         }
 
         public ActionResult Create(string returnUrl) {
-            return View("Create");
+            var createShape = Shape.Create();
+
+            //dynamic viewModel = Shape.ViewModel()
+            //    .ContentItems(createShape);
+
+            // Casting to avoid invalid (under medium trust) reflection over the protected View method and force a static invocation.
+            return View((object)createShape);
         }
 
         [HttpPost]

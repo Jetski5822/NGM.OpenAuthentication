@@ -45,5 +45,11 @@ namespace NGM.OpenAuthentication {
         
             return 1;
         }
+
+        public int UpdateFrom1() {
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.AddColumn<bool>("MicrosoftConnectEnabled"));
+
+            return 2;
+        }
     }
 }

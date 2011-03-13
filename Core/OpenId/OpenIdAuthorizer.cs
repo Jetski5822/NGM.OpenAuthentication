@@ -2,8 +2,10 @@
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Services;
+using Orchard.Environment.Extensions;
 
 namespace NGM.OpenAuthentication.Core.OpenId {
+    [OrchardFeature("OpenId")]
     public class OpenIdProviderAuthorizer : IOpenIdProviderAuthorizer {
         private readonly IOpenIdRelyingPartyService _openIdRelyingPartyService;
         private readonly IOpenAuthenticationService _openAuthenticationService;

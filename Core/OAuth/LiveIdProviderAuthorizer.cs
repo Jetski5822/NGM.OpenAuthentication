@@ -6,8 +6,10 @@ using System.Text;
 using System.Web;
 using NGM.OpenAuthentication.Services;
 using Orchard;
+using Orchard.Environment.Extensions;
 
 namespace NGM.OpenAuthentication.Core.OAuth {
+    [OrchardFeature("MicrosoftConnect")]
     public class LiveIdProviderAuthorizer : IOAuthProviderAuthorizer {
         private readonly IOrchardServices _orchardServices;
         private readonly IAuthorizer _authorizer;
@@ -108,7 +110,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         public bool IsConsumerConfigured {
             get {
-                return !string.IsNullOrEmpty(ClientKeyIdentifier) && !string.IsNullOrEmpty(ClientSecret);
+                return !string.IsNullOrEmpty(ClientKeyIdentifier) && !string.IsNullOrEmpty(ClientSecret) && _openAuthenticationService.GetSettings().Record.MicrosoftConnectEnabled;
             }
         }
 

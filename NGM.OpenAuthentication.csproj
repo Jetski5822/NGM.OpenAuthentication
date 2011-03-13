@@ -275,7 +275,6 @@
     <Content Include="Pages\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Views\Admin\Create.cshtml" />
     <Content Include="Views\EditorTemplates\Parts\OpenAuthentication.Settings.cshtml" />
     <Content Include="Content\openid-selector\Web.config">
       <SubType>Designer</SubType>
@@ -287,13 +286,15 @@
     <Content Include="Content\cardspace\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Wrappers.Account.OAuth.LogOn.cshtml" />
+    <Content Include="Views\Wrappers.Account.Twitter.LogOn.cshtml" />
     <Content Include="Content\oauth\Web.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Wrappers.Account.AssociateMessage.cshtml" />
     <Content Include="Views\FacebookConnectSignIn.cshtml" />
     <Content Include="Views\MicrosoftConnectSignIn.cshtml" />
+    <Content Include="Views\Wrappers.Account.Facebook.LogOn.cshtml" />
+    <Content Include="Views\Create.cshtml" />
     <None Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

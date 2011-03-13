@@ -3,8 +3,10 @@ using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core.Claims;
+using Orchard.Environment.Extensions;
 
 namespace NGM.OpenAuthentication.Core.OpenId {
+    [OrchardFeature("OpenId")]
     public sealed class OpenIdAuthenticationParameters : OpenAuthenticationParameters {
         private readonly IAuthenticationResponse _authenticationResponse;
         private readonly IList<UserClaims> _claims;

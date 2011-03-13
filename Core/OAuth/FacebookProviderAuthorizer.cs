@@ -7,9 +7,11 @@ using System.Web.Mvc;
 using Facebook;
 using NGM.OpenAuthentication.Services;
 using Orchard;
+using Orchard.Environment.Extensions;
 using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Core.OAuth {
+    [OrchardFeature("Facebook")]
     public class FacebookProviderAuthorizer : IOAuthProviderFacebookAuthorizer {
         private readonly IOrchardServices _orchardServices;
         private readonly IAuthorizer _authorizer;
@@ -36,9 +38,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         }
 
         public bool IsConsumerConfigured {
-            get {
-                return !string.IsNullOrEmpty(ClientKeyIdentifier) && !string.IsNullOrEmpty(ClientSecret);
-            }
+            get { return !string.IsNullOrEmpty(ClientKeyIdentifier) && !string.IsNullOrEmpty(ClientSecret) && _openAuthenticationService.GetSettings().Record.OAuthEnabled; }
         }
 
         public AuthorizeState Authorize(string returnUrl) {

@@ -1,6 +1,8 @@
 ﻿using DotNetOpenAuth.OpenId.RelyingParty;
+using Orchard.Environment.Extensions;
 
 namespace NGM.OpenAuthentication.Core.OpenId {
+    [OrchardFeature("OpenId")]
     public class OpenIdRelyingPartyService : IOpenIdRelyingPartyService {
         private static readonly OpenIdRelyingParty _relyingParty = new OpenIdRelyingParty();
 

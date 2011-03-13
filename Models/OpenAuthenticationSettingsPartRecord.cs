@@ -6,6 +6,7 @@ namespace NGM.OpenAuthentication.Models {
         public virtual bool OpenIdEnabled { get; set; }
         public virtual bool CardSpaceEnabled { get; set; }
         public virtual bool OAuthEnabled { get; set; }
+        public virtual bool MicrosoftConnectEnabled { get; set; }
         public virtual bool Birthdate { get; set; }
         public virtual bool Country { get; set; }
         public virtual bool Email { get; set; }
