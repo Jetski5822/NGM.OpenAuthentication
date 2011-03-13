@@ -109,9 +109,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         }
 
         public bool IsConsumerConfigured {
-            get {
-                return !string.IsNullOrEmpty(ClientKeyIdentifier) && !string.IsNullOrEmpty(ClientSecret) && _openAuthenticationService.GetSettings().Record.MicrosoftConnectEnabled;
-            }
+            get { return !string.IsNullOrEmpty(ClientKeyIdentifier) && !string.IsNullOrEmpty(ClientSecret); }
         }
 
         public OAuthProvider Provider {

@@ -51,5 +51,14 @@ namespace NGM.OpenAuthentication {
 
             return 2;
         }
+
+        public int UpdateFrom2() {
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("MicrosoftConnectEnabled"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("OpenIdEnabled"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("CardSpaceEnabled"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("OAuthEnabled"));
+
+            return 3;
+        }
     }
 }
