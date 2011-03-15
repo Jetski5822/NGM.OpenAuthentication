@@ -2,6 +2,7 @@
     public struct RegistrationDetails {
         public RegistrationDetails(OpenAuthenticationParameters parameters)
             : this() {
+            if (parameters.UserClaims != null)
             foreach (var claim in parameters.UserClaims) {
                 if (string.IsNullOrEmpty(EmailAddress)) {
                     EmailAddress = claim.Contact.Email;
