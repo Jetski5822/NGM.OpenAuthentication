@@ -23,7 +23,6 @@
 }
 
 @using (Html.BeginForm("LogOn", "OpenIdAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"] }, FormMethod.Post, new { id = "openid_form" })) {
-@Html.ValidationSummary() 
 <input type="hidden" name="action" value="verify" />
 <fieldset class="login-form group">
     <legend>@T("OpenID account")</legend>
