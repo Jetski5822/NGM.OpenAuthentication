@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <doc>
   <assembly>
-    <name>Facebook.Web.Mvc2</name>
+    <name>Facebook.Web.Mvc</name>
   </assembly>
   <members>
     <member name="T:Facebook.Web.Mvc.FacebookAuthorizeAttributeBase">
@@ -14,6 +14,11 @@
             Called when authorization is required.
             </summary>
       <param name="filterContext">The filter context.</param>
+    </member>
+    <member name="P:Facebook.Web.Mvc.FacebookAuthorizeAttributeBase.Perms">
+      <summary>
+            Gets or sets the extended permissions.
+            </summary>
     </member>
     <member name="P:Facebook.Web.Mvc.FacebookAuthorizeAttributeBase.Permissions">
       <summary>
@@ -32,7 +37,6 @@
       <param name="controller">The controller.</param>
       <param name="url">The URL.</param>
       <returns />
-      <requires>url != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasControllerExtensions.CanvasRedirectToAction(System.Web.Mvc.Controller,System.String)">
       <summary>
@@ -144,9 +148,6 @@
       <param name="linkText">The link text.</param>
       <param name="actionName">Name of the action.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasActionLink(System.Web.Mvc.HtmlHelper,System.String,System.String,System.Object)">
       <summary>
@@ -157,9 +158,6 @@
       <param name="actionName">Name of the action.</param>
       <param name="routeValues">The route values.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasActionLink(System.Web.Mvc.HtmlHelper,System.String,System.String,System.Object,System.Object)">
       <summary>
@@ -171,9 +169,6 @@
       <param name="routeValues">The route values.</param>
       <param name="htmlAttributes">The HTML attributes.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasActionLink(System.Web.Mvc.HtmlHelper,System.String,System.String,System.Web.Routing.RouteValueDictionary)">
       <summary>
@@ -184,9 +179,6 @@
       <param name="actionName">Name of the action.</param>
       <param name="routeValues">The route values.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasActionLink(System.Web.Mvc.HtmlHelper,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -198,9 +190,6 @@
       <param name="routeValues">The route values.</param>
       <param name="htmlAttributes">The HTML attributes.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasActionLink(System.Web.Mvc.HtmlHelper,System.String,System.String,System.String)">
       <summary>
@@ -211,9 +200,6 @@
       <param name="actionName">Name of the action.</param>
       <param name="controllerName">Name of the controller.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasActionLink(System.Web.Mvc.HtmlHelper,System.String,System.String,System.String,System.Object,System.Object)">
       <summary>
@@ -226,9 +212,6 @@
       <param name="routeValues">The route values.</param>
       <param name="htmlAttributes">The HTML attributes.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasActionLink(System.Web.Mvc.HtmlHelper,System.String,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -241,9 +224,6 @@
       <param name="routeValues">The route values.</param>
       <param name="htmlAttributes">The HTML attributes.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasActionLink(System.Web.Mvc.HtmlHelper,System.String,System.String,System.String,System.String,System.String,System.String,System.Object,System.Object)">
       <summary>
@@ -259,9 +239,6 @@
       <param name="routeValues">The route values.</param>
       <param name="htmlAttributes">The HTML attributes.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasActionLink(System.Web.Mvc.HtmlHelper,System.String,System.String,System.String,System.String,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -277,9 +254,6 @@
       <param name="routeValues">The route values.</param>
       <param name="htmlAttributes">The HTML attributes.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasRouteLink(System.Web.Mvc.HtmlHelper,System.String,System.Object)">
       <summary>
@@ -289,9 +263,6 @@
       <param name="linkText">The link text.</param>
       <param name="routeValues">The route values.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasRouteLink(System.Web.Mvc.HtmlHelper,System.String,System.Web.Routing.RouteValueDictionary)">
       <summary>
@@ -301,9 +272,6 @@
       <param name="linkText">The link text.</param>
       <param name="routeValues">The route values.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasRouteLink(System.Web.Mvc.HtmlHelper,System.String,System.String)">
       <summary>
@@ -313,9 +281,6 @@
       <param name="linkText">The link text.</param>
       <param name="routeName">Name of the route.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasRouteLink(System.Web.Mvc.HtmlHelper,System.String,System.String,System.Object)">
       <summary>
@@ -326,9 +291,6 @@
       <param name="routeName">Name of the route.</param>
       <param name="routeValues">The route values.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasRouteLink(System.Web.Mvc.HtmlHelper,System.String,System.String,System.Web.Routing.RouteValueDictionary)">
       <summary>
@@ -339,9 +301,6 @@
       <param name="routeName">Name of the route.</param>
       <param name="routeValues">The route values.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasRouteLink(System.Web.Mvc.HtmlHelper,System.String,System.Object,System.Object)">
       <summary>
@@ -352,9 +311,6 @@
       <param name="routeValues">The route values.</param>
       <param name="htmlAttributes">The HTML attributes.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasRouteLink(System.Web.Mvc.HtmlHelper,System.String,System.Web.Routing.RouteValueDictionary,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -365,9 +321,6 @@
       <param name="routeValues">The route values.</param>
       <param name="htmlAttributes">The HTML attributes.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasRouteLink(System.Web.Mvc.HtmlHelper,System.String,System.String,System.Object,System.Object)">
       <summary>
@@ -379,9 +332,6 @@
       <param name="routeValues">The route values.</param>
       <param name="htmlAttributes">The HTML attributes.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasRouteLink(System.Web.Mvc.HtmlHelper,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -393,9 +343,6 @@
       <param name="routeValues">The route values.</param>
       <param name="htmlAttributes">The HTML attributes.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasRouteLink(System.Web.Mvc.HtmlHelper,System.String,System.String,System.String,System.String,System.String,System.Object,System.Object)">
       <summary>
@@ -410,9 +357,6 @@
       <param name="routeValues">The route values.</param>
       <param name="htmlAttributes">The HTML attributes.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.CanvasRouteLink(System.Web.Mvc.HtmlHelper,System.String,System.String,System.String,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -427,9 +371,6 @@
       <param name="routeValues">The route values.</param>
       <param name="htmlAttributes">The HTML attributes.</param>
       <returns />
-      <requires>!String.IsNullOrEmpty(linkText)</requires>
-      <requires>htmlHelper != null</requires>
-      <requires>htmlHelper.ViewContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasLinkExtensions.GenerateLink(System.Web.Routing.RequestContext,System.Web.Routing.RouteCollection,System.String,System.String,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -564,8 +505,6 @@
       <param name="urlHelper">The URL helper.</param>
       <param name="actionName">Name of the action.</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasUrlExtensions.CanvasAction(System.Web.Mvc.UrlHelper,System.String,System.Object)">
       <summary>
@@ -575,8 +514,6 @@
       <param name="actionName">Name of the action.</param>
       <param name="routeValues">The route values.</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasUrlExtensions.CanvasAction(System.Web.Mvc.UrlHelper,System.String,System.Web.Routing.RouteValueDictionary)">
       <summary>
@@ -586,8 +523,6 @@
       <param name="actionName">Name of the action.</param>
       <param name="routeValues">The route values.</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasUrlExtensions.CanvasAction(System.Web.Mvc.UrlHelper,System.String,System.String)">
       <summary>
@@ -597,8 +532,6 @@
       <param name="actionName">Name of the action.</param>
       <param name="controllerName">Name of the controller.</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasUrlExtensions.CanvasAction(System.Web.Mvc.UrlHelper,System.String,System.String,System.Object)">
       <summary>
@@ -609,8 +542,6 @@
       <param name="controllerName">Name of the controller.</param>
       <param name="routeValues">The route values.</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasUrlExtensions.CanvasAction(System.Web.Mvc.UrlHelper,System.String,System.String,System.Web.Routing.RouteValueDictionary)">
       <summary>
@@ -621,8 +552,6 @@
       <param name="controllerName">Name of the controller.</param>
       <param name="routeValues">The route values.</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasUrlExtensions.CanvasAction(System.Web.Mvc.UrlHelper,System.String,System.String,System.Object,System.String)">
       <summary>
@@ -634,8 +563,6 @@
       <param name="routeValues">The route values.</param>
       <param name="protocol">The protocol.</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasUrlExtensions.CanvasAction(System.Web.Mvc.UrlHelper,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.String,System.String)">
       <summary>
@@ -648,8 +575,6 @@
       <param name="protocol">The protocol.</param>
       <param name="hostName">Name of the host.</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasUrlExtensions.GenerateCanvasUrl(System.Web.Mvc.UrlHelper,System.String,System.String,System.String,System.Web.Routing.RouteValueDictionary)">
       <summary>
@@ -661,8 +586,6 @@
       <param name="controllerName">Name of the controller.</param>
       <param name="routeValues">The route values.</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasUrlExtensions.GenerateCanvasUrl(System.Web.Mvc.UrlHelper,System.String,System.String,System.String,System.String,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.Web.Routing.RouteCollection,System.Web.Routing.RequestContext,System.Boolean)">
       <summary>
@@ -680,8 +603,6 @@
       <param name="requestContext">The request context.</param>
       <param name="includeImplicitMvcValues">if set to <c>true</c> [include implicit MVC values].</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasUrlExtensions.GenerateCanvasUrl(System.Web.Mvc.UrlHelper,System.String,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.Web.Routing.RouteCollection,System.Web.Routing.RequestContext,System.Boolean)">
       <summary>
@@ -696,8 +617,6 @@
       <param name="requestContext">The request context.</param>
       <param name="includeImplicitMvcValues">if set to <c>true</c> [include implicit MVC values].</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasUrlExtensions.CanvasRouteUrl(System.Web.Mvc.UrlHelper,System.Object)">
       <summary>
@@ -706,8 +625,6 @@
       <param name="urlHelper">The URL helper.</param>
       <param name="routeValues">The route values.</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasUrlExtensions.CanvasRouteUrl(System.Web.Mvc.UrlHelper,System.Web.Routing.RouteValueDictionary)">
       <summary>
@@ -716,8 +633,6 @@
       <param name="urlHelper">The URL helper.</param>
       <param name="routeValues">The route values.</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasUrlExtensions.CanvasRouteUrl(System.Web.Mvc.UrlHelper,System.String)">
       <summary>
@@ -726,8 +641,6 @@
       <param name="urlHelper">The URL helper.</param>
       <param name="routeName">Name of the route.</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasUrlExtensions.CanvasRouteUrl(System.Web.Mvc.UrlHelper,System.String,System.Object)">
       <summary>
@@ -737,8 +650,6 @@
       <param name="routeName">Name of the route.</param>
       <param name="routeValues">The route values.</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasUrlExtensions.CanvasRouteUrl(System.Web.Mvc.UrlHelper,System.String,System.Web.Routing.RouteValueDictionary)">
       <summary>
@@ -748,8 +659,6 @@
       <param name="routeName">Name of the route.</param>
       <param name="routeValues">The route values.</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasUrlExtensions.CanvasRouteUrl(System.Web.Mvc.UrlHelper,System.String,System.Object,System.String)">
       <summary>
@@ -760,8 +669,6 @@
       <param name="routeValues">The route values.</param>
       <param name="protocol">The protocol.</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasUrlExtensions.CanvasRouteUrl(System.Web.Mvc.UrlHelper,System.String,System.Web.Routing.RouteValueDictionary,System.String,System.String)">
       <summary>
@@ -773,8 +680,6 @@
       <param name="protocol">The protocol.</param>
       <param name="hostName">Name of the host.</param>
       <returns />
-      <requires>urlHelper != null &amp;&amp; urlHelper.RequestContext != null &amp;&amp; urlHelper.RequestContext.HttpContext != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request != null &amp;&amp;
-                urlHelper.RequestContext.HttpContext.Request.Url != null &amp;&amp; urlHelper.RequestContext.HttpContext.Request.Headers != null &amp;&amp; urlHelper.RouteCollection != null</requires>
     </member>
     <member name="T:Facebook.Web.Mvc.FacebookAuthorizeInfo">
       <summary>
@@ -835,12 +740,12 @@
             The default view.
             </summary>
     </member>
-    <member name="F:Facebook.Web.Mvc.CanvasSoftAuthorizeAttribute.view">
+    <member name="F:Facebook.Web.Mvc.CanvasSoftAuthorizeAttribute._view">
       <summary>
             The view name.
             </summary>
     </member>
-    <member name="F:Facebook.Web.Mvc.CanvasSoftAuthorizeAttribute.master">
+    <member name="F:Facebook.Web.Mvc.CanvasSoftAuthorizeAttribute._master">
       <summary>
             The master.
             </summary>
@@ -854,28 +759,6 @@
       <summary>
             Gets or sets the Master.
             </summary>
-    </member>
-    <member name="M:Facebook.Web.Mvc.CanvasSoftAuthorizeAttribute.HandleUnauthorizedRequest(System.Web.Mvc.AuthorizationContext,Facebook.IFacebookApplication)">
-      <requires>filterContext != null</requires>
-      <requires>filterContext.HttpContext != null</requires>
-      <requires>filterContext.HttpContext.Request != null</requires>
-      <requires>filterContext.RouteData != null</requires>
-      <requires>filterContext.Controller != null</requires>
-      <requires>settings != null</requires>
-      <requires inheritedFrom="M:Facebook.Web.Mvc.CanvasAuthorizeAttribute.HandleUnauthorizedRequest(System.Web.Mvc.AuthorizationContext,Facebook.IFacebookApplication)" inheritedFromTypeName="CanvasAuthorizeAttribute">filterContext != null</requires>
-      <requires inheritedFrom="M:Facebook.Web.Mvc.CanvasAuthorizeAttribute.HandleUnauthorizedRequest(System.Web.Mvc.AuthorizationContext,Facebook.IFacebookApplication)" inheritedFromTypeName="CanvasAuthorizeAttribute">settings != null</requires>
-    </member>
-    <member name="M:Facebook.Web.Mvc.CanvasSoftAuthorizeAttribute.GetLoginUrl(Facebook.IFacebookApplication,System.Web.HttpContextBase,System.Collections.Generic.IDictionary{System.String,System.Object})">
-      <requires inheritedFrom="M:Facebook.Web.Mvc.CanvasAuthorizeAttribute.GetLoginUrl(Facebook.IFacebookApplication,System.Web.HttpContextBase,System.Collections.Generic.IDictionary{System.String,System.Object})" inheritedFromTypeName="CanvasAuthorizeAttribute">settings != null</requires>
-      <requires inheritedFrom="M:Facebook.Web.Mvc.CanvasAuthorizeAttribute.GetLoginUrl(Facebook.IFacebookApplication,System.Web.HttpContextBase,System.Collections.Generic.IDictionary{System.String,System.Object})" inheritedFromTypeName="CanvasAuthorizeAttribute">httpContext != null</requires>
-    </member>
-    <member name="M:Facebook.Web.Mvc.CanvasAuthorizeAttribute.HandleUnauthorizedRequest(System.Web.Mvc.AuthorizationContext,Facebook.IFacebookApplication)">
-      <requires>filterContext != null</requires>
-      <requires>settings != null</requires>
-    </member>
-    <member name="M:Facebook.Web.Mvc.CanvasAuthorizeAttribute.GetLoginUrl(Facebook.IFacebookApplication,System.Web.HttpContextBase,System.Collections.Generic.IDictionary{System.String,System.Object})">
-      <requires>settings != null</requires>
-      <requires>httpContext != null</requires>
     </member>
   </members>
 </doc>

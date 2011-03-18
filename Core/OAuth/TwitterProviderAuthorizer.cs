@@ -72,7 +72,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         private Uri GenerateCallbackUri() {
             UriBuilder builder = new UriBuilder(_orchardServices.WorkContext.HttpContext.Request.Url);
-            var path = _orchardServices.WorkContext.HttpContext.Request.ApplicationPath + "/OAuth/LogOn/" + Provider.ToString();
+            var path = string.Format("{0}/OAuth/LogOn/{1}", _orchardServices.WorkContext.HttpContext.Request.ApplicationPath, Provider.ToString());
             builder.Path = path.Replace(@"//", @"/");
 
             return builder.Uri;

@@ -128,14 +128,12 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         private string GetAccessToken(string code) {
             FacebookOAuthClient cl = new FacebookOAuthClient(_facebookApplication);
-            var extendedPermissions = new Dictionary<string, object>();
             cl.RedirectUri = GenerateCallbackUri();
-            cl.ClientId = _facebookApplication.AppId;
-            cl.ClientSecret = _facebookApplication.AppSecret;
-            extendedPermissions.Add("permissions", "offline_access");
-            var dict = (Dictionary<String, Object>)cl.ExchangeCodeForAccessToken(code, extendedPermissions);
-            Object Token = dict.Values.ElementAt(0);
-            return Token.ToString();
+            cl.AppId = _facebookApplication.AppId;
+            cl.AppSecret = _facebookApplication.AppSecret;
+            var dict = (Dictionary<String, Object>)cl.ExchangeCodeForAccessToken(code, new Dictionary<string, object> {{"permissions", "offline_access"}});
+            
+            return dict.Values.ElementAt(0).ToString();
         }
     }
 }
