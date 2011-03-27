@@ -220,6 +220,11 @@
             Represents the facebook api event args.
             </summary>
     </member>
+    <member name="F:Facebook.FacebookApiEventArgs._isBatchResult">
+      <summary>
+            Indicates whether the result is a batch result.
+            </summary>
+    </member>
     <member name="F:Facebook.FacebookApiEventArgs._json">
       <summary>
             The json string.
@@ -240,6 +245,26 @@
             </param>
       <param name="json">
             The json string.
+            </param>
+    </member>
+    <member name="M:Facebook.FacebookApiEventArgs.#ctor(System.Exception,System.Boolean,System.Object,System.String,System.Boolean)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Facebook.FacebookApiEventArgs" /> class.
+            </summary>
+      <param name="error">
+            The error.
+            </param>
+      <param name="cancelled">
+            The cancelled.
+            </param>
+      <param name="userState">
+            The user state.
+            </param>
+      <param name="json">
+            The json string.
+            </param>
+      <param name="isBatchResult">
+            Indicates whether the result is a batch result.
             </param>
     </member>
     <member name="M:Facebook.FacebookApiEventArgs.GetResultData">
@@ -296,14 +321,6 @@
       <param name="message">The message.</param>
       <param name="innerException">The inner exception.</param>
     </member>
-    <member name="M:Facebook.FacebookApiException.#ctor(System.String,System.String,System.Exception)">
-      <summary>
-            Initializes a new instance of the <see cref="T:Facebook.FacebookApiException" /> class.
-            </summary>
-      <param name="message">The message.</param>
-      <param name="errorType">Type of the error.</param>
-      <param name="innerException">The inner exception.</param>
-    </member>
     <member name="M:Facebook.FacebookApiException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
       <summary>
             Initializes a new instance of the <see cref="T:Facebook.FacebookApiException" /> class.
@@ -312,18 +329,6 @@
       <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual information about the source or destination.</param>
       <exception cref="T:System.ArgumentNullException">The <paramref name="info" /> parameter is null. </exception>
       <exception cref="T:System.Runtime.Serialization.SerializationException">The class name is null or <see cref="P:System.Exception.HResult" /> is zero (0). </exception>
-    </member>
-    <member name="M:Facebook.FacebookApiException.ToString">
-      <summary>
-            Returns a <see cref="T:System.String" /> that represents this instance.
-            </summary>
-      <returns>
-            A <see cref="T:System.String" /> that represents this instance.
-            </returns>
-      <PermissionSet>
-        <IPermission class="System.Security.Permissions.FileIOPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" PathDiscovery="*AllFiles*" />
-      </PermissionSet>
-      <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object">Contract.Result&lt;string&gt;() != null</ensures>
     </member>
     <member name="P:Facebook.FacebookApiException.ErrorType">
       <summary>
@@ -344,37 +349,12 @@
             The message.
             </param>
     </member>
-    <member name="M:Facebook.FacebookApiLimitException.#ctor(System.String,System.String)">
-      <summary>
-            Initializes a new instance of the <see cref="T:Facebook.FacebookApiLimitException" /> class. 
-            </summary>
-      <param name="message">
-            The message.
-            </param>
-      <param name="errorType">
-            Type of the error.
-            </param>
-    </member>
     <member name="M:Facebook.FacebookApiLimitException.#ctor(System.String,System.Exception)">
       <summary>
             Initializes a new instance of the <see cref="T:Facebook.FacebookApiLimitException" /> class. 
             </summary>
       <param name="message">
             The message.
-            </param>
-      <param name="innerException">
-            The inner exception.
-            </param>
-    </member>
-    <member name="M:Facebook.FacebookApiLimitException.#ctor(System.String,System.String,System.Exception)">
-      <summary>
-            Initializes a new instance of the <see cref="T:Facebook.FacebookApiLimitException" /> class. 
-            </summary>
-      <param name="message">
-            The error message text.
-            </param>
-      <param name="errorType">
-            Type of the facebook error.
             </param>
       <param name="innerException">
             The inner exception.
@@ -512,6 +492,105 @@
             </summary>
       <value>The result.</value>
     </member>
+    <member name="T:Facebook.FacebookBatchParameter">
+      <summary>
+            Represents a batch parameter for the creating batch requests.
+            </summary>
+      <remarks>
+            http://developers.facebook.com/docs/api/batch/
+            </remarks>
+    </member>
+    <member name="M:Facebook.FacebookBatchParameter.#ctor">
+      <summary>
+            Initializes a new instance of the <see cref="T:Facebook.FacebookBatchParameter" /> class.
+            </summary>
+    </member>
+    <member name="M:Facebook.FacebookBatchParameter.#ctor(System.String)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Facebook.FacebookBatchParameter" /> class.
+            </summary>
+      <param name="path">
+            The resource path.
+            </param>
+    </member>
+    <member name="M:Facebook.FacebookBatchParameter.#ctor(Facebook.HttpMethod,System.String)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Facebook.FacebookBatchParameter" /> class.
+            </summary>
+      <param name="httpMethod">
+            The http method.
+            </param>
+      <param name="path">
+            The resource path.
+            </param>
+    </member>
+    <member name="M:Facebook.FacebookBatchParameter.#ctor(System.String,System.Object)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Facebook.FacebookBatchParameter" /> class.
+            </summary>
+      <param name="path">
+            The resource path.
+            </param>
+      <param name="parameters">
+            The parameters.
+            </param>
+    </member>
+    <member name="M:Facebook.FacebookBatchParameter.#ctor(Facebook.HttpMethod,System.String,System.Object)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Facebook.FacebookBatchParameter" /> class.
+            </summary>
+      <param name="httpMethod">
+            The http method.
+            </param>
+      <param name="path">
+            The resource path.
+            </param>
+      <param name="parameters">
+            The parameters.
+            </param>
+    </member>
+    <member name="M:Facebook.FacebookBatchParameter.Query(System.String)">
+      <summary>
+            Returns a <see cref="T:Facebook.FacebookBatchParameter" /> representing FQL query.
+            </summary>
+      <param name="fql">
+            The fql query.
+            </param>
+      <returns>
+            The <see cref="T:Facebook.FacebookBatchParameter" />.
+            </returns>
+    </member>
+    <member name="M:Facebook.FacebookBatchParameter.Query(System.String[])">
+      <summary>
+            Returns a <see cref="T:Facebook.FacebookBatchParameter" /> representing FQL multi-query.
+            </summary>
+      <param name="fql">
+            The fql queries.
+            </param>
+      <returns>
+            The <see cref="T:Facebook.FacebookBatchParameter" />.
+            </returns>
+    </member>
+    <member name="P:Facebook.FacebookBatchParameter.HttpMethod">
+      <summary>
+            Gets or sets the http method.
+            </summary>
+    </member>
+    <member name="P:Facebook.FacebookBatchParameter.Path">
+      <summary>
+            Gets or sets the resource path.
+            </summary>
+    </member>
+    <member name="P:Facebook.FacebookBatchParameter.Parameters">
+      <summary>
+            Gets or sets the parameters.
+            </summary>
+    </member>
+    <member name="P:Facebook.FacebookBatchParameter.Data">
+      <summary>
+            Gets or sets the raw data parameter.
+            </summary>
+    </member>
     <member name="T:Facebook.FacebookClient">
       <summary>
             Provides access to the Facebook Platform.
@@ -538,6 +617,25 @@
             </summary>
       <param name="accessToken">
             The Facebook access token.
+            </param>
+    </member>
+    <member name="M:Facebook.FacebookClient.#ctor(System.String,System.String)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Facebook.FacebookClient" /> class.
+            </summary>
+      <param name="appId">
+            The app id.
+            </param>
+      <param name="appSecret">
+            The app secret.
+            </param>
+    </member>
+    <member name="M:Facebook.FacebookClient.#ctor(Facebook.IFacebookApplication)">
+      <summary>
+            Initializes a new instance of the <see cref="T:Facebook.FacebookClient" /> class.
+            </summary>
+      <param name="facebookApplication">
+            The facebook application.
             </param>
     </member>
     <member name="M:Facebook.FacebookClient.Delete(System.String)">
@@ -880,6 +978,17 @@
             The FQL query.
             </param>
     </member>
+    <member name="M:Facebook.FacebookClient.QueryAsync(System.String,System.Object)">
+      <summary>
+            Executes a FQL query asynchronously.
+            </summary>
+      <param name="fql">
+            The FQL query.
+            </param>
+      <param name="userToken">
+            The user token.
+            </param>
+    </member>
     <member name="M:Facebook.FacebookClient.QueryAsync(System.String[])">
       <summary>
             Executes a FQL multiquery asynchronously.
@@ -887,6 +996,69 @@
       <param name="fql">
             The FQL queries.
             </param>
+    </member>
+    <member name="M:Facebook.FacebookClient.QueryAsync(System.String[],System.Object)">
+      <summary>
+            Executes a FQL multiquery asynchronously.
+            </summary>
+      <param name="fql">
+            The FQL queries.
+            </param>
+      <param name="userToken">
+            The user Token.
+            </param>
+    </member>
+    <member name="M:Facebook.FacebookClient.Batch(Facebook.FacebookBatchParameter[])">
+      <summary>
+            Executes a batch request.
+            </summary>
+      <param name="batchParameters">
+            The batch parameters.
+            </param>
+      <returns>
+            The json result.
+            </returns>
+    </member>
+    <member name="M:Facebook.FacebookClient.BatchAsync(Facebook.FacebookBatchParameter[],System.Object)">
+      <summary>
+            Executes a batch request asynchronously.
+            </summary>
+      <param name="batchParameters">
+            The batch parameters.
+            </param>
+      <param name="userToken">
+            The user token.
+            </param>
+    </member>
+    <member name="M:Facebook.FacebookClient.BatchAsync(Facebook.FacebookBatchParameter[])">
+      <summary>
+            Executes a batch request asynchronously.
+            </summary>
+      <param name="batchParameters">
+            The batch parameters.
+            </param>
+    </member>
+    <member name="M:Facebook.FacebookClient.ToParameters(Facebook.FacebookBatchParameter)">
+      <summary>
+            Converts the facebook batch to POST parameters.
+            </summary>
+      <param name="batchParameter">
+            The batch parameter.
+            </param>
+      <returns>
+            The post parameters.
+            </returns>
+    </member>
+    <member name="M:Facebook.FacebookClient.ProcessBatchResult(System.Object)">
+      <summary>
+            Processes the batch result.
+            </summary>
+      <param name="result">
+            The json result.
+            </param>
+      <returns>
+            Batch result.
+            </returns>
     </member>
     <member name="M:Facebook.FacebookClient.CancelAsync">
       <summary>
@@ -1500,26 +1672,11 @@
             </summary>
       <param name="message">The message.</param>
     </member>
-    <member name="M:Facebook.FacebookOAuthException.#ctor(System.String,System.String)">
-      <summary>
-            Initializes a new instance of the <see cref="T:Facebook.FacebookOAuthException" /> class.
-            </summary>
-      <param name="message">The message.</param>
-      <param name="errorType">Type of the error.</param>
-    </member>
     <member name="M:Facebook.FacebookOAuthException.#ctor(System.String,System.Exception)">
       <summary>
             Initializes a new instance of the <see cref="T:Facebook.FacebookOAuthException" /> class.
             </summary>
       <param name="message">The message.</param>
-      <param name="innerException">The inner exception.</param>
-    </member>
-    <member name="M:Facebook.FacebookOAuthException.#ctor(System.String,System.String,System.Exception)">
-      <summary>
-            Initializes a new instance of the <see cref="T:Facebook.FacebookOAuthException" /> class.
-            </summary>
-      <param name="message">The error message text.</param>
-      <param name="errorType">Type of the facebook error.</param>
       <param name="innerException">The inner exception.</param>
     </member>
     <member name="M:Facebook.FacebookOAuthException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
@@ -2003,36 +2160,6 @@
       <param name="exception">The web exception.</param>
       <returns>A Facebook API exception or null.</returns>
     </member>
-    <member name="P:Facebook.ExceptionFactory.PathOrParametersRequired">
-      <summary>
-            Gets the path or parameters required exception.
-            </summary>
-      <value>The path or parameters required exception.</value>
-    </member>
-    <member name="P:Facebook.ExceptionFactory.MethodRequiredForRestCall">
-      <summary>
-            Gets the method required for rest call exception.
-            </summary>
-      <value>The method required for rest call exception.</value>
-    </member>
-    <member name="P:Facebook.ExceptionFactory.CannotIncludeMultipleMediaObjects">
-      <summary>
-            Gets the cannot include multiple media objects exception.
-            </summary>
-      <value>The cannot include multiple media objects exception.</value>
-    </member>
-    <member name="P:Facebook.ExceptionFactory.MediaObjectMustHavePropertiesSet">
-      <summary>
-            Gets the media object must have properties set exception.
-            </summary>
-      <value>The media object must have properties set exception.</value>
-    </member>
-    <member name="P:Facebook.ExceptionFactory.InvalidCookie">
-      <summary>
-            Gets the invalid cookie exception.
-            </summary>
-      <value>The invalid cookie exception.</value>
-    </member>
     <member name="T:Facebook.IFacebookSettings">
       <summary>
             Represents the settings of a Facebook application.
@@ -2350,6 +2477,16 @@
     <member name="P:Facebook.Properties.Resources.InvalidSignedRequest">
       <summary>
               Looks up a localized string similar to Invalid signed request..
+            </summary>
+    </member>
+    <member name="P:Facebook.Properties.Resources.MediaObjectMustHavePropertiesSetError">
+      <summary>
+              Looks up a localized string similar to The media object must have a content type, file name, and value set..
+            </summary>
+    </member>
+    <member name="P:Facebook.Properties.Resources.MultipleMediaObjectsError">
+      <summary>
+              Looks up a localized string similar to You cannot include more than one Facebook Media Object in a single request..
             </summary>
     </member>
     <member name="T:Facebook.HttpMethod">
