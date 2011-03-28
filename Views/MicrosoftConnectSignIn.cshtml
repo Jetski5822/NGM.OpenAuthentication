@@ -4,10 +4,10 @@
 
 @{
     Script.Require("Jquery");
-    
+    Script.Include("http://js.live.net/4.1/loader.js");    
     var settings = WorkContext.CurrentSite.As<NGM.OpenAuthentication.Models.OpenAuthenticationSettingsPart>().Record; }
 
-<script type="text/javascript" src="http://js.live.net/4.1/loader.js"></script>
+@*<script type="text/javascript" src="http://js.live.net/4.1/loader.js"></script>*@
 
 <script type="text/javascript">
     function signOutCallback() {
