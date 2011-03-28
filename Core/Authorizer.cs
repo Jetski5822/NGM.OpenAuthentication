@@ -72,9 +72,13 @@ namespace NGM.OpenAuthentication.Core {
         public static OpenAuthenticationParameters RetrieveParametersFromRoundTrip(bool removeOnRetrieval) {
             var parameters = HttpContext.Current.Session["parameters"];
             if (parameters != null && removeOnRetrieval)
-                HttpContext.Current.Session.Remove("parameters");
+                RemoveParameters();
 
             return parameters as OpenAuthenticationParameters;
+        }
+
+        public static void RemoveParameters() {
+            HttpContext.Current.Session.Remove("parameters");   
         }
 
         private void StoreParametersForRoundTrip(OpenAuthenticationParameters parameters) {

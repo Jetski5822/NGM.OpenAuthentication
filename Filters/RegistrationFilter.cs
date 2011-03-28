@@ -19,6 +19,11 @@ namespace NGM.OpenAuthentication.Filters {
             if (!filterContext.RouteData.Values.ContainsValue("Register"))
                 return;
 
+            if (filterContext.HttpContext.Session != null) {
+                if ((filterContext.HttpContext.Session["parameters"] as Core.OpenAuthenticationParameters) == null)
+                    return;
+            }
+
             if (!OrchardShapeChecker.HasRegisterAsShape()) {
                 var zone = _workContextAccessor.GetContext(filterContext).Layout.Zones["BeforeContent"]; ;
 
