@@ -99,11 +99,13 @@
     <Compile Include="Core\OAuth\TwitterProviderAuthorizer.cs" />
     <Compile Include="Core\OpenId\Claims.cs" />
     <Compile Include="Core\OrchardShapeChecker.cs" />
+    <Compile Include="Drivers\MicrosoftConnectDriver.cs" />
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Filters\LogOutFilter.cs" />
     <Compile Include="Filters\RegistrationFilter.cs" />
     <Compile Include="Handlers\OpenAuthenticationSettingsPartHandler.cs" />
+    <Compile Include="Models\MicrosoftConnectSignInPart.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPart.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPartRecord.cs" />
     <Compile Include="Core\OpenId\IOpenIdRelyingPartyService.cs" />
