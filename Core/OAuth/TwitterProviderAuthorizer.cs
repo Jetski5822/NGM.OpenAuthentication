@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using LinqToTwitter;
 using NGM.OpenAuthentication.Services;
 using Orchard;
@@ -50,6 +51,8 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         }
 
         public AuthorizeState Authorize(string returnUrl) {
+            // Sleep for 15 seconds as a workaround for a twitter bug. :(
+            Thread.Sleep(new TimeSpan(0, 0, 0, 15));
             MvcAuthorizer.CompleteAuthorization(GenerateCallbackUri());
 
             if (_orchardServices.WorkContext.HttpContext.Session == null)
