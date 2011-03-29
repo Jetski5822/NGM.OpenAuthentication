@@ -1,6 +1,7 @@
 @model NGM.OpenAuthentication.ViewModels.AdminIndexViewModel
 @using Orchard.Utility.Extensions;
 @using NGM.OpenAuthentication.Models;
+@using NGM.OpenAuthentication.Extensions;
 @using NGM.OpenAuthentication.ViewModels;
 
 <h1>@Html.TitleForPage(T("Manage Associated Accounts").ToString())</h1>
@@ -23,10 +24,12 @@
 		        <col id="Col1" />
 		        <col id="Col2" />
 		        <col id="Col3" />
+                <col id="Col4" />
 	        </colgroup>
 	        <thead>
 		        <tr>
 			        <th scope="col">&nbsp;&darr;</th>
+                    <th scope="col">@T("Provider")</th>
 			        <th scope="col">@T("Account")</th>
 			        <th scope="col"></th>
 		        </tr>
@@ -39,6 +42,7 @@
                     <input type="hidden" value="@Model.Accounts[accountIndex].Account.ExternalIdentifier" name="@Html.NameOf(m => m.Accounts[accountIndex].Account.ExternalIdentifier)"/>
                     <input type="checkbox" value="true" name="@Html.NameOf(m => m.Accounts[accountIndex].IsChecked)"/>
                 </td>
+                <td>@Html.TranslateProvider(Model.Accounts[accountIndex].Account.HashedProvider)</td>
                 <td>@accountModel.Account.ExternalDisplayIdentifier</td>
                 <td>
                     <a href="@Url.Action("Delete", new { 
