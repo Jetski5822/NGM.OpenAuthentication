@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <doc>
   <assembly>
-    <name>Facebook.Web.Mvc2</name>
+    <name>Facebook.Web.Mvc</name>
   </assembly>
   <members>
     <member name="T:Facebook.Web.Mvc.FacebookAuthorizeAttributeBase">
@@ -14,6 +14,11 @@
             Called when authorization is required.
             </summary>
       <param name="filterContext">The filter context.</param>
+    </member>
+    <member name="P:Facebook.Web.Mvc.FacebookAuthorizeAttributeBase.Perms">
+      <summary>
+            Gets or sets the extended permissions.
+            </summary>
     </member>
     <member name="P:Facebook.Web.Mvc.FacebookAuthorizeAttributeBase.Permissions">
       <summary>
@@ -835,12 +840,12 @@
             The default view.
             </summary>
     </member>
-    <member name="F:Facebook.Web.Mvc.CanvasSoftAuthorizeAttribute.view">
+    <member name="F:Facebook.Web.Mvc.CanvasSoftAuthorizeAttribute._view">
       <summary>
             The view name.
             </summary>
     </member>
-    <member name="F:Facebook.Web.Mvc.CanvasSoftAuthorizeAttribute.master">
+    <member name="F:Facebook.Web.Mvc.CanvasSoftAuthorizeAttribute._master">
       <summary>
             The master.
             </summary>
@@ -855,6 +860,10 @@
             Gets or sets the Master.
             </summary>
     </member>
+    <member name="M:Facebook.Web.Mvc.CanvasSoftAuthorizeAttribute.GetLoginUrl(Facebook.IFacebookApplication,System.Web.HttpContextBase,System.Collections.Generic.IDictionary{System.String,System.Object})">
+      <requires inheritedFrom="M:Facebook.Web.Mvc.CanvasAuthorizeAttribute.GetLoginUrl(Facebook.IFacebookApplication,System.Web.HttpContextBase,System.Collections.Generic.IDictionary{System.String,System.Object})" inheritedFromTypeName="CanvasAuthorizeAttribute">settings != null</requires>
+      <requires inheritedFrom="M:Facebook.Web.Mvc.CanvasAuthorizeAttribute.GetLoginUrl(Facebook.IFacebookApplication,System.Web.HttpContextBase,System.Collections.Generic.IDictionary{System.String,System.Object})" inheritedFromTypeName="CanvasAuthorizeAttribute">httpContext != null</requires>
+    </member>
     <member name="M:Facebook.Web.Mvc.CanvasSoftAuthorizeAttribute.HandleUnauthorizedRequest(System.Web.Mvc.AuthorizationContext,Facebook.IFacebookApplication)">
       <requires>filterContext != null</requires>
       <requires>filterContext.HttpContext != null</requires>
@@ -865,17 +874,13 @@
       <requires inheritedFrom="M:Facebook.Web.Mvc.CanvasAuthorizeAttribute.HandleUnauthorizedRequest(System.Web.Mvc.AuthorizationContext,Facebook.IFacebookApplication)" inheritedFromTypeName="CanvasAuthorizeAttribute">filterContext != null</requires>
       <requires inheritedFrom="M:Facebook.Web.Mvc.CanvasAuthorizeAttribute.HandleUnauthorizedRequest(System.Web.Mvc.AuthorizationContext,Facebook.IFacebookApplication)" inheritedFromTypeName="CanvasAuthorizeAttribute">settings != null</requires>
     </member>
-    <member name="M:Facebook.Web.Mvc.CanvasSoftAuthorizeAttribute.GetLoginUrl(Facebook.IFacebookApplication,System.Web.HttpContextBase,System.Collections.Generic.IDictionary{System.String,System.Object})">
-      <requires inheritedFrom="M:Facebook.Web.Mvc.CanvasAuthorizeAttribute.GetLoginUrl(Facebook.IFacebookApplication,System.Web.HttpContextBase,System.Collections.Generic.IDictionary{System.String,System.Object})" inheritedFromTypeName="CanvasAuthorizeAttribute">settings != null</requires>
-      <requires inheritedFrom="M:Facebook.Web.Mvc.CanvasAuthorizeAttribute.GetLoginUrl(Facebook.IFacebookApplication,System.Web.HttpContextBase,System.Collections.Generic.IDictionary{System.String,System.Object})" inheritedFromTypeName="CanvasAuthorizeAttribute">httpContext != null</requires>
+    <member name="M:Facebook.Web.Mvc.CanvasAuthorizeAttribute.GetLoginUrl(Facebook.IFacebookApplication,System.Web.HttpContextBase,System.Collections.Generic.IDictionary{System.String,System.Object})">
+      <requires>settings != null</requires>
+      <requires>httpContext != null</requires>
     </member>
     <member name="M:Facebook.Web.Mvc.CanvasAuthorizeAttribute.HandleUnauthorizedRequest(System.Web.Mvc.AuthorizationContext,Facebook.IFacebookApplication)">
       <requires>filterContext != null</requires>
       <requires>settings != null</requires>
-    </member>
-    <member name="M:Facebook.Web.Mvc.CanvasAuthorizeAttribute.GetLoginUrl(Facebook.IFacebookApplication,System.Web.HttpContextBase,System.Collections.Generic.IDictionary{System.String,System.Object})">
-      <requires>settings != null</requires>
-      <requires>httpContext != null</requires>
     </member>
   </members>
 </doc>

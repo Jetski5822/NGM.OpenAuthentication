@@ -13,6 +13,7 @@
     <AssemblyName>NGM.OpenAuthentication</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,10 +37,10 @@
       <HintPath>Lib\DotNetOpenAuth-3.5.0.10357\DotNetOpenAuth.dll</HintPath>
     </Reference>
     <Reference Include="Facebook">
-      <HintPath>Lib\FacebookSDK_Net40_V5.0.3\Facebook.dll</HintPath>
+      <HintPath>Lib\FacebookSDK_Net40_V5.0.8\Facebook.dll</HintPath>
     </Reference>
     <Reference Include="LinqToTwitter">
-      <HintPath>Lib\LinqToTwitterBinaries_v2.0.19.2\LinqToTwitter.dll</HintPath>
+      <HintPath>Lib\LinqToTwitterBinaries_v2.0.20\LinqToTwitter.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <Private>False</Private>
@@ -49,9 +50,8 @@
       <HintPath>Lib\WindowsLiveSDK_v4.1\Microsoft.Live.AuthHandler.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\FacebookSDK_Net40_V5.0.3\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Lib\Json40r1\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\CardSpaceAccountController.cs" />
+    <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Core\AuthorizationResult.cs" />
     <Compile Include="Core\Claims\ClaimTypes.cs" />
     <Compile Include="Core\Claims\ClaimsTranslator.cs" />
@@ -102,11 +103,13 @@
     <Compile Include="Core\OAuth\TwitterProviderAuthorizer.cs" />
     <Compile Include="Core\OpenId\Claims.cs" />
     <Compile Include="Core\OrchardShapeChecker.cs" />
+    <Compile Include="Drivers\MicrosoftConnectDriver.cs" />
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Filters\LogOutFilter.cs" />
     <Compile Include="Filters\RegistrationFilter.cs" />
     <Compile Include="Handlers\OpenAuthenticationSettingsPartHandler.cs" />
+    <Compile Include="Models\MicrosoftConnectSignInPart.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPart.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPartRecord.cs" />
     <Compile Include="Core\OpenId\IOpenIdRelyingPartyService.cs" />

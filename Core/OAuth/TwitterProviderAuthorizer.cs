@@ -13,8 +13,8 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         private readonly IAuthorizer _authorizer;
         private readonly IOpenAuthenticationService _openAuthenticationService;
 
-        private readonly IOAuthCredentials _credentials;
-        private readonly MvcAuthorizer _mvcAuthorizer;
+        private IOAuthCredentials _credentials;
+        private MvcAuthorizer _mvcAuthorizer;
 
         public TwitterProviderAuthorizer(IOrchardServices orchardServices,
             IAuthorizer authorizer,
@@ -22,13 +22,19 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             _orchardServices = orchardServices;
             _authorizer = authorizer;
             _openAuthenticationService = openAuthenticationService;
+        }
 
-            _credentials = new SessionStateCredentials {
-                ConsumerKey = ClientKeyIdentifier,
-                ConsumerSecret = ClientSecret
-            };
+        private IOAuthCredentials Credentials {
+            get {
+                return _credentials ?? (_credentials = new SessionStateCredentials {
+                    ConsumerKey = ClientKeyIdentifier,
+                    ConsumerSecret = ClientSecret
+                });
+            }
+        }
 
-            _mvcAuthorizer = new MvcAuthorizer { Credentials = _credentials };
+        private MvcAuthorizer MvcAuthorizer {
+            get { return _mvcAuthorizer ?? (_mvcAuthorizer = new MvcAuthorizer { Credentials = this.Credentials }); }
         }
 
         public string ClientKeyIdentifier {
@@ -44,20 +50,20 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         }
 
         public AuthorizeState Authorize(string returnUrl) {
-            _mvcAuthorizer.CompleteAuthorization(GenerateCallbackUri());
+            MvcAuthorizer.CompleteAuthorization(GenerateCallbackUri());
 
             if (_orchardServices.WorkContext.HttpContext.Session == null)
                 throw new NullReferenceException("Session is required.");
 
-            if (!_mvcAuthorizer.IsAuthorized) {
-                return new AuthorizeState(returnUrl, OpenAuthenticationStatus.RequresRedirect) { Result = _mvcAuthorizer.BeginAuthorization() };
+            if (!MvcAuthorizer.IsAuthorized) {
+                return new AuthorizeState(returnUrl, OpenAuthenticationStatus.RequresRedirect) { Result = MvcAuthorizer.BeginAuthorization() };
             }
 
             var parameters = new OAuthAuthenticationParameters(Provider) {
-                ExternalIdentifier = _mvcAuthorizer.OAuthTwitter.OAuthToken,
-                ExternalDisplayIdentifier = _mvcAuthorizer.ScreenName,
-                OAuthToken = _mvcAuthorizer.OAuthTwitter.OAuthToken,
-                OAuthAccessToken = _mvcAuthorizer.OAuthTwitter.OAuthTokenSecret,
+                ExternalIdentifier = MvcAuthorizer.OAuthTwitter.OAuthToken,
+                ExternalDisplayIdentifier = MvcAuthorizer.ScreenName,
+                OAuthToken = MvcAuthorizer.OAuthTwitter.OAuthToken,
+                OAuthAccessToken = MvcAuthorizer.OAuthTwitter.OAuthTokenSecret,
             };
 
             var result = _authorizer.Authorize(parameters);
@@ -74,6 +80,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             UriBuilder builder = new UriBuilder(_orchardServices.WorkContext.HttpContext.Request.Url);
             var path = _orchardServices.WorkContext.HttpContext.Request.ApplicationPath + "/OAuth/LogOn/" + Provider.ToString();
             builder.Path = path.Replace(@"//", @"/");
+            builder.Query = builder.Query.Replace(@"??", @"?");
 
             return builder.Uri;
         }
@@ -89,10 +96,10 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                 .FirstOrDefault();
 
             if (identifier != null) {
-                _mvcAuthorizer.Credentials.OAuthToken = identifier.Record.OAuthToken;
-                _mvcAuthorizer.Credentials.AccessToken = identifier.Record.OAuthAccessToken;
+                MvcAuthorizer.Credentials.OAuthToken = identifier.Record.OAuthToken;
+                MvcAuthorizer.Credentials.AccessToken = identifier.Record.OAuthAccessToken;
 
-                return _mvcAuthorizer;
+                return MvcAuthorizer;
             }
             return null;
         }

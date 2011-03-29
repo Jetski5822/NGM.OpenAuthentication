@@ -15,6 +15,20 @@ namespace NGM.OpenAuthentication {
             return new[] {
                              new RouteDescriptor {
                                                      Route = new Route(
+                                                         "LogOn/RemoveParameterAssociation",
+                                                         new RouteValueDictionary {
+                                                                                      {"area", "NGM.OpenAuthentication"},
+                                                                                      {"controller", "Index"},
+                                                                                      {"action", "RemoveParameterAssociation"}
+                                                                                  },
+                                                         new RouteValueDictionary(),
+                                                         new RouteValueDictionary {
+                                                                                      {"area", "NGM.OpenAuthentication"}
+                                                                                  },
+                                                         new MvcRouteHandler())
+                                                 },
+                             new RouteDescriptor {
+                                                     Route = new Route(
                                                          "OpenId/LogOn",
                                                          new RouteValueDictionary {
                                                                                       {"area", "NGM.OpenAuthentication"},
