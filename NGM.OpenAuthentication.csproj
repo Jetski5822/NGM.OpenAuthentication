@@ -50,6 +50,9 @@
       <HintPath>Lib\WindowsLiveSDK_v4.1\Microsoft.Live.AuthHandler.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Lib\Json40r1\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -65,6 +68,7 @@
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\CardSpaceAccountController.cs" />
+    <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Core\AuthorizationResult.cs" />
     <Compile Include="Core\Claims\ClaimTypes.cs" />
     <Compile Include="Core\Claims\ClaimsTranslator.cs" />
