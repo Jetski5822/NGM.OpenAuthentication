@@ -4,7 +4,7 @@ Author: Nicholas Mayne
 Website: http://orchardopenauth.codeplex.com/
 Version: 0.3.0
 OrchardVersion: 1.0.20.0
-Description: Provides an multiple authentication interface's to Orchard
+Description: Provides multiple authentication interfaces for Orchard
 Features:
     NGM.OpenAuthentication:
         Category: Authentication
