@@ -37,7 +37,7 @@
       <HintPath>Lib\DotNetOpenAuth-3.5.0.10357\DotNetOpenAuth.dll</HintPath>
     </Reference>
     <Reference Include="Facebook">
-      <HintPath>Lib\FacebookSDK_Net40_V5.0.8\Facebook.dll</HintPath>
+      <HintPath>Lib\FacebookSDK_Net40_V5.0.9\Facebook.dll</HintPath>
     </Reference>
     <Reference Include="LinqToTwitter">
       <HintPath>Lib\LinqToTwitterBinaries_v2.0.20\LinqToTwitter.dll</HintPath>
@@ -73,6 +73,8 @@
     <Compile Include="Core\Claims\ClaimTypes.cs" />
     <Compile Include="Core\Claims\ClaimsTranslator.cs" />
     <Compile Include="Core\Enviroment\InitializingModuleEvents.cs" />
+    <Compile Include="Core\External\DotNetOpenAuth.ApplicationBlock\GoogleConsumer.cs" />
+    <Compile Include="Core\External\DotNetOpenAuth.ApplicationBlock\Util.cs" />
     <Compile Include="Core\OAuth\FacebookClaimsTranslator.cs" />
     <Compile Include="Core\OAuth\LiveIdParametersHelpers.cs" />
     <Compile Include="Core\OAuth\LiveIdProviderAuthorizer.cs" />
@@ -246,9 +248,7 @@
     <Content Include="Scripts\openid-uk.js" />
     <Content Include="Module.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Core\Hybrid\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Styles\account.css" />
   </ItemGroup>
