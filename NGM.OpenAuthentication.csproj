@@ -92,7 +92,7 @@
     <Compile Include="Controllers\OAuthAccountController.cs" />
     <Compile Include="Core\AuthorizeState.cs" />
     <Compile Include="Core\OAuth\IOAuthProviderTwitterAuthorizer.cs" />
-    <Compile Include="Core\OAuth\OAuthProvider.cs" />
+    <Compile Include="Core\Provider.cs" />
     <Compile Include="Core\OpenAuthenticationStatus.cs" />
     <Compile Include="Core\Authorizer.cs" />
     <Compile Include="Controllers\OpenIdAccountController.cs" />
@@ -115,6 +115,7 @@
     <Compile Include="Handlers\OpenAuthenticationSettingsPartHandler.cs" />
     <Compile Include="Models\FacebookConnectSignInPart.cs" />
     <Compile Include="Models\MicrosoftConnectSignInPart.cs" />
+    <Compile Include="Models\OpenAuthenticationPermissionSettingsPartRecord.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPart.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPartRecord.cs" />
     <Compile Include="Core\OpenId\IOpenIdRelyingPartyService.cs" />
@@ -125,9 +126,11 @@
     <Compile Include="Models\OpenAuthenticationPart.cs" />
     <Compile Include="Models\OpenAuthenticationPartRecord.cs" />
     <Compile Include="ResourceManifest.cs" />
+    <Compile Include="Services\IOpenAuthenticationProviderPermissionService.cs" />
     <Compile Include="Services\IOpenAuthenticationService.cs" />
     <Compile Include="Core\OAuth\OAuthAuthenticationParameters.cs" />
     <Compile Include="Core\OpenAuthenticationParameters.cs" />
+    <Compile Include="Services\OpenAuthenticationProviderPermissionService.cs" />
     <Compile Include="Services\OpenAuthenticationService.cs" />
     <Compile Include="Core\OpenId\OpenIdAuthenticationParameters.cs" />
     <Compile Include="Shapes.cs" />

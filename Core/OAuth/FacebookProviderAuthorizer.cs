@@ -114,8 +114,8 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             return builder.Uri;
         }
 
-        public OAuthProvider Provider {
-            get { return OAuthProvider.Facebook; }
+        public Provider Provider {
+            get { return Provider.Facebook; }
         }
 
         public FacebookClient GetClient(IUser user) {

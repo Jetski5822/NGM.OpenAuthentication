@@ -112,8 +112,8 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             get { return !string.IsNullOrEmpty(ClientKeyIdentifier) && !string.IsNullOrEmpty(ClientSecret); }
         }
 
-        public OAuthProvider Provider {
-            get { return OAuthProvider.LiveId; }
+        public Provider Provider {
+            get { return Provider.LiveId; }
         }
     }
 }

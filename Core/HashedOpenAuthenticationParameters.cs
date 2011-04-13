@@ -12,7 +12,7 @@ namespace NGM.OpenAuthentication.Core {
             base.ExternalIdentifier = externalIdentifier;
         }
 
-        public override string Provider {
+        public override Provider Provider {
             get { throw new NotSupportedException();}
         }
 

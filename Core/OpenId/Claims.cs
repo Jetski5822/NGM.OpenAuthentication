@@ -1,60 +1,52 @@
 ﻿using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
-using NGM.OpenAuthentication.Models;
+using DotNetOpenAuth.OpenId.Messages;
+using NGM.OpenAuthentication.Services;
 
 namespace NGM.OpenAuthentication.Core.OpenId {
     public static class Claims {
-        public static ClaimsRequest CreateClaimsRequest(OpenAuthenticationSettingsPart openAuthenticationSettings) {
+        public static IOpenIdMessageExtension CreateClaimsRequest(
+            IOpenAuthenticationProviderPermissionService openAuthenticationProviderPermissionService) {
+
             var claimsRequest = new ClaimsRequest();
 
-            var openAuthenticationSettingsRecord = openAuthenticationSettings.Record;
-
-            if (openAuthenticationSettingsRecord == null)
-                return claimsRequest;
-
-            if (openAuthenticationSettingsRecord.Birthdate == true)
+            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Birthdate", Provider.OpenId))
                 claimsRequest.BirthDate = DemandLevel.Require;
 
-            if (openAuthenticationSettingsRecord.Country == true)
+            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Country", Provider.OpenId))
                 claimsRequest.Country = DemandLevel.Require;
 
-            if (openAuthenticationSettingsRecord.Email == true)
+            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Email", Provider.OpenId))
                 claimsRequest.Email = DemandLevel.Require;
 
-            if (openAuthenticationSettingsRecord.FullName == true)
+            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("FullName", Provider.OpenId))
                 claimsRequest.FullName = DemandLevel.Require;
 
-            if (openAuthenticationSettingsRecord.Gender == true)
+            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Gender", Provider.OpenId))
                 claimsRequest.Gender = DemandLevel.Require;
 
-            if (openAuthenticationSettingsRecord.Language == true)
+            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Language", Provider.OpenId))
                 claimsRequest.Language = DemandLevel.Require;
 
-            if (openAuthenticationSettingsRecord.Nickname == true)
+            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Nickname", Provider.OpenId))
                 claimsRequest.Nickname = DemandLevel.Require;
 
-            if (openAuthenticationSettingsRecord.PostalCode == true)
+            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("PostalCode", Provider.OpenId))
                 claimsRequest.PostalCode = DemandLevel.Require;
 
-            if (openAuthenticationSettingsRecord.TimeZone == true)
+            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("TimeZone", Provider.OpenId))
                 claimsRequest.TimeZone = DemandLevel.Require;
-
 
             return claimsRequest;
         }
 
-        public static FetchRequest CreateFetchRequest(OpenAuthenticationSettingsPart openAuthenticationSettings) {
+        public static FetchRequest CreateFetchRequest(IOpenAuthenticationProviderPermissionService openAuthenticationProviderPermissionService) {
             var fetchRequest = new FetchRequest();
 
-            var openAuthenticationSettingsRecord = openAuthenticationSettings.Record;
-
-            if (openAuthenticationSettingsRecord == null)
-                return fetchRequest;
-
-            if (openAuthenticationSettingsRecord.Email == true)
+            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Email", Provider.OpenId))
                 fetchRequest.Attributes.AddRequired(WellKnownAttributes.Contact.Email);
 
-            if (openAuthenticationSettingsRecord.FullName == true) {
+            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("FullName", Provider.OpenId)) {
                 fetchRequest.Attributes.AddRequired(WellKnownAttributes.Name.First);
                 fetchRequest.Attributes.AddRequired(WellKnownAttributes.Name.Last);
                 fetchRequest.Attributes.AddRequired(WellKnownAttributes.Name.FullName);

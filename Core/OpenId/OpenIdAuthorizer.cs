@@ -8,15 +8,15 @@ namespace NGM.OpenAuthentication.Core.OpenId {
     [OrchardFeature("OpenId")]
     public class OpenIdProviderAuthorizer : IOpenIdProviderAuthorizer {
         private readonly IOpenIdRelyingPartyService _openIdRelyingPartyService;
-        private readonly IOpenAuthenticationService _openAuthenticationService;
         private readonly IAuthorizer _authorizer;
+        private readonly IOpenAuthenticationProviderPermissionService _openAuthenticationProviderPermissionService;
 
         public OpenIdProviderAuthorizer(IOpenIdRelyingPartyService openIdRelyingPartyService,
-            IOpenAuthenticationService openAuthenticationService,
-            IAuthorizer authorizer) {
+            IAuthorizer authorizer,
+            IOpenAuthenticationProviderPermissionService openAuthenticationProviderPermissionService) {
             _openIdRelyingPartyService = openIdRelyingPartyService;
-            _openAuthenticationService = openAuthenticationService;
             _authorizer = authorizer;
+            _openAuthenticationProviderPermissionService = openAuthenticationProviderPermissionService;
         }
 
         public AuthorizeState Authorize(string returnUrl) {
@@ -44,7 +44,7 @@ namespace NGM.OpenAuthentication.Core.OpenId {
         }
 
         private AuthorizeState GenerateRequestState(string returnUrl) {
-            var identifier = new OpenIdIdentifier(this.EnternalIdentifier);
+            var identifier = new OpenIdIdentifier(EnternalIdentifier);
             if (!identifier.IsValid) {
                 return new AuthorizeState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
                     Error = new KeyValuePair<string, string>("Error", "Invalid Open ID identifier")
@@ -54,8 +54,8 @@ namespace NGM.OpenAuthentication.Core.OpenId {
             try {
                 var request = _openIdRelyingPartyService.CreateRequest(identifier);
 
-                request.AddExtension(Claims.CreateClaimsRequest(_openAuthenticationService.GetSettings()));
-                request.AddExtension(Claims.CreateFetchRequest(_openAuthenticationService.GetSettings()));
+                request.AddExtension(Claims.CreateClaimsRequest(_openAuthenticationProviderPermissionService));
+                request.AddExtension(Claims.CreateFetchRequest(_openAuthenticationProviderPermissionService));
 
                 return new AuthorizeState(returnUrl, OpenAuthenticationStatus.RequresRedirect) {
                     Result = request.RedirectingResponse.AsActionResult()

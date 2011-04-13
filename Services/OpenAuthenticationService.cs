@@ -22,7 +22,7 @@ namespace NGM.OpenAuthentication.Services {
 
         public void AssociateExternalAccountWithUser(IUser user, OpenAuthenticationParameters parameters) {
             var part = _orchardServices.ContentManager.Create<OpenAuthenticationPart>("User",
-                                                                           (o) => {
+                                                                           o => {
                                                                                o.Record.UserId = user.Id;
                                                                                o.Record.ExternalIdentifier = parameters.ExternalIdentifier;
                                                                                o.Record.ExternalDisplayIdentifier = parameters.ExternalDisplayIdentifier;

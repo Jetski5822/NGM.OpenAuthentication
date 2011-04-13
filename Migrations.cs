@@ -63,6 +63,27 @@ namespace NGM.OpenAuthentication {
 
             return 3;
         }
+
+        public int UpdateFrom3() {
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("Birthdate"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("Country"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("Email"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("FullName"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("Gender"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("Language"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("Nickname"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("PostalCode"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("TimeZone"));
+
+            SchemaBuilder.CreateTable("OpenAuthenticationPermissionSettingsPartRecord", table => table
+                .ContentPartRecord()
+                .Column<string>("NamedPermission")
+                .Column<bool>("IsEnabled")
+                .Column<int>("HashedProvider")
+               );
+
+            return 4;
+        }
     }
 
     [OrchardFeature("MicrosoftConnect")]

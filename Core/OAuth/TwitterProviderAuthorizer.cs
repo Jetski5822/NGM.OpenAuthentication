@@ -88,8 +88,8 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             return builder.Uri;
         }
 
-        public OAuthProvider Provider {
-            get { return OAuthProvider.Twitter; }
+        public Provider Provider {
+            get { return Provider.Twitter; }
         }
 
         public ITwitterAuthorizer GetAuthorizer(IUser user) {

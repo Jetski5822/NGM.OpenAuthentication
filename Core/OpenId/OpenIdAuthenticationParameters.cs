@@ -37,8 +37,8 @@ namespace NGM.OpenAuthentication.Core.OpenId {
             }
         }
 
-        public override string Provider {
-            get { return "OpenId"; }
+        public override Provider Provider {
+            get { return Provider.OpenId; }
         }
     }
 }
