@@ -24,17 +24,6 @@ namespace NGM.OpenAuthentication.Handlers {
             _openAuthenticationService = openAuthenticationService;
             Filters.Add(StorageFilter.For(openAuthenticationPartRepository));
             
-            //OnCreated<IUser>((context, user) => {
-            //                     if (HasQueryParamsLocator()) {
-            //                         TryAssociateAccount(user, GetQueryStringParameters());
-            //                     }
-
-            //                     var parameters = NGM.OpenAuthentication.Core.Authorizer.RetrieveParametersFromRoundTrip(true);
-            //                     if (parameters != null) {
-            //                         TryAssociateAccount(user, parameters);
-            //                     }
-            //                 });
-            
             OnLoaded<IUser>((context, user) => {
                                 lock (_syncLock) {
                                     if (!_orchardServices.WorkContext.HttpContext.Request.IsAuthenticated)

@@ -8,9 +8,9 @@ namespace NGM.OpenAuthentication {
         public string MenuName { get { return "admin"; } }
 
         public void GetNavigation(NavigationBuilder builder) {
-            builder.Add(T("Users"), "40",
-                        menu => menu.Add(T("Associated Accounts"), "3.0", item => item.Action("Index", "Admin", new {area = "NGM.OpenAuthentication"})
-                                                                                      .Permission(StandardPermissions.AccessAdminPanel)));
+            builder.Add(T("Users"),
+                menu => menu.Add(T("Associated Accounts"), "3.0", item => item.Action("Index", "Admin", new { area = "NGM.OpenAuthentication" })
+                    .LocalNav().Permission(StandardPermissions.AccessAdminPanel)));
         }
     }
 }

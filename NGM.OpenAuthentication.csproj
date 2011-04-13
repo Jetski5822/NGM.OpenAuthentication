@@ -279,7 +279,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Placement.info" />
-    <Content Include="Views\EditorTemplates\Parts\Accounts.UserOpenAuthentication.cshtml" />
+    <Content Include="Views\EditorTemplates\Parts.OpenAuthentication.UserAccountAssociations.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Pages\Web.config">
       <SubType>Designer</SubType>

@@ -14,7 +14,7 @@ namespace NGM.OpenAuthentication.Drivers {
         private readonly IAuthenticationService _authenticationService;
         private readonly IAuthorizationService _authorizationService;
         private readonly IOpenAuthenticationService _openAuthenticationService;
-        private const string TemplateName = "Parts/Accounts.UserOpenAuthentication";
+        private const string TemplateName = "Parts.OpenAuthentication.UserAccountAssociations";
 
         public OpenAuthenticationPartDriver(IAuthenticationService authenticationService,
             IAuthorizationService authorizationService,
@@ -27,7 +27,7 @@ namespace NGM.OpenAuthentication.Drivers {
 
         protected override string Prefix {
             get {
-                return "OpenAuthentication";
+                return "UserAccountAssociations";
             }
         }
 
@@ -39,7 +39,7 @@ namespace NGM.OpenAuthentication.Drivers {
             if (!_authorizationService.TryCheckAccess(StandardPermissions.SiteOwner, user, openAuthenticationPart))
                 return null;
 
-            return ContentShape("Parts_Accounts_UserOpenAuthentication_Edit",
+            return ContentShape("Parts_OpenAuthentication_UserAccountAssociations_Edit",
                 () => {
                     var entries =
                         _openAuthenticationService
