@@ -79,4 +79,19 @@ namespace NGM.OpenAuthentication {
             return 1;
         }
     }
+
+    [OrchardFeature("Facebook")]
+    public class FacebookConnectMigrations : DataMigrationImpl {
+        public int Create() {
+            ContentDefinitionManager.AlterPartDefinition(typeof(FacebookConnectSignInPart).Name, cfg => cfg.Attachable());
+
+            ContentDefinitionManager.AlterTypeDefinition("FacebookConnectSignInWidget", cfg => cfg
+                .WithPart("FacebookConnectSignInPart")
+                .WithPart("WidgetPart")
+                .WithPart("CommonPart")
+                .WithSetting("Stereotype", "Widget"));
+
+            return 1;
+        }
+    }
 }

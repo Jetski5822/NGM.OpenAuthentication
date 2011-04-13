@@ -1,21 +1,14 @@
 ﻿﻿@using Orchard.ContentManagement;
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wl="http://apis.live.net/js/2010">
-
 @{
-    Script.Require("Jquery");
-    
+    Script.Require("Jquery");    
     var settings = WorkContext.CurrentSite.As<NGM.OpenAuthentication.Models.OpenAuthenticationSettingsPart>().Record; }
 
-<div id="fb-root"></div>
-
 <script src="http://connect.facebook.net/en_US/all.js"></script>
-
 <script type="text/javascript">
     FB.init({
-        appId: @settings.FacebookClientIdentifier, cookie: true,
+        appId: settings.FacebookClientIdentifier, cookie: true,
         status: true, xfbml: true
     });
 </script>
-
 <fb:login-button>Login with Facebook</fb:login-button>

@@ -113,6 +113,7 @@
     <Compile Include="Filters\LogOutFilter.cs" />
     <Compile Include="Filters\RegistrationFilter.cs" />
     <Compile Include="Handlers\OpenAuthenticationSettingsPartHandler.cs" />
+    <Compile Include="Models\FacebookConnectSignInPart.cs" />
     <Compile Include="Models\MicrosoftConnectSignInPart.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPart.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPartRecord.cs" />
