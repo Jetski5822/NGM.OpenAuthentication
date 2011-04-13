@@ -1,16 +1,29 @@
 ﻿using JetBrains.Annotations;
 using NGM.OpenAuthentication.Models;
+using Orchard.ContentManagement;
 using Orchard.ContentManagement.Handlers;
 using Orchard.Data;
+using Orchard.Localization;
 
 namespace NGM.OpenAuthentication.Handlers {
     [UsedImplicitly]
     public class OpenAuthenticationSettingsPartHandler : ContentHandler {
         public OpenAuthenticationSettingsPartHandler(IRepository<OpenAuthenticationSettingsPartRecord> repository) {
+            T = NullLocalizer.Instance;
             Filters.Add(new ActivatingFilter<OpenAuthenticationSettingsPart>("Site"));
             Filters.Add(StorageFilter.For(repository));
             Filters.Add(new TemplateFilterForRecord<OpenAuthenticationSettingsPartRecord>("OpenAuthenticationSettings", "Parts/OpenAuthentication.Settings"));
             OnActivated<OpenAuthenticationSettingsPart>(DefaultSettings);
+        }
+
+        public Localizer T { get; set; }
+
+        protected override void GetItemMetadata(GetContentItemMetadataContext context)
+        {
+            if (context.ContentItem.ContentType != "Site")
+                return;
+            base.GetItemMetadata(context);
+            context.Metadata.EditorGroupInfo.Add(new GroupInfo(T("Open Authentication")));
         }
 
         private static void DefaultSettings(ActivatedContentContext context, OpenAuthenticationSettingsPart settings) {
