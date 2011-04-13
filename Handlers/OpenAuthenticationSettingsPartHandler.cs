@@ -12,7 +12,6 @@ namespace NGM.OpenAuthentication.Handlers {
             T = NullLocalizer.Instance;
             Filters.Add(new ActivatingFilter<OpenAuthenticationSettingsPart>("Site"));
             Filters.Add(StorageFilter.For(repository));
-            Filters.Add(new TemplateFilterForRecord<OpenAuthenticationSettingsPartRecord>("OpenAuthenticationSettings", "Parts/OpenAuthentication.Settings"));
             OnActivated<OpenAuthenticationSettingsPart>(DefaultSettings);
         }
 
@@ -23,7 +22,7 @@ namespace NGM.OpenAuthentication.Handlers {
             if (context.ContentItem.ContentType != "Site")
                 return;
             base.GetItemMetadata(context);
-            context.Metadata.EditorGroupInfo.Add(new GroupInfo(T("Open Authentication")));
+            context.Metadata.EditorGroupInfo.Add(new GroupInfo(T("OpenAuthentication")));
         }
 
         private static void DefaultSettings(ActivatedContentContext context, OpenAuthenticationSettingsPart settings) {
