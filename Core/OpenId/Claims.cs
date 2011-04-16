@@ -16,10 +16,10 @@ namespace NGM.OpenAuthentication.Core.OpenId {
             if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Country", Provider.OpenId))
                 claimsRequest.Country = DemandLevel.Require;
 
-            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Email", Provider.OpenId))
+//            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Email", Provider.OpenId))
                 claimsRequest.Email = DemandLevel.Require;
 
-            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("FullName", Provider.OpenId))
+//            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("FullName", Provider.OpenId))
                 claimsRequest.FullName = DemandLevel.Require;
 
             if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Gender", Provider.OpenId))
@@ -43,15 +43,15 @@ namespace NGM.OpenAuthentication.Core.OpenId {
         public static FetchRequest CreateFetchRequest(IOpenAuthenticationProviderPermissionService openAuthenticationProviderPermissionService) {
             var fetchRequest = new FetchRequest();
 
-            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Email", Provider.OpenId))
+            //if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Email", Provider.OpenId))
                 fetchRequest.Attributes.AddRequired(WellKnownAttributes.Contact.Email);
 
-            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("FullName", Provider.OpenId)) {
+            //if (openAuthenticationProviderPermissionService.IsPermissionEnabled("FullName", Provider.OpenId)) {
                 fetchRequest.Attributes.AddRequired(WellKnownAttributes.Name.First);
                 fetchRequest.Attributes.AddRequired(WellKnownAttributes.Name.Last);
                 fetchRequest.Attributes.AddRequired(WellKnownAttributes.Name.FullName);
                 fetchRequest.Attributes.AddRequired(WellKnownAttributes.Name.Alias);
-            }
+            //}
 
             return fetchRequest;
         }

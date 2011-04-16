@@ -111,7 +111,8 @@ namespace NGM.OpenAuthentication.Core {
 
         private IUser CreateUser(OpenAuthenticationParameters parameters) {
             var details = new RegistrationDetails(parameters);
-            return _membershipService.CreateUser(new CreateUserParams(details.UserName, new Byte[10].ToString(), details.EmailAddress, null, null, true));
+            var randomPassword = new Byte[10].ToString();
+            return _membershipService.CreateUser(new CreateUserParams(details.UserName, randomPassword, details.EmailAddress, null, null, true));
         }
     }
 }

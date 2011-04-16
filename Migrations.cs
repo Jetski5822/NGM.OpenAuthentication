@@ -101,18 +101,18 @@ namespace NGM.OpenAuthentication {
         }
     }
 
-    [OrchardFeature("Facebook")]
-    public class FacebookConnectMigrations : DataMigrationImpl {
-        public int Create() {
-            ContentDefinitionManager.AlterPartDefinition(typeof(FacebookConnectSignInPart).Name, cfg => cfg.Attachable());
+    //[OrchardFeature("Facebook")]
+    //public class FacebookConnectMigrations : DataMigrationImpl {
+    //    public int Create() {
+    //        ContentDefinitionManager.AlterPartDefinition(typeof(FacebookConnectSignInPart).Name, cfg => cfg.Attachable());
 
-            ContentDefinitionManager.AlterTypeDefinition("FacebookConnectSignInWidget", cfg => cfg
-                .WithPart("FacebookConnectSignInPart")
-                .WithPart("WidgetPart")
-                .WithPart("CommonPart")
-                .WithSetting("Stereotype", "Widget"));
+    //        ContentDefinitionManager.AlterTypeDefinition("FacebookConnectSignInWidget", cfg => cfg
+    //            .WithPart("FacebookConnectSignInPart")
+    //            .WithPart("WidgetPart")
+    //            .WithPart("CommonPart")
+    //            .WithSetting("Stereotype", "Widget"));
 
-            return 1;
-        }
-    }
+    //        return 1;
+    //    }
+    //}
 }
