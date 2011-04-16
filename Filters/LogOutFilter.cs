@@ -14,8 +14,6 @@ namespace NGM.OpenAuthentication.Filters {
                 return;
 
             Core.Authorizer.RemoveParameters();
-
-            return;
         }
     }
 }
