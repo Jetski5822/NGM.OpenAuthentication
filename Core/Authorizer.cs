@@ -29,8 +29,8 @@ namespace NGM.OpenAuthentication.Core {
 
             var userLoggedIn = _authenticationService.GetAuthenticatedUser();
 
-            if (userFound != null && userLoggedIn != null) {
-                if (userFound.Id.Equals(userLoggedIn.Id)) {
+            if (AccountAlreadyExists(userFound, userLoggedIn)) {
+                if (AccountIsAssignedToLoggedOnAccount(userFound, userLoggedIn)) {
                     // The person is trying to log in as himself.. bit weird
                     return new AuthorizationResult(OpenAuthenticationStatus.Authenticated);
                 }
@@ -38,13 +38,13 @@ namespace NGM.OpenAuthentication.Core {
                 return new AuthorizationResult(OpenAuthenticationStatus.ErrorAuthenticating, 
                     new KeyValuePair<string, string>("AccountAssigned", "Account is already assigned"));
             }
-            if (userFound == null && userLoggedIn == null) {
+            if (AccountDoesNotExistAndUserIsNotLoggedOn(userFound, userLoggedIn)) {
                 // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
                 var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
 
                 StoreParametersForRoundTrip(parameters);
 
-                if (registrationSettings.UsersCanRegister == true && _openAuthenticationService.GetSettings().Record.AutoRegisterEnabled == true) {
+                if (AutoRegistrationIsEnabled(registrationSettings)) {
                     if (CanCreateAccount(parameters)) {
                         userFound = CreateUser(parameters);
                     }
@@ -53,7 +53,7 @@ namespace NGM.OpenAuthentication.Core {
                         return new AuthorizationResult(OpenAuthenticationStatus.AssociateOnLogon,
                             new KeyValuePair<string, string>("AccessDenied", "User does not have enough details to auto create account"));
                     }
-                } else if (registrationSettings.UsersCanRegister == true && _openAuthenticationService.GetSettings().Record.AutoRegisterEnabled == false) {
+                } else if (RegistrationIsEnabled(registrationSettings)) {
                     return new AuthorizationResult(OpenAuthenticationStatus.AssociateOnLogon);
                 } else {
                     return new AuthorizationResult(OpenAuthenticationStatus.UserDoesNotExist,
@@ -67,6 +67,26 @@ namespace NGM.OpenAuthentication.Core {
             _authenticationService.SignIn(userFound ?? userLoggedIn, false);
 
             return new AuthorizationResult(OpenAuthenticationStatus.Authenticated);
+        }
+
+        private bool RegistrationIsEnabled(RegistrationSettingsPart registrationSettings) {
+            return registrationSettings.UsersCanRegister && !_openAuthenticationService.GetSettings().Record.AutoRegisterEnabled;
+        }
+
+        private bool AutoRegistrationIsEnabled(RegistrationSettingsPart registrationSettings) {
+            return registrationSettings.UsersCanRegister && _openAuthenticationService.GetSettings().Record.AutoRegisterEnabled;
+        }
+
+        private bool AccountDoesNotExistAndUserIsNotLoggedOn(IUser userFound, IUser userLoggedIn) {
+            return userFound == null && userLoggedIn == null;
+        }
+
+        private bool AccountIsAssignedToLoggedOnAccount(IUser userFound, IUser userLoggedIn) {
+            return userFound.Id.Equals(userLoggedIn.Id);
+        }
+
+        private bool AccountAlreadyExists(IUser userFound, IUser userLoggedIn) {
+            return userFound != null && userLoggedIn != null;
         }
 
         public static OpenAuthenticationParameters RetrieveParametersFromRoundTrip(bool removeOnRetrieval) {
