@@ -85,9 +85,6 @@ namespace NGM.OpenAuthentication {
         }
 
         public int UpdateFrom4() {
-            ContentDefinitionManager.AlterTypeDefinition("User",
-                cfg => cfg.RemovePart("OpenAuthenticationPart"));
-
             ContentDefinitionManager.AlterTypeDefinition("OpenAuthentication",
                cfg => cfg
                    .WithPart("OpenAuthenticationPart"));
