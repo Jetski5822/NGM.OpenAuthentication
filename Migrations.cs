@@ -43,8 +43,7 @@ namespace NGM.OpenAuthentication {
 
             ContentDefinitionManager.AlterTypeDefinition("User",
                cfg => cfg
-                   .WithPart("OpenAuthenticationPart")
-                );
+                   .WithPart("OpenAuthenticationPart"));
         
             return 1;
         }
@@ -83,6 +82,17 @@ namespace NGM.OpenAuthentication {
                );
 
             return 4;
+        }
+
+        public int UpdateFrom4() {
+            ContentDefinitionManager.AlterTypeDefinition("User",
+                cfg => cfg.RemovePart("OpenAuthenticationPart"));
+
+            ContentDefinitionManager.AlterTypeDefinition("OpenAuthentication",
+               cfg => cfg
+                   .WithPart("OpenAuthenticationPart"));
+
+            return 5;
         }
     }
 

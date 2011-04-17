@@ -21,7 +21,7 @@ namespace NGM.OpenAuthentication.Services {
         }
 
         public void AssociateExternalAccountWithUser(IUser user, OpenAuthenticationParameters parameters) {
-            var part = _orchardServices.ContentManager.Create<OpenAuthenticationPart>("User",
+            var part = _orchardServices.ContentManager.Create<OpenAuthenticationPart>("OpenAuthentication",
                                                                            o => {
                                                                                o.Record.UserId = user.Id;
                                                                                o.Record.ExternalIdentifier = parameters.ExternalIdentifier;
