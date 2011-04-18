@@ -63,7 +63,7 @@ namespace NGM.OpenAuthentication.Handlers {
         }
 
         private bool HasQueryParamsLocator() {
-            return !string.IsNullOrEmpty(_orchardServices.WorkContext.HttpContext.Request.Params["externalidentifier"] as string);
+            return !string.IsNullOrEmpty(_orchardServices.WorkContext.HttpContext.Request.Params["provider"] as string);
         }
 
         private void TryAssociateAccount(IUser user, OpenAuthenticationParameters parameters) {

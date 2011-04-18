@@ -55,7 +55,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         private AuthorizeState TranslateResponseState(string returnUrl, FacebookOAuthResult oAuthResult) {
             if (oAuthResult.IsSuccess) {
                 var parameters = new OAuthAuthenticationParameters(Provider) {
-                    ExternalIdentifier = oAuthResult.Code,
+                    ExternalIdentifier = GetAccessToken(oAuthResult.Code),
                     OAuthToken = oAuthResult.Code,
                     OAuthAccessToken = GetAccessToken(oAuthResult.Code)
                 };
