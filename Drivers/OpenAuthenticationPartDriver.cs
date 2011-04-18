@@ -34,16 +34,14 @@ namespace NGM.OpenAuthentication.Drivers {
         public Localizer T { get; set; }
 
         protected override DriverResult Editor(OpenAuthenticationPart openAuthenticationPart, dynamic shapeHelper) {
-            var user = _authenticationService.GetAuthenticatedUser();
-
-            if (!_authorizationService.TryCheckAccess(StandardPermissions.SiteOwner, user, openAuthenticationPart))
+            if (!_authorizationService.TryCheckAccess(StandardPermissions.SiteOwner, _authenticationService.GetAuthenticatedUser(), openAuthenticationPart))
                 return null;
 
             return ContentShape("Parts_OpenAuthentication_UserAccountAssociations_Edit",
                 () => {
                     var entries =
                         _openAuthenticationService
-                            .GetExternalIdentifiersFor(user)
+                            .GetExternalIdentifiersFor(openAuthenticationPart.As<IUser>())
                             .List()
                             .ToList()
                             .Select(account => CreateAccountEntry(account.Record));
