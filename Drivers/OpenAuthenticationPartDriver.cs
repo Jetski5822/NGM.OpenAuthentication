@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Web.Mvc;
 using JetBrains.Annotations;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
@@ -35,6 +36,9 @@ namespace NGM.OpenAuthentication.Drivers {
 
         protected override DriverResult Editor(OpenAuthenticationPart openAuthenticationPart, dynamic shapeHelper) {
             if (!_authorizationService.TryCheckAccess(StandardPermissions.SiteOwner, _authenticationService.GetAuthenticatedUser(), openAuthenticationPart))
+                return null;
+
+            if (!_authorizationService.TryCheckAccess(Permissions.ManageAssociations, _authenticationService.GetAuthenticatedUser(), openAuthenticationPart))
                 return null;
 
             return ContentShape("Parts_OpenAuthentication_UserAccountAssociations_Edit",
