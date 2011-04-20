@@ -37,6 +37,9 @@ namespace NGM.OpenAuthentication.Controllers {
         public Localizer T { get; set; }
 
         public ActionResult Index() {
+            if (!_orchardServices.Authorizer.Authorize(Permissions.ManageAssociations, T("Couldn't manage associations")))
+                return new HttpUnauthorizedResult();
+
             var user = _authenticationService.GetAuthenticatedUser();
             var entries =
                 _openAuthenticationService
@@ -56,6 +59,9 @@ namespace NGM.OpenAuthentication.Controllers {
         [HttpPost]
         [FormValueRequired("submit.BulkEdit")]
         public ActionResult Index(FormCollection input) {
+            if (!_orchardServices.Authorizer.Authorize(Permissions.ManageAssociations, T("Couldn't manage associations")))
+                return new HttpUnauthorizedResult();
+
             var viewModel = new AdminIndexViewModel { Accounts = new List<AccountEntry>() };
             UpdateModel(viewModel, input);
 

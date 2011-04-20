@@ -2,8 +2,8 @@
 AntiForgery: enabled
 Author: Nicholas Mayne
 Website: http://orchardopenauth.codeplex.com/
-Version: 0.4.2
-OrchardVersion: 1.1.30.0
+Version: 0.4.5
+OrchardVersion: 1.1.30
 Description: Provides multiple authentication interfaces for Orchard
 Features:
     NGM.OpenAuthentication:

@@ -125,6 +125,7 @@
     <Compile Include="Migrations.cs" />
     <Compile Include="Models\OpenAuthenticationPart.cs" />
     <Compile Include="Models\OpenAuthenticationPartRecord.cs" />
+    <Compile Include="Permissions.cs" />
     <Compile Include="ResourceManifest.cs" />
     <Compile Include="Services\IOpenAuthenticationProviderPermissionService.cs" />
     <Compile Include="Services\IOpenAuthenticationService.cs" />
