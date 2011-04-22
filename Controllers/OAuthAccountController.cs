@@ -14,10 +14,10 @@ using Orchard.UI.Notify;
 namespace NGM.OpenAuthentication.Controllers {
     [Themed]
     public class OAuthAccountController : Controller {
-        private readonly IEnumerable<IOAuthProviderAuthorizer> _oAuthWrappers;
+        private readonly IEnumerable<IOAuthProviderAuthenticator> _oAuthWrappers;
         private readonly IOrchardServices _orchardServices;
 
-        public OAuthAccountController(IEnumerable<IOAuthProviderAuthorizer> oAuthWrappers, IOrchardServices orchardServices) {
+        public OAuthAccountController(IEnumerable<IOAuthProviderAuthenticator> oAuthWrappers, IOrchardServices orchardServices) {
             _oAuthWrappers = oAuthWrappers;
             _orchardServices = orchardServices;
             T = NullLocalizer.Instance;
@@ -34,7 +34,7 @@ namespace NGM.OpenAuthentication.Controllers {
                     && o.IsConsumerConfigured).FirstOrDefault();
 
             if (wrapper != null) {
-                var result = wrapper.Authorize(returnUrl);
+                var result = wrapper.Authenticate(returnUrl);
 
                 if (result.AuthenticationStatus == OpenAuthenticationStatus.AssociateOnLogon) {
                     return new RedirectResult(Url.LogOn(returnUrl));

@@ -12,13 +12,13 @@ namespace NGM.OpenAuthentication.Controllers
 {
     [Themed]
     public class OpenIdAccountController : Controller {
-        private readonly IOpenIdProviderAuthorizer _openIdProviderAuthorizer;
+        private readonly IOpenIdProviderAuthenticator _openIdProviderAuthenticator;
         private readonly IOrchardServices _orchardServices;
 
-        public OpenIdAccountController(IOpenIdProviderAuthorizer openIdProviderAuthorizer,
+        public OpenIdAccountController(IOpenIdProviderAuthenticator openIdProviderAuthenticator,
             IOrchardServices orchardServices)
         {
-            _openIdProviderAuthorizer = openIdProviderAuthorizer;
+            _openIdProviderAuthenticator = openIdProviderAuthenticator;
             _orchardServices = orchardServices;
             T = NullLocalizer.Instance;
         }
@@ -26,12 +26,12 @@ namespace NGM.OpenAuthentication.Controllers
         public Localizer T { get; set; }
 
         public ActionResult LogOn(string returnUrl) {
-            if (!_openIdProviderAuthorizer.IsOpenIdCallback) {
+            if (!_openIdProviderAuthenticator.IsOpenIdCallback) {
                 var viewModel = new CreateViewModel();
                 TryUpdateModel(viewModel);
-                _openIdProviderAuthorizer.EnternalIdentifier = viewModel.ExternalIdentifier;
+                _openIdProviderAuthenticator.EnternalIdentifier = viewModel.ExternalIdentifier;
             }
-            var result = _openIdProviderAuthorizer.Authorize(returnUrl);
+            var result = _openIdProviderAuthenticator.Authenticate(returnUrl);
 
             if (result.AuthenticationStatus == OpenAuthenticationStatus.AssociateOnLogon) {
                 return new RedirectResult(Url.LogOn(returnUrl));

@@ -12,18 +12,18 @@ using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Core.OAuth {
     [OrchardFeature("Facebook")]
-    public class FacebookProviderAuthorizer : IOAuthProviderFacebookAuthorizer {
+    public class FacebookProviderAuthenticator : IOAuthProviderFacebookAuthenticator {
         private readonly IOrchardServices _orchardServices;
-        private readonly IAuthorizer _authorizer;
+        private readonly IAuthenticator _authenticator;
         private readonly IOpenAuthenticationService _openAuthenticationService;
 
         private FacebookApplication _facebookApplication;
 
-        public FacebookProviderAuthorizer(IOrchardServices orchardServices,
-            IAuthorizer authorizer,
+        public FacebookProviderAuthenticator(IOrchardServices orchardServices,
+            IAuthenticator authenticator,
             IOpenAuthenticationService openAuthenticationService) {
             _orchardServices = orchardServices;
-            _authorizer = authorizer;
+            _authenticator = authenticator;
             _openAuthenticationService = openAuthenticationService;
         }
 
@@ -43,7 +43,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             get { return !string.IsNullOrEmpty(ClientKeyIdentifier) && !string.IsNullOrEmpty(ClientSecret); }
         }
 
-        public AuthorizeState Authorize(string returnUrl) {
+        public AuthenticationState Authenticate(string returnUrl) {
             FacebookOAuthResult oAuthResult;
             if (FacebookOAuthResult.TryParse(HttpContext.Current.Request.Url, out oAuthResult)) {
                 return TranslateResponseState(returnUrl, oAuthResult);
@@ -52,7 +52,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             return GenerateRequestState(returnUrl);
         }
 
-        private AuthorizeState TranslateResponseState(string returnUrl, FacebookOAuthResult oAuthResult) {
+        private AuthenticationState TranslateResponseState(string returnUrl, FacebookOAuthResult oAuthResult) {
             if (oAuthResult.IsSuccess) {
                 var parameters = new OAuthAuthenticationParameters(Provider) {
                     ExternalIdentifier = GetAccessToken(oAuthResult.Code),
@@ -60,22 +60,22 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                     OAuthAccessToken = GetAccessToken(oAuthResult.Code)
                 };
 
-                var result = _authorizer.Authorize(parameters);
+                var result = _authenticator.Authorize(parameters);
 
                 if (result.Status == OpenAuthenticationStatus.AssociateOnLogon) {
                     if (_openAuthenticationService.GetSettings().Record.AutoRegisterEnabled)
                         result = GetUserNameAndRetryAuthorization(parameters);
                 }
 
-                return new AuthorizeState(returnUrl, result);
+                return new AuthenticationState(returnUrl, result);
             }
 
-            return new AuthorizeState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
+            return new AuthenticationState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
                 Error = new KeyValuePair<string, string>("Provider", string.Format("Reason: {0}, Description: {1}", oAuthResult.ErrorReason, oAuthResult.ErrorDescription))
             };
         }
 
-        private AuthorizationResult GetUserNameAndRetryAuthorization(OAuthAuthenticationParameters parameters) {
+        private AuthenticationResult GetUserNameAndRetryAuthorization(OAuthAuthenticationParameters parameters) {
             var client = new FacebookClient(parameters.OAuthAccessToken);
             var me = client.Get("/me");
 
@@ -84,10 +84,10 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
             parameters.AddClaim(claims);
 
-            return _authorizer.Authorize(parameters);
+            return _authenticator.Authorize(parameters);
         }
 
-        private AuthorizeState GenerateRequestState(string returnUrl) {
+        private AuthenticationState GenerateRequestState(string returnUrl) {
             var facebookClient = new FacebookOAuthClient(FacebookApplication);
             
             var extendedPermissions = new[] { "publish_stream", "read_stream", "offline_access", "email" };
@@ -103,7 +103,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
             var result = new RedirectResult(facebookClient.GetLoginUrl(parameters).ToString());
 
-            return new AuthorizeState(returnUrl, OpenAuthenticationStatus.RequresRedirect) { Result = result };
+            return new AuthenticationState(returnUrl, OpenAuthenticationStatus.RequresRedirect) { Result = result };
         }
 
         private Uri GenerateCallbackUri() {

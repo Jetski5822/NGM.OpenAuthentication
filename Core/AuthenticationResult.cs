@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
 namespace NGM.OpenAuthentication.Core {
-    public class AuthorizationResult {
-        public AuthorizationResult(OpenAuthenticationStatus status) {
+    public class AuthenticationResult {
+        public AuthenticationResult(OpenAuthenticationStatus status) {
             Status = status;
         }
 
-        public AuthorizationResult(OpenAuthenticationStatus status, KeyValuePair<string, string> error) : this(status) {
+        public AuthenticationResult(OpenAuthenticationStatus status, KeyValuePair<string, string> error) : this(status) {
             Error = error;
         }
 

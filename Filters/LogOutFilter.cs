@@ -13,7 +13,7 @@ namespace NGM.OpenAuthentication.Filters {
             if (filterContext.RouteData.Values["action"] as string != "LogOff")
                 return;
 
-            Core.Authorizer.RemoveParameters();
+            Core.Authenticator.RemoveParameters();
         }
     }
 }

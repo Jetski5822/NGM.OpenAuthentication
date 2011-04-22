@@ -2,10 +2,10 @@
 using System.Web.Mvc;
 
 namespace NGM.OpenAuthentication.Core {
-    public class AuthorizeState {
+    public class AuthenticationState {
         private readonly string _returnUrl;
 
-        public AuthorizeState(string returnUrl, OpenAuthenticationStatus openAuthenticationStatus) {
+        public AuthenticationState(string returnUrl, OpenAuthenticationStatus openAuthenticationStatus) {
             _returnUrl = returnUrl;
             AuthenticationStatus = openAuthenticationStatus;
 
@@ -13,8 +13,8 @@ namespace NGM.OpenAuthentication.Core {
                 Result = new RedirectResult(!string.IsNullOrEmpty(_returnUrl) ? _returnUrl : "~/");
         }
 
-        public AuthorizeState(string returnUrl, AuthorizationResult authorizationResult) : this (returnUrl, authorizationResult.Status) {
-            Error = authorizationResult.Error;
+        public AuthenticationState(string returnUrl, AuthenticationResult authenticationResult) : this (returnUrl, authenticationResult.Status) {
+            Error = authenticationResult.Error;
         }
 
         public OpenAuthenticationStatus AuthenticationStatus { get; private set; }

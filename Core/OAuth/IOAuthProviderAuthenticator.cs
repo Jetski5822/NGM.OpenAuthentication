@@ -1,5 +1,5 @@
 ﻿namespace NGM.OpenAuthentication.Core.OAuth {
-    public interface IOAuthProviderAuthorizer : IProviderAuthorizer, IOAuthSettings {
+    public interface IOAuthProviderAuthenticator : IProviderAuthenticator, IOAuthSettings {
         bool IsConsumerConfigured { get; }
         Provider Provider { get; }
     }

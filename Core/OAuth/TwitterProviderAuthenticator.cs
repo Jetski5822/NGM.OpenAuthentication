@@ -9,19 +9,19 @@ using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Core.OAuth {
     [OrchardFeature("Twitter")]
-    public class TwitterProviderAuthorizer : IOAuthProviderTwitterAuthorizer {
+    public class TwitterProviderAuthenticator : IOAuthProviderTwitterAuthenticator {
         private readonly IOrchardServices _orchardServices;
-        private readonly IAuthorizer _authorizer;
+        private readonly IAuthenticator _authenticator;
         private readonly IOpenAuthenticationService _openAuthenticationService;
 
         private IOAuthCredentials _credentials;
         private MvcAuthorizer _mvcAuthorizer;
 
-        public TwitterProviderAuthorizer(IOrchardServices orchardServices,
-            IAuthorizer authorizer,
+        public TwitterProviderAuthenticator(IOrchardServices orchardServices,
+            IAuthenticator authenticator,
             IOpenAuthenticationService openAuthenticationService) {
             _orchardServices = orchardServices;
-            _authorizer = authorizer;
+            _authenticator = authenticator;
             _openAuthenticationService = openAuthenticationService;
         }
 
@@ -50,7 +50,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             get { return !string.IsNullOrEmpty(ClientKeyIdentifier) && !string.IsNullOrEmpty(ClientSecret); }
         }
 
-        public AuthorizeState Authorize(string returnUrl) {
+        public AuthenticationState Authenticate(string returnUrl) {
             // Sleep for 15 seconds as a workaround for a twitter bug. :(
             Thread.Sleep(new TimeSpan(0, 0, 0, 15));
             MvcAuthorizer.CompleteAuthorization(GenerateCallbackUri());
@@ -59,7 +59,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                 throw new NullReferenceException("Session is required.");
 
             if (!MvcAuthorizer.IsAuthorized) {
-                return new AuthorizeState(returnUrl, OpenAuthenticationStatus.RequresRedirect) { Result = MvcAuthorizer.BeginAuthorization() };
+                return new AuthenticationState(returnUrl, OpenAuthenticationStatus.RequresRedirect) { Result = MvcAuthorizer.BeginAuthorization() };
             }
 
             var parameters = new OAuthAuthenticationParameters(Provider) {
@@ -69,14 +69,14 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                 OAuthAccessToken = MvcAuthorizer.OAuthTwitter.OAuthTokenSecret,
             };
 
-            var result = _authorizer.Authorize(parameters);
+            var result = _authenticator.Authorize(parameters);
 
             var tempReturnUrl = _orchardServices.WorkContext.HttpContext.Request.QueryString["?ReturnUrl"];
             if (!string.IsNullOrEmpty(tempReturnUrl) && string.IsNullOrEmpty(returnUrl)) {
                 returnUrl = tempReturnUrl;
             }
 
-            return new AuthorizeState(returnUrl, result);
+            return new AuthenticationState(returnUrl, result);
         }
 
         private Uri GenerateCallbackUri() {

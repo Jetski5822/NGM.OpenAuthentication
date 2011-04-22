@@ -10,20 +10,20 @@ using Orchard.Environment.Extensions;
 
 namespace NGM.OpenAuthentication.Core.OAuth {
     [OrchardFeature("MicrosoftConnect")]
-    public class LiveIdProviderAuthorizer : IOAuthProviderAuthorizer {
+    public class LiveIdProviderAuthenticator : IOAuthProviderAuthenticator {
         private readonly IOrchardServices _orchardServices;
-        private readonly IAuthorizer _authorizer;
+        private readonly IAuthenticator _authenticator;
         private readonly IOpenAuthenticationService _openAuthenticationService;
 
-        public LiveIdProviderAuthorizer(IOrchardServices orchardServices,
-            IAuthorizer authorizer,
+        public LiveIdProviderAuthenticator(IOrchardServices orchardServices,
+            IAuthenticator authenticator,
             IOpenAuthenticationService openAuthenticationService) {
             _orchardServices = orchardServices;
-            _authorizer = authorizer;
+            _authenticator = authenticator;
             _openAuthenticationService = openAuthenticationService;
         }
 
-        public AuthorizeState Authorize(string returnUrl) {
+        public AuthenticationState Authenticate(string returnUrl) {
             var request = _orchardServices.WorkContext.HttpContext.Request;
             var response = _orchardServices.WorkContext.HttpContext.Response;
 
@@ -82,14 +82,14 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                 }
             }
 
-            var result = _authorizer.Authorize(parameters);
+            var result = _authenticator.Authorize(parameters);
 
             var tempReturnUrl = _orchardServices.WorkContext.HttpContext.Request.QueryString["?ReturnUrl"];
             if (!string.IsNullOrEmpty(tempReturnUrl) && string.IsNullOrEmpty(returnUrl)) {
                 returnUrl = tempReturnUrl;
             }
 
-            return new AuthorizeState(returnUrl, result);
+            return new AuthenticationState(returnUrl, result);
         }
 
         private bool HasVerificationToken() {

@@ -8,13 +8,13 @@ using Orchard.Security;
 using Orchard.Users.Models;
 
 namespace NGM.OpenAuthentication.Core {
-    public class Authorizer : IAuthorizer {
+    public class Authenticator : IAuthenticator {
         private readonly IAuthenticationService _authenticationService;
         private readonly IOpenAuthenticationService _openAuthenticationService;
         private readonly IMembershipService _membershipService;
         private readonly IOrchardServices _orchardServices;
 
-        public Authorizer(IAuthenticationService authenticationService,
+        public Authenticator(IAuthenticationService authenticationService,
                               IOpenAuthenticationService openAuthenticationService,
                               IMembershipService membershipService,
                               IOrchardServices orchardServices) {
@@ -24,7 +24,7 @@ namespace NGM.OpenAuthentication.Core {
             _orchardServices = orchardServices;
         }
 
-        public AuthorizationResult Authorize(OpenAuthenticationParameters parameters) {
+        public AuthenticationResult Authorize(OpenAuthenticationParameters parameters) {
             var userFound = _openAuthenticationService.GetUser(parameters);
 
             var userLoggedIn = _authenticationService.GetAuthenticatedUser();
@@ -32,10 +32,10 @@ namespace NGM.OpenAuthentication.Core {
             if (AccountAlreadyExists(userFound, userLoggedIn)) {
                 if (AccountIsAssignedToLoggedOnAccount(userFound, userLoggedIn)) {
                     // The person is trying to log in as himself.. bit weird
-                    return new AuthorizationResult(OpenAuthenticationStatus.Authenticated);
+                    return new AuthenticationResult(OpenAuthenticationStatus.Authenticated);
                 }
 
-                return new AuthorizationResult(OpenAuthenticationStatus.ErrorAuthenticating, 
+                return new AuthenticationResult(OpenAuthenticationStatus.ErrorAuthenticating, 
                     new KeyValuePair<string, string>("AccountAssigned", "Account is already assigned"));
             }
             if (AccountDoesNotExistAndUserIsNotLoggedOn(userFound, userLoggedIn)) {
@@ -50,13 +50,13 @@ namespace NGM.OpenAuthentication.Core {
                     }
                     else
                     {
-                        return new AuthorizationResult(OpenAuthenticationStatus.AssociateOnLogon,
+                        return new AuthenticationResult(OpenAuthenticationStatus.AssociateOnLogon,
                             new KeyValuePair<string, string>("AccessDenied", "User does not have enough details to auto create account"));
                     }
                 } else if (RegistrationIsEnabled(registrationSettings)) {
-                    return new AuthorizationResult(OpenAuthenticationStatus.AssociateOnLogon);
+                    return new AuthenticationResult(OpenAuthenticationStatus.AssociateOnLogon);
                 } else {
-                    return new AuthorizationResult(OpenAuthenticationStatus.UserDoesNotExist,
+                    return new AuthenticationResult(OpenAuthenticationStatus.UserDoesNotExist,
                             new KeyValuePair<string, string>("AccessDenied", "User does not exist on system"));
                 }
             }
@@ -66,7 +66,7 @@ namespace NGM.OpenAuthentication.Core {
 
             _authenticationService.SignIn(userFound ?? userLoggedIn, false);
 
-            return new AuthorizationResult(OpenAuthenticationStatus.Authenticated);
+            return new AuthenticationResult(OpenAuthenticationStatus.Authenticated);
         }
 
         private bool RegistrationIsEnabled(RegistrationSettingsPart registrationSettings) {

@@ -2,7 +2,7 @@
 using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Core.OAuth {
-    public interface IOAuthProviderFacebookAuthorizer : IOAuthProviderAuthorizer {
+    public interface IOAuthProviderFacebookAuthenticator : IOAuthProviderAuthenticator {
         FacebookClient GetClient(IUser user);
     }
 }

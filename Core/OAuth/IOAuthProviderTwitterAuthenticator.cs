@@ -2,7 +2,7 @@
 using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Core.OAuth {
-    public interface IOAuthProviderTwitterAuthorizer : IOAuthProviderAuthorizer {
+    public interface IOAuthProviderTwitterAuthenticator : IOAuthProviderAuthenticator {
         ITwitterAuthorizer GetAuthorizer(IUser user);
     }
 }

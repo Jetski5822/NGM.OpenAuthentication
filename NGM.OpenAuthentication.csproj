@@ -69,40 +69,37 @@
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\CardSpaceAccountController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
-    <Compile Include="Core\AuthorizationResult.cs" />
+    <Compile Include="Core\AuthenticationResult.cs" />
     <Compile Include="Core\Claims\ClaimTypes.cs" />
     <Compile Include="Core\Claims\ClaimsTranslator.cs" />
-    <Compile Include="Core\Enviroment\InitializingModuleEvents.cs" />
-    <Compile Include="Core\External\DotNetOpenAuth.ApplicationBlock\GoogleConsumer.cs" />
-    <Compile Include="Core\External\DotNetOpenAuth.ApplicationBlock\Util.cs" />
     <Compile Include="Core\OAuth\FacebookClaimsTranslator.cs" />
     <Compile Include="Core\OAuth\LiveIdParametersHelpers.cs" />
-    <Compile Include="Core\OAuth\LiveIdProviderAuthorizer.cs" />
+    <Compile Include="Core\OAuth\LiveIdProviderAuthenticator.cs" />
     <Compile Include="Core\OpenId\OpenIdClaimsResponseClaimsTranslator.cs" />
     <Compile Include="Core\OpenId\OpenIdFetchResponseClaimsTranslator.cs" />
     <Compile Include="Core\OAuth\FacebookApplication.cs" />
-    <Compile Include="Core\OAuth\IOAuthProviderFacebookAuthorizer.cs" />
-    <Compile Include="Core\OpenId\IOpenIdProviderAuthorizer.cs" />
-    <Compile Include="Core\IProviderAuthorizer.cs" />
+    <Compile Include="Core\OAuth\IOAuthProviderFacebookAuthenticator.cs" />
+    <Compile Include="Core\OpenId\IOpenIdProviderAuthenticator.cs" />
+    <Compile Include="Core\IProviderAuthenticator.cs" />
     <Compile Include="Core\OpenId\OpenIdAuthorizer.cs" />
     <Compile Include="Core\RegistrationDetails.cs" />
     <Compile Include="Core\CardSpace\CardSpaceAuthenticationParameters.cs" />
     <Compile Include="Core\HashedOpenAuthenticationParameters.cs" />
-    <Compile Include="Core\IAuthorizer.cs" />
+    <Compile Include="Core\IAuthenticator.cs" />
     <Compile Include="Controllers\OAuthAccountController.cs" />
-    <Compile Include="Core\AuthorizeState.cs" />
-    <Compile Include="Core\OAuth\IOAuthProviderTwitterAuthorizer.cs" />
+    <Compile Include="Core\AuthenticationState.cs" />
+    <Compile Include="Core\OAuth\IOAuthProviderTwitterAuthenticator.cs" />
     <Compile Include="Core\Provider.cs" />
     <Compile Include="Core\OpenAuthenticationStatus.cs" />
-    <Compile Include="Core\Authorizer.cs" />
+    <Compile Include="Core\Authenticator.cs" />
     <Compile Include="Controllers\OpenIdAccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Core\CardSpace\InfoCardImageHelpers.cs" />
     <Compile Include="Core\CardSpace\NameSpaceConstants.cs" />
-    <Compile Include="Core\OAuth\FacebookProviderAuthorizer.cs" />
+    <Compile Include="Core\OAuth\FacebookProviderAuthenticator.cs" />
     <Compile Include="Core\OAuth\IOAuthSettings.cs" />
-    <Compile Include="Core\OAuth\IOAuthProviderAuthorizer.cs" />
-    <Compile Include="Core\OAuth\TwitterProviderAuthorizer.cs" />
+    <Compile Include="Core\OAuth\IOAuthProviderAuthenticator.cs" />
+    <Compile Include="Core\OAuth\TwitterProviderAuthenticator.cs" />
     <Compile Include="Core\OpenId\Claims.cs" />
     <Compile Include="Core\OrchardShapeChecker.cs" />
     <Compile Include="Drivers\OpenAuthenticationSettingsPartDriver.cs" />
@@ -254,7 +251,9 @@
     <Content Include="Scripts\openid-uk.js" />
     <Content Include="Module.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Core\Enviroment\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Styles\account.css" />
   </ItemGroup>

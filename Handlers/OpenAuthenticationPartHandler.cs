@@ -33,7 +33,7 @@ namespace NGM.OpenAuthentication.Handlers {
                                         TryAssociateAccount(user, GetQueryStringParameters());
                                     }
 
-                                    var parameters = NGM.OpenAuthentication.Core.Authorizer.RetrieveParametersFromRoundTrip(true);
+                                    var parameters = NGM.OpenAuthentication.Core.Authenticator.RetrieveParametersFromRoundTrip(true);
                                     if (parameters != null) {
                                         TryAssociateAccount(user, parameters);
                                     }
