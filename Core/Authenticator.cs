@@ -42,7 +42,7 @@ namespace NGM.OpenAuthentication.Core {
                 // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
                 var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
 
-                StoreParametersForRoundTrip(parameters);
+                State.Parameters = parameters;
 
                 if (AutoRegistrationIsEnabled(registrationSettings)) {
                     if (CanCreateAccount(parameters)) {
@@ -87,22 +87,6 @@ namespace NGM.OpenAuthentication.Core {
 
         private bool AccountAlreadyExists(IUser userFound, IUser userLoggedIn) {
             return userFound != null && userLoggedIn != null;
-        }
-
-        public static OpenAuthenticationParameters RetrieveParametersFromRoundTrip(bool removeOnRetrieval) {
-            var parameters = HttpContext.Current.Session["parameters"];
-            if (parameters != null && removeOnRetrieval)
-                RemoveParameters();
-
-            return parameters as OpenAuthenticationParameters;
-        }
-
-        public static void RemoveParameters() {
-            HttpContext.Current.Session.Remove("parameters");   
-        }
-
-        private void StoreParametersForRoundTrip(OpenAuthenticationParameters parameters) {
-            _orchardServices.WorkContext.HttpContext.Session["parameters"] = parameters;
         }
 
         private bool CanCreateAccount(OpenAuthenticationParameters parameters) {
