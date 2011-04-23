@@ -31,12 +31,12 @@ namespace NGM.OpenAuthentication.Handlers {
 
                                     if (HasQueryParamsLocator()) {
                                         TryAssociateAccount(user, GetQueryStringParameters());
-                                    }
-
-                                    var parameters = State.Parameters;
-                                    if (parameters != null) {
-                                        State.Clear();
-                                        TryAssociateAccount(user, parameters);
+                                    } else {
+                                        var parameters = State.Parameters;
+                                        if (parameters != null) {
+                                            State.Clear();
+                                            TryAssociateAccount(user, parameters);
+                                        }
                                     }
                                 }
                             });
