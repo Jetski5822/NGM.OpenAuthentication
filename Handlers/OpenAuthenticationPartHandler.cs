@@ -23,15 +23,19 @@ namespace NGM.OpenAuthentication.Handlers {
             _orchardServices = orchardServices;
             _openAuthenticationService = openAuthenticationService;
             Filters.Add(StorageFilter.For(openAuthenticationPartRepository));
-            
+
             OnLoaded<IUser>((context, user) => {
+                                if (!_orchardServices.WorkContext.HttpContext.Request.IsAuthenticated)
+                                    return;
+                             
                                 lock (_syncLock) {
                                     if (!_orchardServices.WorkContext.HttpContext.Request.IsAuthenticated)
                                         return;
 
                                     if (HasQueryParamsLocator()) {
                                         TryAssociateAccount(user, GetQueryStringParameters());
-                                    } else {
+                                    }
+                                    else {
                                         var parameters = State.Parameters;
                                         if (parameters != null) {
                                             State.Clear();
