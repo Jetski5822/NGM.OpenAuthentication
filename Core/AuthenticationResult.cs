@@ -2,11 +2,11 @@
 
 namespace NGM.OpenAuthentication.Core {
     public class AuthenticationResult {
-        public AuthenticationResult(OpenAuthenticationStatus status) {
-            Status = status;
+        public AuthenticationResult(OpenAuthenticationStatus openAuthenticationStatus) {
+            Status = openAuthenticationStatus;
         }
 
-        public AuthenticationResult(OpenAuthenticationStatus status, KeyValuePair<string, string> error) : this(status) {
+        public AuthenticationResult(OpenAuthenticationStatus openAuthenticationStatus, KeyValuePair<string, string> error) : this(openAuthenticationStatus) {
             Error = error;
         }
 
