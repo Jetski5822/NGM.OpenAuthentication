@@ -10,7 +10,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         public static string LiveIdCallback() {
             UriBuilder callbackUriBuilder = new UriBuilder(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority));
-            callbackUriBuilder.Path = "/OAuth/LogOn/LiveId";
+            callbackUriBuilder.Path = "/OAuth/LogOn/" + Provider.LiveId.ToString();
             callbackUriBuilder.Query = SessionIdParameter();
             return callbackUriBuilder.Uri.ToString();
         }
