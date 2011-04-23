@@ -29,7 +29,7 @@ namespace NGM.OpenAuthentication.Core {
 
             var userLoggedIn = _authenticationService.GetAuthenticatedUser();
 
-            if (AccountAlreadyExists(userFound, userLoggedIn)) {
+            if (AccountAlreadyExistsAndUserIsLoggedOn(userFound, userLoggedIn)) {
                 if (AccountIsAssignedToLoggedOnAccount(userFound, userLoggedIn)) {
                     // The person is trying to log in as himself.. bit weird
                     return new AuthenticationResult(OpenAuthenticationStatus.Authenticated);
@@ -85,7 +85,7 @@ namespace NGM.OpenAuthentication.Core {
             return userFound.Id.Equals(userLoggedIn.Id);
         }
 
-        private bool AccountAlreadyExists(IUser userFound, IUser userLoggedIn) {
+        private bool AccountAlreadyExistsAndUserIsLoggedOn(IUser userFound, IUser userLoggedIn) {
             return userFound != null && userLoggedIn != null;
         }
 
