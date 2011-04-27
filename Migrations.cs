@@ -91,6 +91,15 @@ namespace NGM.OpenAuthentication {
 
             return 5;
         }
+
+        public int UpdateFrom5() {
+            
+            SchemaBuilder.AlterTable("OpenAuthenticationPermissionSettingsPartRecord", t => t.DropColumn("NamedPermission"));
+            SchemaBuilder.AlterTable("OpenAuthenticationPermissionSettingsPartRecord", t => t.AddColumn<string>("Scope"));
+            SchemaBuilder.AlterTable("OpenAuthenticationPermissionSettingsPartRecord", t => t.AddColumn<string>("Description"));
+
+            return 6;
+        }
     }
 
     [OrchardFeature("MicrosoftConnect")]

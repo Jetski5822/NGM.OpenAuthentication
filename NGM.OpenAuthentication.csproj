@@ -67,6 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
+    <Compile Include="Controllers\AdminPermissionController.cs" />
+    <Compile Include="ViewModels\AdminProviderPermissionViewModel.cs" />
     <Compile Include="Controllers\CardSpaceAccountController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Core\AuthenticationResult.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="Handlers\OpenAuthenticationSettingsPartHandler.cs" />
     <Compile Include="Models\FacebookConnectSignInPart.cs" />
     <Compile Include="Models\MicrosoftConnectSignInPart.cs" />
+    <Compile Include="Models\OpenAuthenticationPermissionSettingsPart.cs" />
     <Compile Include="Models\OpenAuthenticationPermissionSettingsPartRecord.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPart.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPartRecord.cs" />
@@ -310,6 +313,7 @@
     <Content Include="Views\Wrappers.Account.Facebook.LogOn.cshtml" />
     <Content Include="Views\Create.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
+    <Content Include="Views\AdminPermission\Edit.cshtml" />
     <None Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

@@ -1,0 +1,38 @@
+@model NGM.OpenAuthentication.ViewModels.AdminProviderPermissionViewModel
+
+@{ Layout.Title = T("Edit Provider Permissions").ToString(); }
+
+<fieldset>
+    <legend>@T("Permissions")</legend>
+    @foreach (var provider in Model.ProviderPermissions.Keys) {
+    <fieldset>
+        <legend>@provider</legend>
+        <table class="items">
+            <colgroup>
+                <col id="Col1" />
+                <col id="Col2" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th scope="col">@T("Scope")</th>
+                    <th scope="col">@T("Description")</th>
+                    <th scope="col">@T("Allow")</th>
+                </tr>
+            </thead>
+            @foreach (var permission in Model.ProviderPermissions[provider]) {
+            <tr>
+                <td>@permission.Record.Scope</td>
+                <td>@permission.Record.Description</td>
+                <td style="width:60px;">
+                    @if (permission.Record.IsEnabled) {
+                        <input type="checkbox" value="true" name="@T("Checkbox.{0}", permission.Record.Scope)" checked="checked"/>
+                        } else {
+                        <input type="checkbox" value="true" name="@T("Checkbox.{0}", permission.Record.Scope)"/>
+                    }
+                </td>    
+            </tr>
+            }
+        </table>
+        </fieldset>
+        }
+</fieldset>
