@@ -93,10 +93,17 @@ namespace NGM.OpenAuthentication {
         }
 
         public int UpdateFrom5() {
-            
-            SchemaBuilder.AlterTable("OpenAuthenticationPermissionSettingsPartRecord", t => t.DropColumn("NamedPermission"));
-            SchemaBuilder.AlterTable("OpenAuthenticationPermissionSettingsPartRecord", t => t.AddColumn<string>("Scope"));
-            SchemaBuilder.AlterTable("OpenAuthenticationPermissionSettingsPartRecord", t => t.AddColumn<string>("Description"));
+            SchemaBuilder.DropTable("OpenAuthenticationPermissionSettingsPartRecord");
+
+            SchemaBuilder.CreateTable("ScopeProviderPermissionRecord",
+                table => table
+                    .Column<int>("Id", column => column.PrimaryKey().Identity())
+                    .Column<string>("Resource")
+                    .Column<string>("Scope")
+                    .Column<string>("Description")
+                    .Column<bool>("IsEnabled")
+                    .Column<int>("HashedProvider")
+                );
 
             return 6;
         }

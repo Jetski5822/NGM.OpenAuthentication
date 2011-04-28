@@ -4,10 +4,11 @@ using NGM.OpenAuthentication.Models;
 using Orchard;
 
 namespace NGM.OpenAuthentication.Services {
-    public interface IOpenAuthenticationProviderPermissionService : IDependency {
+    public interface IScopeProviderPermissionService : IDependency
+    {
         bool IsPermissionEnabled(string scope, Provider provider);
 
-        IEnumerable<OpenAuthenticationPermissionSettingsPart> GetAll();
-        IEnumerable<OpenAuthenticationPermissionSettingsPart> Get(Provider provider);
+        IEnumerable<ScopeProviderPermissionRecord> GetAll();
+        IEnumerable<ScopeProviderPermissionRecord> Get(Provider provider);
     }
 }

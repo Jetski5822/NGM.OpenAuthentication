@@ -10,22 +10,22 @@ using Orchard.UI.Admin;
 namespace NGM.OpenAuthentication.Controllers {
     [Admin]
     public class AdminPermissionController : Controller {
-        private readonly IOpenAuthenticationProviderPermissionService _openAuthenticationProviderPermissionService;
+        private readonly IScopeProviderPermissionService _scopeProviderPermissionService;
 
-        public AdminPermissionController(IOpenAuthenticationProviderPermissionService openAuthenticationProviderPermissionService) {
-            _openAuthenticationProviderPermissionService = openAuthenticationProviderPermissionService;
+        public AdminPermissionController(IScopeProviderPermissionService scopeProviderPermissionService) {
+            _scopeProviderPermissionService = scopeProviderPermissionService;
         }
 
         public ActionResult Edit() {
             var viewModel = new AdminProviderPermissionViewModel();
-            var providerPermissions = _openAuthenticationProviderPermissionService.GetAll();
+            var providerPermissions = _scopeProviderPermissionService.GetAll();
             viewModel.ProviderPermissions = providerPermissions
-                .Select(o => o.Record.HashedProvider)
+                .Select(o => o.HashedProvider)
                 .Distinct()
-                .ToDictionary<int, string, IEnumerable<OpenAuthenticationPermissionSettingsPart>>
+                .ToDictionary<int, string, IEnumerable<ScopeProviderPermissionRecord>>
                     (ProviderHelpers.GetUserFriendlyStringForHashedProvider, provider => 
                         providerPermissions
-                        .Where(o => o.Record.HashedProvider == provider)
+                        .Where(o => o.HashedProvider == provider)
                         .ToList());
 
             return View("Edit", viewModel);

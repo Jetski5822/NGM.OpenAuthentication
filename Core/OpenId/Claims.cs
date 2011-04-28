@@ -6,47 +6,48 @@ using NGM.OpenAuthentication.Services;
 namespace NGM.OpenAuthentication.Core.OpenId {
     public static class Claims {
         public static IOpenIdMessageExtension CreateClaimsRequest(
-            IOpenAuthenticationProviderPermissionService openAuthenticationProviderPermissionService) {
-
+            IScopeProviderPermissionService scopeProviderPermissionService)
+        {
             var claimsRequest = new ClaimsRequest();
 
-            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Birthdate", Provider.OpenId))
+            if (scopeProviderPermissionService.IsPermissionEnabled("Birthdate", Provider.OpenId))
                 claimsRequest.BirthDate = DemandLevel.Require;
 
-            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Country", Provider.OpenId))
+            if (scopeProviderPermissionService.IsPermissionEnabled("Country", Provider.OpenId))
                 claimsRequest.Country = DemandLevel.Require;
 
-            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Email", Provider.OpenId))
+            if (scopeProviderPermissionService.IsPermissionEnabled("Email", Provider.OpenId))
                 claimsRequest.Email = DemandLevel.Require;
 
-            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("FullName", Provider.OpenId))
+            if (scopeProviderPermissionService.IsPermissionEnabled("FullName", Provider.OpenId))
                 claimsRequest.FullName = DemandLevel.Require;
 
-            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Gender", Provider.OpenId))
+            if (scopeProviderPermissionService.IsPermissionEnabled("Gender", Provider.OpenId))
                 claimsRequest.Gender = DemandLevel.Require;
 
-            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Language", Provider.OpenId))
+            if (scopeProviderPermissionService.IsPermissionEnabled("Language", Provider.OpenId))
                 claimsRequest.Language = DemandLevel.Require;
 
-            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Nickname", Provider.OpenId))
+            if (scopeProviderPermissionService.IsPermissionEnabled("Nickname", Provider.OpenId))
                 claimsRequest.Nickname = DemandLevel.Require;
 
-            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("PostalCode", Provider.OpenId))
+            if (scopeProviderPermissionService.IsPermissionEnabled("PostalCode", Provider.OpenId))
                 claimsRequest.PostalCode = DemandLevel.Require;
 
-            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("TimeZone", Provider.OpenId))
+            if (scopeProviderPermissionService.IsPermissionEnabled("TimeZone", Provider.OpenId))
                 claimsRequest.TimeZone = DemandLevel.Require;
 
             return claimsRequest;
         }
 
-        public static FetchRequest CreateFetchRequest(IOpenAuthenticationProviderPermissionService openAuthenticationProviderPermissionService) {
+        public static FetchRequest CreateFetchRequest(IScopeProviderPermissionService scopeProviderPermissionService)
+        {
             var fetchRequest = new FetchRequest();
 
-            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("Email", Provider.OpenId))
+            if (scopeProviderPermissionService.IsPermissionEnabled("Email", Provider.OpenId))
                 fetchRequest.Attributes.AddRequired(WellKnownAttributes.Contact.Email);
 
-            if (openAuthenticationProviderPermissionService.IsPermissionEnabled("FullName", Provider.OpenId)) {
+            if (scopeProviderPermissionService.IsPermissionEnabled("FullName", Provider.OpenId)) {
                 fetchRequest.Attributes.AddRequired(WellKnownAttributes.Name.First);
                 fetchRequest.Attributes.AddRequired(WellKnownAttributes.Name.Last);
                 fetchRequest.Attributes.AddRequired(WellKnownAttributes.Name.FullName);

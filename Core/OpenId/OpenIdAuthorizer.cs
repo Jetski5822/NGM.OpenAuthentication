@@ -9,14 +9,15 @@ namespace NGM.OpenAuthentication.Core.OpenId {
     public class OpenIdProviderAuthenticator : IOpenIdProviderAuthenticator {
         private readonly IOpenIdRelyingPartyService _openIdRelyingPartyService;
         private readonly IAuthenticator _authenticator;
-        private readonly IOpenAuthenticationProviderPermissionService _openAuthenticationProviderPermissionService;
+        private readonly IScopeProviderPermissionService _scopeProviderPermissionService;
 
         public OpenIdProviderAuthenticator(IOpenIdRelyingPartyService openIdRelyingPartyService,
             IAuthenticator authenticator,
-            IOpenAuthenticationProviderPermissionService openAuthenticationProviderPermissionService) {
+            IScopeProviderPermissionService scopeProviderPermissionService)
+        {
             _openIdRelyingPartyService = openIdRelyingPartyService;
             _authenticator = authenticator;
-            _openAuthenticationProviderPermissionService = openAuthenticationProviderPermissionService;
+            _scopeProviderPermissionService = scopeProviderPermissionService;
         }
 
         public AuthenticationState Authenticate(string returnUrl) {
@@ -54,8 +55,8 @@ namespace NGM.OpenAuthentication.Core.OpenId {
             try {
                 var request = _openIdRelyingPartyService.CreateRequest(identifier);
 
-                request.AddExtension(Claims.CreateClaimsRequest(_openAuthenticationProviderPermissionService));
-                request.AddExtension(Claims.CreateFetchRequest(_openAuthenticationProviderPermissionService));
+                request.AddExtension(Claims.CreateClaimsRequest(_scopeProviderPermissionService));
+                request.AddExtension(Claims.CreateFetchRequest(_scopeProviderPermissionService));
 
                 return new AuthenticationState(returnUrl, OpenAuthenticationStatus.RequresRedirect) {
                     Result = request.RedirectingResponse.AsActionResult()
