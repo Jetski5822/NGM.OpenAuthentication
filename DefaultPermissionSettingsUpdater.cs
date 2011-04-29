@@ -62,7 +62,9 @@ namespace NGM.OpenAuthentication
         }
 
         public void AddDefaultPermissionsForFeature(Feature feature) {
-            foreach (var scopePermissionProvider in _scopePermissionProviders) {
+            var featureName = feature.Descriptor.Id;
+
+            foreach (var scopePermissionProvider in _scopePermissionProviders.Where(x => x.Feature.Descriptor.Id == featureName)) {
                 foreach (var permissionProvider in scopePermissionProvider.GetPermissions()) {
                     _scopeProviderPermissionService.Create(scopePermissionProvider.Provider, permissionProvider);
                 }

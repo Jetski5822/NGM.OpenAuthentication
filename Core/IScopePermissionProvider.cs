@@ -1,15 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Orchard;
+using Orchard.Environment.Extensions;
+using Orchard.Environment.Extensions.Models;
 
 namespace NGM.OpenAuthentication.Core
 {
     public interface IScopePermissionProvider : IDependency
     {
+        Feature Feature { get; }
         Provider Provider { get; }
         IEnumerable<ScopePermission> GetPermissions();
     }
 
+    [OrchardFeature("OpenId")]
     public class OpenIdScopePermissions : IScopePermissionProvider {
+        public virtual Feature Feature { get; set; }
+
         public Provider Provider {
             get { return Provider.OpenId; }
         }
@@ -29,8 +36,11 @@ namespace NGM.OpenAuthentication.Core
         }
     }
 
+    [OrchardFeature("Facebook")]
     public class FacebookScopePermissions : IScopePermissionProvider
     {
+        public virtual Feature Feature { get; set; }
+
         public Provider Provider {
             get { return Provider.Facebook; }
         }
@@ -99,7 +109,10 @@ namespace NGM.OpenAuthentication.Core
         }
     }
 
+    [OrchardFeature("MicrosoftConnect")]
     public class MicrosoftConnectScopePermissions : IScopePermissionProvider {
+        public virtual Feature Feature { get; set; }
+
         public Provider Provider {
             get { return Provider.LiveId; }
         }
