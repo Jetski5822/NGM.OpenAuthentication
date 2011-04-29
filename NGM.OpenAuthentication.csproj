@@ -71,6 +71,7 @@
     <Compile Include="Core\IScopePermissionProvider.cs" />
     <Compile Include="Core\ScopePermission.cs" />
     <Compile Include="DefaultPermissionSettingsUpdater.cs" />
+    <Compile Include="Drivers\FacebookConnectDriver.cs" />
     <Compile Include="ViewModels\AdminProviderPermissionViewModel.cs" />
     <Compile Include="Controllers\CardSpaceAccountController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
