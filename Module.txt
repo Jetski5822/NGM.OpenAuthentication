@@ -7,17 +7,22 @@ OrchardVersion: 1.1.30
 Description: Provides multiple authentication interfaces for Orchard
 Features:
     NGM.OpenAuthentication:
-        Category: Authentication
+        Name: Open Authentication
+		Category: Authentication
         Dependencies: Orchard.Users
 	OpenId:
+		Name: OpenId
 		Category: Authentication
 		Dependencies: NGM.OpenAuthentication, Orchard.jQuery
 	MicrosoftConnect:
+		Name: MicrosoftConnect
 		Category: Authentication
 		Dependencies: NGM.OpenAuthentication, Orchard.jQuery
 	Twitter:
+		Name: Twitter
 		Category: Authentication
 		Dependencies: NGM.OpenAuthentication
 	Facebook:
+		Name: Facebook
 		Category: Authentication
 		Dependencies: NGM.OpenAuthentication
