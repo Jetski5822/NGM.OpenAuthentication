@@ -71,7 +71,7 @@ namespace NGM.OpenAuthentication.Controllers {
                     if (key.StartsWith("Checkbox.")) {
                         var permissionId = int.Parse(key.Substring("Checkbox.".Length));
                         bool enabled = bool.Parse(Request.Form[key]);
-                        providerPermissions.Add(permissionId, true);
+                        providerPermissions.Add(permissionId, enabled);
                     }
                 }
                 _scopeProviderPermissionService.Update(providerPermissions);
