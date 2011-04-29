@@ -35,7 +35,7 @@ namespace NGM.OpenAuthentication.Services {
             var providerPermissionRecords = GetAll();
             foreach (var providerPermissionRecord in providerPermissionRecords) {
                 if (providerPermissions.ContainsKey(providerPermissionRecord.Id))
-                    providerPermissionRecord.IsEnabled = providerPermissionRecord.IsEnabled;
+                    providerPermissionRecord.IsEnabled = providerPermissions[providerPermissionRecord.Id];
                 else
                     providerPermissionRecord.IsEnabled = false;
                 
