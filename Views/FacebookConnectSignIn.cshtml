@@ -1,10 +1,10 @@
 ﻿﻿@using Orchard.ContentManagement;
 
 @{
-    Script.Require("Jquery");    
+    Script.Require("Jquery");
+    Script.Include("http://connect.facebook.net/en_US/all.js");    
     var settings = WorkContext.CurrentSite.As<NGM.OpenAuthentication.Models.OpenAuthenticationSettingsPart>().Record; }
 
-<script src="http://connect.facebook.net/en_US/all.js"></script>
 <script type="text/javascript">
     FB.init({
         appId: settings.FacebookClientIdentifier, cookie: true,
