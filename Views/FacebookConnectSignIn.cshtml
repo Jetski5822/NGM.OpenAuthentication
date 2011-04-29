@@ -2,10 +2,9 @@
 
 @{
     Script.Require("Jquery");
-    //Script.Include("http://connect.facebook.net/en_US/all.js");    
     var settings = WorkContext.CurrentSite.As<NGM.OpenAuthentication.Models.OpenAuthenticationSettingsPart>().Record; }
 
-<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=137176593016708&amp;xfbml=1"></script>
+<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=@settings.FacebookClientIdentifier&amp;xfbml=1"></script>
 
 <div id="fb-root"></div>
 <script type="text/javascript">
@@ -17,4 +16,4 @@
     });
 </script>
 
-<fb:login-button width="200" max-rows="1">Connect with Facebook</fb:login-button>
+<fb:login-button width="200" max-rows="1" perms="@Model.Permissions">Connect with Facebook</fb:login-button>
