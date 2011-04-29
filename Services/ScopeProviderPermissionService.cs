@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Models;
@@ -18,6 +19,16 @@ namespace NGM.OpenAuthentication.Services {
 
         public IEnumerable<ScopeProviderPermissionRecord> Get(Provider provider) {
             return GetAll().Where(o => o.HashedProvider == ProviderHelpers.GetHashedProvider(provider));
+        }
+
+        public void Create(ScopePermission permissionProvider) {
+            _scopeProviderPermissionRecordRepository.Create(new ScopeProviderPermissionRecord {
+                Resource = permissionProvider.Resource,
+                Description = permissionProvider.Description,
+                HashedProvider = ProviderHelpers.GetHashedProvider(permissionProvider.Provider),
+                IsEnabled = permissionProvider.IsEnabled,
+                Scope = permissionProvider.Scope
+            });
         }
 
         public IEnumerable<ScopeProviderPermissionRecord> GetAll() {

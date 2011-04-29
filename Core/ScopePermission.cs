@@ -4,5 +4,6 @@
         public string Scope { get; set; }
         public string Description { get; set; }
         public Provider Provider { get; set; }
+        public bool IsEnabled { get; set; }
     }
 }                   

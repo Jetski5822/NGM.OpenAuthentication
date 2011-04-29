@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
 using JetBrains.Annotations;
+using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Services;
 using Orchard.Environment;
 using Orchard.Environment.Extensions.Models;
@@ -15,9 +16,12 @@ namespace NGM.OpenAuthentication
     public class DefaultPermissionSettingsUpdater : IFeatureEventHandler
     {
         private readonly IScopeProviderPermissionService _scopeProviderPermissionService;
+        private readonly IEnumerable<IScopePermissionProvider> _scopePermissionProviders;
 
-        public DefaultPermissionSettingsUpdater(IScopeProviderPermissionService scopeProviderPermissionService) {
+        public DefaultPermissionSettingsUpdater(IScopeProviderPermissionService scopeProviderPermissionService,
+            IEnumerable<IScopePermissionProvider> scopePermissionProviders) {
             _scopeProviderPermissionService = scopeProviderPermissionService;
+            _scopePermissionProviders = scopePermissionProviders;
 
             Logger = NullLogger.Instance;
         }
@@ -58,7 +62,11 @@ namespace NGM.OpenAuthentication
         }
 
         public void AddDefaultPermissionsForFeature(Feature feature) {
-
+            foreach (var scopePermissionProvider in _scopePermissionProviders) {
+                foreach (var permissionProvider in scopePermissionProvider.GetPermissions()) {
+                    _scopeProviderPermissionService.Create(permissionProvider);
+                }
+            }
 
         }
     }

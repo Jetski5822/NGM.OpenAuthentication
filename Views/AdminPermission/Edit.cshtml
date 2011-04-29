@@ -21,13 +21,13 @@
             </thead>
             @foreach (var permission in Model.ProviderPermissions[provider]) {
             <tr>
-                <td>@permission.Record.Scope</td>
-                <td>@permission.Record.Description</td>
+                <td>@permission.Scope</td>
+                <td>@permission.Description</td>
                 <td style="width:60px;">
-                    @if (permission.Record.IsEnabled) {
-                        <input type="checkbox" value="true" name="@T("Checkbox.{0}", permission.Record.Scope)" checked="checked"/>
+                    @if (permission.IsEnabled) {
+                        <input type="checkbox" value="true" name="@T("Checkbox.{0}", permission.Scope)" checked="checked"/>
                         } else {
-                        <input type="checkbox" value="true" name="@T("Checkbox.{0}", permission.Record.Scope)"/>
+                        <input type="checkbox" value="true" name="@T("Checkbox.{0}", permission.Scope)"/>
                     }
                 </td>    
             </tr>
