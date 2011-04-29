@@ -10,6 +10,6 @@ namespace NGM.OpenAuthentication.Services {
 
         IEnumerable<ScopeProviderPermissionRecord> GetAll();
         IEnumerable<ScopeProviderPermissionRecord> Get(Provider provider);
-        void Create(ScopePermission permissionProvider);
+        void Create(Provider provider, ScopePermission permissionProvider);
     }
 }

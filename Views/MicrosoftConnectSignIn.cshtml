@@ -25,5 +25,5 @@
     channel-url="../../Modules/NGM.OpenAuthentication/Pages/channel.htm" 
     callback-url="@NGM.OpenAuthentication.Core.OAuth.LiveIdParametersHelpers.LiveIdCallback()"
     client-id=@settings.LiveIdClientIdentifier
-    scope="WL_Contacts.View,Messenger.SignIn,WL_Profiles.View">
+    scope="@Model.Permissions">
 </wl:app>

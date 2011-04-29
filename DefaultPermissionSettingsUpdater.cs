@@ -64,7 +64,7 @@ namespace NGM.OpenAuthentication
         public void AddDefaultPermissionsForFeature(Feature feature) {
             foreach (var scopePermissionProvider in _scopePermissionProviders) {
                 foreach (var permissionProvider in scopePermissionProvider.GetPermissions()) {
-                    _scopeProviderPermissionService.Create(permissionProvider);
+                    _scopeProviderPermissionService.Create(scopePermissionProvider.Provider, permissionProvider);
                 }
             }
 

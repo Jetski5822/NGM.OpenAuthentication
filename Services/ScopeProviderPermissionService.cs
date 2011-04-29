@@ -21,11 +21,11 @@ namespace NGM.OpenAuthentication.Services {
             return GetAll().Where(o => o.HashedProvider == ProviderHelpers.GetHashedProvider(provider));
         }
 
-        public void Create(ScopePermission permissionProvider) {
+        public void Create(Provider provider, ScopePermission permissionProvider) {
             _scopeProviderPermissionRecordRepository.Create(new ScopeProviderPermissionRecord {
                 Resource = permissionProvider.Resource,
                 Description = permissionProvider.Description,
-                HashedProvider = ProviderHelpers.GetHashedProvider(permissionProvider.Provider),
+                HashedProvider = ProviderHelpers.GetHashedProvider(provider),
                 IsEnabled = permissionProvider.IsEnabled,
                 Scope = permissionProvider.Scope
             });

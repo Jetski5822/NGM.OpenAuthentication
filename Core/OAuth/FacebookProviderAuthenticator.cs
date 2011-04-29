@@ -16,15 +16,18 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         private readonly IOrchardServices _orchardServices;
         private readonly IAuthenticator _authenticator;
         private readonly IOpenAuthenticationService _openAuthenticationService;
+        private readonly IScopeProviderPermissionService _scopeProviderPermissionService;
 
         private FacebookApplication _facebookApplication;
 
         public FacebookProviderAuthenticator(IOrchardServices orchardServices,
             IAuthenticator authenticator,
-            IOpenAuthenticationService openAuthenticationService) {
+            IOpenAuthenticationService openAuthenticationService,
+            IScopeProviderPermissionService scopeProviderPermissionService) {
             _orchardServices = orchardServices;
             _authenticator = authenticator;
             _openAuthenticationService = openAuthenticationService;
+            _scopeProviderPermissionService = scopeProviderPermissionService;
         }
 
         private FacebookApplication FacebookApplication {
@@ -89,8 +92,8 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
         private AuthenticationState GenerateRequestState(string returnUrl) {
             var facebookClient = new FacebookOAuthClient(FacebookApplication);
-            
-            var extendedPermissions = new[] { "publish_stream", "read_stream", "offline_access", "email" };
+
+            var extendedPermissions = _scopeProviderPermissionService.Get(Provider.Facebook).Where(o => o.IsEnabled).Select(o => o.Scope).ToArray();
             var parameters = new Dictionary<string, object> {
                 {"redirect_uri", GenerateCallbackUri() }
             };
