@@ -2,37 +2,43 @@
 
 @{ Layout.Title = T("Edit Provider Permissions").ToString(); }
 
-<fieldset>
-    <legend>@T("Permissions")</legend>
-    @foreach (var provider in Model.ProviderPermissions.Keys) {
+@using (Html.BeginFormAntiForgeryPost()) {
+    Html.ValidationSummary();
     <fieldset>
-        <legend>@provider</legend>
-        <table class="items">
-            <colgroup>
-                <col id="Col1" />
-                <col id="Col2" />
-            </colgroup>
-            <thead>
+        <legend>@T("Permissions")</legend>
+        @foreach (var provider in Model.ProviderPermissions.Keys) {
+        <fieldset>
+            <legend>@provider</legend>
+            <table class="items">
+                <colgroup>
+                    <col id="Col1" />
+                    <col id="Col2" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th scope="col">@T("Scope")</th>
+                        <th scope="col">@T("Description")</th>
+                        <th scope="col">@T("Allow")</th>
+                    </tr>
+                </thead>
+                @foreach (var permission in Model.ProviderPermissions[provider]) {
                 <tr>
-                    <th scope="col">@T("Scope")</th>
-                    <th scope="col">@T("Description")</th>
-                    <th scope="col">@T("Allow")</th>
-                </tr>
-            </thead>
-            @foreach (var permission in Model.ProviderPermissions[provider]) {
-            <tr>
-                <td>@permission.Scope</td>
-                <td>@permission.Description</td>
-                <td style="width:60px;">
-                    @if (permission.IsEnabled) {
-                        <input type="checkbox" value="true" name="@T("Checkbox.{0}", permission.Scope)" checked="checked"/>
+                    <td>@permission.Scope</td>
+                    <td>@permission.Description</td>
+                    <td style="width:60px;">
+                        @if (permission.IsEnabled) {
+                            <input type="checkbox" value="true" name="@T("Checkbox.{0}", permission.Id)" checked="checked"/>
                         } else {
-                        <input type="checkbox" value="true" name="@T("Checkbox.{0}", permission.Scope)"/>
-                    }
-                </td>    
-            </tr>
-            }
-        </table>
-        </fieldset>
+                            <input type="checkbox" value="true" name="@T("Checkbox.{0}", permission.Id)"/>
+                        }
+                    </td>    
+                </tr>
+                }
+            </table>
+            </fieldset>
         }
-</fieldset>
+    </fieldset>
+    <fieldset>
+        <button class="primaryAction" type="submit" name="submit.Save" value="@T("Save")">@T("Save")</button>
+    </fieldset>
+}
