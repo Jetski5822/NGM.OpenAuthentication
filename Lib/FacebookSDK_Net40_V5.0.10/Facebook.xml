@@ -36,6 +36,7 @@
             </summary>
       <param name="dateTime">The date time.</param>
       <returns>The unix date time.</returns>
+      <requires>dateTime &gt;= Epoch</requires>
     </member>
     <member name="M:Facebook.DateTimeConvertor.ToUnixTime(System.DateTimeOffset)">
       <summary>
@@ -43,6 +44,7 @@
             </summary>
       <param name="dateTime">The date time.</param>
       <returns>The unix date time.</returns>
+      <requires>dateTime &gt;= Epoch</requires>
     </member>
     <member name="M:Facebook.DateTimeConvertor.ToIso8601FormattedDateTime(System.DateTime)">
       <summary>
@@ -54,6 +56,7 @@
       <returns>
             Returns the string representation of date time in ISO-8601 format (yyyy-MM-ddTHH:mm:ssZ).
             </returns>
+      <requires>dateTime != null</requires>
     </member>
     <member name="M:Facebook.DateTimeConvertor.FromIso8601FormattedDateTime(System.String)">
       <summary>
@@ -65,6 +68,7 @@
       <returns>
             Returns the <see cref="T:System.DateTime" /> equivalent to the ISO-8601 formatted date time. 
             </returns>
+      <requires>!string.IsNullOrEmpty(iso8601DateTime)</requires>
     </member>
     <member name="P:Facebook.DateTimeConvertor.Epoch">
       <summary>
@@ -559,6 +563,7 @@
       <returns>
             The <see cref="T:Facebook.FacebookBatchParameter" />.
             </returns>
+      <requires>!string.IsNullOrEmpty(fql)</requires>
     </member>
     <member name="M:Facebook.FacebookBatchParameter.Query(System.String[])">
       <summary>
@@ -570,6 +575,7 @@
       <returns>
             The <see cref="T:Facebook.FacebookBatchParameter" />.
             </returns>
+      <requires>fql != null</requires>
     </member>
     <member name="P:Facebook.FacebookBatchParameter.HttpMethod">
       <summary>
@@ -613,6 +619,7 @@
       <param name="accessToken">
             The Facebook access token.
             </param>
+      <requires>!String.IsNullOrEmpty(accessToken)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.#ctor(System.String,System.String)">
       <summary>
@@ -624,6 +631,8 @@
       <param name="appSecret">
             The app secret.
             </param>
+      <requires>!string.IsNullOrEmpty(appId)</requires>
+      <requires>!string.IsNullOrEmpty(appSecret)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.#ctor(Facebook.IFacebookApplication)">
       <summary>
@@ -644,6 +653,7 @@
             The json result.
             </returns>
       <exception cref="T:Facebook.FacebookApiException" />
+      <requires>!String.IsNullOrEmpty(path)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.Delete(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -671,6 +681,7 @@
             The json result.
             </returns>
       <exception cref="T:Facebook.FacebookApiException" />
+      <requires>!String.IsNullOrEmpty(path)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.Get(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -686,6 +697,7 @@
       <returns>
             The json result.
             </returns>
+      <requires>!(String.IsNullOrEmpty(path) &amp;&amp; parameters == null)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.Get(System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -698,6 +710,7 @@
       <returns>
             The json result.
             </returns>
+      <requires>parameters != null</requires>
     </member>
     <member name="M:Facebook.FacebookClient.Get``1(System.String)">
       <summary>
@@ -713,6 +726,7 @@
       <returns>
             The json result.
             </returns>
+      <requires>!String.IsNullOrEmpty(path)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.Get``1(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -731,6 +745,7 @@
       <returns>
             The json result.
             </returns>
+      <requires>!(String.IsNullOrEmpty(path) &amp;&amp; parameters == null)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.Get``1(System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -746,6 +761,7 @@
       <returns>
             The json result.
             </returns>
+      <requires>parameters != null</requires>
     </member>
     <member name="M:Facebook.FacebookClient.Post(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -761,6 +777,7 @@
       <returns>
             The jon result.
             </returns>
+      <requires>!(String.IsNullOrEmpty(path) &amp;&amp; parameters == null)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.Post(System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -773,6 +790,7 @@
       <returns>
             The json result.
             </returns>
+      <requires>parameters != null</requires>
     </member>
     <member name="M:Facebook.FacebookClient.Post(System.Object)">
       <summary>
@@ -785,6 +803,7 @@
       <returns>
             The json result.
             </returns>
+      <requires>parameters != null</requires>
     </member>
     <member name="M:Facebook.FacebookClient.Post(System.String,System.Object)">
       <summary>
@@ -800,6 +819,7 @@
       <returns>
             The json result.
             </returns>
+      <requires>!(String.IsNullOrEmpty(path) &amp;&amp; parameters == null)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.DeleteAsync(System.String)">
       <summary>
@@ -808,6 +828,7 @@
       <param name="path">
             The resource path.
             </param>
+      <requires>!String.IsNullOrEmpty(path)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.DeleteAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -819,6 +840,7 @@
       <param name="parameters">
             The parameters.
             </param>
+      <requires>!(String.IsNullOrEmpty(path) &amp;&amp; parameters == null)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.DeleteAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Object)">
       <summary>
@@ -833,6 +855,7 @@
       <param name="userToken">
             The user token.
             </param>
+      <requires>!(String.IsNullOrEmpty(path) &amp;&amp; parameters == null)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.GetAsync(System.String)">
       <summary>
@@ -841,6 +864,7 @@
       <param name="path">
             The resource path.
             </param>
+      <requires>!String.IsNullOrEmpty(path)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.GetAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -852,6 +876,7 @@
       <param name="parameters">
             The parameters.
             </param>
+      <requires>!(String.IsNullOrEmpty(path) &amp;&amp; parameters == null)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.GetAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Object)">
       <summary>
@@ -866,6 +891,7 @@
       <param name="userToken">
             The user token.
             </param>
+      <requires>!(String.IsNullOrEmpty(path) &amp;&amp; parameters == null)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.GetAsync(System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -874,6 +900,7 @@
       <param name="parameters">
             The parameters.
             </param>
+      <requires>parameters != null</requires>
     </member>
     <member name="M:Facebook.FacebookClient.PostAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -885,6 +912,7 @@
       <param name="parameters">
             The parameters.
             </param>
+      <requires>!(String.IsNullOrEmpty(path) &amp;&amp; parameters == null)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.PostAsync(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Object)">
       <summary>
@@ -899,6 +927,7 @@
       <param name="userToken">
             The user token.
             </param>
+      <requires>!(String.IsNullOrEmpty(path) &amp;&amp; parameters == null)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.PostAsync(System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -907,6 +936,7 @@
       <param name="parameters">
             The parameters.
             </param>
+      <requires>parameters != null</requires>
     </member>
     <member name="M:Facebook.FacebookClient.PostAsync(System.String,System.Object)">
       <summary>
@@ -918,6 +948,7 @@
       <param name="parameters">
             The parameters.
             </param>
+      <requires>!(String.IsNullOrEmpty(path) &amp;&amp; parameters == null)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.PostAsync(System.String,System.Object,System.Object)">
       <summary>
@@ -932,6 +963,7 @@
       <param name="userToken">
             The user token.
             </param>
+      <requires>!(String.IsNullOrEmpty(path) &amp;&amp; parameters == null)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.PostAsync(System.Object)">
       <summary>
@@ -940,6 +972,7 @@
       <param name="parameters">
             The parameters.
             </param>
+      <requires>parameters != null</requires>
     </member>
     <member name="M:Facebook.FacebookClient.Query(System.String)">
       <summary>
@@ -952,6 +985,7 @@
       <returns>
             The FQL query result.
             </returns>
+      <requires>!String.IsNullOrEmpty(fql)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.Query(System.String[])">
       <summary>
@@ -964,6 +998,7 @@
       <returns>
             A collection of the FQL query results.
             </returns>
+      <requires>fql != null</requires>
     </member>
     <member name="M:Facebook.FacebookClient.QueryAsync(System.String)">
       <summary>
@@ -972,6 +1007,7 @@
       <param name="fql">
             The FQL query.
             </param>
+      <requires>!String.IsNullOrEmpty(fql)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.QueryAsync(System.String,System.Object)">
       <summary>
@@ -983,6 +1019,7 @@
       <param name="userToken">
             The user token.
             </param>
+      <requires>!String.IsNullOrEmpty(fql)</requires>
     </member>
     <member name="M:Facebook.FacebookClient.QueryAsync(System.String[])">
       <summary>
@@ -991,6 +1028,8 @@
       <param name="fql">
             The FQL queries.
             </param>
+      <requires>fql != null</requires>
+      <requires>fql.Length &gt; 0</requires>
     </member>
     <member name="M:Facebook.FacebookClient.QueryAsync(System.String[],System.Object)">
       <summary>
@@ -1002,6 +1041,8 @@
       <param name="userToken">
             The user Token.
             </param>
+      <requires>fql != null</requires>
+      <requires>fql.Length &gt; 0</requires>
     </member>
     <member name="M:Facebook.FacebookClient.Batch(Facebook.FacebookBatchParameter[])">
       <summary>
@@ -1013,6 +1054,8 @@
       <returns>
             The json result.
             </returns>
+      <requires>batchParameters != null</requires>
+      <requires>batchParameters.Length &gt; 0</requires>
     </member>
     <member name="M:Facebook.FacebookClient.BatchAsync(Facebook.FacebookBatchParameter[],System.Object)">
       <summary>
@@ -1024,6 +1067,8 @@
       <param name="userToken">
             The user token.
             </param>
+      <requires>batchParameters != null</requires>
+      <requires>batchParameters.Length &gt; 0</requires>
     </member>
     <member name="M:Facebook.FacebookClient.BatchAsync(Facebook.FacebookBatchParameter[])">
       <summary>
@@ -1032,6 +1077,8 @@
       <param name="batchParameters">
             The batch parameters.
             </param>
+      <requires>batchParameters != null</requires>
+      <requires>batchParameters.Length &gt; 0</requires>
     </member>
     <member name="M:Facebook.FacebookClient.ToParameters(Facebook.FacebookBatchParameter)">
       <summary>
@@ -1043,6 +1090,8 @@
       <returns>
             The post parameters.
             </returns>
+      <requires>batchParameter != null</requires>
+      <ensures>Contract.Result&lt;IDictionary&lt;string, object&gt;&gt;() != null</ensures>
     </member>
     <member name="M:Facebook.FacebookClient.ProcessBatchResult(System.Object)">
       <summary>
@@ -1054,6 +1103,8 @@
       <returns>
             Batch result.
             </returns>
+      <requires>result != null</requires>
+      <ensures>Contract.Result&lt;object&gt;() != null</ensures>
     </member>
     <member name="M:Facebook.FacebookClient.RequestCallback(System.IAsyncResult,System.Byte[],System.Action{System.String,System.Exception},System.Object)">
       <summary>
@@ -1082,6 +1133,8 @@
       <returns>
             The Url for the given parameters.
             </returns>
+      <requires>!String.IsNullOrEmpty(method)</requires>
+      <ensures>Contract.Result&lt;Uri&gt;() != default(Uri)</ensures>
     </member>
     <member name="M:Facebook.FacebookClient.GetUrl(System.String)">
       <summary>
@@ -1093,6 +1146,8 @@
       <returns>
             The string of the url for the given parameters.
             </returns>
+      <requires>!String.IsNullOrEmpty(name)</requires>
+      <ensures>Contract.Result&lt;Uri&gt;() != default(Uri)</ensures>
     </member>
     <member name="M:Facebook.FacebookClient.GetUrl(System.String,System.String)">
       <summary>
@@ -1107,6 +1162,8 @@
       <returns>
             The string of the url for the given parameters.
             </returns>
+      <requires>!String.IsNullOrEmpty(name)</requires>
+      <ensures>Contract.Result&lt;Uri&gt;() != default(Uri)</ensures>
     </member>
     <member name="M:Facebook.FacebookClient.GetUrl(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -1121,6 +1178,8 @@
       <returns>
             The string of the url for the given parameters.
             </returns>
+      <requires>!String.IsNullOrEmpty(name)</requires>
+      <ensures>Contract.Result&lt;Uri&gt;() != default(Uri)</ensures>
     </member>
     <member name="M:Facebook.FacebookClient.GetUrl(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -1138,6 +1197,8 @@
       <returns>
             The string of the url for the given parameters.
             </returns>
+      <requires>!String.IsNullOrEmpty(name)</requires>
+      <ensures>Contract.Result&lt;Uri&gt;() != default(Uri)</ensures>
     </member>
     <member name="M:Facebook.FacebookClient.BuildRequestData(System.Uri,System.Collections.Generic.IDictionary{System.String,System.Object},Facebook.HttpMethod,System.Uri@,System.String@)">
       <summary>
@@ -1161,6 +1222,8 @@
       <returns>
             The request post data.
             </returns>
+      <requires>uri != null</requires>
+      <requires>parameters != null</requires>
     </member>
     <member name="M:Facebook.FacebookClient.BuildMediaObjectPostData(System.Collections.Generic.IDictionary{System.String,System.Object},System.String)">
       <summary>
@@ -1206,11 +1269,17 @@
       <summary>
             Gets the list of query parameters that get automatically dropped when rebuilding the current URL.
             </summary>
+      <getter>
+        <ensures>Contract.Result&lt;ICollection&lt;string&gt;&gt;() != null</ensures>
+      </getter>
     </member>
     <member name="P:Facebook.FacebookClient.DomainMaps">
       <summary>
             Gets the aliases to Facebook domains.
             </summary>
+      <getter>
+        <ensures>Contract.Result&lt;Dictionary&lt;string, Uri&gt;&gt;() != null</ensures>
+      </getter>
     </member>
     <member name="T:Facebook.FacebookConfigurationSection">
       <summary>
@@ -1286,6 +1355,7 @@
       <param name="facebookApplication">
             The facebook application.
             </param>
+      <requires>facebookApplication != null</requires>
     </member>
     <member name="M:Facebook.FacebookApplication.SetApplication(System.Func{Facebook.IFacebookApplication})">
       <summary>
@@ -1294,6 +1364,7 @@
       <param name="getFacebookApplication">
             The get facebook application.
             </param>
+      <requires>getFacebookApplication != null</requires>
     </member>
     <member name="F:Facebook.FacebookApplication._current">
       <summary>
@@ -1307,6 +1378,7 @@
       <param name="facebookApplication">
             The facebook application.
             </param>
+      <requires>facebookApplication != null</requires>
     </member>
     <member name="M:Facebook.FacebookApplication.InnerSetApplication(System.Func{Facebook.IFacebookApplication})">
       <summary>
@@ -1315,16 +1387,23 @@
       <param name="getFacebookApplication">
             The get facebook application.
             </param>
+      <requires>getFacebookApplication != null</requires>
     </member>
     <member name="P:Facebook.FacebookApplication.Current">
       <summary>
             Gets the current Facebook application.
             </summary>
+      <getter>
+        <ensures>Contract.Result&lt;IFacebookApplication&gt;() != null</ensures>
+      </getter>
     </member>
     <member name="P:Facebook.FacebookApplication.InnerCurrent">
       <summary>
             Gets InnerCurrent.
             </summary>
+      <getter>
+        <ensures>Contract.Result&lt;IFacebookApplication&gt;() != null</ensures>
+      </getter>
     </member>
     <member name="T:Facebook.FacebookMediaObject">
       <summary>
@@ -1411,6 +1490,7 @@
                 response_type : Optional, default is token. The requested response: an access token (token), an authorization code (code), or both (code_and_token).
                 display       : The display mode in which to render the dialog. The default is page on the www subdomain and wap on the m subdomain. This is automatically specified by most SDKs. (For WP7 builds it is set to touch.)
             </remarks>
+      <ensures>Contract.Result&lt;Uri&gt;() != null</ensures>
     </member>
     <member name="M:Facebook.FacebookOAuthClient.GetLogoutUrl">
       <summary>
@@ -1484,6 +1564,8 @@
       <returns>
             The url to navigate.
             </returns>
+      <requires>!string.IsNullOrEmpty(appId)</requires>
+      <ensures>Contract.Result&lt;Uri&gt;() != null</ensures>
     </member>
     <member name="M:Facebook.FacebookOAuthClient.GetLoginUrl(System.String,System.Uri,System.String[],System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -1622,6 +1704,8 @@
       <returns>
             The string of the url for the given parameters.
             </returns>
+      <requires>!String.IsNullOrEmpty(name)</requires>
+      <ensures>Contract.Result&lt;Uri&gt;() != default(Uri)</ensures>
     </member>
     <member name="P:Facebook.FacebookOAuthClient.AppId">
       <summary>
@@ -1642,6 +1726,9 @@
       <summary>
             Gets the aliases to Facebook domains.
             </summary>
+      <getter>
+        <ensures>Contract.Result&lt;Dictionary&lt;string, Uri&gt;&gt;() != null</ensures>
+      </getter>
     </member>
     <member name="P:Facebook.FacebookOAuthClient.WebClient">
       <summary>
@@ -1735,6 +1822,7 @@
       <remarks>
             The values of parameters should not be url encoded.
             </remarks>
+      <requires>parameters != null</requires>
     </member>
     <member name="M:Facebook.FacebookOAuthResult.Parse(System.String)">
       <summary>
@@ -1870,6 +1958,7 @@
       <param name="first">Default values, only used if second does not contain a value.</param>
       <param name="second">Every value of the merged object is used.</param>
       <returns>The merged dictionary</returns>
+      <ensures>Contract.Result&lt;IDictionary&lt;TKey, TValue&gt;&gt;() != null</ensures>
     </member>
     <member name="M:Facebook.FacebookUtils.ToDictionary(System.Object)">
       <summary>
@@ -1881,6 +1970,8 @@
       <returns>
             Returns the dictionary equivalent of the specified object.
             </returns>
+      <requires>parameters != null</requires>
+      <ensures>Contract.Result&lt;IDictionary&lt;string, object&gt;&gt;() != null</ensures>
     </member>
     <member name="M:Facebook.FacebookUtils.ToJsonQueryString(System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -1888,6 +1979,8 @@
             </summary>
       <param name="dictionary">The dictionary.</param>
       <returns>A Json formatted querystring.</returns>
+      <requires>dictionary != null</requires>
+      <ensures>Contract.Result&lt;string&gt;() != null</ensures>
     </member>
     <member name="M:Facebook.FacebookUtils.ToJsonQueryString(System.Collections.Generic.IDictionary{System.String,System.String})">
       <summary>
@@ -1895,6 +1988,8 @@
             </summary>
       <param name="dictionary">The dictionary.</param>
       <returns>A Json formatted querystring.</returns>
+      <requires>dictionary != null</requires>
+      <ensures>Contract.Result&lt;string&gt;() != null</ensures>
     </member>
     <member name="M:Facebook.FacebookUtils.ToJsonQueryString(System.Collections.Specialized.NameValueCollection)">
       <summary>
@@ -1902,6 +1997,8 @@
             </summary>
       <param name="collection">The collection.</param>
       <returns>A Json formatted querystring.</returns>
+      <requires>collection != null</requires>
+      <ensures>Contract.Result&lt;string&gt;() != null</ensures>
     </member>
     <member name="M:Facebook.FacebookUtils.ParseQueryParametersToDictionary(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -1911,6 +2008,7 @@
       <param name="path">The path to parse.</param>
       <param name="parameters">The dictionary</param>
       <returns />
+      <requires>parameters != null</requires>
     </member>
     <member name="M:Facebook.FacebookUtils.ConvertToString(Facebook.HttpMethod)">
       <summary>
@@ -1980,6 +2078,7 @@
       <returns>
             The string with trailing slash removed.
             </returns>
+      <ensures>Contract.Result&lt;string&gt;() != null</ensures>
     </member>
     <member name="M:Facebook.FacebookUtils.RemoveTrailingSlash(System.Uri)">
       <summary>
@@ -1991,6 +2090,8 @@
       <returns>
             The uri with trailing slash removed.
             </returns>
+      <requires>url != null</requires>
+      <ensures>Contract.Result&lt;Uri&gt;() != null</ensures>
     </member>
     <member name="M:Facebook.FacebookUtils.Base64UrlDecode(System.String)">
       <summary>
@@ -2002,6 +2103,8 @@
       <returns>
             The base 64 url decoded string.
             </returns>
+      <requires>!string.IsNullOrEmpty(base64UrlSafeString)</requires>
+      <ensures>Contract.Result&lt;byte[]&gt;() != null</ensures>
     </member>
     <member name="M:Facebook.FacebookUtils.Base64UrlEncode(System.Byte[])">
       <summary>
@@ -2013,6 +2116,8 @@
       <returns>
             Base64 url encoded string.
             </returns>
+      <requires>input != null</requires>
+      <ensures>!string.IsNullOrEmpty(Contract.Result&lt;string&gt;())</ensures>
     </member>
     <member name="M:Facebook.FacebookUtils.ParseUrlQueryString(System.String)">
       <summary>
@@ -2024,6 +2129,7 @@
       <returns>
             Returns a dictionary of keys and values for the querystring.
             </returns>
+      <ensures>Contract.Result&lt;IDictionary&lt;string, object&gt;&gt;() != null</ensures>
     </member>
     <member name="M:Facebook.FacebookUtils.ComputerMd5Hash(System.Byte[])">
       <summary>
@@ -2035,6 +2141,8 @@
       <returns>
             The md5 hash.
             </returns>
+      <requires>data != null</requires>
+      <ensures>Contract.Result&lt;byte[]&gt;() != null</ensures>
     </member>
     <member name="M:Facebook.FacebookUtils.ComputeHmacSha256Hash(System.Byte[],System.Byte[])">
       <summary>
@@ -2049,6 +2157,9 @@
       <returns>
             The Hmac Sha 256 hash.
             </returns>
+      <requires>data != null</requires>
+      <requires>key != null</requires>
+      <ensures>Contract.Result&lt;byte[]&gt;() != null</ensures>
     </member>
     <member name="M:Facebook.FacebookUtils.DecryptAes256CBCNoPadding(System.Byte[],System.Byte[],System.Byte[])">
       <summary>
@@ -2066,6 +2177,10 @@
       <returns>
             The decrypted string.
             </returns>
+      <requires>encryptedData != null</requires>
+      <requires>key != null</requires>
+      <requires>iv != null</requires>
+      <ensures>!string.IsNullOrEmpty(Contract.Result&lt;string&gt;())</ensures>
     </member>
     <member name="M:Facebook.FacebookUtils.IsUsingRestApi(System.Collections.Generic.IDictionary{System.String,System.Uri},System.Uri)">
       <summary>
@@ -2080,6 +2195,7 @@
       <returns>
             Returns true if request uri is using the old rest api otherwise false.
             </returns>
+      <requires>requestUri != null</requires>
     </member>
     <member name="M:Facebook.FacebookUtils.GetUrl(System.Collections.Generic.IDictionary{System.String,System.Uri},System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
@@ -2100,6 +2216,8 @@
       <returns>
             The string of the url for the given parameters.
             </returns>
+      <requires>!String.IsNullOrEmpty(name)</requires>
+      <ensures>Contract.Result&lt;Uri&gt;() != default(Uri)</ensures>
     </member>
     <member name="M:Facebook.FacebookUtils.GetResponseString(Facebook.WebExceptionWrapper)">
       <summary>
@@ -2140,6 +2258,7 @@
       <returns>
             Returns <see cref="T:Facebook.FacebookApiException" /> if it is a rest exception otherwise null.
             </returns>
+      <requires>requestUri != null</requires>
     </member>
     <member name="M:Facebook.ExceptionFactory.CheckForRestException(System.Collections.Generic.IDictionary{System.String,System.Uri},System.Uri,System.Object)">
       <summary>
@@ -2157,6 +2276,7 @@
       <returns>
             Returns <see cref="T:Facebook.FacebookApiException" /> if it is a rest exception otherwise null.
             </returns>
+      <requires>requestUri != null</requires>
     </member>
     <member name="M:Facebook.ExceptionFactory.GetGraphException(System.Object)">
       <summary>
@@ -2171,6 +2291,7 @@
             </summary>
       <param name="exception">The web exception.</param>
       <returns>A Facebook API exception or null.</returns>
+      <requires>exception != null</requires>
     </member>
     <member name="M:Facebook.ExceptionFactory.GetGraphException(System.Net.WebException)">
       <summary>
@@ -2178,6 +2299,7 @@
             </summary>
       <param name="exception">The web exception.</param>
       <returns>A Facebook API exception or null.</returns>
+      <requires>exception != null</requires>
     </member>
     <member name="T:Facebook.IFacebookSettings">
       <summary>
@@ -2196,33 +2318,60 @@
             </summary>
       <value>The retry delay.</value>
     </member>
-    <member name="T:Facebook.JsonArray">
+    <member name="T:Facebook.Properties.Resources">
       <summary>
-            Represents a json array.
+              A strongly-typed resource class, for looking up localized strings, etc.
             </summary>
     </member>
-    <member name="M:Facebook.JsonArray.ToString">
+    <member name="P:Facebook.Properties.Resources.ResourceManager">
       <summary>
-            Json string representation of <see cref="T:Facebook.JsonArray" />.
-            </summary>
-      <returns>
-            Returns the Json string representation of <see cref="T:Facebook.JsonArray" />.
-            </returns>
-      <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object">Contract.Result&lt;string&gt;() != null</ensures>
-    </member>
-    <member name="T:Facebook.JsonObject">
-      <summary>
-            Represents a JSON object.
+              Returns the cached ResourceManager instance used by this class.
             </summary>
     </member>
-    <member name="F:Facebook.JsonObject.members">
+    <member name="P:Facebook.Properties.Resources.Culture">
+      <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+    </member>
+    <member name="P:Facebook.Properties.Resources.InvalidSignedRequest">
+      <summary>
+              Looks up a localized string similar to Invalid signed request..
+            </summary>
+    </member>
+    <member name="P:Facebook.Properties.Resources.MediaObjectMustHavePropertiesSetError">
+      <summary>
+              Looks up a localized string similar to The media object must have a content type, file name, and value set..
+            </summary>
+    </member>
+    <member name="P:Facebook.Properties.Resources.MultipleMediaObjectsError">
+      <summary>
+              Looks up a localized string similar to You cannot include more than one Facebook Media Object in a single request..
+            </summary>
+    </member>
+    <member name="T:Facebook.HttpMethod">
+      <summary>
+            Represents an HTTP request type.
+            </summary>
+    </member>
+    <member name="F:Facebook.HttpMethod.Get">
+      <summary>
+            A GET Request
+            </summary>
+    </member>
+    <member name="F:Facebook.HttpMethod.Post">
+      <summary>
+            A POST Request
+            </summary>
+    </member>
+    <member name="F:Facebook.HttpMethod.Delete">
+      <summary>
+            A DELETE Request
+            </summary>
+    </member>
+    <member name="F:Facebook.JsonObject._members">
       <summary>
             The internal member dictionary.
-            </summary>
-    </member>
-    <member name="M:Facebook.JsonObject.#ctor">
-      <summary>
-            Initializes a new instance of the <see cref="T:Facebook.JsonObject" /> class.
             </summary>
     </member>
     <member name="M:Facebook.JsonObject.Add(System.String,System.Object)">
@@ -2420,112 +2569,49 @@
         <c>true</c> if this instance is read only; otherwise, <c>false</c>.
             </value>
     </member>
-    <member name="M:Facebook.JsonSerializer.JsonNetSerializer.SerializeObject(System.Object)">
+    <member name="T:SimpleJson.SimpleJson">
       <summary>
-            Serializes the object to json string.
+            This class encodes and decodes JSON strings.
+            Spec. details, see http://www.json.org/
+            
+            JSON uses Arrays and Objects. These correspond here to the datatypes JsonArray(IList&lt;object&gt;) and JsonObject(IDictionary&lt;string,object&gt;).
+            All numbers are parsed to doubles.
             </summary>
-      <param name="obj">
-            The value.
-            </param>
-      <returns>
-            The json string.
-            </returns>
     </member>
-    <member name="M:Facebook.JsonSerializer.JsonNetSerializer.DeserializeObject(System.String,System.Type)">
+    <member name="M:SimpleJson.SimpleJson.DeserializeObject(System.String)">
       <summary>
-            Deserializes the json string.
+            Parses the string json into a value
             </summary>
-      <param name="json">
-            The json string.
-            </param>
-      <param name="type">
-            The type of object.
-            </param>
-      <returns>
-            The object.
-            </returns>
-      <exception cref="T:System.Runtime.Serialization.SerializationException">
-            Occurs when deserialization fails.
-            </exception>
+      <param name="json">A JSON string.</param>
+      <returns>An IList&lt;object&gt;, a IDictionary&lt;string,object&gt;, a double, a string, null, true, or false</returns>
     </member>
-    <member name="M:Facebook.JsonSerializer.JsonNetSerializer.DeserializeObject``1(System.String)">
+    <member name="M:SimpleJson.SimpleJson.TryDeserializeObject(System.String,System.Object@)">
       <summary>
-            Deserializes the object.
-            </summary>
-      <typeparam name="T">The type of the object.</typeparam>
-      <param name="json">The json.</param>
-      <returns />
-    </member>
-    <member name="M:Facebook.JsonSerializer.JsonNetSerializer.DeserializeObject(System.String)">
-      <summary>
-            Deserialize the json string to object.
+            Try parsing the json string into a value.
             </summary>
       <param name="json">
-            The json string.
+            A JSON string.
             </param>
-      <returns>
+      <param name="object">
             The object.
-            </returns>
-    </member>
-    <member name="M:Facebook.JsonSerializer.JsonNetSerializer.ConvertJTokenToDictionary(Newtonsoft.Json.Linq.JToken)">
-      <summary>
-            Converts the <see cref="T:Newtonsoft.Json.Linq.JToken" /> to <see cref="T:System.Object" /></summary>
-      <param name="token">
-            The token.
             </param>
       <returns>
-            Returns the object.
+            Returns true if successfull otherwise false.
             </returns>
     </member>
-    <member name="T:Facebook.Properties.Resources">
+    <member name="M:SimpleJson.SimpleJson.SerializeObject(System.Object,SimpleJson.IJsonSerializerStrategy)">
       <summary>
-              A strongly-typed resource class, for looking up localized strings, etc.
+            Converts a IDictionary&lt;string,object&gt; / IList&lt;object&gt; object into a JSON string
             </summary>
+      <param name="json">A IDictionary&lt;string,object&gt; / IList&lt;object&gt;</param>
+      <returns>A JSON encoded string, or null if object 'json' is not serializable</returns>
     </member>
-    <member name="P:Facebook.Properties.Resources.ResourceManager">
+    <member name="M:SimpleJson.SimpleJson.IsNumeric(System.Object)">
       <summary>
-              Returns the cached ResourceManager instance used by this class.
-            </summary>
-    </member>
-    <member name="P:Facebook.Properties.Resources.Culture">
-      <summary>
-              Overrides the current thread's CurrentUICulture property for all
-              resource lookups using this strongly typed resource class.
-            </summary>
-    </member>
-    <member name="P:Facebook.Properties.Resources.InvalidSignedRequest">
-      <summary>
-              Looks up a localized string similar to Invalid signed request..
-            </summary>
-    </member>
-    <member name="P:Facebook.Properties.Resources.MediaObjectMustHavePropertiesSetError">
-      <summary>
-              Looks up a localized string similar to The media object must have a content type, file name, and value set..
-            </summary>
-    </member>
-    <member name="P:Facebook.Properties.Resources.MultipleMediaObjectsError">
-      <summary>
-              Looks up a localized string similar to You cannot include more than one Facebook Media Object in a single request..
-            </summary>
-    </member>
-    <member name="T:Facebook.HttpMethod">
-      <summary>
-            Represents an HTTP request type.
-            </summary>
-    </member>
-    <member name="F:Facebook.HttpMethod.Get">
-      <summary>
-            A GET Request
-            </summary>
-    </member>
-    <member name="F:Facebook.HttpMethod.Post">
-      <summary>
-            A POST Request
-            </summary>
-    </member>
-    <member name="F:Facebook.HttpMethod.Delete">
-      <summary>
-            A DELETE Request
+            Determines if a given object is numeric in any way
+            (can be integer, double, null, etc). 
+            
+            Thanks to mtighe for pointing out Double.TryParse to me.
             </summary>
     </member>
     <member name="M:Facebook.WebExceptionWrapper.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
@@ -2536,6 +2622,38 @@
       <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual information about the source or destination.</param>
       <exception cref="T:System.ArgumentNullException">The <paramref name="info" /> parameter is null. </exception>
       <exception cref="T:System.Runtime.Serialization.SerializationException">The class name is null or <see cref="P:System.Exception.HResult" /> is zero (0). </exception>
+    </member>
+    <member name="P:Facebook.JsonSerializer.InnerCurrent">
+      <getter>
+        <ensures>Contract.Result&lt;IJsonSerializer&gt;() != null</ensures>
+      </getter>
+    </member>
+    <member name="P:Facebook.JsonSerializer.Current">
+      <getter>
+        <ensures>Contract.Result&lt;IJsonSerializer&gt;() != null</ensures>
+      </getter>
+    </member>
+    <member name="M:Facebook.JsonSerializer.InnerSetApplication(System.Func{Facebook.IJsonSerializer})">
+      <requires>getJsonSerializer != null</requires>
+    </member>
+    <member name="M:Facebook.JsonSerializer.SetJsonSerializer(System.Func{Facebook.IJsonSerializer})">
+      <requires>getJsonSerializer != null</requires>
+    </member>
+    <member name="M:Facebook.FacebookUtils.RemoveStartingSlash(System.String)">
+      <ensures>Contract.Result&lt;string&gt;() != null</ensures>
+    </member>
+    <member name="M:Facebook.FacebookOAuthClient.OAuthRequest(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+      <requires>!String.IsNullOrEmpty(name)</requires>
+    </member>
+    <member name="M:Facebook.FacebookOAuthClient.OAuthRequestAsync(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Object,System.Func{System.String,System.String},System.Action{System.Object,Facebook.FacebookApiEventArgs})">
+      <requires>!String.IsNullOrEmpty(name)</requires>
+      <requires>onDownloadComplete != null</requires>
+    </member>
+    <member name="M:Facebook.FacebookOAuthClient.DownloadDataCompleted(System.Object,Facebook.DownloadDataCompletedEventArgsWrapper,System.Func{System.String,System.String},System.Action{System.Object,Facebook.FacebookApiEventArgs})">
+      <requires>onDownloadComplete != null</requires>
+    </member>
+    <member name="M:Facebook.JsonArray.ToString">
+      <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object">Contract.Result&lt;string&gt;() != null</ensures>
     </member>
   </members>
 </doc>

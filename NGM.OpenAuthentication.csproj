@@ -36,8 +36,9 @@
     <Reference Include="DotNetOpenAuth">
       <HintPath>Lib\DotNetOpenAuth-3.5.0.10357\DotNetOpenAuth.dll</HintPath>
     </Reference>
-    <Reference Include="Facebook">
-      <HintPath>Lib\FacebookSDK_Net40_V5.0.9\Facebook.dll</HintPath>
+    <Reference Include="Facebook, Version=5.0.9.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\FacebookSDK_Net40_V5.0.10\Facebook.dll</HintPath>
     </Reference>
     <Reference Include="LinqToTwitter">
       <HintPath>Lib\LinqToTwitterBinaries_v2.0.20\LinqToTwitter.dll</HintPath>
@@ -49,9 +50,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\WindowsLiveSDK_v4.1\Microsoft.Live.AuthHandler.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>Lib\Json40r1\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">

@@ -2293,8 +2293,10 @@
               Looks up a localized string similar to return_ssl_resources.
             </summary>
     </member>
-    <member name="M:Facebook.Web.FacebookWebClient.AddReturnSslResourceIfRequired(System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean)">
-      <ensures>Contract.Result&lt;IDictionary&lt;string, object&gt;&gt;() != null</ensures>
+    <member name="M:Facebook.Web.FacebookSubscriptionVerifier.ComputeHmacSha1Hash(System.Byte[],System.Byte[])">
+      <requires>data != null</requires>
+      <requires>key != null</requires>
+      <ensures>Contract.Result&lt;byte[]&gt;() != null</ensures>
     </member>
     <member name="M:Facebook.Web.FacebookAppRedirectHttpHandler.GetUrl(System.Web.HttpContextBase)">
       <requires>context != null</requires>
@@ -2304,13 +2306,29 @@
     <member name="M:Facebook.Web.CanvasUrlBuilderExtensions.GetCanvasUrlBuilder(System.Web.HttpContextWrapper)">
       <ensures>Contract.Result&lt;CanvasUrlBuilder&gt;() != null</ensures>
     </member>
-    <member name="M:Facebook.Web.CanvasUrlBuilder.PrepareCanvasLoginUrlOAuthState(System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+    <member name="M:Facebook.Web.FacebookWebClient.AddReturnSslResourceIfRequired(System.Collections.Generic.IDictionary{System.String,System.Object},System.Boolean)">
       <ensures>Contract.Result&lt;IDictionary&lt;string, object&gt;&gt;() != null</ensures>
     </member>
-    <member name="M:Facebook.Web.FacebookSubscriptionVerifier.ComputeHmacSha1Hash(System.Byte[],System.Byte[])">
-      <requires>data != null</requires>
-      <requires>key != null</requires>
-      <ensures>Contract.Result&lt;byte[]&gt;() != null</ensures>
+    <member name="M:Facebook.Web.FacebookSubscriptionsHttpHandlerCodeContacts.OnVerifying(Facebook.Web.FacebookSubscriptionContext)">
+      <requires>context != null</requires>
+      <requires>context.HttpContext != null</requires>
+      <requires>context.FacebookApplication != null</requires>
+      <requires inheritedFrom="M:Facebook.Web.FacebookSubscriptionsHttpHandler.OnVerifying(Facebook.Web.FacebookSubscriptionContext)" inheritedFromTypeName="FacebookSubscriptionsHttpHandler">context != null</requires>
+      <requires inheritedFrom="M:Facebook.Web.FacebookSubscriptionsHttpHandler.OnVerifying(Facebook.Web.FacebookSubscriptionContext)" inheritedFromTypeName="FacebookSubscriptionsHttpHandler">context.HttpContext != null</requires>
+      <requires inheritedFrom="M:Facebook.Web.FacebookSubscriptionsHttpHandler.OnVerifying(Facebook.Web.FacebookSubscriptionContext)" inheritedFromTypeName="FacebookSubscriptionsHttpHandler">context.FacebookApplication != null</requires>
+    </member>
+    <member name="M:Facebook.Web.FacebookSubscriptionsHttpHandlerCodeContacts.ProcessSubscription(Facebook.Web.FacebookSubscriptionContext,System.Object)">
+      <requires>context != null</requires>
+      <requires>context.HttpContext.Request != null</requires>
+      <requires>context.HttpContext.Request.Params != null</requires>
+      <requires>context.HttpContext.Response != null</requires>
+      <requires inheritedFrom="M:Facebook.Web.FacebookSubscriptionsHttpHandler.ProcessSubscription(Facebook.Web.FacebookSubscriptionContext,System.Object)" inheritedFromTypeName="FacebookSubscriptionsHttpHandler">context != null</requires>
+      <requires inheritedFrom="M:Facebook.Web.FacebookSubscriptionsHttpHandler.ProcessSubscription(Facebook.Web.FacebookSubscriptionContext,System.Object)" inheritedFromTypeName="FacebookSubscriptionsHttpHandler">context.HttpContext.Request != null</requires>
+      <requires inheritedFrom="M:Facebook.Web.FacebookSubscriptionsHttpHandler.ProcessSubscription(Facebook.Web.FacebookSubscriptionContext,System.Object)" inheritedFromTypeName="FacebookSubscriptionsHttpHandler">context.HttpContext.Request.Params != null</requires>
+      <requires inheritedFrom="M:Facebook.Web.FacebookSubscriptionsHttpHandler.ProcessSubscription(Facebook.Web.FacebookSubscriptionContext,System.Object)" inheritedFromTypeName="FacebookSubscriptionsHttpHandler">context.HttpContext.Response != null</requires>
+    </member>
+    <member name="M:Facebook.Web.CanvasUrlBuilder.PrepareCanvasLoginUrlOAuthState(System.String,System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+      <ensures>Contract.Result&lt;IDictionary&lt;string, object&gt;&gt;() != null</ensures>
     </member>
   </members>
 </doc>
