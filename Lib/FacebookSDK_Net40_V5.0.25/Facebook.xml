@@ -2623,10 +2623,8 @@
       <exception cref="T:System.ArgumentNullException">The <paramref name="info" /> parameter is null. </exception>
       <exception cref="T:System.Runtime.Serialization.SerializationException">The class name is null or <see cref="P:System.Exception.HResult" /> is zero (0). </exception>
     </member>
-    <member name="P:Facebook.JsonSerializer.InnerCurrent">
-      <getter>
-        <ensures>Contract.Result&lt;IJsonSerializer&gt;() != null</ensures>
-      </getter>
+    <member name="M:Facebook.JsonSerializer.SetJsonSerializer(System.Func{Facebook.IJsonSerializer})">
+      <requires>getJsonSerializer != null</requires>
     </member>
     <member name="P:Facebook.JsonSerializer.Current">
       <getter>
@@ -2636,8 +2634,10 @@
     <member name="M:Facebook.JsonSerializer.InnerSetApplication(System.Func{Facebook.IJsonSerializer})">
       <requires>getJsonSerializer != null</requires>
     </member>
-    <member name="M:Facebook.JsonSerializer.SetJsonSerializer(System.Func{Facebook.IJsonSerializer})">
-      <requires>getJsonSerializer != null</requires>
+    <member name="P:Facebook.JsonSerializer.InnerCurrent">
+      <getter>
+        <ensures>Contract.Result&lt;IJsonSerializer&gt;() != null</ensures>
+      </getter>
     </member>
     <member name="M:Facebook.FacebookUtils.RemoveStartingSlash(System.String)">
       <ensures>Contract.Result&lt;string&gt;() != null</ensures>
