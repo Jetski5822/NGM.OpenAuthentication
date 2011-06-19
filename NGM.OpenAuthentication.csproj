@@ -33,11 +33,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetOpenAuth">
-      <HintPath>Lib\DotNetOpenAuth-3.5.0.10357\DotNetOpenAuth.dll</HintPath>
+    <Reference Include="DotNetOpenAuth, Version=3.5.0.10357, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\DotNetOpenAuth-4.0.0.11165\DotNetOpenAuth.dll</HintPath>
     </Reference>
-    <Reference Include="Facebook">
-      <HintPath>Lib\FacebookSDK_Net40_V5.0.25\Facebook.dll</HintPath>
+    <Reference Include="Facebook, Version=5.0.25.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\FacebookSDK_Net40_V5.0.26\Facebook.dll</HintPath>
     </Reference>
     <Reference Include="LinqToTwitter">
       <HintPath>Lib\LinqToTwitterBinaries_v2.0.20\LinqToTwitter.dll</HintPath>
