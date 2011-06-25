@@ -9,16 +9,7 @@
 <div id="signInButton"></div>
 
 <script type="text/javascript">
-    function signOutCallback() {
-        var data = {
-            __RequestVerificationToken: "@Html.AntiForgeryTokenValueOrchard()"
-        };
-
-        $.post("/Users/Account/LogOff", data, function() {
-                WL.logout();
-                location.reload();
-        });
-    }
+    WL.Event.subscribe("auth.logout", onLogout);
     @*http://msdn.microsoft.com/en-us/library/hh243643.aspx#wlinit*@
     WL.init({
         client_id: "@settings.LiveIdClientIdentifier",
@@ -29,4 +20,15 @@
         element: "signInButton",
         scope: "@Model.Permissions"
     });
+    WL.logout();
+
+    function onLogout() {
+        var data = {
+            __RequestVerificationToken: "@Html.AntiForgeryTokenValueOrchard()"
+        };
+
+        $.post("/Users/Account/LogOff", data, function() {
+            location.reload();
+        });
+    }
 </script>
