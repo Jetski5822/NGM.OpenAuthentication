@@ -14,7 +14,8 @@
     @*http://msdn.microsoft.com/en-us/library/hh243643.aspx#wlinit*@
     WL.init({
         client_id: "@settings.LiveIdClientIdentifier",
-        response_type: "token"
+        response_type: "code",
+        redirect_uri: "@NGM.OpenAuthentication.Core.OAuth.LiveIdParametersHelpers.LiveIdCallback()"
     });
     WL.ui({
         name: "signin",
@@ -31,8 +32,9 @@
 
     function onLogout() {
         var session = WL.getSession();
-        if (session == null)
+        if (session != null)
         {
+            WL.logout;
             var data = {
                 __RequestVerificationToken: "@Html.AntiForgeryTokenValueOrchard()"
             };
