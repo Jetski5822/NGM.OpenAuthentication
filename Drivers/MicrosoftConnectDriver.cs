@@ -18,15 +18,17 @@ namespace NGM.OpenAuthentication.Drivers {
         }
 
         protected override DriverResult Display(MicrosoftConnectSignInPart part, string displayType, dynamic shapeHelper) {
+            return ContentShape("MicrosoftConnectSignIn", () => shapeHelper.MicrosoftConnectSignIn(Model: part, Permissions: BuildScopePermissions()));
+        }
+
+        private string BuildScopePermissions() {
             var extendedPermissions = _scopeProviderPermissionService.Get(Provider.LiveId).Where(o => o.IsEnabled).Select(o => o.Scope).ToArray();
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             foreach (var extendedPermission in extendedPermissions) {
-                stringBuilder.Append(extendedPermission);
-                stringBuilder.Append(",");
+                stringBuilder.AppendFormat("{0},", extendedPermission);
             }
             stringBuilder.Remove(stringBuilder.Length - 1, 1);
-
-            return ContentShape("MicrosoftConnectSignIn", () => shapeHelper.MicrosoftConnectSignIn(Model: part, Permissions: stringBuilder.ToString()));
+            return stringBuilder.ToString();
         }
     }
 }

@@ -1,10 +1,9 @@
 ﻿﻿@using Orchard.ContentManagement;
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wl="http://apis.live.net/js/2010">
-
 @{
     Script.Require("Jquery");
-    Script.Include("http://js.live.net/4.1/loader.js");
+    //TODO : AdditionalMetadataAttribute localization http://msdn.microsoft.com/en-us/library/hh243643.aspx
+    Script.Include("https://js.live.net/v5.0/wl.js").AtHead();
     var settings = WorkContext.CurrentSite.As<NGM.OpenAuthentication.Models.OpenAuthenticationSettingsPart>().Record; }
 
 <script type="text/javascript">
@@ -14,16 +13,18 @@
         };
 
         $.post("/Users/Account/LogOff", data, function() {
+                WL.logout();
                 location.reload();
-            });
+        });
     }
+
+    @*http://msdn.microsoft.com/en-us/library/hh243643.aspx#wlinit*@
+
+    WL.init({
+        client_id: "@settings.LiveIdClientIdentifier",
+        response_type: "token"
+    });
+
+    WL.login({ scope: "@Model.Permissions" });
+
 </script>
-
-<wl:signin onsignout="{signOutCallback}" ></wl:signin>
-
-<wl:app 
-    channel-url="../../Modules/NGM.OpenAuthentication/Pages/channel.htm" 
-    callback-url="@NGM.OpenAuthentication.Core.OAuth.LiveIdParametersHelpers.LiveIdCallback()"
-    client-id=@settings.LiveIdClientIdentifier
-    scope="@Model.Permissions">
-</wl:app>

@@ -91,7 +91,7 @@ namespace NGM.OpenAuthentication {
 
             return 5;
         }
-
+        
         public int UpdateFrom5() {
             SchemaBuilder.DropTable("OpenAuthenticationPermissionSettingsPartRecord");
 

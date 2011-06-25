@@ -117,14 +117,24 @@ namespace NGM.OpenAuthentication.Core
             get { return Provider.LiveId; }
         }
 
+        //http://msdn.microsoft.com/en-us/library/hh243646.aspx
         public IEnumerable<ScopePermission> GetPermissions() {
             return new[] {
-                new ScopePermission {Resource = "Activities", Scope = "WL_Activities.View", IsEnabled = true},
-                new ScopePermission {Resource = "Activities", Scope = "WL_Activities.Update"},
-                new ScopePermission {Resource = "Contacts", Scope = "WL_Contacts.View", IsEnabled = true},
-                new ScopePermission {Resource = "Photos", Scope = "WL_Photos.View"},
-                new ScopePermission {Resource = "Photos", Scope = "WL_Profiles.View"},
-                new ScopePermission {Resource = "Real-Time Shared Experiances", Scope = "Messenger.SignIn", IsEnabled = true},
+                new ScopePermission {Resource = "Core", Scope = "wl.basic", IsEnabled = true},
+                new ScopePermission {Resource = "Core", Scope = "wl.offline_access"},
+                new ScopePermission {Resource = "Core", Scope = "wl.signin", IsEnabled = true},
+                new ScopePermission {Resource = "Extended", Scope = "wl.birthday"},
+                new ScopePermission {Resource = "Extended", Scope = "wl.contacts_birthday"},
+                new ScopePermission {Resource = "Extended", Scope = "wl.contacts_photos"},
+                new ScopePermission {Resource = "Extended", Scope = "wl.emails"},
+                new ScopePermission {Resource = "Extended", Scope = "wl.events_create"},
+                new ScopePermission {Resource = "Extended", Scope = "wl.phone_numbers"},
+                new ScopePermission {Resource = "Extended", Scope = "wl.photos"},
+                new ScopePermission {Resource = "Extended", Scope = "wl.postal_addresses"},
+                new ScopePermission {Resource = "Extended", Scope = "wl.share"},
+                new ScopePermission {Resource = "Extended", Scope = "wl.work_profile"},
+                new ScopePermission {Resource = "Developer", Scope = "wl.applications"},
+                new ScopePermission {Resource = "Developer", Scope = "wl.applications_create"},
             };
         }
     }
