@@ -1,4 +1,3 @@
-using System;
 using System.Globalization;
 using Orchard;
 using Orchard.Environment.Extensions;
