@@ -6,6 +6,8 @@
     Script.Include("https://js.live.net/v5.0/wl.js").AtHead();
     var settings = WorkContext.CurrentSite.As<NGM.OpenAuthentication.Models.OpenAuthenticationSettingsPart>().Record; }
 
+<div id="signInButton"></div>
+
 <script type="text/javascript">
     function signOutCallback() {
         var data = {
@@ -25,6 +27,11 @@
         response_type: "token"
     });
 
-    WL.login({ scope: "@Model.Permissions" });
+    WL.ui({
+        name: "signin",
+        element: "signInButton",
+        scope: "@Model.Permissions"
+    });
 
 </script>
+
