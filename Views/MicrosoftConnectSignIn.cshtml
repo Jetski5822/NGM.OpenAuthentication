@@ -3,7 +3,7 @@
 @{
     Script.Require("Jquery");
     //TODO : AdditionalMetadataAttribute localization http://msdn.microsoft.com/en-us/library/hh243643.aspx
-    Script.Include("https://js.live.net/v5.0/wl.js").AtHead();
+    Script.Require("MicrosoftLiveConnect").AtHead();    
     var settings = WorkContext.CurrentSite.As<NGM.OpenAuthentication.Models.OpenAuthenticationSettingsPart>().Record; }
 
 <div id="signInButton"></div>
@@ -19,19 +19,14 @@
                 location.reload();
         });
     }
-
     @*http://msdn.microsoft.com/en-us/library/hh243643.aspx#wlinit*@
-
     WL.init({
         client_id: "@settings.LiveIdClientIdentifier",
         response_type: "token"
     });
-
     WL.ui({
         name: "signin",
         element: "signInButton",
         scope: "@Model.Permissions"
     });
-
 </script>
-
