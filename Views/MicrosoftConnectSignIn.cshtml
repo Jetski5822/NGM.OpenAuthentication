@@ -10,6 +10,7 @@
 
 <script type="text/javascript">
     WL.Event.subscribe("auth.logout", onLogout);
+    WL.Event.subscribe("auth.login", onLogin);
     @*http://msdn.microsoft.com/en-us/library/hh243643.aspx#wlinit*@
     WL.init({
         client_id: "@settings.LiveIdClientIdentifier",
@@ -20,15 +21,25 @@
         element: "signInButton",
         scope: "@Model.Permissions"
     });
-    WL.logout();
+
+    function onLogin() {
+        var session = WL.getSession();
+        if (session) {
+            //alert(session.access_token)
+        }
+    }
 
     function onLogout() {
-        var data = {
-            __RequestVerificationToken: "@Html.AntiForgeryTokenValueOrchard()"
-        };
+        var session = WL.getSession();
+        if (session == null)
+        {
+            var data = {
+                __RequestVerificationToken: "@Html.AntiForgeryTokenValueOrchard()"
+            };
 
-        $.post("/Users/Account/LogOff", data, function() {
-            location.reload();
-        });
+            $.post("/Users/Account/LogOff", data, function() {
+                location.reload();
+            });
+        }
     }
 </script>
