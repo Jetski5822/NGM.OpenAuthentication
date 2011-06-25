@@ -37,9 +37,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\DotNetOpenAuth-4.0.0.11165\DotNetOpenAuth.dll</HintPath>
     </Reference>
-    <Reference Include="Facebook, Version=5.0.25.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+    <Reference Include="Facebook, Version=5.0.26.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\FacebookSDK_Net40_V5.0.26\Facebook.dll</HintPath>
+      <HintPath>Lib\FacebookSDK_Net40_V5.0.40\Facebook.dll</HintPath>
     </Reference>
     <Reference Include="LinqToTwitter">
       <HintPath>Lib\LinqToTwitterBinaries_v2.0.20\LinqToTwitter.dll</HintPath>

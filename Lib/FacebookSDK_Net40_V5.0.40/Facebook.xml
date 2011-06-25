@@ -1080,7 +1080,7 @@
       <requires>batchParameters != null</requires>
       <requires>batchParameters.Length &gt; 0</requires>
     </member>
-    <member name="M:Facebook.FacebookClient.ToParameters(Facebook.FacebookBatchParameter)">
+    <member name="M:Facebook.FacebookClient.ToParameters(Facebook.FacebookBatchParameter,System.Collections.Generic.IDictionary{System.String,Facebook.FacebookMediaObject}@)">
       <summary>
             Converts the facebook batch to POST parameters.
             </summary>
@@ -1225,20 +1225,19 @@
       <requires>uri != null</requires>
       <requires>parameters != null</requires>
     </member>
-    <member name="M:Facebook.FacebookClient.BuildMediaObjectPostData(System.Collections.Generic.IDictionary{System.String,System.Object},System.String)">
+    <member name="M:Facebook.FacebookClient.BuildMediaObjectPostData(System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IDictionary{System.String,Facebook.FacebookMediaObject},System.String)">
       <summary>
             Builds the request post data if the request contains a media object
             such as an image or video to upload.
             </summary>
-      <param name="parameters">
-            The request parameters.
-            </param>
-      <param name="boundary">
-            The multipart form request boundary.
-            </param>
-      <returns>
-            The request post data.
-            </returns>
+      <param name="parameters">The request parameters without media objects.</param>
+      <param name="mediaObjects">Media objects</param>
+      <param name="boundary">The multipart form request boundary.</param>
+      <returns>The request post data.</returns>
+      <requires>parameters != null</requires>
+      <requires>mediaObjects != null</requires>
+      <requires>mediaObjects.Count &gt; 0</requires>
+      <requires>!string.IsNullOrEmpty(boundary)</requires>
     </member>
     <member name="E:Facebook.FacebookClient.DeleteCompleted">
       <summary>
@@ -1420,6 +1419,8 @@
             Sets the value of the media object.
             </summary>
       <param name="value">The media object value.</param>
+      <returns>Facebook Media Object</returns>
+      <ensures>Contract.Result&lt;FacebookMediaObject&gt;() != null</ensures>
     </member>
     <member name="M:Facebook.FacebookMediaObject.GetValue">
       <summary>
@@ -1688,6 +1689,56 @@
             The code.
             </param>
     </member>
+    <member name="M:Facebook.FacebookOAuthClient.ParseResult(System.String)">
+      <summary>
+            Parse the uri to <see cref="T:Facebook.FacebookOAuthResult" />.
+            </summary>
+      <param name="uriString">
+            The url to parse.
+            </param>
+      <returns>
+            Returns an instance of <see cref="T:Facebook.FacebookOAuthResult" />.
+            </returns>
+    </member>
+    <member name="M:Facebook.FacebookOAuthClient.ParseResult(System.Uri)">
+      <summary>
+            Parse the uri to <see cref="T:Facebook.FacebookOAuthResult" />.
+            </summary>
+      <param name="uri">
+            The url to parse.
+            </param>
+      <returns>
+            Returns an instance of <see cref="T:Facebook.FacebookOAuthResult" />.
+            </returns>
+    </member>
+    <member name="M:Facebook.FacebookOAuthClient.TryParseResult(System.String,Facebook.FacebookOAuthResult@)">
+      <summary>
+            Try parsing the uri to <see cref="T:Facebook.FacebookOAuthResult" />.
+            </summary>
+      <param name="uriString">
+            The url to parse.
+            </param>
+      <param name="result">
+            An instance of <see cref="T:Facebook.FacebookOAuthResult" />.
+            </param>
+      <returns>
+            Returns true if parsing was successful otherwise false.
+            </returns>
+    </member>
+    <member name="M:Facebook.FacebookOAuthClient.TryParseResult(System.Uri,Facebook.FacebookOAuthResult@)">
+      <summary>
+            Try parsing the uri to <see cref="T:Facebook.FacebookOAuthResult" />.
+            </summary>
+      <param name="uri">
+            The url to parse.
+            </param>
+      <param name="result">
+            An instance of <see cref="T:Facebook.FacebookOAuthResult" />.
+            </param>
+      <returns>
+            Returns true if parsing was successful otherwise false.
+            </returns>
+    </member>
     <member name="M:Facebook.FacebookOAuthClient.GetUrl(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
       <summary>
             Build the URL for given domain alias, path and parameters.
@@ -1810,6 +1861,11 @@
     <member name="F:Facebook.FacebookOAuthResult._state">
       <summary>
             Gets or sets an opaque state used to maintain application state between the request and callback.
+            </summary>
+    </member>
+    <member name="M:Facebook.FacebookOAuthResult.#ctor">
+      <summary>
+            Initializes a new instance of the <see cref="T:Facebook.FacebookOAuthResult" /> class.
             </summary>
     </member>
     <member name="M:Facebook.FacebookOAuthResult.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
@@ -2011,6 +2067,20 @@
       <requires>parameters != null</requires>
     </member>
     <member name="M:Facebook.FacebookUtils.ConvertToString(Facebook.HttpMethod)">
+      <summary>
+            Gets the string representation of the specified http method.
+            </summary>
+      <param name="httpMethod">
+            The http method.
+            </param>
+      <returns>
+            The string representation of the http method.
+            </returns>
+      <exception cref="T:System.InvalidOperationException">
+            Throws error if the http method is not Get,Post or Delete.
+            </exception>
+    </member>
+    <member name="M:Facebook.FacebookUtils.ConvertToStringForce(Facebook.HttpMethod)">
       <summary>
             Gets the string representation of the specified http method.
             </summary>
@@ -2609,9 +2679,7 @@
     <member name="M:SimpleJson.SimpleJson.IsNumeric(System.Object)">
       <summary>
             Determines if a given object is numeric in any way
-            (can be integer, double, null, etc). 
-            
-            Thanks to mtighe for pointing out Double.TryParse to me.
+            (can be integer, double, null, etc).
             </summary>
     </member>
     <member name="M:Facebook.WebExceptionWrapper.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
@@ -2642,18 +2710,22 @@
     <member name="M:Facebook.FacebookUtils.RemoveStartingSlash(System.String)">
       <ensures>Contract.Result&lt;string&gt;() != null</ensures>
     </member>
-    <member name="M:Facebook.FacebookOAuthClient.OAuthRequest(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
-      <requires>!String.IsNullOrEmpty(name)</requires>
-    </member>
     <member name="M:Facebook.FacebookOAuthClient.OAuthRequestAsync(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Object,System.Func{System.String,System.String},System.Action{System.Object,Facebook.FacebookApiEventArgs})">
       <requires>!String.IsNullOrEmpty(name)</requires>
       <requires>onDownloadComplete != null</requires>
+    </member>
+    <member name="M:Facebook.FacebookOAuthClient.OAuthRequest(System.String,System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+      <requires>!String.IsNullOrEmpty(name)</requires>
     </member>
     <member name="M:Facebook.FacebookOAuthClient.DownloadDataCompleted(System.Object,Facebook.DownloadDataCompletedEventArgsWrapper,System.Func{System.String,System.String},System.Action{System.Object,Facebook.FacebookApiEventArgs})">
       <requires>onDownloadComplete != null</requires>
     </member>
     <member name="M:Facebook.JsonArray.ToString">
       <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object">Contract.Result&lt;string&gt;() != null</ensures>
+    </member>
+    <member name="M:Facebook.FacebookClient.PrepareBatchParameter(Facebook.FacebookBatchParameter[])">
+      <requires>batchParameters != null</requires>
+      <requires>batchParameters.Length &gt; 0</requires>
     </member>
   </members>
 </doc>
