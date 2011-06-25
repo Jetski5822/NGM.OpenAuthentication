@@ -57,7 +57,7 @@ namespace NGM.OpenAuthentication.Handlers {
             var externalDisplayIdentifier = _orchardServices.WorkContext.HttpContext.Request.Params["externaldisplayidentifier"];
             var oAuthToken = _orchardServices.WorkContext.HttpContext.Request.Params["oauthtoken"];
             var oAuthAccessToken = _orchardServices.WorkContext.HttpContext.Request.Params["oauthaccesstoken"];
-            var provider = int.Parse(_orchardServices.WorkContext.HttpContext.Request.Params["provider"]);
+            var provider = _orchardServices.WorkContext.HttpContext.Request.Params["provider"];
 
             return new HashedOpenAuthenticationParameters(provider) {
                 ExternalIdentifier = externalIdentifier,

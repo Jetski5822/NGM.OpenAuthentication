@@ -2,13 +2,13 @@
 
 namespace NGM.OpenAuthentication.Core {
     public sealed class HashedOpenAuthenticationParameters : OpenAuthenticationParameters {
-        private readonly int _hashedProvider;
-        
-        public HashedOpenAuthenticationParameters(int hashedProvider) {
+        private readonly string _hashedProvider;
+
+        public HashedOpenAuthenticationParameters(string hashedProvider) {
             _hashedProvider = hashedProvider;
         }
 
-        public HashedOpenAuthenticationParameters(int hashedProvider, string externalIdentifier) : this(hashedProvider) {
+        public HashedOpenAuthenticationParameters(string hashedProvider, string externalIdentifier) : this(hashedProvider) {
             base.ExternalIdentifier = externalIdentifier;
         }
 
@@ -16,7 +16,7 @@ namespace NGM.OpenAuthentication.Core {
             get { throw new NotSupportedException();}
         }
 
-        public override int HashedProvider {
+        public override string HashedProvider {
             get { return _hashedProvider; }
         }
     }

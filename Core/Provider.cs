@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace NGM.OpenAuthentication.Core {
     public enum Provider {
@@ -10,15 +12,21 @@ namespace NGM.OpenAuthentication.Core {
     }
 
     public static class ProviderHelpers {
-        public static int GetHashedProvider(Provider provider) {
-            return provider.ToString().GetHashCode();
+        public static string GetHashedProvider(Provider provider) {
+            MD5 md5Hasher = MD5.Create();
+            byte[] data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(provider.ToString()));
+            StringBuilder sBuilder = new StringBuilder();
+            for (int i = 0; i < data.Length; i++) {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+            return sBuilder.ToString();
         }
 
-        public static bool IsHashedProvider(int hashedProvider, Provider provider) {
+        public static bool IsHashedProvider(string hashedProvider, Provider provider) {
             return hashedProvider == ProviderHelpers.GetHashedProvider(provider);
         }
 
-        public static Provider GetProviderForHashedProvider(int hashedProvider) {
+        public static Provider GetProviderForHashedProvider(string hashedProvider) {
             if (IsHashedProvider(hashedProvider, Provider.Facebook)) {
                 return Provider.Facebook;
             }
@@ -34,7 +42,7 @@ namespace NGM.OpenAuthentication.Core {
             throw new ArgumentOutOfRangeException();
         }
 
-        public static string GetUserFriendlyStringForHashedProvider(int hashedProvider) {
+        public static string GetUserFriendlyStringForHashedProvider(string hashedProvider) {
             if (IsHashedProvider(hashedProvider, Provider.Facebook)) {
                 return "Facebook";
             }

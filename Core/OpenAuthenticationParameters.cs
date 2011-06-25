@@ -13,7 +13,7 @@ namespace NGM.OpenAuthentication.Core {
             get { return new List<UserClaims>(0); }
         }
 
-        public virtual int HashedProvider {
+        public virtual string HashedProvider {
             get { return ProviderHelpers.GetHashedProvider(Provider); }
         }
     }

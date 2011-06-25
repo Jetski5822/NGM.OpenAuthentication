@@ -7,6 +7,6 @@ namespace NGM.OpenAuthentication.Models {
         public virtual string ExternalDisplayIdentifier { get; set; }
         public virtual string OAuthToken { get; set; }
         public virtual string OAuthAccessToken { get; set; }
-        public virtual int HashedProvider { get; set; }
+        public virtual string HashedProvider { get; set; }
     }
 }

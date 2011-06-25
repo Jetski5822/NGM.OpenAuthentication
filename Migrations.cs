@@ -1,4 +1,5 @@
-﻿using NGM.OpenAuthentication.Models;
+﻿using System.Data;
+using NGM.OpenAuthentication.Models;
 using Orchard.ContentManagement.MetaData;
 using Orchard.Core.Contents.Extensions;
 using Orchard.Data.Migration;
@@ -106,6 +107,12 @@ namespace NGM.OpenAuthentication {
                 );
 
             return 6;
+        }
+
+        public int UpdateFrom6() {
+            SchemaBuilder.AlterTable("ScopeProviderPermissionRecord", table => table.AlterColumn("HashedProvider", x => x.WithType(DbType.String)));
+
+            return 7;
         }
     }
 

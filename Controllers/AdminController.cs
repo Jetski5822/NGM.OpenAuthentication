@@ -89,8 +89,8 @@ namespace NGM.OpenAuthentication.Controllers {
         }
 
         [HttpPost]
-        public ActionResult Delete(string externalIdentifier, string returnUrl, int? hashedProvider) {
-            RemoveAccountAssociation(new HashedOpenAuthenticationParameters(hashedProvider.GetValueOrDefault(), externalIdentifier));
+        public ActionResult Delete(string externalIdentifier, string returnUrl, string hashedProvider) {
+            RemoveAccountAssociation(new HashedOpenAuthenticationParameters(hashedProvider, externalIdentifier));
 
             return this.RedirectLocal(returnUrl, () => RedirectToAction("Index"));
         }
