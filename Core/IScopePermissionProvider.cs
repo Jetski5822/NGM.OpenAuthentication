@@ -120,7 +120,7 @@ namespace NGM.OpenAuthentication.Core
         //http://msdn.microsoft.com/en-us/library/hh243646.aspx
         public IEnumerable<ScopePermission> GetPermissions() {
             return new[] {
-                new ScopePermission {Resource = "Core", Scope = "wl.basic", IsEnabled = true},
+                new ScopePermission {Resource = MicrosoftConnect.Scope.WLBasic.Resource, Scope = MicrosoftConnect.Scope.WLBasic.ScopeName, IsEnabled = true},
                 new ScopePermission {Resource = "Core", Scope = "wl.offline_access"},
                 new ScopePermission {Resource = "Core", Scope = "wl.signin", IsEnabled = true},
                 new ScopePermission {Resource = "Extended", Scope = "wl.birthday"},
