@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using NGM.OpenAuthentication.Services;
 using Orchard;
 using Orchard.ContentManagement;
@@ -31,11 +30,10 @@ namespace NGM.OpenAuthentication.Core {
             if (AccountAlreadyExistsAndUserIsLoggedOn(userFound, userLoggedIn)) {
                 if (AccountIsAssignedToLoggedOnAccount(userFound, userLoggedIn)) {
                     // The person is trying to log in as himself.. bit weird
-                    return new AuthenticationResult(OpenAuthenticationStatus.Authenticated);
+                    return new AuthenticatedAuthenticationResult();
                 }
 
-                return new AuthenticationResult(OpenAuthenticationStatus.ErrorAuthenticating, 
-                    new KeyValuePair<string, string>("AccountAssigned", "Account is already assigned"));
+                return new AccountAlreadyAssignedAuthenticationResult();
             }
             if (AccountDoesNotExistAndUserIsNotLoggedOn(userFound, userLoggedIn)) {
                 // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
@@ -47,16 +45,13 @@ namespace NGM.OpenAuthentication.Core {
                     if (CanCreateAccount(parameters)) {
                         userFound = CreateUser(parameters);
                     }
-                    else
-                    {
-                        return new AuthenticationResult(OpenAuthenticationStatus.AssociateOnLogon,
-                            new KeyValuePair<string, string>("AccessDenied", "User does not have enough details to auto create account"));
+                    else {
+                        return new UserDoesNotHaveEnoughDetailsToAutoRegisterAuthenticationResult();
                     }
                 } else if (RegistrationIsEnabled(registrationSettings)) {
                     return new AuthenticationResult(OpenAuthenticationStatus.AssociateOnLogon);
                 } else {
-                    return new AuthenticationResult(OpenAuthenticationStatus.UserDoesNotExist,
-                            new KeyValuePair<string, string>("AccessDenied", "User does not exist on system"));
+                    return new UserDoesNotExistAuthenticationResult();
                 }
             }
             if (userFound == null) {
@@ -65,7 +60,7 @@ namespace NGM.OpenAuthentication.Core {
 
             _authenticationService.SignIn(userFound ?? userLoggedIn, false);
 
-            return new AuthenticationResult(OpenAuthenticationStatus.Authenticated);
+            return new AuthenticatedAuthenticationResult();
         }
 
         private bool RegistrationIsEnabled(RegistrationSettingsPart registrationSettings) {

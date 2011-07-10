@@ -29,7 +29,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
             OAuthAuthenticationParameters parameters = new OAuthAuthenticationParameters(Provider);
             if (HasVerificationDetails()) {
-                
+                //http://msdn.microsoft.com/en-us/library/hh243641.aspx
             }
 
             var result = _authenticator.Authorize(parameters);
