@@ -111,7 +111,8 @@ namespace NGM.OpenAuthentication {
 
         public int UpdateFrom6() {
             SchemaBuilder.AlterTable("ScopeProviderPermissionRecord", table => table.AlterColumn("HashedProvider", x => x.WithType(DbType.String)));
-
+            SchemaBuilder.AlterTable("OpenAuthenticationPartRecord", table => table.AlterColumn("HashedProvider", x => x.WithType(DbType.String)));
+            
             return 7;
         }
     }
