@@ -46,7 +46,6 @@ namespace NGM.OpenAuthentication.Core.OAuth {
 
                 var parameters = new OAuthAuthenticationParameters(Provider) {
                     ExternalIdentifier = response.AccessToken,
-                    ExternalDisplayIdentifier = response.AccessToken,
                     OAuthToken = response.RefreshToken,
                     OAuthAccessToken = response.AccessToken,
                 };
@@ -57,6 +56,9 @@ namespace NGM.OpenAuthentication.Core.OAuth {
                 if (!string.IsNullOrEmpty(tempReturnUrl) && string.IsNullOrEmpty(returnUrl)) {
                     returnUrl = tempReturnUrl;
                 }
+                MicrosoftConnectClient client = new MicrosoftConnectClient(response.AccessToken);
+                var obj = client.Get("me");
+                var x = obj.id;
 
                 return new AuthenticationState(returnUrl, result);
             }

@@ -37,19 +37,19 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\DotNetOpenAuth-4.0.0.11165\DotNetOpenAuth.dll</HintPath>
     </Reference>
-    <Reference Include="Facebook, Version=5.0.26.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+    <Reference Include="Facebook, Version=5.2.1.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\FacebookSDK_Net40_V5.0.40\Facebook.dll</HintPath>
+      <HintPath>packages\Facebook.5.2.1.0\lib\net40-client\Facebook.dll</HintPath>
     </Reference>
-    <Reference Include="LinqToTwitter">
-      <HintPath>Lib\LinqToTwitterBinaries_v2.0.20\LinqToTwitter.dll</HintPath>
+    <Reference Include="LinqToTwitter, Version=2.0.21.0, Culture=neutral, PublicKeyToken=957107be965c25d9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\LinqToTwitter.2.0.21\lib\net40\LinqToTwitter.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.0.2.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\MicrosoftConnectRestWrapper_v1.0.0.0\Newtonsoft.Json.dll</HintPath>
+      <HintPath>packages\Newtonsoft.Json.4.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NGM.MicrosoftConnect, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -319,6 +319,7 @@
     <Content Include="Views\Create.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
     <Content Include="Views\AdminPermission\Edit.cshtml" />
+    <Content Include="packages.config" />
     <None Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
