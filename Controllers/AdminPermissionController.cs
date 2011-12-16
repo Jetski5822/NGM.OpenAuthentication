@@ -78,7 +78,7 @@ namespace NGM.OpenAuthentication.Controllers {
 
                 Services.Notifier.Information(T("Your Provider Permissions has been saved."));
             } catch (Exception exception) {
-                this.Error(exception, T("Editing Provider Permissions failed: {0}", exception.Message), Logger, Services.Notifier);
+                Services.Notifier.Error(T("Editing Provider Permissions failed: {0}", exception.Message));
             }
             return RedirectToAction("Edit");
         }
