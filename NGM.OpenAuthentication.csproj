@@ -77,7 +77,6 @@
     <Compile Include="DefaultPermissionSettingsUpdater.cs" />
     <Compile Include="Drivers\FacebookConnectDriver.cs" />
     <Compile Include="ViewModels\AdminProviderPermissionViewModel.cs" />
-    <Compile Include="Controllers\CardSpaceAccountController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Core\AuthenticationResult.cs" />
     <Compile Include="Core\Claims\ClaimTypes.cs" />
@@ -93,7 +92,6 @@
     <Compile Include="Core\IProviderAuthenticator.cs" />
     <Compile Include="Core\OpenId\OpenIdAuthorizer.cs" />
     <Compile Include="Core\RegistrationDetails.cs" />
-    <Compile Include="Core\CardSpace\CardSpaceAuthenticationParameters.cs" />
     <Compile Include="Core\HashedOpenAuthenticationParameters.cs" />
     <Compile Include="Core\IAuthenticator.cs" />
     <Compile Include="Controllers\OAuthAccountController.cs" />
@@ -104,8 +102,6 @@
     <Compile Include="Core\Authenticator.cs" />
     <Compile Include="Controllers\OpenIdAccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Core\CardSpace\InfoCardImageHelpers.cs" />
-    <Compile Include="Core\CardSpace\NameSpaceConstants.cs" />
     <Compile Include="Core\OAuth\Facebook\FacebookProviderAuthenticator.cs" />
     <Compile Include="Core\OAuth\IOAuthSettings.cs" />
     <Compile Include="Core\OAuth\IOAuthProviderAuthenticator.cs" />
@@ -300,7 +296,6 @@
     <Content Include="Scripts\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Wrappers.Account.CardSpace.LogOn.cshtml" />
     <Content Include="Content\cardspace\Web.config">
       <SubType>Designer</SubType>
     </Content>
