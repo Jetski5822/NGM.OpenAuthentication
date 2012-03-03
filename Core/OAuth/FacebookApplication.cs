@@ -17,5 +17,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
         public string SecureCanvasUrl { get { return null; } }
         public string CancelUrlPath { get { return null; } }
         public bool UseFacebookBeta { get { return false; } }
+
+        public bool IsSecureConnection { get; set; }
     }
 }
