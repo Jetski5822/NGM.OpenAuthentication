@@ -1,4 +1,7 @@
 ﻿<Placement>
   <Place Parts_OpenAuthentication_SiteSettings="Content:10"/>
   <Place Parts_OpenAuthentication_UserAccountAssociations_Edit="Content:15"/>
+
+  <Place FacebookConnectSignIn="Content"/>
+  <Place MicrosoftConnectSignIn="Content"/>
 </Placement>

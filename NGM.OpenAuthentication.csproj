@@ -121,7 +121,7 @@
     <Compile Include="Core\Provider.cs" />
     <Compile Include="Core\OpenAuthenticationStatus.cs" />
     <Compile Include="Core\Authenticator.cs" />
-    <Compile Include="Provider\OpenId\Controllers\OpenIdAccountController.cs" />
+    <Compile Include="Controllers\OpenIdAccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Provider\Facebook\FacebookProviderAuthenticator.cs" />
     <Compile Include="Core\OAuth\IOAuthSettings.cs" />
@@ -171,103 +171,99 @@
     <Content Include="Content\oauth\images\twitter-logo.jpg" />
     <Content Include="Content\oauth\images\twitter_logo_75x17.jpg" />
     <Content Include="Module.txt" />
-    <Content Include="Provider\Facebook\Module.txt" />
-    <Content Include="Provider\MicrosoftConnect\Module.txt" />
-    <Content Include="Provider\OpenId\Module.txt" />
-    <Content Include="Provider\OpenId\Styles\openid.css" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.large\aol.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.large\facebook.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.large\google.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.large\mailru.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.large\myopenid.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.large\openid.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.large\rambler.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.large\verisign.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.large\vkontakte.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.large\yahoo.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.large\yandex.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\aol.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\aol.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\aol.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\blogger.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\blogger.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\blogger.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\claimid.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\claimid.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\claimid.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\clickpass.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\clickpass.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\clickpass.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\facebook.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\facebook.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\facebook.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\flickr.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\flickr.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\flickr.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\google.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\google.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\google.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\google_profile.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\google_profile.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\google_profile.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\launchpad.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\launchpad.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\launchpad.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\linkedin.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\linkedin.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\linkedin.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\livejournal.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\livejournal.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\livejournal.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\mailru.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\mailru.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\mailru.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\myopenid.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\myopenid.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\myopenid.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\openid.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\openid.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\openid.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\rambler.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\rambler.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\rambler.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\technorati.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\technorati.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\technorati.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\twitter.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\twitter.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\twitter.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\verisign.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\verisign.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\verisign.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\vidoop.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\vidoop.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\vidoop.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\vkontakte.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\vkontakte.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\vkontakte.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\winliveid.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\winliveid.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\winliveid.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\wordpress.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\wordpress.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\wordpress.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\yahoo.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\yahoo.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\yahoo.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\yandex.ico" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\yandex.ico.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images.small\yandex.ico.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images\openid-inputicon.gif" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images\openid-providers-en.png" />
-    <Content Include="Provider\OpenId\Content\openid-selector\images\openid-providers-ru.png" />
-    <Content Include="Provider\OpenId\Scripts\openid-de.js" />
-    <Content Include="Provider\OpenId\Scripts\openid-en.js" />
-    <Content Include="Provider\OpenId\Scripts\openid-jp.js" />
-    <Content Include="Provider\OpenId\Scripts\openid-jquery-1.3b1.js" />
-    <Content Include="Provider\OpenId\Scripts\openid-ru.js" />
-    <Content Include="Provider\OpenId\Scripts\openid-uk.js" />
-    <Content Include="Provider\Twitter\Module.txt" />
+    <Content Include="Styles\openid.css" />
+    <Content Include="Content\openid-selector\images.large\aol.gif" />
+    <Content Include="Content\openid-selector\images.large\facebook.gif" />
+    <Content Include="Content\openid-selector\images.large\google.gif" />
+    <Content Include="Content\openid-selector\images.large\mailru.gif" />
+    <Content Include="Content\openid-selector\images.large\myopenid.gif" />
+    <Content Include="Content\openid-selector\images.large\openid.gif" />
+    <Content Include="Content\openid-selector\images.large\rambler.gif" />
+    <Content Include="Content\openid-selector\images.large\verisign.gif" />
+    <Content Include="Content\openid-selector\images.large\vkontakte.gif" />
+    <Content Include="Content\openid-selector\images.large\yahoo.gif" />
+    <Content Include="Content\openid-selector\images.large\yandex.gif" />
+    <Content Include="Content\openid-selector\images.small\aol.ico" />
+    <Content Include="Content\openid-selector\images.small\aol.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\aol.ico.png" />
+    <Content Include="Content\openid-selector\images.small\blogger.ico" />
+    <Content Include="Content\openid-selector\images.small\blogger.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\blogger.ico.png" />
+    <Content Include="Content\openid-selector\images.small\claimid.ico" />
+    <Content Include="Content\openid-selector\images.small\claimid.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\claimid.ico.png" />
+    <Content Include="Content\openid-selector\images.small\clickpass.ico" />
+    <Content Include="Content\openid-selector\images.small\clickpass.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\clickpass.ico.png" />
+    <Content Include="Content\openid-selector\images.small\facebook.ico" />
+    <Content Include="Content\openid-selector\images.small\facebook.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\facebook.ico.png" />
+    <Content Include="Content\openid-selector\images.small\flickr.ico" />
+    <Content Include="Content\openid-selector\images.small\flickr.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\flickr.ico.png" />
+    <Content Include="Content\openid-selector\images.small\google.ico" />
+    <Content Include="Content\openid-selector\images.small\google.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\google.ico.png" />
+    <Content Include="Content\openid-selector\images.small\google_profile.ico" />
+    <Content Include="Content\openid-selector\images.small\google_profile.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\google_profile.ico.png" />
+    <Content Include="Content\openid-selector\images.small\launchpad.ico" />
+    <Content Include="Content\openid-selector\images.small\launchpad.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\launchpad.ico.png" />
+    <Content Include="Content\openid-selector\images.small\linkedin.ico" />
+    <Content Include="Content\openid-selector\images.small\linkedin.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\linkedin.ico.png" />
+    <Content Include="Content\openid-selector\images.small\livejournal.ico" />
+    <Content Include="Content\openid-selector\images.small\livejournal.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\livejournal.ico.png" />
+    <Content Include="Content\openid-selector\images.small\mailru.ico" />
+    <Content Include="Content\openid-selector\images.small\mailru.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\mailru.ico.png" />
+    <Content Include="Content\openid-selector\images.small\myopenid.ico" />
+    <Content Include="Content\openid-selector\images.small\myopenid.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\myopenid.ico.png" />
+    <Content Include="Content\openid-selector\images.small\openid.ico" />
+    <Content Include="Content\openid-selector\images.small\openid.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\openid.ico.png" />
+    <Content Include="Content\openid-selector\images.small\rambler.ico" />
+    <Content Include="Content\openid-selector\images.small\rambler.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\rambler.ico.png" />
+    <Content Include="Content\openid-selector\images.small\technorati.ico" />
+    <Content Include="Content\openid-selector\images.small\technorati.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\technorati.ico.png" />
+    <Content Include="Content\openid-selector\images.small\twitter.ico" />
+    <Content Include="Content\openid-selector\images.small\twitter.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\twitter.ico.png" />
+    <Content Include="Content\openid-selector\images.small\verisign.ico" />
+    <Content Include="Content\openid-selector\images.small\verisign.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\verisign.ico.png" />
+    <Content Include="Content\openid-selector\images.small\vidoop.ico" />
+    <Content Include="Content\openid-selector\images.small\vidoop.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\vidoop.ico.png" />
+    <Content Include="Content\openid-selector\images.small\vkontakte.ico" />
+    <Content Include="Content\openid-selector\images.small\vkontakte.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\vkontakte.ico.png" />
+    <Content Include="Content\openid-selector\images.small\winliveid.ico" />
+    <Content Include="Content\openid-selector\images.small\winliveid.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\winliveid.ico.png" />
+    <Content Include="Content\openid-selector\images.small\wordpress.ico" />
+    <Content Include="Content\openid-selector\images.small\wordpress.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\wordpress.ico.png" />
+    <Content Include="Content\openid-selector\images.small\yahoo.ico" />
+    <Content Include="Content\openid-selector\images.small\yahoo.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\yahoo.ico.png" />
+    <Content Include="Content\openid-selector\images.small\yandex.ico" />
+    <Content Include="Content\openid-selector\images.small\yandex.ico.gif" />
+    <Content Include="Content\openid-selector\images.small\yandex.ico.png" />
+    <Content Include="Content\openid-selector\images\openid-inputicon.gif" />
+    <Content Include="Content\openid-selector\images\openid-providers-en.png" />
+    <Content Include="Content\openid-selector\images\openid-providers-ru.png" />
+    <Content Include="Scripts\openid-de.js" />
+    <Content Include="Scripts\openid-en.js" />
+    <Content Include="Scripts\openid-jp.js" />
+    <Content Include="Scripts\openid-jquery-1.3b1.js" />
+    <Content Include="Scripts\openid-ru.js" />
+    <Content Include="Scripts\openid-uk.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Provider\Twitter\Permissions\" />
@@ -303,47 +299,28 @@
     <Content Include="Views\EditorTemplates\Parts.OpenAuthentication.UserAccountAssociations.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\EditorTemplates\Parts.OpenAuthentication.SiteSettings.cshtml" />
-    <Content Include="Provider\OpenId\Content\openid-selector\Web.config">
+    <Content Include="Content\openid-selector\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Provider\OpenId\Scripts\Web.config">
+    <Content Include="Scripts\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Provider\Twitter\Views\Wrappers.Account.Twitter.LogOn.cshtml" />
+    <Content Include="Views\Wrappers.Account.Twitter.LogOn.cshtml" />
     <Content Include="Content\oauth\Web.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Wrappers.Account.AssociateMessage.cshtml" />
-    <Content Include="Provider\Facebook\Views\FacebookConnectSignIn.cshtml" />
-    <Content Include="Provider\MicrosoftConnect\Views\MicrosoftConnectSignIn.cshtml" />
-    <Content Include="Provider\Facebook\Views\Wrappers.Account.Facebook.LogOn.cshtml" />
+    <Content Include="Views\FacebookConnectSignIn.cshtml" />
+    <Content Include="Views\MicrosoftConnectSignIn.cshtml" />
+    <Content Include="Views\Wrappers.Account.Facebook.LogOn.cshtml" />
     <Content Include="Views\Create.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
     <Content Include="Views\AdminPermission\Edit.cshtml" />
     <Content Include="packages.config" />
-    <Content Include="Provider\Twitter\Views\Web.config" />
-    <Content Include="Provider\OpenId\Views\Web.config" />
-    <Content Include="Provider\OpenId\Views\Wrappers.Account.OpenID.LogOn.cshtml" />
-    <Content Include="Web.config">
+    <Content Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
+    <None Include="Web.config">
       <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Provider\MicrosoftConnect\Views\Web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Provider\Facebook\Views\Web.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Provider\OpenId\Styles\Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Provider\Facebook\Placement.info" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Provider\MicrosoftConnect\Placement.info" />
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

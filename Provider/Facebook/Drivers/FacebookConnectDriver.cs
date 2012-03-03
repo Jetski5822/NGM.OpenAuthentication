@@ -1,12 +1,12 @@
 ﻿using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
-using NGM.OpenAuthentication.Provider.Facebook.Models;
+using NGM.OpenAuthentication.Facebook.Models;
 using NGM.OpenAuthentication.Services;
 using Orchard.ContentManagement.Drivers;
 using Orchard.Environment.Extensions;
 
-namespace NGM.OpenAuthentication.Provider.Facebook.Drivers {
+namespace NGM.OpenAuthentication.Facebook.Drivers {
     [UsedImplicitly]
     [OrchardFeature("Facebook")]
     public class FacebookConnectDriver : ContentPartDriver<FacebookConnectSignInPart> {

@@ -1,8 +1,0 @@
-﻿Name: Twitter
-AntiForgery: enabled
-Author: Nicholas Mayne
-Website: http://orchardopenauth.codeplex.com/
-Version: 0.7.5
-OrchardVersion: 1.4.0
-Description: Twitter authentication provider for Orchard CMS
-Dependencies: NGM.OpenAuthentication

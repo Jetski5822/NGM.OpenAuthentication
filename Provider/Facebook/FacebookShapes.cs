@@ -1,7 +1,7 @@
 using Orchard.DisplayManagement.Implementation;
 using Orchard.Environment.Extensions;
 
-namespace NGM.OpenAuthentication.Provider.Facebook {
+namespace NGM.OpenAuthentication.Facebook {
     [OrchardFeature("Facebook")]
     public class FacebookShapes : IShapeFactoryEvents {
         public void Creating(ShapeCreatingContext context) {

@@ -1,6 +1,6 @@
 using NGM.OpenAuthentication.Core;
 
-namespace NGM.OpenAuthentication.Provider.Facebook {
+namespace NGM.OpenAuthentication.Facebook {
     public class FacebookAccessControlProvider : AccessControlProvider {
         public override string Name {
             get { return "Facebook"; }

@@ -1,11 +1,10 @@
-using NGM.OpenAuthentication.Models;
-using NGM.OpenAuthentication.Provider.Facebook.Models;
+using NGM.OpenAuthentication.Facebook.Models;
 using Orchard.ContentManagement.MetaData;
 using Orchard.Core.Contents.Extensions;
 using Orchard.Data.Migration;
 using Orchard.Environment.Extensions;
 
-namespace NGM.OpenAuthentication.Provider.Facebook {
+namespace NGM.OpenAuthentication.Facebook {
     [OrchardFeature("Facebook")]
     public class FacebookConnectMigrations : DataMigrationImpl {
         public int Create() {
