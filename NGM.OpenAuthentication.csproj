@@ -262,9 +262,7 @@
     <Content Include="Scripts\openid-uk.js" />
     <Content Include="Module.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Core\Enviroment\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Styles\account.css" />
   </ItemGroup>
