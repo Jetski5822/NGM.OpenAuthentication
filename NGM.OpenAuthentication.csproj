@@ -45,8 +45,9 @@
     <Reference Include="Microsoft.CSharp">
       <Private>False</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.0.2.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.4.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=4.0.8.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NGM.MicrosoftConnect, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -294,9 +295,6 @@
     <Content Include="Placement.info" />
     <Content Include="Views\EditorTemplates\Parts.OpenAuthentication.UserAccountAssociations.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Pages\Web.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\EditorTemplates\Parts.OpenAuthentication.SiteSettings.cshtml" />
     <Content Include="Content\openid-selector\Web.config">
       <SubType>Designer</SubType>
