@@ -33,9 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetOpenAuth, Version=3.5.0.10357, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\DotNetOpenAuth-4.0.0.11165\DotNetOpenAuth.dll</HintPath>
+    <Reference Include="DotNetOpenAuth">
+      <HintPath>packages\DotNetOpenAuth.4.0.0-beta\lib\net40-full\DotNetOpenAuth.dll</HintPath>
     </Reference>
     <Reference Include="Facebook">
       <HintPath>packages\Facebook.5.4.1.0\lib\net40-client\Facebook.dll</HintPath>
