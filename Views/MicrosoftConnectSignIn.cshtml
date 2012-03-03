@@ -1,7 +1,8 @@
 ﻿﻿@using Orchard.ContentManagement;
 
 @{
-    var settings = WorkContext.CurrentSite.As<NGM.OpenAuthentication.Models.OpenAuthenticationSettingsPart>().Record; }
+    var settings = WorkContext.CurrentSite.As<NGM.OpenAuthentication.Models.OpenAuthenticationSettingsPart>().Record; 
+}
 
 <a href="@Url.Action("LogOn", "OAuthAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"], KnownProvider = "LiveId" })" style="cursor:pointer;background-color:transparent;border:solid 0px;display:inline-block;overflow:hidden;white-space:nowrap;padding:0px;width:auto;">
     <span style="background: url(//js.live.net/v5.0/images/signincontrol/messenger_LTR_blue.png) scroll no-repeat 0px 0px; height: 22px; width: 25px;margin:0px;padding:0px;border-width:0px;vertical-align:middle;background-attachment:scroll;display:inline-block;white-space:nowrap;"></span>
