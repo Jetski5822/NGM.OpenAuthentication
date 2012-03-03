@@ -7,10 +7,10 @@ using Orchard.UI.Notify;
 
 namespace NGM.OpenAuthentication.Provider.MicrosoftConnect.Services {
     [OrchardFeature("MicrosoftConnect")]
-    public class LiveIdServiceNotificationProvider: INotificationProvider {
+    public class MicrosoftConnectServiceNotificationProvider: INotificationProvider {
         private readonly IOAuthProviderAuthenticator _oAuthProviderAuthenticator;
 
-        public LiveIdServiceNotificationProvider(IOAuthProviderAuthenticator oAuthProviderAuthenticator) {
+        public MicrosoftConnectServiceNotificationProvider(IOAuthProviderAuthenticator oAuthProviderAuthenticator) {
             _oAuthProviderAuthenticator = oAuthProviderAuthenticator;
             T = NullLocalizer.Instance;
         }

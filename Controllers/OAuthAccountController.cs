@@ -29,9 +29,9 @@ namespace NGM.OpenAuthentication.Controllers {
             var viewModel = new CreateViewModel();
             TryUpdateModel(viewModel);
 
-            var wrapper = _oAuthWrappers
-                .Where(o => o.Provider.ToString().Equals(GetKnownProvider(viewModel, knownProvider), StringComparison.InvariantCultureIgnoreCase) 
-                    && o.IsConsumerConfigured).FirstOrDefault();
+            knownProvider = GetKnownProvider(viewModel, knownProvider);
+
+            var wrapper = _oAuthWrappers.FirstOrDefault(o => o.Provider.Name.Equals(knownProvider, StringComparison.InvariantCultureIgnoreCase) && o.IsConsumerConfigured);
 
             if (wrapper != null) {
                 var result = wrapper.Authenticate(returnUrl);

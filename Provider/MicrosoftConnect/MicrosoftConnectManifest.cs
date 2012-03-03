@@ -26,7 +26,7 @@ namespace NGM.OpenAuthentication.Provider.MicrosoftConnect {
             } else {
                 try {
                     var ci = new CultureInfo(currentCultureName);
-                    manifest.DefineScript("MicrosoftLiveConnect").SetUrl(string.Format("https://js.live.net/v5.0/{0}/wl.js", ci.Name)).SetVersion("5.0");
+                    manifest.DefineScript("MicrosoftConnect").SetUrl(string.Format("https://js.live.net/v5.0/{0}/wl.js", ci.Name)).SetVersion("5.0");
                 }
                 catch (CultureNotFoundException) {
                     RegisterDefaultLocalizedVersionOfMicrosoftConnectJavascriptFiles(manifest);
@@ -35,7 +35,7 @@ namespace NGM.OpenAuthentication.Provider.MicrosoftConnect {
         }
 
         private static void RegisterDefaultLocalizedVersionOfMicrosoftConnectJavascriptFiles(Orchard.UI.Resources.ResourceManifest manifest) {
-            manifest.DefineScript("MicrosoftLiveConnect").SetUrl("https://js.live.net/v5.0/wl.js").SetVersion("5.0");
+            manifest.DefineScript("MicrosoftConnect").SetUrl("https://js.live.net/v5.0/wl.js").SetVersion("5.0");
         }
     }
 }

@@ -91,7 +91,7 @@
     <Compile Include="Provider\OpenId\OpenIdAccessControlProvider.cs" />
     <Compile Include="Provider\Facebook\Services\FacebookServiceNotificationProvider.cs" />
     <Compile Include="Provider\Twitter\TwitterAccessControlProvider.cs" />
-    <Compile Include="Provider\MicrosoftConnect\Services\LiveIdServiceNotificationProvider.cs" />
+    <Compile Include="Provider\MicrosoftConnect\Services\MicrosoftConnectServiceNotificationProvider.cs" />
     <Compile Include="Provider\Twitter\Services\TwitterServiceNotificationProvider.cs" />
     <Compile Include="Core\ScopePermission.cs" />
     <Compile Include="DefaultPermissionSettingsUpdater.cs" />
