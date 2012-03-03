@@ -2,7 +2,7 @@
 using System.Web;
 using Orchard.Environment.Extensions;
 
-namespace NGM.OpenAuthentication.Core.OAuth {
+namespace NGM.OpenAuthentication.Core.OAuth.LiveId {
     [OrchardFeature("MicrosoftConnect")]
     public static class LiveIdParametersHelpers {
         

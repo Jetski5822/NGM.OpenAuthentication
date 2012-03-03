@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Specialized;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using NGM.MicrosoftConnect;
 using NGM.OpenAuthentication.Services;
 using Orchard;
 using Orchard.Environment.Extensions;
 
-namespace NGM.OpenAuthentication.Core.OAuth {
+namespace NGM.OpenAuthentication.Core.OAuth.LiveId {
     [OrchardFeature("MicrosoftConnect")]
     public class LiveIdProviderAuthenticator : IOAuthProviderAuthenticator {
         private readonly IOrchardServices _orchardServices;

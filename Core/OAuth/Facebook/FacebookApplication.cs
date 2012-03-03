@@ -1,7 +1,7 @@
 ﻿using Facebook;
 using Orchard.Environment.Extensions;
 
-namespace NGM.OpenAuthentication.Core.OAuth {
+namespace NGM.OpenAuthentication.Core.OAuth.Facebook {
     [OrchardFeature("Facebook")]
     public class FacebookApplication : IFacebookApplication {
         public FacebookApplication(string clientKeyIdentifier, string clientSecret) {

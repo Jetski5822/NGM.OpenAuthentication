@@ -2,7 +2,7 @@
 using NGM.OpenAuthentication.Core.Claims;
 using Orchard.Environment.Extensions;
 
-namespace NGM.OpenAuthentication.Core.OAuth {
+namespace NGM.OpenAuthentication.Core.OAuth.Facebook {
     [OrchardFeature("Facebook")]
     public class FacebookClaimsTranslator : IClaimsTranslator<IDictionary<string, object>> {
         public UserClaims Translate(IDictionary<string, object> response) {

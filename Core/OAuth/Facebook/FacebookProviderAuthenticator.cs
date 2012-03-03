@@ -10,7 +10,7 @@ using Orchard;
 using Orchard.Environment.Extensions;
 using Orchard.Security;
 
-namespace NGM.OpenAuthentication.Core.OAuth {
+namespace NGM.OpenAuthentication.Core.OAuth.Facebook {
     [OrchardFeature("Facebook")]
     public class FacebookProviderAuthenticator : IOAuthProviderFacebookAuthenticator {
         private readonly IOrchardServices _orchardServices;
@@ -135,7 +135,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             cl.RedirectUri = GenerateCallbackUri();
             cl.AppId = FacebookApplication.AppId;
             cl.AppSecret = FacebookApplication.AppSecret;
-            Facebook.JsonObject dict = (Facebook.JsonObject)cl.ExchangeCodeForAccessToken(code, new Dictionary<string, object> { { "permissions", "offline_access" } });
+            var dict = (JsonObject)cl.ExchangeCodeForAccessToken(code, new Dictionary<string, object> { { "permissions", "offline_access" } });
             
             return dict.Values.ElementAt(0).ToString();
         }
