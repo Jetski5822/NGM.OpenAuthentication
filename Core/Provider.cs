@@ -3,6 +3,8 @@ using System.Security.Cryptography;
 using System.Text;
 
 namespace NGM.OpenAuthentication.Core {
+    // TODO: Scrap this. Turn in to Immutible classes
+
     public enum Provider {
         OpenId,
         Twitter,
@@ -13,6 +15,7 @@ namespace NGM.OpenAuthentication.Core {
 
     public static class ProviderHelpers {
         public static string GetHashedProvider(Provider provider) {
+            //http://blogs.msdn.com/b/csharpfaq/archive/2006/10/09/how-do-i-calculate-a-md5-hash-from-a-string_3f00_.aspx
             MD5 md5Hasher = MD5.Create();
             byte[] data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(provider.ToString()));
             StringBuilder sBuilder = new StringBuilder();
