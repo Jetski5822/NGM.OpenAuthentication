@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
+using NGM.OpenAuthentication.Core.Results;
 
 namespace NGM.OpenAuthentication.Core {
     public class AuthenticationState {

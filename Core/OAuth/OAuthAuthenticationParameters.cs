@@ -3,10 +3,10 @@ using NGM.OpenAuthentication.Core.Claims;
 
 namespace NGM.OpenAuthentication.Core.OAuth {
     public class OAuthAuthenticationParameters : OpenAuthenticationParameters {
-        private readonly Provider _provider;
+        private readonly IAccessControlProvider _provider;
         private IList<UserClaims> _claims;
 
-        public OAuthAuthenticationParameters(Provider provider) {
+        public OAuthAuthenticationParameters(IAccessControlProvider provider) {
             _provider = provider;
         }
 
@@ -23,7 +23,7 @@ namespace NGM.OpenAuthentication.Core.OAuth {
             _claims.Add(claim);
         }
 
-        public override Provider Provider {
+        public override IAccessControlProvider Provider {
             get { return _provider; }
         }
     }

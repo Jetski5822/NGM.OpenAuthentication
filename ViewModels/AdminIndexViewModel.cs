@@ -8,7 +8,7 @@ namespace NGM.OpenAuthentication.ViewModels {
     }
 
     public class AccountEntry {
-        public OpenAuthenticationPartRecord Account { get; set; }
+        public OpenAuthenticationPart Account { get; set; }
         public bool IsChecked { get; set; }
     }
 

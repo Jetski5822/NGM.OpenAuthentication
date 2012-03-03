@@ -1,0 +1,8 @@
+﻿Name: Microsoft Connect
+AntiForgery: enabled
+Author: Nicholas Mayne
+Website: http://orchardopenauth.codeplex.com/
+Version: 0.7.5
+OrchardVersion: 1.4.0
+Description: Microsoft Connect authentication provider for Orchard CMS
+Dependencies: NGM.OpenAuthentication, Orchard.jQuery

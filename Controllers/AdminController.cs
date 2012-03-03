@@ -21,14 +21,17 @@ namespace NGM.OpenAuthentication.Controllers {
         private readonly IAuthenticationService _authenticationService;
         private readonly IOpenAuthenticationService _openAuthenticationService;
         private readonly IOrchardServices _orchardServices;
+        private readonly IEnumerable<IAccessControlProvider> _accessControlProviders;
 
         public AdminController(IAuthenticationService authenticationService,
             IOpenAuthenticationService openAuthenticationService,
             IOrchardServices orchardServices,
-            IShapeFactory shapeFactory) {
+            IShapeFactory shapeFactory,
+            IEnumerable<IAccessControlProvider> accessControlProviders) {
             _authenticationService = authenticationService;
             _openAuthenticationService = openAuthenticationService;
             _orchardServices = orchardServices;
+            _accessControlProviders = accessControlProviders;
             T = NullLocalizer.Instance;
             Shape = shapeFactory;
         }
@@ -46,7 +49,10 @@ namespace NGM.OpenAuthentication.Controllers {
                     .GetExternalIdentifiersFor(user)
                     .List()
                     .ToList()
-                    .Select(account => CreateAccountEntry(account.Record));
+                    .Select(account => {
+                                    account.Provider = GetAccessControlProvider(account.HashedProvider);
+                                    return new AccountEntry { Account = account };
+            });
 
             var viewModel = new AdminIndexViewModel {
                 Accounts = entries.ToList(),
@@ -54,6 +60,10 @@ namespace NGM.OpenAuthentication.Controllers {
             };
 
             return View("Index", viewModel);
+        }
+
+        private IAccessControlProvider GetAccessControlProvider(string hashedProvider) {
+            return _accessControlProviders.First(o => o.Hash == hashedProvider);
         }
 
         [HttpPost]
@@ -71,7 +81,7 @@ namespace NGM.OpenAuthentication.Controllers {
                     break;
                 case AdminBulkAction.Delete:
                     foreach (var entry in checkedEntries) {
-                        RemoveAccountAssociation(new HashedOpenAuthenticationParameters(entry.Account.HashedProvider, entry.Account.ExternalIdentifier));
+                        RemoveAccountAssociation(new HashedOpenAuthenticationParameters(GetAccessControlProvider(entry.Account.HashedProvider), entry.Account.ExternalIdentifier));
                     }
                     break;
             }
@@ -90,7 +100,7 @@ namespace NGM.OpenAuthentication.Controllers {
 
         [HttpPost]
         public ActionResult Delete(string externalIdentifier, string returnUrl, string hashedProvider) {
-            RemoveAccountAssociation(new HashedOpenAuthenticationParameters(hashedProvider, externalIdentifier));
+            RemoveAccountAssociation(new HashedOpenAuthenticationParameters(GetAccessControlProvider(hashedProvider), externalIdentifier));
 
             return this.RedirectLocal(returnUrl, () => RedirectToAction("Index"));
         }
@@ -103,12 +113,6 @@ namespace NGM.OpenAuthentication.Controllers {
             } catch (Exception exception) {
                 _orchardServices.Notifier.Error(T("Editing Account failed: {0}", exception.Message));
             }
-        }
-
-        private static AccountEntry CreateAccountEntry(OpenAuthenticationPartRecord openAuthenticationPart) {
-            return new AccountEntry {
-                Account = openAuthenticationPart
-            };
         }
     }
 }

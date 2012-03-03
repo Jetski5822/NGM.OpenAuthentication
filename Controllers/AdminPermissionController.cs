@@ -13,17 +13,19 @@ using Orchard.Logging;
 using Orchard.Security;
 using Orchard.UI.Admin;
 using Orchard.UI.Notify;
-using Orchard.Utility.Extensions;
 
 namespace NGM.OpenAuthentication.Controllers {
     [Admin]
     public class AdminPermissionController : Controller {
         private readonly IScopeProviderPermissionService _scopeProviderPermissionService;
+        private readonly IEnumerable<IAccessControlProvider> _accessControlProviders;
 
         public AdminPermissionController(IOrchardServices services, 
-            IScopeProviderPermissionService scopeProviderPermissionService) {
+            IScopeProviderPermissionService scopeProviderPermissionService,
+            IEnumerable<IAccessControlProvider> accessControlProviders) {
             Services = services;
             _scopeProviderPermissionService = scopeProviderPermissionService;
+            _accessControlProviders = accessControlProviders;
 
             T = NullLocalizer.Instance;
             Logger = NullLogger.Instance;
@@ -46,7 +48,10 @@ namespace NGM.OpenAuthentication.Controllers {
                 .Select(o => o.HashedProvider)
                 .Distinct()
                 .ToList()) {
-                providerPermissions.Add(ProviderHelpers.GetUserFriendlyStringForHashedProvider(hashedProvider),
+
+                var accessControlProvider = _accessControlProviders.FirstOrDefault(o => o.Hash == hashedProvider);
+                providerPermissions.Add(
+                    accessControlProvider == null ? "Unknown Provider" : accessControlProvider.Name,
                     scopeProviderPermissions.Where(o => o.HashedProvider == hashedProvider).ToList()
                     );
             }

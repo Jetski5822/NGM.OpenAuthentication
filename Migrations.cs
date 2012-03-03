@@ -1,9 +1,6 @@
 ﻿using System.Data;
-using NGM.OpenAuthentication.Models;
 using Orchard.ContentManagement.MetaData;
-using Orchard.Core.Contents.Extensions;
 using Orchard.Data.Migration;
-using Orchard.Environment.Extensions;
 
 namespace NGM.OpenAuthentication {
     public class Migrations : DataMigrationImpl {
@@ -114,36 +111,6 @@ namespace NGM.OpenAuthentication {
             SchemaBuilder.AlterTable("OpenAuthenticationPartRecord", table => table.AlterColumn("HashedProvider", x => x.WithType(DbType.String)));
             
             return 7;
-        }
-    }
-
-    [OrchardFeature("MicrosoftConnect")]
-    public class MicrosoftConnectMigrations : DataMigrationImpl {
-        public int Create() {
-            ContentDefinitionManager.AlterPartDefinition(typeof(MicrosoftConnectSignInPart).Name, cfg => cfg.Attachable());
-
-            ContentDefinitionManager.AlterTypeDefinition("MicrosoftConnectSignInWidget", cfg => cfg
-                .WithPart("MicrosoftConnectSignInPart")
-                .WithPart("WidgetPart")
-                .WithPart("CommonPart")
-                .WithSetting("Stereotype", "Widget"));
-
-            return 1;
-        }
-    }
-
-    [OrchardFeature("Facebook")]
-    public class FacebookConnectMigrations : DataMigrationImpl {
-        public int Create() {
-            ContentDefinitionManager.AlterPartDefinition(typeof(FacebookConnectSignInPart).Name, cfg => cfg.Attachable());
-
-            ContentDefinitionManager.AlterTypeDefinition("FacebookConnectSignInWidget", cfg => cfg
-                .WithPart("FacebookConnectSignInPart")
-                .WithPart("WidgetPart")
-                .WithPart("CommonPart")
-                .WithSetting("Stereotype", "Widget"));
-
-            return 1;
         }
     }
 }

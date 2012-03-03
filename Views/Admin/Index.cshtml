@@ -42,13 +42,13 @@
                     <input type="hidden" value="@Model.Accounts[accountIndex].Account.ExternalIdentifier" name="@Html.NameOf(m => m.Accounts[accountIndex].Account.ExternalIdentifier)"/>
                     <input type="checkbox" value="true" name="@Html.NameOf(m => m.Accounts[accountIndex].IsChecked)"/>
                 </td>
-                <td>@Html.TranslateProvider(Model.Accounts[accountIndex].Account.HashedProvider)</td>
-                <td>@accountModel.Account.ExternalDisplayIdentifier</td>
+                <td>@Model.Accounts[accountIndex].Account.Provider</td>
+                <td>@Model.Accounts[accountIndex].Account.ExternalDisplayIdentifier</td>
                 <td>
                     <a href="@Url.Action("Delete", new { 
                             externalIdentifier = Model.Accounts[accountIndex].Account.ExternalIdentifier,
                             returnUrl = Context.Request.RawUrl,
-                            hashedProvider = Model.Accounts[accountIndex].Account.HashedProvider
+                            hashedProvider = Model.Accounts[accountIndex].Account.Provider.Hash
                         })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
                 </td>
 	        </tr>

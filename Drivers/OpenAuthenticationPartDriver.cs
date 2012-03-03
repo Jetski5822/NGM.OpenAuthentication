@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using JetBrains.Annotations;
+using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
@@ -15,14 +17,17 @@ namespace NGM.OpenAuthentication.Drivers {
         private readonly IAuthenticationService _authenticationService;
         private readonly IAuthorizationService _authorizationService;
         private readonly IOpenAuthenticationService _openAuthenticationService;
+        private readonly IEnumerable<IAccessControlProvider> _accessControlProviders;
         private const string TemplateName = "Parts.OpenAuthentication.UserAccountAssociations";
 
         public OpenAuthenticationPartDriver(IAuthenticationService authenticationService,
             IAuthorizationService authorizationService,
-            IOpenAuthenticationService openAuthenticationService) {
+            IOpenAuthenticationService openAuthenticationService,
+            IEnumerable<IAccessControlProvider> accessControlProviders) {
             _authenticationService = authenticationService;
             _authorizationService = authorizationService;
             _openAuthenticationService = openAuthenticationService;
+            _accessControlProviders = accessControlProviders;
             T = NullLocalizer.Instance;
         }
 
@@ -48,9 +53,12 @@ namespace NGM.OpenAuthentication.Drivers {
                             .GetExternalIdentifiersFor(openAuthenticationPart.As<IUser>())
                             .List()
                             .ToList()
-                            .Select(account => CreateAccountEntry(account.Record));
+                            .Select(account => {
+                                account.Provider = _accessControlProviders.First(o => o.Hash == account.HashedProvider);
+                                return new AccountEntry { Account = account };
+                            });
 
-                    if (entries.ToList().Count.Equals(0)) return null;
+                    if (entries.Count().Equals(0)) return null;
 
                     var viewModel = new AdminIndexViewModel {
                         Accounts = entries.ToList()
@@ -66,12 +74,6 @@ namespace NGM.OpenAuthentication.Drivers {
                 return null;
 
             return Editor(openAuthenticationPart, shapeHelper);
-        }
-
-        private static AccountEntry CreateAccountEntry(OpenAuthenticationPartRecord openAuthenticationPart) {
-            return new AccountEntry {
-                Account = openAuthenticationPart
-            };
         }
     }
 }

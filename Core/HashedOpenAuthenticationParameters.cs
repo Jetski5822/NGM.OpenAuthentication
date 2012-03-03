@@ -1,23 +1,18 @@
-﻿using System;
-
-namespace NGM.OpenAuthentication.Core {
+﻿namespace NGM.OpenAuthentication.Core {
     public sealed class HashedOpenAuthenticationParameters : OpenAuthenticationParameters {
-        private readonly string _hashedProvider;
+        private readonly IAccessControlProvider _accessControlProvider;
 
-        public HashedOpenAuthenticationParameters(string hashedProvider) {
-            _hashedProvider = hashedProvider;
+        public HashedOpenAuthenticationParameters(IAccessControlProvider accessControlProvider) {
+            _accessControlProvider = accessControlProvider;
         }
 
-        public HashedOpenAuthenticationParameters(string hashedProvider, string externalIdentifier) : this(hashedProvider) {
+        public HashedOpenAuthenticationParameters(IAccessControlProvider hashedProvider, string externalIdentifier)
+            : this(hashedProvider) {
             base.ExternalIdentifier = externalIdentifier;
         }
 
-        public override Provider Provider {
-            get { throw new NotSupportedException();}
-        }
-
-        public override string HashedProvider {
-            get { return _hashedProvider; }
+        public override IAccessControlProvider Provider {
+            get { return _accessControlProvider; }
         }
     }
 }

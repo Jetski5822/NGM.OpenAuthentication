@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using NGM.OpenAuthentication.Core;
@@ -14,21 +15,24 @@ namespace NGM.OpenAuthentication.Handlers {
     public class OpenAuthenticationPartHandler : ContentHandler {
         private readonly IOrchardServices _orchardServices;
         private readonly IOpenAuthenticationService _openAuthenticationService;
+        private readonly IEnumerable<IAccessControlProvider> _accessControlProviders;
 
-        private static readonly Object _syncLock = new Object();
+        private static readonly Object SyncLock = new Object();
 
         public OpenAuthenticationPartHandler(IRepository<OpenAuthenticationPartRecord> openAuthenticationPartRepository,
             IOrchardServices orchardServices,
-            IOpenAuthenticationService openAuthenticationService) {
+            IOpenAuthenticationService openAuthenticationService,
+            IEnumerable<IAccessControlProvider> accessControlProviders) {
             _orchardServices = orchardServices;
             _openAuthenticationService = openAuthenticationService;
+            _accessControlProviders = accessControlProviders;
             Filters.Add(StorageFilter.For(openAuthenticationPartRepository));
 
             OnLoaded<IUser>((context, user) => {
                                 if (!_orchardServices.WorkContext.HttpContext.Request.IsAuthenticated)
                                     return;
                              
-                                lock (_syncLock) {
+                                lock (SyncLock) {
                                     if (!_orchardServices.WorkContext.HttpContext.Request.IsAuthenticated)
                                         return;
 
@@ -48,7 +52,9 @@ namespace NGM.OpenAuthentication.Handlers {
             OnRemoved<IUser>((context, user) => _openAuthenticationService.GetExternalIdentifiersFor(user)
                                                     .List()
                                                     .ToList()
-                                                    .ForEach(o => _openAuthenticationService.RemoveAssociation(new HashedOpenAuthenticationParameters(o.Record.HashedProvider, o.Record.ExternalIdentifier))));
+                                                    .ForEach(o => 
+                                                        _openAuthenticationService.RemoveAssociation(
+                                                            new HashedOpenAuthenticationParameters(_accessControlProviders.First(x => x.Hash == o.Record.HashedProvider), o.Record.ExternalIdentifier))));
         }
 
         // TODO Move to more appropriate location
@@ -59,7 +65,7 @@ namespace NGM.OpenAuthentication.Handlers {
             var oAuthAccessToken = _orchardServices.WorkContext.HttpContext.Request.Params["oauthaccesstoken"];
             var provider = _orchardServices.WorkContext.HttpContext.Request.Params["provider"];
 
-            return new HashedOpenAuthenticationParameters(provider) {
+            return new HashedOpenAuthenticationParameters(_accessControlProviders.First(x => x.Hash == provider)) {
                 ExternalIdentifier = externalIdentifier,
                 ExternalDisplayIdentifier = externalDisplayIdentifier,
                 OAuthToken = oAuthToken,
@@ -68,7 +74,7 @@ namespace NGM.OpenAuthentication.Handlers {
         }
 
         private bool HasQueryParamsLocator() {
-            return !string.IsNullOrEmpty(_orchardServices.WorkContext.HttpContext.Request.Params["provider"] as string);
+            return !string.IsNullOrEmpty(_orchardServices.WorkContext.HttpContext.Request.Params["provider"]);
         }
 
         private void TryAssociateAccount(IUser user, OpenAuthenticationParameters parameters) {

@@ -28,7 +28,7 @@ namespace NGM.OpenAuthentication.Services {
                                                                                o.Record.ExternalDisplayIdentifier = parameters.ExternalDisplayIdentifier;
                                                                                o.Record.OAuthToken = parameters.OAuthToken;
                                                                                o.Record.OAuthAccessToken = parameters.OAuthAccessToken;
-                                                                               o.Record.HashedProvider = parameters.HashedProvider;
+                                                                               o.Record.HashedProvider = parameters.Provider.Hash;
                                                                            });
             part.ContentItem.ContentManager.Flush();
         }
@@ -38,7 +38,7 @@ namespace NGM.OpenAuthentication.Services {
         }
 
         public IUser GetUser(OpenAuthenticationParameters parameters) {
-            var record = _openAuthenticationPartRecordRespository.Get(o => o.ExternalIdentifier == parameters.ExternalIdentifier && o.HashedProvider == parameters.HashedProvider);
+            var record = _openAuthenticationPartRecordRespository.Get(o => o.ExternalIdentifier == parameters.ExternalIdentifier && o.HashedProvider == parameters.Provider.Hash);
 
             if (record != null) {
                 return _contentManager.Get<IUser>(record.UserId);
@@ -58,7 +58,7 @@ namespace NGM.OpenAuthentication.Services {
         }
 
         public void RemoveAssociation(OpenAuthenticationParameters parameters) {
-            var record = _openAuthenticationPartRecordRespository.Get(o => o.ExternalIdentifier == parameters.ExternalIdentifier && o.HashedProvider == parameters.HashedProvider);
+            var record = _openAuthenticationPartRecordRespository.Get(o => o.ExternalIdentifier == parameters.ExternalIdentifier && o.HashedProvider == parameters.Provider.Hash);
 
             if (record != null)
                 _openAuthenticationPartRecordRespository.Delete(record);

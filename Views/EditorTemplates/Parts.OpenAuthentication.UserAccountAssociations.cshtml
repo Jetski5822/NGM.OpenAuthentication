@@ -1,6 +1,4 @@
 ﻿@model NGM.OpenAuthentication.ViewModels.AdminIndexViewModel
-@using Orchard.Utility.Extensions;
-@using NGM.OpenAuthentication.Extensions;
 
 <fieldset>
     <legend>Associated Accounts</legend>
@@ -9,7 +7,7 @@
             for (int index = 0; index < Model.Accounts.Count; index++) {
                 <li>
                      @Model.Accounts[index].Account.ExternalIdentifier
-                     (@Html.TranslateProvider(Model.Accounts[index].Account.HashedProvider))
+                     (Model.Accounts[index].Account.Provider.Name.HashedProvider)
                     <a href="@Url.Action("Delete", new { area = "NGM.OpenAuthentication", externalIdentifier = @Model.Accounts[index].Account.ExternalIdentifier, hashedProvider = @Model.Accounts[index].Account.HashedProvider, returnUrl = Context.Request.RawUrl })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
                 </li>
             }

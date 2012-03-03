@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Web;
 using Orchard.DisplayManagement.Implementation;
-using Orchard.Environment.Extensions;
 
 namespace NGM.OpenAuthentication {
     public class Shapes : IShapeFactoryEvents {
@@ -26,42 +25,6 @@ namespace NGM.OpenAuthentication {
                 return true;
             }
             return false;
-        }
-    }
-
-    [OrchardFeature("OpenId")]
-    public class OpenIdShapes : IShapeFactoryEvents {
-        public void Creating(ShapeCreatingContext context) {
-        }
-
-        public void Created(ShapeCreatedContext context) {
-            if (Shapes.IsLogOn(context) || Shapes.IsCreate(context)) {
-                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_OpenID_LogOn");
-            }
-        }
-    }
-
-    [OrchardFeature("Facebook")]
-    public class FacebookShapes : IShapeFactoryEvents {
-        public void Creating(ShapeCreatingContext context) {
-        }
-
-        public void Created(ShapeCreatedContext context) {
-            if (Shapes.IsLogOn(context) || Shapes.IsCreate(context)) {
-                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_Facebook_LogOn");
-            }
-        }
-    }
-
-    [OrchardFeature("Twitter")]
-    public class TwitterShapes : IShapeFactoryEvents {
-        public void Creating(ShapeCreatingContext context) {
-        }
-
-        public void Created(ShapeCreatedContext context) {
-            if (Shapes.IsLogOn(context) || Shapes.IsCreate(context)) {
-                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_Twitter_LogOn");
-            }
         }
     }
 }

@@ -6,11 +6,11 @@ using Orchard;
 namespace NGM.OpenAuthentication.Services {
     public interface IScopeProviderPermissionService : IDependency
     {
-        bool IsPermissionEnabled(string scope, Provider provider);
+        bool IsPermissionEnabled(string scope, AccessControlProvider provider);
 
         IEnumerable<ScopeProviderPermissionRecord> GetAll();
-        IEnumerable<ScopeProviderPermissionRecord> Get(Provider provider);
-        void Create(Provider provider, ScopePermission permissionProvider);
+        IEnumerable<ScopeProviderPermissionRecord> Get(AccessControlProvider provider);
+        void Create(AccessControlProvider provider, ScopePermission permissionProvider);
         void Update(Dictionary<int, bool> providerPermissions);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using NGM.OpenAuthentication.Core.Results;
 using NGM.OpenAuthentication.Services;
 using Orchard;
 using Orchard.ContentManagement;
