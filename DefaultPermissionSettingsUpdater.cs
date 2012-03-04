@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using JetBrains.Annotations;
 using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Services;

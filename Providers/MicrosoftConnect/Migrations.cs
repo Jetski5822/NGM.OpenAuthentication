@@ -6,7 +6,7 @@ using Orchard.Environment.Extensions;
 
 namespace NGM.OpenAuthentication.Providers.MicrosoftConnect {
     [OrchardFeature("MicrosoftConnect")]
-    public class MicrosoftConnectMigrations : DataMigrationImpl {
+    public class Migrations : DataMigrationImpl {
         public int Create() {
             ContentDefinitionManager.AlterPartDefinition(typeof(MicrosoftConnectSignInPart).Name, cfg => MetaDataExtensions.Attachable(cfg));
 

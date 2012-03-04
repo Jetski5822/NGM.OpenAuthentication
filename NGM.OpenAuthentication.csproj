@@ -77,10 +77,10 @@
     <Compile Include="Providers\OpenId\Routes.cs" />
     <Compile Include="Providers\Facebook\FacebookShapes.cs" />
     <Compile Include="Providers\OpenId\Shapes.cs" />
-    <Compile Include="Providers\MicrosoftConnect\MicrosoftConnectManifest.cs" />
+    <Compile Include="Providers\MicrosoftConnect\ResourceManifest.cs" />
     <Compile Include="Providers\OpenId\ResourceManifest.cs" />
-    <Compile Include="Providers\Facebook\FacebookConnectMigrations.cs" />
-    <Compile Include="Providers\MicrosoftConnect\MicrosoftConnectMigrations.cs" />
+    <Compile Include="Providers\Facebook\Migrations.cs" />
+    <Compile Include="Providers\MicrosoftConnect\Migrations.cs" />
     <Compile Include="Providers\Facebook\Permissions\FacebookScopePermissions.cs" />
     <Compile Include="Providers\MicrosoftConnect\Permissions\MicrosoftConnectScopePermissions.cs" />
     <Compile Include="Providers\OpenId\Permissions\OpenIdScopePermissions.cs" />
@@ -95,7 +95,7 @@
     <Compile Include="Core\ScopePermission.cs" />
     <Compile Include="DefaultPermissionSettingsUpdater.cs" />
     <Compile Include="Providers\Facebook\Drivers\FacebookConnectDriver.cs" />
-    <Compile Include="Providers\Twitter\TwitterShapes.cs" />
+    <Compile Include="Providers\Twitter\Shapes.cs" />
     <Compile Include="ViewModels\AdminProviderPermissionViewModel.cs" />
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Core\Results\AuthenticationResult.cs" />

@@ -5,10 +5,10 @@ using Orchard.UI.Resources;
 
 namespace NGM.OpenAuthentication.Providers.MicrosoftConnect {
     [OrchardFeature("MicrosoftConnect")]
-    public class MicrosoftConnectManifest : IResourceManifestProvider {
+    public class ResourceManifest : IResourceManifestProvider {
         private readonly IWorkContextAccessor _workContextAccessor;
 
-        public MicrosoftConnectManifest(IWorkContextAccessor workContextAccessor)
+        public ResourceManifest(IWorkContextAccessor workContextAccessor)
         {
             _workContextAccessor = workContextAccessor;
         }

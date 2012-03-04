@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using Orchard;
 using Orchard.Environment.Extensions;
@@ -45,7 +46,7 @@ namespace NGM.OpenAuthentication.Providers.OpenId {
                     var ci = new CultureInfo(currentCultureName);
 
                     AvailableOpenIdTranslations valueOut;
-                    if (AvailableOpenIdTranslations.TryParse(ci.TwoLetterISOLanguageName, false, out valueOut)) {
+                    if (Enum.TryParse(ci.TwoLetterISOLanguageName, false, out valueOut)) {
                         manifest.DefineScript("openIdLocalization").SetUrl(string.Format("openid-{0}.js", valueOut)).SetDependencies("openIdSelector").SetVersion("1.3b1");
                     }
                     else {
