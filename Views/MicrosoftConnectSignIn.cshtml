@@ -1,10 +1,4 @@
-﻿@using Orchard.ContentManagement
-
-@{
-    var settings = WorkContext.CurrentSite.As<NGM.OpenAuthentication.Models.OpenAuthenticationSettingsPart>().Record; 
-}
-
-<a href="@Url.Action("LogOn", "OAuthAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"], KnownProvider = "Microsoft Connect" })" style="cursor:pointer;background-color:transparent;border:solid 0px;display:inline-block;overflow:hidden;white-space:nowrap;padding:0px;width:auto;">
+﻿<a href="@Url.Action("LogOn", "OAuthAccount", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.QueryString["ReturnUrl"], KnownProvider = "Microsoft Connect" })" style="cursor:pointer;background-color:transparent;border:solid 0px;display:inline-block;overflow:hidden;white-space:nowrap;padding:0px;width:auto;">
     <span style="background: url(//js.live.net/v5.0/images/signincontrol/messenger_LTR_blue.png) scroll no-repeat 0px 0px; height: 22px; width: 25px;margin:0px;padding:0px;border-width:0px;vertical-align:middle;background-attachment:scroll;display:inline-block;white-space:nowrap;"></span>
     <span style="background: url(//js.live.net/v5.0/images/signincontrol/messenger_LTR_blue.png) scroll repeat-x 0px -22px; height: 22px; width: auto;margin:0px;padding:0px;border-width:0px;vertical-align:middle;background-attachment:scroll;display:inline-block;white-space:nowrap;"></span>
     <span style="background: url(//js.live.net/v5.0/images/signincontrol/messenger_LTR_blue.png) scroll no-repeat 0px -44px; height: 22px; width: 3px;margin:0px;padding:0px;border-width:0px;vertical-align:middle;background-attachment:scroll;display:inline-block;white-space:nowrap;"></span>

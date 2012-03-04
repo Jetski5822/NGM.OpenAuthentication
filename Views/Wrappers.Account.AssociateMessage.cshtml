@@ -1,5 +1,5 @@
 ﻿@{
-    var parameters = HttpContext.Current.Session["parameters"] as NGM.OpenAuthentication.Core.OpenAuthenticationParameters;
+    var parameters = (NGM.OpenAuthentication.Core.OpenAuthenticationParameters)HttpContext.Current.Session["parameters"];
 }
 
 <div class="message message-information">
