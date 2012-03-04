@@ -9,25 +9,22 @@ using Orchard.Environment.Extensions;
 namespace NGM.OpenAuthentication.Providers.OpenId {
     [OrchardFeature("OpenId")]
     public sealed class OpenIdAuthenticationParameters : OpenAuthenticationParameters {
-        private readonly IAuthenticationResponse _authenticationResponse;
         private readonly IList<UserClaims> _claims;
 
         public OpenIdAuthenticationParameters() {}
 
         public OpenIdAuthenticationParameters(IAuthenticationResponse authenticationResponse) {
-            _authenticationResponse = authenticationResponse;
-
-            ExternalIdentifier = _authenticationResponse.ClaimedIdentifier;
-            ExternalDisplayIdentifier = _authenticationResponse.FriendlyIdentifierForDisplay;
+            ExternalIdentifier = authenticationResponse.ClaimedIdentifier;
+            ExternalDisplayIdentifier = authenticationResponse.FriendlyIdentifierForDisplay;
 
             _claims = new List<UserClaims>();
             var claimsResponseTranslator = new OpenIdClaimsResponseClaimsTranslator();
-            var claims1 = claimsResponseTranslator.Translate(_authenticationResponse.GetExtension<ClaimsResponse>());
+            var claims1 = claimsResponseTranslator.Translate(authenticationResponse.GetExtension<ClaimsResponse>());
             if (claims1 != null)
                 UserClaims.Add(claims1);
 
             var fetchResponseTranslator = new OpenIdFetchResponseClaimsTranslator();
-            var claims2 = fetchResponseTranslator.Translate(_authenticationResponse.GetExtension<FetchResponse>());
+            var claims2 = fetchResponseTranslator.Translate(authenticationResponse.GetExtension<FetchResponse>());
             if (claims2 != null)
                 UserClaims.Add(claims2);
         }
