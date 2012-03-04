@@ -30,23 +30,21 @@ namespace NGM.OpenAuthentication.Handlers {
 
             OnLoaded<IUser>((context, user) => {
                                 if (!_orchardServices.WorkContext.HttpContext.Request.IsAuthenticated)
-                                    return;
-                             
-                                lock (SyncLock) {
-                                    if (!_orchardServices.WorkContext.HttpContext.Request.IsAuthenticated)
-                                        return;
+                                    lock (SyncLock) {
+                                        if (!_orchardServices.WorkContext.HttpContext.Request.IsAuthenticated)
+                                            return;
 
-                                    if (HasQueryParamsLocator()) {
-                                        TryAssociateAccount(user, GetQueryStringParameters());
-                                    }
-                                    else {
-                                        var parameters = StateBag.Parameters;
-                                        if (parameters != null) {
-                                            StateBag.Clear();
-                                            TryAssociateAccount(user, parameters);
+                                        if (HasQueryParamsLocator()) {
+                                            TryAssociateAccount(user, GetQueryStringParameters());
+                                        }
+                                        else {
+                                            var parameters = StateBag.Parameters;
+                                            if (parameters != null) {
+                                                StateBag.Clear();
+                                                TryAssociateAccount(user, parameters);
+                                            }
                                         }
                                     }
-                                }
                             });
 
             OnRemoved<IUser>((context, user) => _openAuthenticationService.GetExternalIdentifiersFor(user)
