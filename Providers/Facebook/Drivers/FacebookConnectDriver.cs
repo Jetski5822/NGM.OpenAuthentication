@@ -17,8 +17,8 @@ namespace NGM.OpenAuthentication.Providers.Facebook.Drivers {
         }
 
         protected override DriverResult Display(FacebookConnectSignInPart part, string displayType, dynamic shapeHelper) {
-            var extendedPermissions = _scopeProviderPermissionService.Get(new FacebookAccessControlProvider()).Where(o => o.IsEnabled).Select(o => o.Scope).ToArray();
-            StringBuilder stringBuilder = new StringBuilder();
+            var extendedPermissions = _scopeProviderPermissionService.Get(new FacebookAccessControlProvider()).Where(o => o.IsEnabled).Select(o => o.Scope);
+            var stringBuilder = new StringBuilder();
             foreach (var extendedPermission in extendedPermissions) {
                 stringBuilder.Append(extendedPermission);
                 stringBuilder.Append(",");
