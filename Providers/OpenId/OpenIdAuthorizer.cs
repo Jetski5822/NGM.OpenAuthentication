@@ -41,7 +41,7 @@ namespace NGM.OpenAuthentication.Providers.OpenId {
             switch (_openIdRelyingPartyService.Response.Status) {
                 case AuthenticationStatus.Authenticated:
                     var parameters = new OpenIdAuthenticationParameters(_openIdRelyingPartyService.Response);
-                    return new AuthenticationState(returnUrl, _authenticator.Authorize(parameters).Status);
+                    return new AuthenticationState(returnUrl, _authenticator.Authenticate(parameters).Status);
                 case AuthenticationStatus.Canceled:
                     _orchardServices.Notifier.Error(T("Canceled at provider"));
                     return new AuthenticationState(returnUrl, Statuses.ErrorAuthenticating);

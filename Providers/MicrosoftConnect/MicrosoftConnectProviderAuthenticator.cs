@@ -47,7 +47,7 @@ namespace NGM.OpenAuthentication.Providers.MicrosoftConnect {
                     OAuthAccessToken = response.AccessToken,
                 };
 
-                var result = _authenticator.Authorize(parameters);
+                var result = _authenticator.Authenticate(parameters);
 
                 var tempReturnUrl = _orchardServices.WorkContext.HttpContext.Request.QueryString["?ReturnUrl"];
                 if (!string.IsNullOrEmpty(tempReturnUrl) && string.IsNullOrEmpty(returnUrl)) {

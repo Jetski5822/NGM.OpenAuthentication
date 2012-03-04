@@ -10,7 +10,6 @@ using Orchard;
 using Orchard.Localization;
 using Orchard.Mvc.Extensions;
 using Orchard.Themes;
-using Orchard.UI.Notify;
 
 namespace NGM.OpenAuthentication.Controllers {
     [Themed]
@@ -40,9 +39,6 @@ namespace NGM.OpenAuthentication.Controllers {
                 if (result.Status == Statuses.AssociateOnLogon) {
                     return new RedirectResult(Url.LogOn(returnUrl));
                 }
-                else if (result.Status == Statuses.Authenticated) {
-                    _orchardServices.Notifier.Information(T("Account authenticated"));
-                } 
 
                 if (result.Result != null) return result.Result;
             }

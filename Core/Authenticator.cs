@@ -28,7 +28,7 @@ namespace NGM.OpenAuthentication.Core {
 
         public Localizer T { get; set; }
 
-        public AuthenticationResult Authorize(OpenAuthenticationParameters parameters) {
+        public AuthenticationResult Authenticate(OpenAuthenticationParameters parameters) {
             var userFound = _openAuthenticationService.GetUser(parameters);
 
             var userLoggedIn = _authenticationService.GetAuthenticatedUser();
@@ -36,6 +36,7 @@ namespace NGM.OpenAuthentication.Core {
             if (AccountAlreadyExistsAndUserIsLoggedOn(userFound, userLoggedIn)) {
                 if (AccountIsAssignedToLoggedOnAccount(userFound, userLoggedIn)) {
                     // The person is trying to log in as himself.. bit weird
+                    _orchardServices.Notifier.Information(T("Account authenticated"));
                     return new AuthenticatedAuthenticationResult();
                 }
 
@@ -69,6 +70,7 @@ namespace NGM.OpenAuthentication.Core {
 
             _authenticationService.SignIn(userFound ?? userLoggedIn, false);
 
+            _orchardServices.Notifier.Information(T("Account authenticated"));
             return new AuthenticatedAuthenticationResult();
         }
 

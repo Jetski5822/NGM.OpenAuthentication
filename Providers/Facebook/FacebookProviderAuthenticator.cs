@@ -72,7 +72,7 @@ namespace NGM.OpenAuthentication.Providers.Facebook {
                     OAuthAccessToken = GetAccessToken(oAuthResult.Code)
                 };
 
-                var result = _authenticator.Authorize(parameters);
+                var result = _authenticator.Authenticate(parameters);
 
                 if (result.Status == Statuses.AssociateOnLogon) {
                     if (_openAuthenticationService.GetSettings().Record.AutoRegisterEnabled)
@@ -95,7 +95,7 @@ namespace NGM.OpenAuthentication.Providers.Facebook {
 
             parameters.AddClaim(claims);
 
-            return _authenticator.Authorize(parameters);
+            return _authenticator.Authenticate(parameters);
         }
 
         private AuthenticationState GenerateRequestState(string returnUrl) {
