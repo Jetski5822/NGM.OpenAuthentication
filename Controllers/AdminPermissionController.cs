@@ -17,13 +17,14 @@ using Orchard.UI.Notify;
 namespace NGM.OpenAuthentication.Controllers {
     [Admin]
     public class AdminPermissionController : Controller {
+        private readonly IOrchardServices _orchardServices;
         private readonly IScopeProviderPermissionService _scopeProviderPermissionService;
         private readonly IEnumerable<IAccessControlProvider> _accessControlProviders;
 
-        public AdminPermissionController(IOrchardServices services, 
+        public AdminPermissionController(IOrchardServices orchardServices, 
             IScopeProviderPermissionService scopeProviderPermissionService,
             IEnumerable<IAccessControlProvider> accessControlProviders) {
-            Services = services;
+            _orchardServices = orchardServices;
             _scopeProviderPermissionService = scopeProviderPermissionService;
             _accessControlProviders = accessControlProviders;
 
@@ -31,12 +32,11 @@ namespace NGM.OpenAuthentication.Controllers {
             Logger = NullLogger.Instance;
         }
 
-        public IOrchardServices Services { get; set; }
         public Localizer T { get; set; }
         public ILogger Logger { get; set; }
 
         public ActionResult Edit() {
-            if (!Services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to manage scope permissions")))
+            if (!_orchardServices.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to manage scope permissions")))
                 return new HttpUnauthorizedResult();
 
             var viewModel = new AdminProviderPermissionViewModel();
@@ -64,14 +64,14 @@ namespace NGM.OpenAuthentication.Controllers {
         [HttpPost, ActionName("Edit")]
         [FormValueRequired("submit.Save")]
         public ActionResult EditSavePOST() {
-            if (!Services.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to manage scope permissions")))
+            if (!_orchardServices.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not authorized to manage scope permissions")))
                 return new HttpUnauthorizedResult();
 
             var viewModel = new AdminProviderPermissionViewModel();
             try {
                 UpdateModel(viewModel);
                 // Save
-                Dictionary<int, bool> providerPermissions = new Dictionary<int, bool>();
+                var providerPermissions = new Dictionary<int, bool>();
                 foreach (string key in Request.Form.Keys) {
                     if (key.StartsWith("Checkbox.")) {
                         var permissionId = int.Parse(key.Substring("Checkbox.".Length));
@@ -81,9 +81,9 @@ namespace NGM.OpenAuthentication.Controllers {
                 }
                 _scopeProviderPermissionService.Update(providerPermissions);
 
-                Services.Notifier.Information(T("Your Provider Permissions has been saved."));
+                _orchardServices.Notifier.Information(T("Your Provider Permissions has been saved."));
             } catch (Exception exception) {
-                Services.Notifier.Error(T("Editing Provider Permissions failed: {0}", exception.Message));
+                _orchardServices.Notifier.Error(T("Editing Provider Permissions failed: {0}", exception.Message));
             }
             return RedirectToAction("Edit");
         }
