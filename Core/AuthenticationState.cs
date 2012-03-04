@@ -4,10 +4,10 @@ using NGM.OpenAuthentication.Core.Results;
 
 namespace NGM.OpenAuthentication.Core {
     public class AuthenticationState {
-        public AuthenticationState(string returnUrl, OpenAuthenticationStatus openAuthenticationStatus) {
-            Status = openAuthenticationStatus;
+        public AuthenticationState(string returnUrl, Statuses statuses) {
+            Status = statuses;
 
-            if (Status == OpenAuthenticationStatus.Authenticated)
+            if (Status == Statuses.Authenticated)
                 Result = new RedirectResult(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/");
         }
 
@@ -15,7 +15,7 @@ namespace NGM.OpenAuthentication.Core {
             Error = authenticationResult.Error;
         }
 
-        public OpenAuthenticationStatus Status { get; private set; }
+        public Statuses Status { get; private set; }
 
         public KeyValuePair<string, string> Error { get; set; }
 

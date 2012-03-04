@@ -33,13 +33,13 @@ namespace NGM.OpenAuthentication.Controllers
             }
             var result = _openIdProviderAuthenticator.Authenticate(returnUrl);
 
-            if (result.Status == OpenAuthenticationStatus.AssociateOnLogon) {
+            if (result.Status == Statuses.AssociateOnLogon) {
                 return new RedirectResult(Url.LogOn(returnUrl));
             }
-            else if (result.Status == OpenAuthenticationStatus.Authenticated) {
+            else if (result.Status == Statuses.Authenticated) {
                 _orchardServices.Notifier.Information(T("Account authenticated"));
             } 
-            else if (result.Status != OpenAuthenticationStatus.RequresRedirect) {
+            else if (result.Status != Statuses.RequresRedirect) {
                 _orchardServices.Notifier.Error(T(result.Error.Value));
             }
 

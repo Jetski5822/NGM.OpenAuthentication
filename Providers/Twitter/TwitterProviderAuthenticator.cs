@@ -62,7 +62,7 @@ namespace NGM.OpenAuthentication.Providers.Twitter {
                 throw new NullReferenceException("Session is required.");
 
             if (!MvcAuthorizer.IsAuthorized) {
-                return new AuthenticationState(returnUrl, OpenAuthenticationStatus.RequresRedirect) { Result = MvcAuthorizer.BeginAuthorization() };
+                return new AuthenticationState(returnUrl, Statuses.RequresRedirect) { Result = MvcAuthorizer.BeginAuthorization() };
             }
 
             var parameters = new OAuthAuthenticationParameters(Provider) {

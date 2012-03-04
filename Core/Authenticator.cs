@@ -50,7 +50,7 @@ namespace NGM.OpenAuthentication.Core {
                         return new UserDoesNotHaveEnoughDetailsToAutoRegisterAuthenticationResult();
                     }
                 } else if (RegistrationIsEnabled(registrationSettings)) {
-                    return new AuthenticationResult(OpenAuthenticationStatus.AssociateOnLogon);
+                    return new AuthenticationResult(Statuses.AssociateOnLogon);
                 } else {
                     return new UserDoesNotExistAuthenticationResult();
                 }

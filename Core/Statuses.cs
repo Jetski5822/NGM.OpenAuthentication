@@ -1,5 +1,5 @@
 ﻿namespace NGM.OpenAuthentication.Core {
-    public enum OpenAuthenticationStatus {
+    public enum Statuses {
         Unknown,
 
         ErrorAuthenticating,

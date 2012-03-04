@@ -69,7 +69,7 @@ namespace NGM.OpenAuthentication.Providers.Facebook {
 
                 var result = _authenticator.Authorize(parameters);
 
-                if (result.Status == OpenAuthenticationStatus.AssociateOnLogon) {
+                if (result.Status == Statuses.AssociateOnLogon) {
                     if (_openAuthenticationService.GetSettings().Record.AutoRegisterEnabled)
                         result = GetUserNameAndRetryAuthorization(parameters);
                 }
@@ -77,7 +77,7 @@ namespace NGM.OpenAuthentication.Providers.Facebook {
                 return new AuthenticationState(returnUrl, result);
             }
 
-            return new AuthenticationState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
+            return new AuthenticationState(returnUrl, Statuses.ErrorAuthenticating) {
                 Error = new KeyValuePair<string, string>("Provider", string.Format("Reason: {0}, Description: {1}", oAuthResult.ErrorReason, oAuthResult.ErrorDescription))
             };
         }
@@ -110,7 +110,7 @@ namespace NGM.OpenAuthentication.Providers.Facebook {
 
             var result = new RedirectResult(facebookClient.GetLoginUrl(parameters).ToString());
 
-            return new AuthenticationState(returnUrl, OpenAuthenticationStatus.RequresRedirect) { Result = result };
+            return new AuthenticationState(returnUrl, Statuses.RequresRedirect) { Result = result };
         }
 
         private Uri GenerateCallbackUri() {

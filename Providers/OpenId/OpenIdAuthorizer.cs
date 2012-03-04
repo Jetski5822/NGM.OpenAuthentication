@@ -34,21 +34,21 @@ namespace NGM.OpenAuthentication.Providers.OpenId {
                     var parameters = new OpenIdAuthenticationParameters(_openIdRelyingPartyService.Response);
                     return new AuthenticationState(returnUrl, _authenticator.Authorize(parameters));
                 case AuthenticationStatus.Canceled:
-                    return new AuthenticationState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
+                    return new AuthenticationState(returnUrl, Statuses.ErrorAuthenticating) {
                         Error = new KeyValuePair<string, string>("Provider", "Canceled at provider")
                     };
                 case AuthenticationStatus.Failed:
-                    return new AuthenticationState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
+                    return new AuthenticationState(returnUrl, Statuses.ErrorAuthenticating) {
                         Error = new KeyValuePair<string, string>("Provider", _openIdRelyingPartyService.Response.Exception.Message)
                     };
             }
-            return new AuthenticationState(returnUrl, OpenAuthenticationStatus.Unknown);
+            return new AuthenticationState(returnUrl, Statuses.Unknown);
         }
 
         private AuthenticationState GenerateRequestState(string returnUrl) {
             var identifier = new OpenIdIdentifier(EnternalIdentifier);
             if (!identifier.IsValid) {
-                return new AuthenticationState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
+                return new AuthenticationState(returnUrl, Statuses.ErrorAuthenticating) {
                     Error = new KeyValuePair<string, string>("Error", "Invalid Open ID identifier")
                 };
             }
@@ -59,11 +59,11 @@ namespace NGM.OpenAuthentication.Providers.OpenId {
                 request.AddExtension(Claims.CreateClaimsRequest(_scopeProviderPermissionService));
                 request.AddExtension(Claims.CreateFetchRequest(_scopeProviderPermissionService));
 
-                return new AuthenticationState(returnUrl, OpenAuthenticationStatus.RequresRedirect) {
+                return new AuthenticationState(returnUrl, Statuses.RequresRedirect) {
                     Result = request.RedirectingResponse.AsActionResult()
                 };
             } catch (ProtocolException ex) {
-                return new AuthenticationState(returnUrl, OpenAuthenticationStatus.ErrorAuthenticating) {
+                return new AuthenticationState(returnUrl, Statuses.ErrorAuthenticating) {
                     Error = new KeyValuePair<string, string>("Protocol", "Unable to authenticate: " + ex.Message)
                 };
             }

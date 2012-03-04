@@ -29,20 +29,20 @@ namespace NGM.OpenAuthentication.Controllers {
             var viewModel = new CreateViewModel();
             TryUpdateModel(viewModel);
 
-            knownProvider = GetKnownProvider(viewModel, knownProvider);
+            var provider = GetKnownProvider(viewModel, knownProvider);
 
-            var wrapper = _oAuthWrappers.FirstOrDefault(o => o.Provider.Name.Equals(knownProvider, StringComparison.InvariantCultureIgnoreCase) && o.IsConsumerConfigured);
+            var wrapper = _oAuthWrappers.FirstOrDefault(o => o.Provider.Name.Equals(provider, StringComparison.InvariantCultureIgnoreCase) && o.IsConsumerConfigured);
 
             if (wrapper != null) {
                 var result = wrapper.Authenticate(returnUrl);
 
-                if (result.Status == OpenAuthenticationStatus.AssociateOnLogon) {
+                if (result.Status == Statuses.AssociateOnLogon) {
                     return new RedirectResult(Url.LogOn(returnUrl));
                 }
-                else if (result.Status == OpenAuthenticationStatus.Authenticated) {
+                else if (result.Status == Statuses.Authenticated) {
                     _orchardServices.Notifier.Information(T("Account authenticated"));
                 } 
-                else if (result.Status != OpenAuthenticationStatus.RequresRedirect) {
+                else if (result.Status != Statuses.RequresRedirect) {
                     _orchardServices.Notifier.Error(T(result.Error.Value));
                 }
 

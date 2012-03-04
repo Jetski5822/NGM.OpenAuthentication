@@ -119,7 +119,7 @@
     <Compile Include="Core\AuthenticationState.cs" />
     <Compile Include="Providers\Twitter\Services\IOAuthProviderTwitterAuthenticator.cs" />
     <Compile Include="Core\Provider.cs" />
-    <Compile Include="Core\OpenAuthenticationStatus.cs" />
+    <Compile Include="Core\Statuses.cs" />
     <Compile Include="Core\Authenticator.cs" />
     <Compile Include="Controllers\OpenIdAccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
