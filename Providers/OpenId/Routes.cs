@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Orchard.Environment.Extensions;
 using Orchard.Mvc.Routes;
 
 namespace NGM.OpenAuthentication.Providers.OpenId {
+    [OrchardFeature("OpenId")]
     public class Routes : IRouteProvider {
         public void GetRoutes(ICollection<RouteDescriptor> routes) {
             foreach (var routeDescriptor in GetRoutes())

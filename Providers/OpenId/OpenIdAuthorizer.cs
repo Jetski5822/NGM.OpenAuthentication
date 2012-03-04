@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using DotNetOpenAuth.Messaging;
+﻿using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId.RelyingParty;
 using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Services;

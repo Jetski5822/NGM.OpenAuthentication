@@ -2,8 +2,10 @@
 using DotNetOpenAuth.OpenId.Extensions.SimpleRegistration;
 using DotNetOpenAuth.OpenId.Messages;
 using NGM.OpenAuthentication.Services;
+using Orchard.Environment.Extensions;
 
 namespace NGM.OpenAuthentication.Providers.OpenId {
+    [OrchardFeature("OpenId")]
     public static class Claims {
         public static IOpenIdMessageExtension CreateClaimsRequest(
             IScopeProviderPermissionService scopeProviderPermissionService)

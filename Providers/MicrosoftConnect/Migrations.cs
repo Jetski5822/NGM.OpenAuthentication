@@ -8,7 +8,7 @@ namespace NGM.OpenAuthentication.Providers.MicrosoftConnect {
     [OrchardFeature("MicrosoftConnect")]
     public class Migrations : DataMigrationImpl {
         public int Create() {
-            ContentDefinitionManager.AlterPartDefinition(typeof(MicrosoftConnectSignInPart).Name, cfg => MetaDataExtensions.Attachable(cfg));
+            ContentDefinitionManager.AlterPartDefinition(typeof(MicrosoftConnectSignInPart).Name, cfg => cfg.Attachable());
 
             ContentDefinitionManager.AlterTypeDefinition("MicrosoftConnectSignInWidget", cfg => cfg
                                                                                                     .WithPart("MicrosoftConnectSignInPart")

@@ -8,7 +8,7 @@ namespace NGM.OpenAuthentication.Providers.Facebook {
     [OrchardFeature("Facebook")]
     public class Migrations : DataMigrationImpl {
         public int Create() {
-            ContentDefinitionManager.AlterPartDefinition(typeof(FacebookConnectSignInPart).Name, cfg => MetaDataExtensions.Attachable(cfg));
+            ContentDefinitionManager.AlterPartDefinition(typeof(FacebookConnectSignInPart).Name, cfg => cfg.Attachable());
 
             ContentDefinitionManager.AlterTypeDefinition("FacebookConnectSignInWidget", cfg => cfg
                                                                                                    .WithPart("FacebookConnectSignInPart")
