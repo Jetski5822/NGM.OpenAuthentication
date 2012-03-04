@@ -3,7 +3,7 @@ using NGM.OpenAuthentication.Core;
 using Orchard.Environment.Extensions;
 using Orchard.Environment.Extensions.Models;
 
-namespace NGM.OpenAuthentication.Facebook.Permissions {
+namespace NGM.OpenAuthentication.Provider.Facebook.Permissions {
     [OrchardFeature("Facebook")]
     public class FacebookScopePermissions : IScopePermissionProvider
     {

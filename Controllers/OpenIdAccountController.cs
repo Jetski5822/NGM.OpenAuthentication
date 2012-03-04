@@ -1,13 +1,14 @@
 ﻿using System.Web.Mvc;
 using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Extensions;
+using NGM.OpenAuthentication.Provider.OpenId;
 using NGM.OpenAuthentication.ViewModels;
 using Orchard;
 using Orchard.Localization;
 using Orchard.Themes;
 using Orchard.UI.Notify;
 
-namespace NGM.OpenAuthentication.Provider.OpenId.Controllers
+namespace NGM.OpenAuthentication.Controllers
 {
     [Themed]
     public class OpenIdAccountController : Controller {
