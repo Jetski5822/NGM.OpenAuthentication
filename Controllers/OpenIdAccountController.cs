@@ -5,6 +5,7 @@ using NGM.OpenAuthentication.Providers.OpenId;
 using NGM.OpenAuthentication.ViewModels;
 using Orchard;
 using Orchard.Localization;
+using Orchard.Mvc.Extensions;
 using Orchard.Themes;
 using Orchard.UI.Notify;
 
@@ -42,7 +43,7 @@ namespace NGM.OpenAuthentication.Controllers
 
             if (result.Result != null) return result.Result;
 
-            return HttpContext.Request.IsAuthenticated ? new RedirectResult(!string.IsNullOrEmpty(returnUrl) ? returnUrl : "~/") : new RedirectResult(Url.LogOn(returnUrl));
+            return HttpContext.Request.IsAuthenticated ? this.RedirectLocal(returnUrl, "~/") : new RedirectResult(Url.LogOn(returnUrl));
         }
     }
 }
