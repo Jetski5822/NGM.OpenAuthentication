@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Extensions;
-using NGM.OpenAuthentication.Provider.OpenId;
+using NGM.OpenAuthentication.Providers.OpenId;
 using NGM.OpenAuthentication.ViewModels;
 using Orchard;
 using Orchard.Localization;

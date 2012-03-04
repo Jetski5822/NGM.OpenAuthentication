@@ -1,0 +1,29 @@
+﻿using DotNetOpenAuth.OpenId;
+using Orchard.Environment.Extensions;
+
+namespace NGM.OpenAuthentication.Providers.OpenId {
+    [OrchardFeature("OpenId")]
+    public sealed class OpenIdIdentifier {
+        public OpenIdIdentifier(string externalIdentifier) {
+            Identifier id;
+            if (Identifier.TryParse(externalIdentifier, out id)) {
+                Identifier = id;
+            }
+        }
+
+        public Identifier Identifier {
+            get;
+            private set;
+        }
+
+        public bool IsValid {
+            get {
+                return Identifier != null;
+            }
+        }
+
+        public override string ToString() {
+            return Identifier != null ? Identifier.ToString() : string.Empty;
+        }
+    }
+}
