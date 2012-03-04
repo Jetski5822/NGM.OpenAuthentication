@@ -47,7 +47,7 @@ namespace NGM.OpenAuthentication.Core {
                 // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
                 var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
 
-                State.Parameters = parameters;
+                StateBag.Parameters = parameters;
 
                 if (AutoRegistrationIsEnabled(registrationSettings)) {
                     if (CanCreateAccount(parameters)) {

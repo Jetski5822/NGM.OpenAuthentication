@@ -128,7 +128,7 @@
     <Compile Include="Providers\Twitter\TwitterProviderAuthenticator.cs" />
     <Compile Include="Providers\OpenId\Claims.cs" />
     <Compile Include="Core\OrchardShapeChecker.cs" />
-    <Compile Include="Core\State.cs" />
+    <Compile Include="Core\StateBag.cs" />
     <Compile Include="Drivers\OpenAuthenticationSettingsPartDriver.cs" />
     <Compile Include="Providers\MicrosoftConnect\Drivers\MicrosoftConnectDriver.cs" />
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />

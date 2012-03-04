@@ -14,7 +14,7 @@ namespace NGM.OpenAuthentication.Filters {
             if (filterContext.RouteData.Values["action"] as string != "LogOff")
                 return;
 
-            State.Clear();
+            StateBag.Clear();
         }
     }
 }

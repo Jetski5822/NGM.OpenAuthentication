@@ -40,9 +40,9 @@ namespace NGM.OpenAuthentication.Handlers {
                                         TryAssociateAccount(user, GetQueryStringParameters());
                                     }
                                     else {
-                                        var parameters = State.Parameters;
+                                        var parameters = StateBag.Parameters;
                                         if (parameters != null) {
-                                            State.Clear();
+                                            StateBag.Clear();
                                             TryAssociateAccount(user, parameters);
                                         }
                                     }
