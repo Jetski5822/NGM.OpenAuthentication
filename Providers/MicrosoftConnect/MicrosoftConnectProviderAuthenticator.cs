@@ -57,7 +57,7 @@ namespace NGM.OpenAuthentication.Providers.MicrosoftConnect {
                 var obj = client.Get("me");
                 var x = obj.id;
 
-                return new AuthenticationState(returnUrl, result);
+                return new AuthenticationState(returnUrl, result.Status);
             }
             
             var authorizationRequestBuilder = 

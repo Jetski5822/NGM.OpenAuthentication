@@ -3,7 +3,9 @@ using NGM.OpenAuthentication.Core.Results;
 using NGM.OpenAuthentication.Services;
 using Orchard;
 using Orchard.ContentManagement;
+using Orchard.Localization;
 using Orchard.Security;
+using Orchard.UI.Notify;
 using Orchard.Users.Models;
 
 namespace NGM.OpenAuthentication.Core {
@@ -21,7 +23,10 @@ namespace NGM.OpenAuthentication.Core {
             _openAuthenticationService = openAuthenticationService;
             _membershipService = membershipService;
             _orchardServices = orchardServices;
+            T = NullLocalizer.Instance;
         }
+
+        public Localizer T { get; set; }
 
         public AuthenticationResult Authorize(OpenAuthenticationParameters parameters) {
             var userFound = _openAuthenticationService.GetUser(parameters);
@@ -34,6 +39,7 @@ namespace NGM.OpenAuthentication.Core {
                     return new AuthenticatedAuthenticationResult();
                 }
 
+                _orchardServices.Notifier.Warning(T("Account is already assigned"));
                 return new AccountAlreadyAssignedAuthenticationResult();
             }
             if (AccountDoesNotExistAndUserIsNotLoggedOn(userFound, userLoggedIn)) {
@@ -47,11 +53,13 @@ namespace NGM.OpenAuthentication.Core {
                         userFound = CreateUser(parameters);
                     }
                     else {
+                        _orchardServices.Notifier.Error(T("User does not have enough details to auto create account"));
                         return new UserDoesNotHaveEnoughDetailsToAutoRegisterAuthenticationResult();
                     }
                 } else if (RegistrationIsEnabled(registrationSettings)) {
                     return new AuthenticationResult(Statuses.AssociateOnLogon);
                 } else {
+                    _orchardServices.Notifier.Warning(T("User does not exist on system"));
                     return new UserDoesNotExistAuthenticationResult();
                 }
             }

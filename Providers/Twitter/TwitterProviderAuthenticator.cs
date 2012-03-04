@@ -79,7 +79,7 @@ namespace NGM.OpenAuthentication.Providers.Twitter {
                 returnUrl = tempReturnUrl;
             }
 
-            return new AuthenticationState(returnUrl, result);
+            return new AuthenticationState(returnUrl, result.Status);
         }
 
         private Uri GenerateCallbackUri() {

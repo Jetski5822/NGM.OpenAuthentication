@@ -42,9 +42,6 @@ namespace NGM.OpenAuthentication.Controllers {
                 else if (result.Status == Statuses.Authenticated) {
                     _orchardServices.Notifier.Information(T("Account authenticated"));
                 } 
-                else if (result.Status != Statuses.RequresRedirect) {
-                    _orchardServices.Notifier.Error(T(result.Error.Value));
-                }
 
                 if (result.Result != null) return result.Result;
             }

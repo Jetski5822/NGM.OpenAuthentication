@@ -12,7 +12,9 @@ using NGM.OpenAuthentication.Providers.Facebook.Services;
 using NGM.OpenAuthentication.Services;
 using Orchard;
 using Orchard.Environment.Extensions;
+using Orchard.Localization;
 using Orchard.Security;
+using Orchard.UI.Notify;
 
 namespace NGM.OpenAuthentication.Providers.Facebook {
     [OrchardFeature("Facebook")]
@@ -32,7 +34,10 @@ namespace NGM.OpenAuthentication.Providers.Facebook {
             _authenticator = authenticator;
             _openAuthenticationService = openAuthenticationService;
             _scopeProviderPermissionService = scopeProviderPermissionService;
+            T = NullLocalizer.Instance;
         }
+
+        public Localizer T { get; set; }
 
         private FacebookApplication FacebookApplication {
             get { return _facebookApplication ?? (_facebookApplication = new FacebookApplication(ClientKeyIdentifier, ClientSecret)); }
@@ -74,12 +79,11 @@ namespace NGM.OpenAuthentication.Providers.Facebook {
                         result = GetUserNameAndRetryAuthorization(parameters);
                 }
 
-                return new AuthenticationState(returnUrl, result);
+                return new AuthenticationState(returnUrl, result.Status);
             }
 
-            return new AuthenticationState(returnUrl, Statuses.ErrorAuthenticating) {
-                Error = new KeyValuePair<string, string>("Provider", string.Format("Reason: {0}, Description: {1}", oAuthResult.ErrorReason, oAuthResult.ErrorDescription))
-            };
+            _orchardServices.Notifier.Error(T("Reason: {0}, Description: {1}", oAuthResult.ErrorReason, oAuthResult.ErrorDescription));
+            return new AuthenticationState(returnUrl, Statuses.ErrorAuthenticating);
         }
 
         private AuthenticationResult GetUserNameAndRetryAuthorization(OAuthAuthenticationParameters parameters) {

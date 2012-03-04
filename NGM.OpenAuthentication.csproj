@@ -266,6 +266,7 @@
     <Content Include="Scripts\openid-uk.js" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Core\Errors\" />
     <Folder Include="Providers\Twitter\Permissions\" />
   </ItemGroup>
   <ItemGroup>
