@@ -23,12 +23,12 @@ namespace NGM.OpenAuthentication.Services {
         public void AssociateExternalAccountWithUser(IUser user, OpenAuthenticationParameters parameters) {
             var part = _orchardServices.ContentManager.Create<OpenAuthenticationPart>("OpenAuthentication",
                                                                            o => {
-                                                                               o.Record.UserId = user.Id;
-                                                                               o.Record.ExternalIdentifier = parameters.ExternalIdentifier;
-                                                                               o.Record.ExternalDisplayIdentifier = parameters.ExternalDisplayIdentifier;
-                                                                               o.Record.OAuthToken = parameters.OAuthToken;
-                                                                               o.Record.OAuthAccessToken = parameters.OAuthAccessToken;
-                                                                               o.Record.HashedProvider = parameters.Provider.Hash;
+                                                                               o.UserId = user.Id;
+                                                                               o.ExternalIdentifier = parameters.ExternalIdentifier;
+                                                                               o.ExternalDisplayIdentifier = parameters.ExternalDisplayIdentifier;
+                                                                               o.OAuthToken = parameters.OAuthToken;
+                                                                               o.OAuthAccessToken = parameters.OAuthAccessToken;
+                                                                               o.HashedProvider = parameters.Provider.Hash;
                                                                            });
             part.ContentItem.ContentManager.Flush();
         }

@@ -131,7 +131,7 @@ namespace NGM.OpenAuthentication.Providers.Facebook {
                 .List()
                 .First();
 
-            return !string.IsNullOrEmpty(identifier.Record.OAuthAccessToken) ? new FacebookClient(identifier.Record.OAuthAccessToken) : null;
+            return !string.IsNullOrEmpty(identifier.OAuthAccessToken) ? new FacebookClient(identifier.OAuthAccessToken) : null;
         }
 
         private string GetAccessToken(string code) {

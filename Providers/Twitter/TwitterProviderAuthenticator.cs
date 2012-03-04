@@ -102,8 +102,8 @@ namespace NGM.OpenAuthentication.Providers.Twitter {
                 .FirstOrDefault();
 
             if (identifier != null) {
-                MvcAuthorizer.Credentials.OAuthToken = identifier.Record.OAuthToken;
-                MvcAuthorizer.Credentials.AccessToken = identifier.Record.OAuthAccessToken;
+                MvcAuthorizer.Credentials.OAuthToken = identifier.OAuthToken;
+                MvcAuthorizer.Credentials.AccessToken = identifier.OAuthAccessToken;
 
                 return MvcAuthorizer;
             }

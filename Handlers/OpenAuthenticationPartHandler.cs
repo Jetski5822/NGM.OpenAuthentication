@@ -54,7 +54,7 @@ namespace NGM.OpenAuthentication.Handlers {
                                                     .ToList()
                                                     .ForEach(o => 
                                                         _openAuthenticationService.RemoveAssociation(
-                                                            new HashedOpenAuthenticationParameters(_accessControlProviders.First(x => x.Hash == o.Record.HashedProvider), o.Record.ExternalIdentifier))));
+                                                            new HashedOpenAuthenticationParameters(_accessControlProviders.First(x => x.Hash == o.HashedProvider), o.ExternalIdentifier))));
         }
 
         // TODO Move to more appropriate location
