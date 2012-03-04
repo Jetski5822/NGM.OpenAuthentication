@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
 using JetBrains.Annotations;
 using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Models;
