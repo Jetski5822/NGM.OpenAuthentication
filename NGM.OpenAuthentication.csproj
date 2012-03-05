@@ -74,8 +74,9 @@
     <Compile Include="Core\Results\AuthenticatedAuthenticationResult.cs" />
     <Compile Include="Core\Results\UserDoesNotExistAuthenticationResult.cs" />
     <Compile Include="Core\Results\UserDoesNotHaveEnoughDetailsToAutoRegisterAuthenticationResult.cs" />
+    <Compile Include="Providers\MicrosoftConnect\IMicrosoftConnectProviderAuthenticator.cs" />
     <Compile Include="Providers\OpenId\Routes.cs" />
-    <Compile Include="Providers\Facebook\FacebookShapes.cs" />
+    <Compile Include="Providers\Facebook\Shapes.cs" />
     <Compile Include="Providers\OpenId\Shapes.cs" />
     <Compile Include="Providers\MicrosoftConnect\ResourceManifest.cs" />
     <Compile Include="Providers\OpenId\ResourceManifest.cs" />
@@ -110,7 +111,7 @@
     <Compile Include="Providers\Facebook\Services\IOAuthProviderFacebookAuthenticator.cs" />
     <Compile Include="Providers\OpenId\IOpenIdProviderAuthenticator.cs" />
     <Compile Include="Core\IProviderAuthenticator.cs" />
-    <Compile Include="Providers\OpenId\OpenIdAuthorizer.cs" />
+    <Compile Include="Providers\OpenId\OpenIdProviderAuthenticator.cs" />
     <Compile Include="Core\RegistrationDetails.cs" />
     <Compile Include="Core\HashedOpenAuthenticationParameters.cs" />
     <Compile Include="Core\IAuthenticator.cs" />

@@ -10,7 +10,7 @@ using Orchard.Environment.Extensions;
 
 namespace NGM.OpenAuthentication.Providers.MicrosoftConnect {
     [OrchardFeature("MicrosoftConnect")]
-    public class MicrosoftConnectProviderAuthenticator : IOAuthProviderAuthenticator {
+    public class MicrosoftConnectProviderAuthenticator : IMicrosoftConnectProviderAuthenticator {
         private readonly IOrchardServices _orchardServices;
         private readonly IAuthenticator _authenticator;
         private readonly IOpenAuthenticationService _openAuthenticationService;
