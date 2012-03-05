@@ -1,7 +1,7 @@
 ﻿using DotNetOpenAuth.OpenId;
 using Orchard.Environment.Extensions;
 
-namespace NGM.OpenAuthentication.Providers.OpenId {
+namespace NGM.OpenAuthentication.Providers.OpenId.Services {
     [OrchardFeature("OpenId")]
     public sealed class OpenIdIdentifier {
         public OpenIdIdentifier(string externalIdentifier) {

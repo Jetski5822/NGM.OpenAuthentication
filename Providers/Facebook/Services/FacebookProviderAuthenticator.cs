@@ -8,7 +8,6 @@ using Facebook;
 using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Core.OAuth;
 using NGM.OpenAuthentication.Core.Results;
-using NGM.OpenAuthentication.Providers.Facebook.Services;
 using NGM.OpenAuthentication.Services;
 using Orchard;
 using Orchard.Environment.Extensions;
@@ -16,7 +15,7 @@ using Orchard.Localization;
 using Orchard.Security;
 using Orchard.UI.Notify;
 
-namespace NGM.OpenAuthentication.Providers.Facebook {
+namespace NGM.OpenAuthentication.Providers.Facebook.Services {
     [OrchardFeature("Facebook")]
     public class FacebookProviderAuthenticator : IOAuthProviderFacebookAuthenticator {
         private readonly IOrchardServices _orchardServices;

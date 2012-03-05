@@ -4,13 +4,12 @@ using System.Threading;
 using LinqToTwitter;
 using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Core.OAuth;
-using NGM.OpenAuthentication.Providers.Twitter.Services;
 using NGM.OpenAuthentication.Services;
 using Orchard;
 using Orchard.Environment.Extensions;
 using Orchard.Security;
 
-namespace NGM.OpenAuthentication.Providers.Twitter {
+namespace NGM.OpenAuthentication.Providers.Twitter.Services {
     [OrchardFeature("Twitter")]
     public class TwitterProviderAuthenticator : IOAuthProviderTwitterAuthenticator {
         private readonly IOrchardServices _orchardServices;

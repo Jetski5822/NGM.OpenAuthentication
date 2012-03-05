@@ -6,7 +6,7 @@ using NGM.OpenAuthentication.Core;
 using NGM.OpenAuthentication.Core.Claims;
 using Orchard.Environment.Extensions;
 
-namespace NGM.OpenAuthentication.Providers.OpenId {
+namespace NGM.OpenAuthentication.Providers.OpenId.Services {
     [OrchardFeature("OpenId")]
     public sealed class OpenIdAuthenticationParameters : OpenAuthenticationParameters {
         private readonly IList<UserClaims> _claims;

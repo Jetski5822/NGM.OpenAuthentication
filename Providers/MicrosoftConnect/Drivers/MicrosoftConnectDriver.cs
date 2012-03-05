@@ -2,6 +2,7 @@
 using System.Text;
 using JetBrains.Annotations;
 using NGM.OpenAuthentication.Providers.MicrosoftConnect.Models;
+using NGM.OpenAuthentication.Providers.MicrosoftConnect.Services;
 using NGM.OpenAuthentication.Services;
 using Orchard.ContentManagement.Drivers;
 using Orchard.Environment.Extensions;

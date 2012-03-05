@@ -4,7 +4,7 @@ using DotNetOpenAuth.OpenId.Messages;
 using NGM.OpenAuthentication.Services;
 using Orchard.Environment.Extensions;
 
-namespace NGM.OpenAuthentication.Providers.OpenId {
+namespace NGM.OpenAuthentication.Providers.OpenId.Services {
     [OrchardFeature("OpenId")]
     public static class Claims {
         public static IOpenIdMessageExtension CreateClaimsRequest(

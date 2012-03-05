@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using NGM.OpenAuthentication.Core;
+using NGM.OpenAuthentication.Providers.Facebook.Services;
 using Orchard.Environment.Extensions;
 using Orchard.Environment.Extensions.Models;
 

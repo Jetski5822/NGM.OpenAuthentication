@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using NGM.MicrosoftConnect;
 using NGM.OpenAuthentication.Core;
+using NGM.OpenAuthentication.Providers.MicrosoftConnect.Services;
 using Orchard.Environment.Extensions;
 using Orchard.Environment.Extensions.Models;
 

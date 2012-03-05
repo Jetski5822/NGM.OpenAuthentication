@@ -7,7 +7,7 @@ using Orchard.Environment.Extensions;
 using Orchard.Localization;
 using Orchard.UI.Notify;
 
-namespace NGM.OpenAuthentication.Providers.OpenId {
+namespace NGM.OpenAuthentication.Providers.OpenId.Services {
     [OrchardFeature("OpenId")]
     public class OpenIdProviderAuthenticator : IOpenIdProviderAuthenticator {
         private readonly IOpenIdRelyingPartyService _openIdRelyingPartyService;

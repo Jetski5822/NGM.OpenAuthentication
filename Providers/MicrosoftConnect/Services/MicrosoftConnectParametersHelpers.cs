@@ -2,7 +2,7 @@
 using System.Web;
 using Orchard.Environment.Extensions;
 
-namespace NGM.OpenAuthentication.Providers.MicrosoftConnect {
+namespace NGM.OpenAuthentication.Providers.MicrosoftConnect.Services {
     [OrchardFeature("MicrosoftConnect")]
     public static class MicrosoftConnectParametersHelpers {
         public static string Callback() {

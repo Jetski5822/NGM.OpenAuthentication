@@ -1,7 +1,7 @@
 using NGM.OpenAuthentication.Core;
 using Orchard.Environment.Extensions;
 
-namespace NGM.OpenAuthentication.Providers.Facebook {
+namespace NGM.OpenAuthentication.Providers.Facebook.Services {
     [OrchardFeature("Facebook")]
     public class FacebookAccessControlProvider : AccessControlProvider {
         public override string Name {

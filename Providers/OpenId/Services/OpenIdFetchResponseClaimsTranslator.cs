@@ -3,7 +3,7 @@ using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using NGM.OpenAuthentication.Core.Claims;
 using Orchard.Environment.Extensions;
 
-namespace NGM.OpenAuthentication.Providers.OpenId {
+namespace NGM.OpenAuthentication.Providers.OpenId.Services {
     [OrchardFeature("OpenId")]
     public class OpenIdFetchResponseClaimsTranslator : IClaimsTranslator<FetchResponse> {
         public UserClaims Translate(FetchResponse response) {

@@ -8,7 +8,7 @@ using NGM.OpenAuthentication.Services;
 using Orchard;
 using Orchard.Environment.Extensions;
 
-namespace NGM.OpenAuthentication.Providers.MicrosoftConnect {
+namespace NGM.OpenAuthentication.Providers.MicrosoftConnect.Services {
     [OrchardFeature("MicrosoftConnect")]
     public class MicrosoftConnectProviderAuthenticator : IMicrosoftConnectProviderAuthenticator {
         private readonly IOrchardServices _orchardServices;

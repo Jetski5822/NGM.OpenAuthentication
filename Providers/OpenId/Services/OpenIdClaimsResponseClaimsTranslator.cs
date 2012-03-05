@@ -2,7 +2,7 @@
 using NGM.OpenAuthentication.Core.Claims;
 using Orchard.Environment.Extensions;
 
-namespace NGM.OpenAuthentication.Providers.OpenId {
+namespace NGM.OpenAuthentication.Providers.OpenId.Services {
     [OrchardFeature("OpenId")]
     public class OpenIdClaimsResponseClaimsTranslator : IClaimsTranslator<ClaimsResponse> {
         public UserClaims Translate(ClaimsResponse response) {

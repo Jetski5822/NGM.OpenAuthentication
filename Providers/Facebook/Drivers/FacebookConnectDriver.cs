@@ -2,6 +2,7 @@
 using System.Text;
 using JetBrains.Annotations;
 using NGM.OpenAuthentication.Providers.Facebook.Models;
+using NGM.OpenAuthentication.Providers.Facebook.Services;
 using NGM.OpenAuthentication.Services;
 using Orchard.ContentManagement.Drivers;
 using Orchard.Environment.Extensions;
