@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
+    <Compile Include="Helpers\AuthenticationShapeHelper.cs" />
     <Compile Include="Controllers\AdminPermissionController.cs" />
     <Compile Include="Core\AccessControlProvider.cs" />
     <Compile Include="Core\IAccessControlProvider.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Core\Results\AuthenticatedAuthenticationResult.cs" />
     <Compile Include="Core\Results\UserDoesNotExistAuthenticationResult.cs" />
     <Compile Include="Core\Results\UserDoesNotHaveEnoughDetailsToAutoRegisterAuthenticationResult.cs" />
+    <Compile Include="Helpers\IAuthenticationShapeHelper.cs" />
     <Compile Include="Providers\MicrosoftConnect\Services\IMicrosoftConnectProviderAuthenticator.cs" />
     <Compile Include="Providers\OpenId\Routes.cs" />
     <Compile Include="Providers\Facebook\Shapes.cs" />
@@ -127,14 +129,12 @@
     <Compile Include="Core\OAuth\IOAuthProviderAuthenticator.cs" />
     <Compile Include="Providers\Twitter\Services\TwitterProviderAuthenticator.cs" />
     <Compile Include="Providers\OpenId\Services\Claims.cs" />
-    <Compile Include="Core\OrchardShapeChecker.cs" />
     <Compile Include="Core\StateBag.cs" />
     <Compile Include="Drivers\OpenAuthenticationSettingsPartDriver.cs" />
     <Compile Include="Providers\MicrosoftConnect\Drivers\MicrosoftConnectDriver.cs" />
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Filters\LogOutFilter.cs" />
-    <Compile Include="Filters\RegistrationFilter.cs" />
     <Compile Include="Handlers\OpenAuthenticationSettingsPartHandler.cs" />
     <Compile Include="Providers\Facebook\Models\FacebookConnectSignInPart.cs" />
     <Compile Include="Providers\MicrosoftConnect\Models\MicrosoftConnectSignInPart.cs" />

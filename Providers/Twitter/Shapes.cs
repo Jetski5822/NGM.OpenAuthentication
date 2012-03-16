@@ -6,16 +6,18 @@ namespace NGM.OpenAuthentication.Providers.Twitter {
     [OrchardFeature("Twitter")]
     public class Shapes : IShapeFactoryEvents {
         private readonly IOAuthProviderTwitterAuthenticator _oAuthProviderTwitterAuthenticator;
+        private readonly IAuthenticationShapeHelper _authenticationShapeHelper;
 
-        public Shapes(IOAuthProviderTwitterAuthenticator oAuthProviderTwitterAuthenticator) {
+        public Shapes(IOAuthProviderTwitterAuthenticator oAuthProviderTwitterAuthenticator, IAuthenticationShapeHelper authenticationShapeHelper) {
             _oAuthProviderTwitterAuthenticator = oAuthProviderTwitterAuthenticator;
+            _authenticationShapeHelper = authenticationShapeHelper;
         }
 
         public void Creating(ShapeCreatingContext context) {
         }
 
         public void Created(ShapeCreatedContext context) {
-            if ((OpenAuthentication.Shapes.IsLogOn(context) || OpenAuthentication.Shapes.IsCreate(context)) && _oAuthProviderTwitterAuthenticator.IsConsumerConfigured) {
+            if ((_authenticationShapeHelper.IsLogOn(context) || _authenticationShapeHelper.IsCreate(context)) && _oAuthProviderTwitterAuthenticator.IsConsumerConfigured) {
                 context.Shape.Metadata.Content.Add("Wrappers_Account_Twitter_LogOn");
             }
         }
