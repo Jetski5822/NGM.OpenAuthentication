@@ -24,7 +24,8 @@ namespace NGM.OpenAuthentication.Providers.Facebook.Drivers {
                 stringBuilder.Append(extendedPermission);
                 stringBuilder.Append(",");
             }
-            stringBuilder.Remove(stringBuilder.Length - 1, 1);
+            if (stringBuilder.Length >= 1)
+                stringBuilder.Remove(stringBuilder.Length - 1, 1);
 
             return ContentShape("FacebookConnectSignIn", () => shapeHelper.FacebookConnectSignIn(Model: part, Permissions: stringBuilder.ToString()));
         }
