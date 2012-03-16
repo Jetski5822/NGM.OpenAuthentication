@@ -14,15 +14,18 @@ namespace NGM.OpenAuthentication.Core {
         private readonly IOpenAuthenticationService _openAuthenticationService;
         private readonly IMembershipService _membershipService;
         private readonly IOrchardServices _orchardServices;
+        private readonly IStateBag _stateBag;
 
         public Authenticator(IAuthenticationService authenticationService,
                               IOpenAuthenticationService openAuthenticationService,
                               IMembershipService membershipService,
-                              IOrchardServices orchardServices) {
+                              IOrchardServices orchardServices,
+                              IStateBag stateBag) {
             _authenticationService = authenticationService;
             _openAuthenticationService = openAuthenticationService;
             _membershipService = membershipService;
             _orchardServices = orchardServices;
+            _stateBag = stateBag;
             T = NullLocalizer.Instance;
         }
 
@@ -47,7 +50,7 @@ namespace NGM.OpenAuthentication.Core {
                 // If I am not logged in, and I noone has this identifier, then go to register page to get them to confirm details.
                 var registrationSettings = _orchardServices.WorkContext.CurrentSite.As<RegistrationSettingsPart>();
 
-                StateBag.Parameters = parameters;
+                _stateBag.Parameters = parameters;
 
                 if (AutoRegistrationIsEnabled(registrationSettings)) {
                     if (CanCreateAccount(parameters)) {

@@ -4,6 +4,12 @@ using Orchard.Mvc.Filters;
 
 namespace NGM.OpenAuthentication.Filters {
     public class LogOutFilter : FilterProvider, IResultFilter {
+        private readonly IStateBag _stateBag;
+
+        public LogOutFilter(IStateBag stateBag) {
+            _stateBag = stateBag;
+        }
+
         public void OnResultExecuting(ResultExecutingContext filterContext) {
 
         }
@@ -14,7 +20,7 @@ namespace NGM.OpenAuthentication.Filters {
             if (filterContext.RouteData.Values["action"] as string != "LogOff")
                 return;
 
-            StateBag.Clear();
+            _stateBag.Clear();
         }
     }
 }

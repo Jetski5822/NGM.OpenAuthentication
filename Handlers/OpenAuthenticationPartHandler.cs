@@ -16,16 +16,19 @@ namespace NGM.OpenAuthentication.Handlers {
         private readonly IOrchardServices _orchardServices;
         private readonly IOpenAuthenticationService _openAuthenticationService;
         private readonly IEnumerable<IAccessControlProvider> _accessControlProviders;
+        private readonly IStateBag _stateBag;
 
         private static readonly Object SyncLock = new Object();
 
         public OpenAuthenticationPartHandler(IRepository<OpenAuthenticationPartRecord> openAuthenticationPartRepository,
             IOrchardServices orchardServices,
             IOpenAuthenticationService openAuthenticationService,
-            IEnumerable<IAccessControlProvider> accessControlProviders) {
+            IEnumerable<IAccessControlProvider> accessControlProviders,
+            IStateBag stateBag) {
             _orchardServices = orchardServices;
             _openAuthenticationService = openAuthenticationService;
             _accessControlProviders = accessControlProviders;
+            _stateBag = stateBag;
             Filters.Add(StorageFilter.For(openAuthenticationPartRepository));
 
             OnLoaded<IUser>((context, user) => {
@@ -38,9 +41,9 @@ namespace NGM.OpenAuthentication.Handlers {
                                             TryAssociateAccount(user, GetQueryStringParameters());
                                         }
                                         else {
-                                            var parameters = StateBag.Parameters;
+                                            var parameters = _stateBag.Parameters;
                                             if (parameters != null) {
-                                                StateBag.Clear();
+                                                _stateBag.Clear();
                                                 TryAssociateAccount(user, parameters);
                                             }
                                         }

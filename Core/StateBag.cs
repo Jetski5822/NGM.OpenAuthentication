@@ -1,20 +1,26 @@
-﻿using System.Web;
+﻿using Orchard;
 
 namespace NGM.OpenAuthentication.Core {
-    public static class StateBag {
-        public static OpenAuthenticationParameters Parameters {
-            get { return HttpContext.Current.Session["parameters"] as OpenAuthenticationParameters; }
-            set {
-                if (value == null) {
-                    HttpContext.Current.Session.Remove("parameters");
-                } else {
-                    HttpContext.Current.Session["parameters"] = value;
-                }
-            }
+    public class StateBag : IStateBag {
+        private readonly IOrchardServices _orchardServices;
+
+        public StateBag(IOrchardServices orchardServices) {
+            _orchardServices = orchardServices;
         }
 
-        public static void Clear() {
+        public OpenAuthenticationParameters Parameters {
+            get { return _orchardServices.WorkContext.GetState<OpenAuthenticationParameters>("OpenAuthenticationParameters"); }
+            set { _orchardServices.WorkContext.SetState("OpenAuthenticationParameters", value); }
+        }
+
+        public void Clear() {
             Parameters = null;
         }
+    }
+
+    public interface IStateBag : IDependency
+    {
+        OpenAuthenticationParameters Parameters { get; set; }
+        void Clear();
     }
 }

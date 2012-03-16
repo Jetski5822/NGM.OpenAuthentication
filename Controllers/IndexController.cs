@@ -5,8 +5,14 @@ namespace NGM.OpenAuthentication.Controllers
 {
     public class IndexController : Controller
     {
+        private readonly IStateBag _stateBag;
+
+        public IndexController(IStateBag stateBag) {
+            _stateBag = stateBag;
+        }
+
         public RedirectResult RemoveParameterAssociation(string returnUrl) {
-            StateBag.Clear();
+            _stateBag.Clear();
             
             return Redirect(returnUrl);
         }
