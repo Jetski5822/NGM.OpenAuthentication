@@ -32,4 +32,4 @@ using System.Security;
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("0.4.5.0")]
 [assembly: AssemblyFileVersion("0.4.5.0")]
-[assembly: SecurityTransparent]
+[assembly: SecurityRules(SecurityRuleSet.Level2)]
