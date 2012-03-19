@@ -113,7 +113,7 @@ namespace NGM.OpenAuthentication.Providers.Facebook.Services {
 
             var result = new RedirectResult(facebookClient.GetLoginUrl(parameters).ToString());
 
-            return new AuthenticationState(returnUrl, Statuses.RequresRedirect) { Result = result };
+            return new AuthenticationState(returnUrl, Statuses.RequiresRedirect) { Result = result };
         }
 
         private Uri GenerateCallbackUri() {

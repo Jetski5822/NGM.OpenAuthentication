@@ -64,7 +64,7 @@ namespace NGM.OpenAuthentication.Providers.OpenId.Services {
                 request.AddExtension(Claims.CreateClaimsRequest(_scopeProviderPermissionService));
                 request.AddExtension(Claims.CreateFetchRequest(_scopeProviderPermissionService));
 
-                return new AuthenticationState(returnUrl, Statuses.RequresRedirect) {
+                return new AuthenticationState(returnUrl, Statuses.RequiresRedirect) {
                     Result = request.RedirectingResponse.AsActionResult()
                 };
             } catch (ProtocolException ex) {

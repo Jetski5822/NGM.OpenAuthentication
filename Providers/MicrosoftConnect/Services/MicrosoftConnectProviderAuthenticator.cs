@@ -63,7 +63,7 @@ namespace NGM.OpenAuthentication.Providers.MicrosoftConnect.Services {
             var authorizationRequestBuilder = 
                 new AuthorizationRequestBuilder(ClientKeyIdentifier, GenerateCallbackUri(), ResponseType.Code, scopes);
 
-            return new AuthenticationState(returnUrl, Statuses.RequresRedirect) {
+            return new AuthenticationState(returnUrl, Statuses.RequiresRedirect) {
                 Result = new RedirectResult(authorizationRequestBuilder.Build().GenerateRequestUri().ToString())
             };
         }
