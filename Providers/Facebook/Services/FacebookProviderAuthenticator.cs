@@ -71,12 +71,10 @@ namespace NGM.OpenAuthentication.Providers.Facebook.Services {
                     OAuthAccessToken = GetAccessToken(oAuthResult.Code)
                 };
 
-                var result = _authenticator.Authenticate(parameters);
+                if (_openAuthenticationService.GetSettings().Record.AutoRegisterEnabled)
+                    GetUserName(parameters);
 
-                if (result.Status == Statuses.AssociateOnLogon) {
-                    if (_openAuthenticationService.GetSettings().Record.AutoRegisterEnabled)
-                        result = GetUserNameAndRetryAuthorization(parameters);
-                }
+                var result = _authenticator.Authenticate(parameters);
 
                 return new AuthenticationState(returnUrl, result.Status);
             }
@@ -85,7 +83,7 @@ namespace NGM.OpenAuthentication.Providers.Facebook.Services {
             return new AuthenticationState(returnUrl, Statuses.ErrorAuthenticating);
         }
 
-        private AuthenticationResult GetUserNameAndRetryAuthorization(OAuthAuthenticationParameters parameters) {
+        private void GetUserName(OAuthAuthenticationParameters parameters) {
             var client = new FacebookClient(parameters.OAuthAccessToken);
             var me = client.Get("/me");
 
@@ -93,8 +91,6 @@ namespace NGM.OpenAuthentication.Providers.Facebook.Services {
             var claims = claimsTranslator.Translate((IDictionary<string, object>)me);
 
             parameters.AddClaim(claims);
-
-            return _authenticator.Authenticate(parameters);
         }
 
         private AuthenticationState GenerateRequestState(string returnUrl) {
