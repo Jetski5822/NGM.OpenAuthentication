@@ -10,7 +10,7 @@ using Orchard.Environment.Extensions;
 using Orchard.Security;
 
 namespace NGM.OpenAuthentication.Providers.Twitter.Services {
-    [OrchardFeature("Twitter")]
+    [OrchardFeature("Authentication.Twitter")]
     public class TwitterProviderAuthenticator : IOAuthProviderTwitterAuthenticator {
         private readonly IOrchardServices _orchardServices;
         private readonly IAuthenticator _authenticator;

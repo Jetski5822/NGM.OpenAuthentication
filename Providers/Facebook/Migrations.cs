@@ -5,7 +5,7 @@ using Orchard.Data.Migration;
 using Orchard.Environment.Extensions;
 
 namespace NGM.OpenAuthentication.Providers.Facebook {
-    [OrchardFeature("Facebook")]
+    [OrchardFeature("Authentication.Facebook")]
     public class Migrations : DataMigrationImpl {
         public int Create() {
             ContentDefinitionManager.AlterPartDefinition(typeof(FacebookConnectSignInPart).Name, cfg => cfg.Attachable());

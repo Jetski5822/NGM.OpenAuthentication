@@ -2,7 +2,7 @@
 using Orchard.Environment.Extensions;
 
 namespace NGM.OpenAuthentication.Providers.Facebook.Services {
-    [OrchardFeature("Facebook")]
+    [OrchardFeature("Authentication.Facebook")]
     public class FacebookApplication : IFacebookApplication {
         public FacebookApplication(string clientKeyIdentifier, string clientSecret) {
             AppId = clientKeyIdentifier;

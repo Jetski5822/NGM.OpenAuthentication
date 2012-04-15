@@ -5,7 +5,7 @@ using Orchard.UI.Admin.Notification;
 using Orchard.UI.Notify;
 
 namespace NGM.OpenAuthentication.Providers.Facebook.Services {
-    [OrchardFeature("Facebook")]
+    [OrchardFeature("Authentication.Facebook")]
     public class FacebookServiceNotificationProvider: INotificationProvider {
         private readonly IOAuthProviderFacebookAuthenticator _oAuthProviderFacebookAuthenticator;
 

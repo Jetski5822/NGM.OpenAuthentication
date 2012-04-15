@@ -9,7 +9,7 @@ using Orchard.Environment.Extensions;
 
 namespace NGM.OpenAuthentication.Providers.Facebook.Drivers {
     [UsedImplicitly]
-    [OrchardFeature("Facebook")]
+    [OrchardFeature("Authentication.Facebook")]
     public class FacebookConnectDriver : ContentPartDriver<FacebookConnectSignInPart> {
         private readonly IScopeProviderPermissionService _scopeProviderPermissionService;
 
