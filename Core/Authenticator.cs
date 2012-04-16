@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 using NGM.OpenAuthentication.Core.Results;
 using NGM.OpenAuthentication.Services;
 using Orchard;
@@ -103,8 +104,10 @@ namespace NGM.OpenAuthentication.Core {
 
         private IUser CreateUser(OpenAuthenticationParameters parameters) {
             var details = new RegistrationDetails(parameters);
-            var randomPassword = new Byte[10].ToString();
-            return _membershipService.CreateUser(new CreateUserParams(details.UserName, randomPassword, details.EmailAddress, null, null, true));
+            var randomArray = new byte[10];
+            var rng = new RNGCryptoServiceProvider();
+            rng.GetBytes(randomArray);
+            return _membershipService.CreateUser(new CreateUserParams(details.UserName, Convert.ToBase64String(randomArray), details.EmailAddress, null, null, true));
         }
     }
 }
