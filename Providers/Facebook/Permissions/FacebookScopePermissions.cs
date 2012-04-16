@@ -5,7 +5,7 @@ using Orchard.Environment.Extensions;
 using Orchard.Environment.Extensions.Models;
 
 namespace NGM.OpenAuthentication.Providers.Facebook.Permissions {
-    [OrchardFeature("Facebook")]
+    [OrchardFeature("Authentication.Facebook")]
     public class FacebookScopePermissions : IScopePermissionProvider
     {
         public virtual Feature Feature { get; set; }

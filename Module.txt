@@ -18,11 +18,11 @@ Features:
 		Name: MicrosoftConnect
 		Category: Authentication
 		Dependencies: NGM.OpenAuthentication, Orchard.jQuery
-	Twitter:
-		Name: Twitter
+	Authentication.Twitter:
+		Name: Twitter Authentication
 		Category: Authentication
 		Dependencies: NGM.OpenAuthentication
-	Facebook:
-		Name: Facebook
+	Authentication.Facebook:
+		Name: Facebook Authentication
 		Category: Authentication
 		Dependencies: NGM.OpenAuthentication

@@ -3,7 +3,7 @@ using Orchard.DisplayManagement.Implementation;
 using Orchard.Environment.Extensions;
 
 namespace NGM.OpenAuthentication.Providers.Twitter {
-    [OrchardFeature("Twitter")]
+    [OrchardFeature("Authentication.Twitter")]
     public class Shapes : IShapeFactoryEvents {
         private readonly IOAuthProviderTwitterAuthenticator _oAuthProviderTwitterAuthenticator;
         private readonly IAuthenticationShapeHelper _authenticationShapeHelper;

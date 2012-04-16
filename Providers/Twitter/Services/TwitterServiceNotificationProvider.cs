@@ -5,7 +5,7 @@ using Orchard.UI.Admin.Notification;
 using Orchard.UI.Notify;
 
 namespace NGM.OpenAuthentication.Providers.Twitter.Services {
-    [OrchardFeature("Twitter")]
+    [OrchardFeature("Authentication.Twitter")]
     public class TwitterServiceNotificationProvider: INotificationProvider {
         private readonly IOAuthProviderTwitterAuthenticator _oAuthProviderTwitterAuthenticator;
 

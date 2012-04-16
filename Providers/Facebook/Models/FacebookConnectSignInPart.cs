@@ -2,6 +2,6 @@
 using Orchard.Environment.Extensions;
 
 namespace NGM.OpenAuthentication.Providers.Facebook.Models {
-    [OrchardFeature("Facebook")]
+    [OrchardFeature("Authentication.Facebook")]
     public class FacebookConnectSignInPart : ContentPart { }
 }
