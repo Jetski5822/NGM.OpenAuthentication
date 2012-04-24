@@ -31,31 +31,37 @@ namespace NGM.OpenAuthentication.Handlers {
             _stateBag = stateBag;
             Filters.Add(StorageFilter.For(openAuthenticationPartRepository));
 
-            OnLoaded<IUser>((context, user) => {
-                                if (!_orchardServices.WorkContext.HttpContext.Request.IsAuthenticated)
-                                    lock (SyncLock) {
-                                        if (!_orchardServices.WorkContext.HttpContext.Request.IsAuthenticated)
-                                            return;
+            OnLoaded<IUser>(
+                (context, user) => {
+                    if (_orchardServices.WorkContext == null) return;
+                    if (!_orchardServices.WorkContext.HttpContext.Request.IsAuthenticated)
+                        lock (SyncLock) {
+                            if (!_orchardServices.WorkContext.HttpContext.Request.IsAuthenticated)
+                                return;
 
-                                        if (HasQueryParamsLocator()) {
-                                            TryAssociateAccount(user, GetQueryStringParameters());
-                                        }
-                                        else {
-                                            var parameters = _stateBag.Parameters;
-                                            if (parameters != null) {
-                                                _stateBag.Clear();
-                                                TryAssociateAccount(user, parameters);
-                                            }
-                                        }
-                                    }
-                            });
+                            if (HasQueryParamsLocator()) {
+                                TryAssociateAccount(user, GetQueryStringParameters());
+                            }
+                            else {
+                                var parameters = _stateBag.Parameters;
+                                if (parameters != null) {
+                                    _stateBag.Clear();
+                                    TryAssociateAccount(user, parameters);
+                                }
+                            }
+                        }
+                });
 
-            OnRemoved<IUser>((context, user) => _openAuthenticationService.GetExternalIdentifiersFor(user)
-                                                    .List()
-                                                    .ToList()
-                                                    .ForEach(o => 
-                                                        _openAuthenticationService.RemoveAssociation(
-                                                            new HashedOpenAuthenticationParameters(_accessControlProviders.First(x => x.Hash == o.HashedProvider), o.ExternalIdentifier))));
+            OnRemoved<IUser>(
+                (context, user) => _openAuthenticationService.GetExternalIdentifiersFor(user)
+                                       .List()
+                                       .ToList()
+                                       .ForEach(
+                                           o =>
+                                           _openAuthenticationService.RemoveAssociation(
+                                               new HashedOpenAuthenticationParameters(
+                                                   _accessControlProviders.First(x => x.Hash == o.HashedProvider),
+                                                   o.ExternalIdentifier))));
         }
 
         // TODO Move to more appropriate location
