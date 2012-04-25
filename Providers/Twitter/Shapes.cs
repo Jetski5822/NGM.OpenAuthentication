@@ -18,7 +18,7 @@ namespace NGM.OpenAuthentication.Providers.Twitter {
 
         public void Created(ShapeCreatedContext context) {
             if ((_authenticationShapeHelper.IsLogOn(context) || _authenticationShapeHelper.IsCreate(context)) && _oAuthProviderTwitterAuthenticator.IsConsumerConfigured) {
-                context.Shape.Metadata.Content.Add("Wrappers_Account_Twitter_LogOn");
+                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_Twitter_LogOn");
             }
         }
     }
