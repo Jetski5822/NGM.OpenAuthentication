@@ -82,8 +82,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\Facebook.6.0.16\lib\net45\Facebook.dll</HintPath>
     </Reference>
-    <Reference Include="LinqToTwitter">
-      <HintPath>packages\linqtotwitter.2.0.23\lib\net40\LinqToTwitter.dll</HintPath>
+    <Reference Include="LinqToTwitter, Version=2.0.24.0, Culture=neutral, PublicKeyToken=957107be965c25d9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\LinqToTwitter.2.0.24\lib\net40\LinqToTwitter.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <Private>False</Private>
