@@ -33,8 +33,50 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetOpenAuth">
-      <HintPath>packages\DotNetOpenAuth.4.0.0-beta\lib\net40-full\DotNetOpenAuth.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.Core">
+      <HintPath>packages\DotNetOpenAuth.Core.4.0.1.12097\lib\net40-full\DotNetOpenAuth.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.Core.UI">
+      <HintPath>packages\DotNetOpenAuth.Core.UI.4.0.1.12097\lib\net40-full\DotNetOpenAuth.Core.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.InfoCard">
+      <HintPath>packages\DotNetOpenAuth.InfoCard.4.0.1.12097\lib\net40-full\DotNetOpenAuth.InfoCard.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.InfoCard.UI">
+      <HintPath>packages\DotNetOpenAuth.InfoCard.UI.4.0.1.12097\lib\net40-full\DotNetOpenAuth.InfoCard.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth">
+      <HintPath>packages\DotNetOpenAuth.OAuth.Core.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.Common">
+      <HintPath>packages\DotNetOpenAuth.OAuth.Common.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OAuth.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.Consumer">
+      <HintPath>packages\DotNetOpenAuth.OAuth.Consumer.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.ServiceProvider">
+      <HintPath>packages\DotNetOpenAuth.OAuth.ServiceProvider.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OAuth.ServiceProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId">
+      <HintPath>packages\DotNetOpenAuth.OpenId.Core.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OpenId.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.Provider">
+      <HintPath>packages\DotNetOpenAuth.OpenId.Provider.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OpenId.Provider.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.Provider.UI">
+      <HintPath>packages\DotNetOpenAuth.OpenId.Provider.UI.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OpenId.Provider.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty">
+      <HintPath>packages\DotNetOpenAuth.OpenId.RelyingParty.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty.UI">
+      <HintPath>packages\DotNetOpenAuth.OpenId.RelyingParty.UI.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OpenId.RelyingParty.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.UI">
+      <HintPath>packages\DotNetOpenAuth.OpenId.Core.UI.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OpenId.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenIdInfoCard.UI">
+      <HintPath>packages\DotNetOpenAuth.OpenIdInfoCard.UI.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OpenIdInfoCard.UI.dll</HintPath>
     </Reference>
     <Reference Include="Facebook">
       <HintPath>packages\Facebook.5.4.1.0\lib\net40-client\Facebook.dll</HintPath>
@@ -53,6 +95,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\MicrosoftConnectRestWrapper_v1.0.0.0\NGM.MicrosoftConnect.dll</HintPath>
     </Reference>
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
