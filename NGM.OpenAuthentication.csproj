@@ -154,7 +154,6 @@
     <Compile Include="Providers\MicrosoftConnect\Services\MicrosoftConnectProviderAuthenticator.cs" />
     <Compile Include="Providers\OpenId\Services\OpenIdClaimsResponseClaimsTranslator.cs" />
     <Compile Include="Providers\OpenId\Services\OpenIdFetchResponseClaimsTranslator.cs" />
-    <Compile Include="Providers\Facebook\Services\FacebookApplication.cs" />
     <Compile Include="Providers\Facebook\Services\IOAuthProviderFacebookAuthenticator.cs" />
     <Compile Include="Providers\OpenId\Services\IOpenIdProviderAuthenticator.cs" />
     <Compile Include="Core\IProviderAuthenticator.cs" />
@@ -350,9 +349,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Wrappers.Account.Twitter.LogOn.cshtml" />
-    <Content Include="Content\oauth\Web.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Wrappers.Account.AssociateMessage.cshtml" />
     <Content Include="Views\FacebookConnectSignIn.cshtml" />
     <Content Include="Views\MicrosoftConnectSignIn.cshtml" />
@@ -362,6 +358,9 @@
     <Content Include="Views\AdminPermission\Edit.cshtml" />
     <Content Include="packages.config" />
     <Content Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
+    <Content Include="Content\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
