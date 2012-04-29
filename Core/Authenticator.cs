@@ -62,7 +62,7 @@ namespace NGM.OpenAuthentication.Core {
                         return new UserDoesNotHaveEnoughDetailsToAutoRegisterAuthenticationResult();
                     }
                 } else if (RegistrationIsEnabled(registrationSettings)) {
-                    _orchardServices.Notifier.Information(T("You {0} account will be associated when you login", parameters.Provider.Name));
+                    _orchardServices.Notifier.Information(T("Your {0} account will be associated when you login", parameters.Provider.Name));
                     return new AuthenticationResult(Statuses.AssociateOnLogon);
                 } else {
                     _orchardServices.Notifier.Warning(T("User does not exist on system"));
