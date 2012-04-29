@@ -1,6 +1,11 @@
 ﻿using Orchard;
 
 namespace NGM.OpenAuthentication.Core {
+    public interface IStateBag : IDependency {
+        OpenAuthenticationParameters Parameters { get; set; }
+        void Clear();
+    }
+
     public class StateBag : IStateBag {
         private readonly IOrchardServices _orchardServices;
 
@@ -16,11 +21,5 @@ namespace NGM.OpenAuthentication.Core {
         public void Clear() {
             Parameters = null;
         }
-    }
-
-    public interface IStateBag : IDependency
-    {
-        OpenAuthenticationParameters Parameters { get; set; }
-        void Clear();
     }
 }

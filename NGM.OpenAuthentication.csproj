@@ -112,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
+    <Compile Include="Handlers\AccountAssociationUserEventHandler.cs" />
     <Compile Include="Helpers\AuthenticationShapeHelper.cs" />
     <Compile Include="Controllers\AdminPermissionController.cs" />
     <Compile Include="Core\AccessControlProvider.cs" />
@@ -178,7 +179,7 @@
     <Compile Include="Providers\MicrosoftConnect\Drivers\MicrosoftConnectDriver.cs" />
     <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
-    <Compile Include="Filters\LogOutFilter.cs" />
+    <Compile Include="Filters\StateFilter.cs" />
     <Compile Include="Handlers\OpenAuthenticationSettingsPartHandler.cs" />
     <Compile Include="Providers\Facebook\Models\FacebookConnectSignInPart.cs" />
     <Compile Include="Providers\MicrosoftConnect\Models\MicrosoftConnectSignInPart.cs" />
