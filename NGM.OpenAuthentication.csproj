@@ -80,7 +80,7 @@
     </Reference>
     <Reference Include="Facebook, Version=5.4.1.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>packages\Facebook.6.0.16\lib\net45\Facebook.dll</HintPath>
+      <HintPath>packages\Facebook.5.4.1.0\lib\net40-client\Facebook.dll</HintPath>
     </Reference>
     <Reference Include="LinqToTwitter, Version=2.0.24.0, Culture=neutral, PublicKeyToken=957107be965c25d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -122,6 +122,7 @@
     <Compile Include="Core\Results\UserDoesNotExistAuthenticationResult.cs" />
     <Compile Include="Core\Results\UserDoesNotHaveEnoughDetailsToAutoRegisterAuthenticationResult.cs" />
     <Compile Include="Helpers\IAuthenticationShapeHelper.cs" />
+    <Compile Include="Providers\Facebook\Services\FacebookApplication.cs" />
     <Compile Include="Providers\MicrosoftConnect\Services\IMicrosoftConnectProviderAuthenticator.cs" />
     <Compile Include="Providers\OpenId\Routes.cs" />
     <Compile Include="Providers\Facebook\Shapes.cs" />
@@ -357,7 +358,9 @@
     <Content Include="Views\Create.cshtml" />
     <Content Include="Views\Admin\Create.cshtml" />
     <Content Include="Views\AdminPermission\Edit.cshtml" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
     <Content Include="Content\Web.config">
       <SubType>Designer</SubType>

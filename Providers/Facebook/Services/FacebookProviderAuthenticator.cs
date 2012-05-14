@@ -23,7 +23,7 @@ namespace NGM.OpenAuthentication.Providers.Facebook.Services {
         private readonly IOpenAuthenticationService _openAuthenticationService;
         private readonly IScopeProviderPermissionService _scopeProviderPermissionService;
 
-        private FacebookClient _facebookClient;
+        private FacebookApplication _facebookApplication;
 
         public FacebookProviderAuthenticator(IOrchardServices orchardServices,
             IAuthenticator authenticator,
@@ -38,9 +38,10 @@ namespace NGM.OpenAuthentication.Providers.Facebook.Services {
 
         public Localizer T { get; set; }
 
-        private FacebookClient FacebookClient {
-            get { return _facebookClient ?? (_facebookClient = new FacebookClient { AppId = ClientKeyIdentifier, AppSecret = ClientSecret }); }
+        private FacebookApplication FacebookApplication {
+            get { return _facebookApplication ?? (_facebookApplication = new FacebookApplication(ClientKeyIdentifier, ClientSecret)); }
         }
+
 
         public string ClientKeyIdentifier {
             get { return _openAuthenticationService.GetSettings().Record.FacebookClientIdentifier; }
@@ -56,7 +57,7 @@ namespace NGM.OpenAuthentication.Providers.Facebook.Services {
 
         public AuthenticationState Authenticate(string returnUrl) {
             FacebookOAuthResult oAuthResult;
-            if (FacebookClient.TryParseOAuthCallbackUrl(HttpContext.Current.Request.Url, out oAuthResult)) {
+            if (FacebookOAuthResult.TryParse(HttpContext.Current.Request.Url, out oAuthResult)) {
                 return TranslateResponseState(returnUrl, oAuthResult);
             }
 
@@ -94,6 +95,8 @@ namespace NGM.OpenAuthentication.Providers.Facebook.Services {
         }
 
         private AuthenticationState GenerateRequestState(string returnUrl) {
+            var facebookClient = new FacebookOAuthClient(FacebookApplication);
+
             var extendedPermissions = _scopeProviderPermissionService.Get(Provider).Where(o => o.IsEnabled).Select(o => o.Scope).ToArray();
             var parameters = new Dictionary<string, object> {
                 {"redirect_uri", GenerateCallbackUri() }
@@ -105,7 +108,7 @@ namespace NGM.OpenAuthentication.Providers.Facebook.Services {
                 parameters["scope"] = scope.ToString();
             }
 
-            var result = new RedirectResult(_facebookClient.GetLoginUrl(parameters).ToString());
+            var result = new RedirectResult(facebookClient.GetLoginUrl(parameters).ToString());
 
             return new AuthenticationState(returnUrl, Statuses.RequiresRedirect) { Result = result };
         }
@@ -132,25 +135,13 @@ namespace NGM.OpenAuthentication.Providers.Facebook.Services {
         }
 
         private string GetAccessToken(string accesscode) {
-            //http://csharpsdk.org/docs/web/ajax-requests   
-            //https://github.com/facebook-csharp-sdk/facebook-aspnet-sample/blob/master/src/facebook-aspnet-sample/Controllers/AccountController.cs
-            //http://stackoverflow.com/questions/10187030/getting-accesstoken-from-code-using-facebook-c-sharp-sdk
-            dynamic result = _facebookClient.Get("oauth/access_token", new {
-                client_id = _facebookClient.AppId,
-                client_secret = _facebookClient.AppSecret,
-                redirect_uri = GenerateCallbackUri(),
-                code = accesscode
-            });
-
-            return result.access_token;
-
-            //var cl = new FacebookOAuthClient(FacebookClient);
-            //cl.RedirectUri = 
-            //cl.AppId = FacebookClient.AppId;
-            //cl.AppSecret = FacebookClient.AppSecret;
-            //var dict = (JsonObject)cl.ExchangeCodeForAccessToken(code, new Dictionary<string, object> { { "permissions", "offline_access" } });
-
-            //return dict.Values.ElementAt(0).ToString();
+            var cl = new FacebookOAuthClient(FacebookApplication);
+            cl.RedirectUri = GenerateCallbackUri();
+            cl.AppId = FacebookApplication.AppId;
+            cl.AppSecret = FacebookApplication.AppSecret;
+            var dict = (JsonObject)cl.ExchangeCodeForAccessToken(accesscode, new Dictionary<string, object> { { "permissions", "offline_access" } });
+            
+            return dict.Values.ElementAt(0).ToString();
         }
     }
 }
