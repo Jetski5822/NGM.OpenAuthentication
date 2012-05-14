@@ -136,13 +136,13 @@ namespace NGM.OpenAuthentication.Providers.Facebook.Services {
             //https://github.com/facebook-csharp-sdk/facebook-aspnet-sample/blob/master/src/facebook-aspnet-sample/Controllers/AccountController.cs
             //http://stackoverflow.com/questions/10187030/getting-accesstoken-from-code-using-facebook-c-sharp-sdk
             dynamic result = _facebookClient.Get("oauth/access_token", new {
+                client_id = _facebookClient.AppId,
+                client_secret = _facebookClient.AppSecret,
                 redirect_uri = GenerateCallbackUri(),
                 code = accesscode
             });
 
-
-
-            return null;
+            return result.access_token;
 
             //var cl = new FacebookOAuthClient(FacebookClient);
             //cl.RedirectUri = 
