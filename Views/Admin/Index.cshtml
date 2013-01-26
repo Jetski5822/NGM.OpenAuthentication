@@ -1,0 +1,50 @@
+﻿@using NGM.OpenAuthentication.Extensions
+@using Orchard.Utility.Extensions
+@model NGM.OpenAuthentication.ViewModels.IndexViewModel
+           
+@{
+    Layout.Title = T("Open Authentication Settings");
+}
+
+@using (Html.BeginFormAntiForgeryPost())
+{
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <label>@T("Auto Registration Enabled")</label>
+        @Html.CheckBoxFor(m => m.AutoRegistrationEnabled) <label for="@Html.FieldIdFor(m => m.AutoRegistrationEnabled)" class="forcheckbox">@T("Auto Registration Enabled")</label>
+        <span class="hint">@T("When checked, if the user who is authenticating does not have an account then a local account will be created and a username will be created based on claims.")</span>
+    </fieldset>
+
+    if (Model.CurrentProviders.Any()) {
+        <h2>@T("Enabled Providers")</h2>
+        <p>@T("<a href=\"{0}\">Register a new provider</a>", Url.ProviderCreate())</p>
+        <table class="items">
+            <thead>
+                <tr>
+                    <th scope="col">@T("Name")</th>
+                    <th scope="col">@T("Identifier")</th>
+                    <th scope="col">@T("Key")</th>
+                    <th scope="col">@T("Secret")</th>
+                    <th scope="col">@T("Actions")</th>
+                </tr>
+            </thead>
+        
+            @foreach (var currentProvider in Model.CurrentProviders) {
+                <tr>
+                    <td>@currentProvider.ProviderName</td>
+                    <td>@currentProvider.ProviderIdentifier</td>
+                    <td>@currentProvider.ProviderIdKey</td>
+                    <td>@currentProvider.ProviderSecret</td>
+                    <td><a href="@Url.RemoveProviderConfiguration(currentProvider.Id)">@T("Remove")</a></td>
+                </tr>
+            }
+        </table>
+        <span class="hint">@T("A provider identifier may not be shown if not supplied by an internal library. Also A key and secret are not required for every mechanism")</span>
+    }
+    else {
+        <p class="noproviders">@T("There are no providers registered. Why not <a href=\"{0}\">register one</a>?", Url.ProviderCreate())</p>
+    }
+    
+    <button class="primaryAction" type="submit">@T("Save")</button>
+}
