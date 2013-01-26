@@ -10,7 +10,7 @@ namespace NGM.OpenAuthentication {
 
         public IEnumerable<Permission> GetPermissions() {
             return new[] {
-                ManageAssociations,
+                ManageAssociations
             };
         }
 
@@ -31,7 +31,7 @@ namespace NGM.OpenAuthentication {
                 },
                 new PermissionStereotype {
                     Name = "Contributor",
-                },
+                }
             };
         }
 

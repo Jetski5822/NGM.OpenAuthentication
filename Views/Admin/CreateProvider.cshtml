@@ -1,0 +1,36 @@
+﻿@model NGM.OpenAuthentication.ViewModels.CreateProviderViewModel
+           
+@{
+    Layout.Title = T("Create External Provider");
+}
+
+@using (Html.BeginFormAntiForgeryPost())
+{
+    @Html.ValidationSummary()
+    <fieldset>
+        <legend>@T("Provider Details")</legend>
+    
+        <div>
+            @Html.LabelFor(m => m.DisplayName, T("Display Name"))
+            @Html.TextBoxFor(m => m.DisplayName)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ProviderName, T("Name"))
+            @Html.TextBoxFor(m => m.ProviderName)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ProviderIdentifier, T("Identifier"))
+            @Html.TextBoxFor(m => m.ProviderIdentifier)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ProviderIdKey, T("Key"))
+            @Html.TextBoxFor(m => m.ProviderIdKey)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.ProviderSecret, T("Secret"))
+            @Html.TextBoxFor(m => m.ProviderSecret)
+        </div>
+    </fieldset>    
+    
+    <button class="primaryAction" type="submit">@T("Save")</button>
+}

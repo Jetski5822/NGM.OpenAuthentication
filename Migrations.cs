@@ -112,5 +112,43 @@ namespace NGM.OpenAuthentication {
             
             return 7;
         }
+
+        public int UpdateFrom7() {
+            ContentDefinitionManager.AlterTypeDefinition("User", cfg => cfg.RemovePart("OpenAuthenticationPart"));
+
+            SchemaBuilder.DropTable("OpenAuthenticationPartRecord");
+            SchemaBuilder.DropTable("ScopeProviderPermissionRecord");
+
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("AutoRegisterEnabled"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("FacebookClientIdentifier"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("FacebookClientSecret"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("TwitterClientIdentifier"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("TwitterClientSecret"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("LiveIdClientIdentifier"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("LiveIdClientSecret"));
+                
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.AddColumn<bool>("AutoRegistrationEnabled"));
+
+            SchemaBuilder.CreateTable("UserProviderRecord",
+                table => table
+                    .Column<int>("Id", column => column.PrimaryKey().Identity())
+                    .Column<int>("UserId")
+                    .Column<string>("ProviderName")
+                    .Column<string>("ProviderUserId")
+                );
+
+            SchemaBuilder.CreateTable("ProviderConfigurationRecord",
+                table => table
+                    .Column<int>("Id", column => column.PrimaryKey().Identity())
+                    .Column<int>("IsEnabled")
+                    .Column<string>("DisplayName")
+                    .Column<string>("ProviderName")
+                    .Column<string>("ProviderIdKey")
+                    .Column<string>("ProviderSecret")
+                    .Column<string>("ProviderIdentifier")
+                );
+
+            return 8;
+        }
     }
 }

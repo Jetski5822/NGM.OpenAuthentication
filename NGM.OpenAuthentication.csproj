@@ -20,6 +20,10 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,73 +43,48 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetOpenAuth.Core">
-      <HintPath>packages\DotNetOpenAuth.Core.4.0.1.12097\lib\net40-full\DotNetOpenAuth.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.Core.UI">
-      <HintPath>packages\DotNetOpenAuth.Core.UI.4.0.1.12097\lib\net40-full\DotNetOpenAuth.Core.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.InfoCard">
-      <HintPath>packages\DotNetOpenAuth.InfoCard.4.0.1.12097\lib\net40-full\DotNetOpenAuth.InfoCard.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.InfoCard.UI">
-      <HintPath>packages\DotNetOpenAuth.InfoCard.UI.4.0.1.12097\lib\net40-full\DotNetOpenAuth.InfoCard.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth">
-      <HintPath>packages\DotNetOpenAuth.OAuth.Core.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OAuth.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth.Common">
-      <HintPath>packages\DotNetOpenAuth.OAuth.Common.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OAuth.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth.Consumer">
-      <HintPath>packages\DotNetOpenAuth.OAuth.Consumer.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OAuth.ServiceProvider">
-      <HintPath>packages\DotNetOpenAuth.OAuth.ServiceProvider.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OAuth.ServiceProvider.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId">
-      <HintPath>packages\DotNetOpenAuth.OpenId.Core.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OpenId.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId.Provider">
-      <HintPath>packages\DotNetOpenAuth.OpenId.Provider.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OpenId.Provider.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId.Provider.UI">
-      <HintPath>packages\DotNetOpenAuth.OpenId.Provider.UI.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OpenId.Provider.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty">
-      <HintPath>packages\DotNetOpenAuth.OpenId.RelyingParty.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty.UI">
-      <HintPath>packages\DotNetOpenAuth.OpenId.RelyingParty.UI.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OpenId.RelyingParty.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenId.UI">
-      <HintPath>packages\DotNetOpenAuth.OpenId.Core.UI.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OpenId.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="DotNetOpenAuth.OpenIdInfoCard.UI">
-      <HintPath>packages\DotNetOpenAuth.OpenIdInfoCard.UI.4.0.1.12097\lib\net40-full\DotNetOpenAuth.OpenIdInfoCard.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Facebook, Version=5.4.1.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+    <Reference Include="DotNetOpenAuth.AspNet, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>packages\Facebook.5.4.1.0\lib\net40-client\Facebook.dll</HintPath>
+      <HintPath>packages\DotNetOpenAuth.AspNet.4.1.4.12333\lib\net40-full\DotNetOpenAuth.AspNet.dll</HintPath>
     </Reference>
-    <Reference Include="LinqToTwitter, Version=2.0.24.0, Culture=neutral, PublicKeyToken=957107be965c25d9, processorArchitecture=MSIL">
+    <Reference Include="DotNetOpenAuth.Core, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>packages\LinqToTwitter.2.0.24\lib\net40\LinqToTwitter.dll</HintPath>
+      <HintPath>packages\DotNetOpenAuth.Core.4.1.4.12333\lib\net40-full\DotNetOpenAuth.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\DotNetOpenAuth.OAuth.Core.4.1.4.12333\lib\net40-full\DotNetOpenAuth.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.Consumer, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\DotNetOpenAuth.OAuth.Consumer.4.1.4.12333\lib\net40-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\DotNetOpenAuth.OpenId.Core.4.1.4.12333\lib\net40-full\DotNetOpenAuth.OpenId.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\DotNetOpenAuth.OpenId.RelyingParty.4.1.4.12333\lib\net40-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp">
       <Private>False</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>packages\Newtonsoft.Json.4.5.1\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="NGM.MicrosoftConnect, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\MicrosoftConnectRestWrapper_v1.0.0.0\NGM.MicrosoftConnect.dll</HintPath>
-    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
-    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\lib\aspnetwebapi\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\lib\aspnetmvc\System.Web.Mvc.dll</HintPath>
@@ -113,107 +92,50 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
-    <Reference Include="System.XML" />
-    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
-    <Compile Include="Handlers\AccountAssociationUserEventHandler.cs" />
-    <Compile Include="Helpers\AuthenticationShapeHelper.cs" />
-    <Compile Include="Controllers\AdminPermissionController.cs" />
-    <Compile Include="Core\AccessControlProvider.cs" />
-    <Compile Include="Core\IAccessControlProvider.cs" />
-    <Compile Include="Core\Results\AccountAlreadyAssignedAuthenticationResult.cs" />
-    <Compile Include="Core\Results\AuthenticatedAuthenticationResult.cs" />
-    <Compile Include="Core\Results\UserDoesNotExistAuthenticationResult.cs" />
-    <Compile Include="Core\Results\UserDoesNotHaveEnoughDetailsToAutoRegisterAuthenticationResult.cs" />
-    <Compile Include="Helpers\IAuthenticationShapeHelper.cs" />
-    <Compile Include="Providers\Facebook\Services\FacebookApplication.cs" />
-    <Compile Include="Providers\MicrosoftConnect\Services\IMicrosoftConnectProviderAuthenticator.cs" />
-    <Compile Include="Providers\OpenId\Routes.cs" />
-    <Compile Include="Providers\Facebook\Shapes.cs" />
-    <Compile Include="Providers\OpenId\Shapes.cs" />
-    <Compile Include="Providers\MicrosoftConnect\ResourceManifest.cs" />
-    <Compile Include="Providers\OpenId\ResourceManifest.cs" />
-    <Compile Include="Providers\Facebook\Migrations.cs" />
-    <Compile Include="Providers\MicrosoftConnect\Migrations.cs" />
-    <Compile Include="Providers\Facebook\Permissions\FacebookScopePermissions.cs" />
-    <Compile Include="Providers\MicrosoftConnect\Permissions\MicrosoftConnectScopePermissions.cs" />
-    <Compile Include="Providers\OpenId\Permissions\OpenIdScopePermissions.cs" />
-    <Compile Include="Providers\Facebook\Services\FacebookAccessControlProvider.cs" />
-    <Compile Include="Core\IScopePermissionProvider.cs" />
-    <Compile Include="Providers\MicrosoftConnect\Services\MicrosoftConnectAccessControlProvider.cs" />
-    <Compile Include="Providers\OpenId\Services\OpenIdAccessControlProvider.cs" />
-    <Compile Include="Providers\Facebook\Services\FacebookServiceNotificationProvider.cs" />
-    <Compile Include="Providers\Twitter\Services\TwitterAccessControlProvider.cs" />
-    <Compile Include="Providers\MicrosoftConnect\Services\MicrosoftConnectServiceNotificationProvider.cs" />
-    <Compile Include="Providers\Twitter\Services\TwitterServiceNotificationProvider.cs" />
-    <Compile Include="Core\ScopePermission.cs" />
-    <Compile Include="DefaultPermissionSettingsUpdater.cs" />
-    <Compile Include="Providers\Facebook\Drivers\FacebookConnectDriver.cs" />
-    <Compile Include="Providers\Twitter\Shapes.cs" />
-    <Compile Include="ViewModels\AdminProviderPermissionViewModel.cs" />
-    <Compile Include="Controllers\IndexController.cs" />
-    <Compile Include="Core\Results\AuthenticationResult.cs" />
-    <Compile Include="Core\Claims\ClaimTypes.cs" />
-    <Compile Include="Core\Claims\ClaimsTranslator.cs" />
-    <Compile Include="Providers\Facebook\Services\FacebookClaimsTranslator.cs" />
-    <Compile Include="Providers\MicrosoftConnect\Services\MicrosoftConnectParametersHelpers.cs" />
-    <Compile Include="Providers\MicrosoftConnect\Services\MicrosoftConnectProviderAuthenticator.cs" />
-    <Compile Include="Providers\OpenId\Services\OpenIdClaimsResponseClaimsTranslator.cs" />
-    <Compile Include="Providers\OpenId\Services\OpenIdFetchResponseClaimsTranslator.cs" />
-    <Compile Include="Providers\Facebook\Services\IOAuthProviderFacebookAuthenticator.cs" />
-    <Compile Include="Providers\OpenId\Services\IOpenIdProviderAuthenticator.cs" />
-    <Compile Include="Core\IProviderAuthenticator.cs" />
-    <Compile Include="Providers\OpenId\Services\OpenIdProviderAuthenticator.cs" />
-    <Compile Include="Core\RegistrationDetails.cs" />
-    <Compile Include="Core\HashedOpenAuthenticationParameters.cs" />
-    <Compile Include="Core\IAuthenticator.cs" />
-    <Compile Include="Controllers\OAuthAccountController.cs" />
-    <Compile Include="Core\AuthenticationState.cs" />
-    <Compile Include="Providers\Twitter\Services\IOAuthProviderTwitterAuthenticator.cs" />
-    <Compile Include="Core\Statuses.cs" />
-    <Compile Include="Core\Authenticator.cs" />
-    <Compile Include="Controllers\OpenIdAccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Providers\Facebook\Services\FacebookProviderAuthenticator.cs" />
-    <Compile Include="Core\OAuth\IOAuthSettings.cs" />
-    <Compile Include="Core\OAuth\IOAuthProviderAuthenticator.cs" />
-    <Compile Include="Providers\Twitter\Services\TwitterProviderAuthenticator.cs" />
-    <Compile Include="Providers\OpenId\Services\Claims.cs" />
-    <Compile Include="Core\StateBag.cs" />
-    <Compile Include="Drivers\OpenAuthenticationSettingsPartDriver.cs" />
-    <Compile Include="Providers\MicrosoftConnect\Drivers\MicrosoftConnectDriver.cs" />
-    <Compile Include="Drivers\OpenAuthenticationPartDriver.cs" />
+    <Compile Include="ViewModels\CreateProviderViewModel.cs" />
+    <Compile Include="Events\OpenAuthUserEventHandler.cs" />
+    <Compile Include="Extensions\Constants.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Handlers\UserProvidersPartHandler.cs" />
+    <Compile Include="Models\UserProvidersPart.cs" />
+    <Compile Include="Providers\ProviderUserIdSerializationHelper.cs" />
+    <Compile Include="Models\UserProviderRecord.cs" />
+    <Compile Include="Models\ProviderConfigurationRecord.cs" />
+    <Compile Include="Services\Clients\CustomOpenIdAuthenticationClient.cs" />
+    <Compile Include="Services\Clients\FacebookAuthenticationClient.cs" />
+    <Compile Include="Services\Clients\GoogleOpenIdAuthenticationClient.cs" />
+    <Compile Include="Services\Clients\IExternalAuthenticationClient.cs" />
+    <Compile Include="Services\Clients\LinkedInAuthenticationClient.cs" />
+    <Compile Include="Services\Clients\MicrosoftAuthenticationClient.cs" />
+    <Compile Include="Services\Clients\TwitterAuthenticationClient.cs" />
+    <Compile Include="Services\Clients\YahooOpenIdAuthenticationClient.cs" />
+    <Compile Include="Events\IOpenAuthUserEventHandler.cs" />
+    <Compile Include="Services\PasswordGeneratorService.cs" />
+    <Compile Include="Security\OpenAuthCreateUserParams.cs" />
+    <Compile Include="Services\OpenAuthServices.cs" />
+    <Compile Include="Services\OpenAuthSecurityManagerWrapper.cs" />
+    <Compile Include="Services\ProviderConfigurationService.cs" />
+    <Compile Include="Services\UsernameService.cs" />
+    <Compile Include="Services\UserProviderServices.cs" />
+    <Compile Include="Models\OrchardAuthenticationClientData.cs" />
+    <Compile Include="Services\OrchardOpenAuthClientProvider.cs" />
+    <Compile Include="Services\OrchardOpenAuthDataProvider.cs" />
+    <Compile Include="Services\OrchardOpenAuthWebSecurity.cs" />
+    <Compile Include="Shapes.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
-    <Compile Include="Filters\StateFilter.cs" />
     <Compile Include="Handlers\OpenAuthenticationSettingsPartHandler.cs" />
-    <Compile Include="Providers\Facebook\Models\FacebookConnectSignInPart.cs" />
-    <Compile Include="Providers\MicrosoftConnect\Models\MicrosoftConnectSignInPart.cs" />
-    <Compile Include="Models\ScopeProviderPermissionRecord.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPart.cs" />
     <Compile Include="Models\OpenAuthenticationSettingsPartRecord.cs" />
-    <Compile Include="Providers\OpenId\Services\IOpenIdRelyingPartyService.cs" />
-    <Compile Include="Providers\OpenId\Services\OpenIdIdentifier.cs" />
-    <Compile Include="Providers\OpenId\Services\OpenIdRelyingPartyService.cs" />
-    <Compile Include="Handlers\OpenAuthenticationPartHandler.cs" />
     <Compile Include="Migrations.cs" />
-    <Compile Include="Models\OpenAuthenticationPart.cs" />
-    <Compile Include="Models\OpenAuthenticationPartRecord.cs" />
     <Compile Include="Permissions.cs" />
-    <Compile Include="ResourceManifest.cs" />
-    <Compile Include="Services\IScopeProviderPermissionService.cs" />
-    <Compile Include="Services\IOpenAuthenticationService.cs" />
-    <Compile Include="Core\OAuth\OAuthAuthenticationParameters.cs" />
-    <Compile Include="Core\OpenAuthenticationParameters.cs" />
-    <Compile Include="Services\ScopeProviderPermissionService.cs" />
-    <Compile Include="Services\OpenAuthenticationService.cs" />
-    <Compile Include="Providers\OpenId\Services\OpenIdAuthenticationParameters.cs" />
-    <Compile Include="Shapes.cs" />
-    <Compile Include="ViewModels\CreateViewModel.cs" />
-    <Compile Include="ViewModels\AdminIndexViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routes.cs" />
+    <Compile Include="ViewModels\IndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Account\Images\openid-icon.png" />
@@ -222,7 +144,6 @@
     <Content Include="Content\oauth\images\twitter-logo.jpg" />
     <Content Include="Content\oauth\images\twitter_logo_75x17.jpg" />
     <Content Include="Module.txt" />
-    <Content Include="Styles\openid.css" />
     <Content Include="Content\openid-selector\images.large\aol.gif" />
     <Content Include="Content\openid-selector\images.large\facebook.gif" />
     <Content Include="Content\openid-selector\images.large\google.gif" />
@@ -309,27 +230,14 @@
     <Content Include="Content\openid-selector\images\openid-inputicon.gif" />
     <Content Include="Content\openid-selector\images\openid-providers-en.png" />
     <Content Include="Content\openid-selector\images\openid-providers-ru.png" />
-    <Content Include="Scripts\openid-de.js" />
-    <Content Include="Scripts\openid-en.js" />
-    <Content Include="Scripts\openid-jp.js" />
-    <Content Include="Scripts\openid-jquery-1.3b1.js" />
-    <Content Include="Scripts\openid-ru.js" />
-    <Content Include="Scripts\openid-uk.js" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\Errors\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Styles\account.css" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Orchard\Orchard.Framework.csproj">
       <Project>{2D1D92BB-4555-4CBE-8D0E-63563D6CE4C6}</Project>
       <Name>Orchard.Framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Orchard.Core.csproj">
-      <Project>{9916839C-39FC-4CEB-A5AF-89CA7E87119F}</Project>
-      <Name>Orchard.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Orchard.Users\Orchard.Users.csproj">
       <Project>{79AED36E-ABD0-4747-93D3-8722B042454B}</Project>
@@ -347,33 +255,30 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Placement.info" />
-    <Content Include="Views\EditorTemplates\Parts.OpenAuthentication.UserAccountAssociations.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\EditorTemplates\Parts.OpenAuthentication.SiteSettings.cshtml" />
     <Content Include="Content\openid-selector\Web.config">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Scripts\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Wrappers.Account.Twitter.LogOn.cshtml" />
-    <Content Include="Views\Wrappers.Account.AssociateMessage.cshtml" />
-    <Content Include="Views\FacebookConnectSignIn.cshtml" />
-    <Content Include="Views\MicrosoftConnectSignIn.cshtml" />
-    <Content Include="Views\Wrappers.Account.Facebook.LogOn.cshtml" />
-    <Content Include="Views\Create.cshtml" />
-    <Content Include="Views\Admin\Create.cshtml" />
-    <Content Include="Views\AdminPermission\Edit.cshtml" />
-    <Content Include="packages.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Views\Wrappers.Account.OpenID.LogOn.cshtml" />
     <Content Include="Content\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Web.config">
+    <Content Include="Web.config">
       <SubType>Designer</SubType>
-    </None>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OpenAuthLogOn.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\OpenAuthRegister.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\CreateProvider.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

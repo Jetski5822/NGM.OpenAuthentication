@@ -3,26 +3,10 @@ AntiForgery: enabled
 Author: Nicholas Mayne
 Website: http://orchardopenauth.codeplex.com/
 Version: 0.7.5
-OrchardVersion: 1.4.0
+OrchardVersion: 1.6.0
 Description: Provides multiple authentication interfaces for Orchard
 Features:
     NGM.OpenAuthentication:
         Name: Open Authentication
 		Category: Authentication
         Dependencies: Orchard.Users
-	OpenId:
-		Name: OpenId
-		Category: Authentication
-		Dependencies: NGM.OpenAuthentication, Orchard.jQuery
-	MicrosoftConnect:
-		Name: MicrosoftConnect
-		Category: Authentication
-		Dependencies: NGM.OpenAuthentication, Orchard.jQuery
-	Authentication.Twitter:
-		Name: Twitter Authentication
-		Category: Authentication
-		Dependencies: NGM.OpenAuthentication
-	Authentication.Facebook:
-		Name: Facebook Authentication
-		Category: Authentication
-		Dependencies: NGM.OpenAuthentication

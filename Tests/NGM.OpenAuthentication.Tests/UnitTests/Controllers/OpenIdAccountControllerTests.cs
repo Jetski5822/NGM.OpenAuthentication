@@ -25,7 +25,7 @@
 //            var mockRelyingService = new Mock<IOpenIdRelyingPartyService>();
 //            mockRelyingService.Setup(ctx => ctx.HasResponse).Returns(false);
 
-//            var accountController = new OpenIdAccountController(mockRelyingService.Object, null, null);
+//            var accountController = new AccountController(mockRelyingService.Object, null, null);
 //            accountController.ControllerContext = MockControllerContext(accountController);
 //            var redirectResult = (RedirectToRouteResult)accountController.LogOn(string.Empty);
 //            Assert.That(redirectResult.RouteValues["Action"], Is.EqualTo("LogOn"));
@@ -43,7 +43,7 @@
 
 //            mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
 
-//            var accountController = new OpenIdAccountController(mockRelyingService.Object, null, null);
+//            var accountController = new AccountController(mockRelyingService.Object, null, null);
 //            var redirectResult = (RedirectToRouteResult)accountController.LogOn(string.Empty);
 
 //            Assert.That(accountController.TempData.ContainsKey("error-InvalidProvider"), Is.True);
@@ -64,7 +64,7 @@
 
 //            mockRelyingService.Setup(ctx => ctx.Response).Returns(mockAuthenticationResponse.Object);
 
-//            var accountController = new OpenIdAccountController(mockRelyingService.Object, null, null);
+//            var accountController = new AccountController(mockRelyingService.Object, null, null);
 //            var redirectResult = (RedirectToRouteResult)accountController.LogOn(string.Empty);
 
 //            Assert.That(accountController.TempData.ContainsKey("error-UnknownError"), Is.True);
@@ -96,7 +96,7 @@
 //            var mockOpenAuthorizer = new Mock<IOpenAuthorizer>();
 //            mockOpenAuthorizer.Setup(o => o.Authorize(It.IsAny<OpenAuthenticationParameters>())).Returns(OpenAuthenticationStatus.Authenticated);
 
-//            var accountController = new OpenIdAccountController(mockRelyingService.Object, null, mockOpenAuthorizer.Object);
+//            var accountController = new AccountController(mockRelyingService.Object, null, mockOpenAuthorizer.Object);
 //            var actionResult = accountController.LogOn(string.Empty);
 
 //            mockAuthenticationResponse.VerifyAll();
@@ -129,7 +129,7 @@
 //            var mockOpenAuthorizer = new Mock<IOpenAuthorizer>();
 //            mockOpenAuthorizer.Setup(o => o.Authorize(It.IsAny<OpenAuthenticationParameters>())).Returns(OpenAuthenticationStatus.RequiresRegistration);
 
-//            var accountController = new OpenIdAccountController(mockRelyingService.Object, mockOpenAuthenticationService.Object, mockOpenAuthorizer.Object);
+//            var accountController = new AccountController(mockRelyingService.Object, mockOpenAuthenticationService.Object, mockOpenAuthorizer.Object);
 //            var redirectToRouteResult = (RedirectToRouteResult)accountController.LogOn(string.Empty);
 
 //            Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("Orchard.Users"));
@@ -149,7 +149,7 @@
 
 //        //[Test]
 //        //public void should_redirect_to_logon_view_if_no_viewmodel_present_on_register_page() {
-//        //    var accountController = new OpenIdAccountController(null, null, null, null);
+//        //    var accountController = new AccountController(null, null, null, null);
 //        //    var redirectToRouteResult = (RedirectToRouteResult)accountController.Register(null);
 
 //        //    Assert.That(redirectToRouteResult.RouteValues["area"], Is.EqualTo("Orchard.Users"));
@@ -159,7 +159,7 @@
 
 //        //[Test]
 //        //public void should_redirect_to_logon_view_if_viewmodel_has_null_model_present_on_register_page() {
-//        //    var accountController = new OpenIdAccountController(null, null, null, null);
+//        //    var accountController = new AccountController(null, null, null, null);
 
 //        //    var viewModel = new RegisterViewModel();
 //        //    var redirectToRouteResult = (RedirectToRouteResult)accountController.Register(viewModel);
@@ -171,7 +171,7 @@
 
 //        //[Test]
 //        //public void should_use_passedin_model_from_logon_if_avalible() {
-//        //    var accountController = new OpenIdAccountController(null, null, null, null);
+//        //    var accountController = new AccountController(null, null, null, null);
 //        //    var model = new RegisterModel { ExternalIdentifier = "Test" };
 //        //    accountController.TempData.Add("RegisterModel", model);
 
@@ -184,7 +184,7 @@
 
 //        //[Test]
 //        //public void should_not_recreate_registration_view_model_if_view_model_exists() {
-//        //    var accountController = new OpenIdAccountController(null, null, null, null);
+//        //    var accountController = new AccountController(null, null, null, null);
 //        //    var viewModel = new RegisterViewModel { Model = new RegisterModel { ExternalIdentifier = "test" } };
 //        //    var viewResult = (ViewResult)accountController.Register(viewModel);
 
@@ -210,7 +210,7 @@
 //        //    var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
 //        //    mockOpenAuthenticationService.Setup(o => o.GetExternalIdentifiersFor(mockUser.Object)).Returns(mockContentQuery.Object);
 
-//        //    var accountController = new OpenIdAccountController(null, mockAuthenticationService.Object, mockOpenAuthenticationService.Object, null);
+//        //    var accountController = new AccountController(null, mockAuthenticationService.Object, mockOpenAuthenticationService.Object, null);
 //        //    var viewResult = (ViewResult)accountController.VerifiedAccounts();
 
 //        //    var viewModel = viewResult.ViewData.Model as VerifiedAccountsViewModel;
@@ -227,7 +227,7 @@
 //        //    var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
 //        //    mockOpenAuthenticationService.Setup(o => o.RemoveIdentifier(mockUser.Object)).Returns(new[] { "foo", "bar" });
 
-//        //    var accountController = new OpenIdAccountController(null, mockAuthenticationService.Object, mockOpenAuthenticationService.Object);
+//        //    var accountController = new AccountController(null, mockAuthenticationService.Object, mockOpenAuthenticationService.Object);
 //        //    var viewResult = (ViewResult)accountController.VerifiedAccounts();
 
 //        //    var viewModel = viewResult.ViewData.Model as VerifiedAccountsViewModel;
@@ -246,7 +246,7 @@
 //        //    var mockOpenAuthenticationService = new Mock<IOpenAuthenticationService>();
 //        //    mockOpenAuthenticationService.Setup(o => o.RemoveAssociation(testUrl1));
 
-//        //    var accountController = new OpenIdAccountController(null, null, mockOpenAuthenticationService.Object, null);
+//        //    var accountController = new AccountController(null, null, mockOpenAuthenticationService.Object, null);
 //        //    accountController.ControllerContext = MockControllerContext(accountController);
 
 //        //    var nameValueCollection = new NameValueCollection();

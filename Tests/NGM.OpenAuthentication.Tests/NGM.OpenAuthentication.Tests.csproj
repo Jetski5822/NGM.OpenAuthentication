@@ -31,8 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DotNetOpenAuth">
-      <HintPath>..\..\Lib\DotNetOpenAuth-3.5.0.10357\DotNetOpenAuth.dll</HintPath>
+    <Reference Include="DotNetOpenAuth.Core">
+      <HintPath>..\..\bin\DotNetOpenAuth.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId, Version=4.1.0.0, Culture=neutral, PublicKeyToken=2780ccd10d57b246, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\DotNetOpenAuth.OpenId.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
       <HintPath>..\..\..\..\..\..\lib\moq\Moq.dll</HintPath>

@@ -1,0 +1,67 @@
+﻿@using NGM.OpenAuthentication.Extensions
+@using NGM.OpenAuthentication.Models
+@using Orchard.ContentManagement
+@using DotNetOpenAuth.AspNet
+@using Orchard.Utility.Extensions
+
+@{
+    var userCanRegister = WorkContext.CurrentSite.As<Orchard.Users.Models.RegistrationSettingsPart>().UsersCanRegister;
+    var enableLostPassword = WorkContext.CurrentSite.As<Orchard.Users.Models.RegistrationSettingsPart>().EnableLostPassword;
+
+    var clientsData = (List<OrchardAuthenticationClientData>) Model.ClientsData;
+    
+    var userName = Request.QueryString["UserName"];
+    var externalLoginData = Request.QueryString["ExternalLoginData"];
+    var returnUrl = Request.QueryString["ReturnUrl"];
+}
+
+<h1 class="page-title">@Html.TitleForPage((string)Model.Title)</h1>
+
+@Html.ValidationSummary(T("Login was unsuccessful. Please correct the errors and try again.").ToString())
+
+@if (!string.IsNullOrWhiteSpace(userName) && !string.IsNullOrWhiteSpace(externalLoginData)) {
+    <fieldset class="login-form group">
+        <legend>@T("External Service Association")</legend>
+        <p>@T("This user account will be linked to <b>{0}</b> when you login.", userName)</p>
+    </fieldset>
+}
+
+@using (Html.BeginFormAntiForgeryPost(Url.LogOn(returnUrl, userName, externalLoginData))) {
+<fieldset class="login-form group">
+    <legend>@T("Account Information")</legend>
+    <p>
+        @T("Please enter your username and password.") 
+        @if(userCanRegister) { <a href="@Url.Register(userName, externalLoginData)">@T("Register")</a> @T(" if you don't have an account.") }
+        @if(enableLostPassword) { <text> </text> @Html.ActionLink(T("Lost your Password?").Text, "RequestLostPassword") }
+    </p>
+    <ol>
+        <li>
+            <label for="username-email">@T("Username")</label>
+            @Html.TextBox("userNameOrEmail", "", new { id = "username-email", autofocus = "autofocus" })
+            @Html.ValidationMessage("userNameOrEmail")
+        </li>
+        <li>
+            <label for="password">@T("Password")</label>
+            @Html.Password("password")
+            @Html.ValidationMessage("password")
+        </li>
+        <li>
+            @Html.CheckBox("rememberMe", new { id = "remember-me" })<label class="forcheckbox" for="remember-me">@T("Remember Me")</label>
+        </li>
+    </ol>
+    <button class="primaryAction" type="submit">@T("Sign In")</button>
+</fieldset>
+}
+
+@using (Html.BeginFormAntiForgeryPost(Url.OpenAuthLogOn(returnUrl))) {
+<fieldset class="login-form group">
+    <legend>@T("Login with another service")</legend>
+    <ol>
+    @foreach (OrchardAuthenticationClientData clientData in clientsData) {
+        <li>            
+            <button class="primaryAction" type="submit" name="providerName" value="@clientData.ProviderName" title="@T("Log in using your {0} account", clientData.DisplayName)">@clientData.DisplayName</button>
+        </li>
+    }
+    </ol>
+</fieldset>
+}
