@@ -10,15 +10,9 @@
 {
     @Html.ValidationSummary()
 
-    <fieldset>
-        <label>@T("Auto Registration Enabled")</label>
-        @Html.CheckBoxFor(m => m.AutoRegistrationEnabled) <label for="@Html.FieldIdFor(m => m.AutoRegistrationEnabled)" class="forcheckbox">@T("Auto Registration Enabled")</label>
-        <span class="hint">@T("When checked, if the user who is authenticating does not have an account then a local account will be created and a username will be created based on claims.")</span>
-    </fieldset>
-
     if (Model.CurrentProviders.Any()) {
         <h2>@T("Enabled Providers")</h2>
-        <p>@T("<a href=\"{0}\">Register a new provider</a>", Url.ProviderCreate())</p>
+        <div class="actions" style="margin-bottom: 15px;"><a class="add button primaryAction" href="@Url.ProviderCreate()">@T("Register a new provider")</a></div>
         <table class="items">
             <thead>
                 <tr>
@@ -45,6 +39,11 @@
     else {
         <p class="noproviders">@T("There are no providers registered. Why not <a href=\"{0}\">register one</a>?", Url.ProviderCreate())</p>
     }
+    
+    <fieldset>
+        @Html.CheckBoxFor(m => m.AutoRegistrationEnabled) <label for="@Html.FieldIdFor(m => m.AutoRegistrationEnabled)" class="forcheckbox">@T("Auto Registration Enabled")</label>
+        <span class="hint">@T("When checked, if the user who is authenticating does not have an account then a local account will be created and a username will be created based on claims.")</span>
+    </fieldset>
     
     <button class="primaryAction" type="submit">@T("Save")</button>
 }
