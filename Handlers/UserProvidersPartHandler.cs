@@ -17,6 +17,7 @@ namespace NGM.OpenAuthentication.Handlers {
                                     userOpenAuthentication.Providers = _userProviderRepository
                                         .Fetch(x => x.UserId == context.ContentItem.Id)
                                         .Select(x => new UserProviderEntry {
+                                                Id = x.Id,
                                                 ProviderUserId = x.ProviderUserId, 
                                                 ProviderName = x.ProviderName
                                             })

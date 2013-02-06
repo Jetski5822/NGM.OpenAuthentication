@@ -15,6 +15,7 @@ namespace NGM.OpenAuthentication.Models {
     }
 
     public class UserProviderEntry {
+        public int Id { get; set; }
         public string ProviderName { get; set; }
         public string ProviderUserId { get; set; }
     }

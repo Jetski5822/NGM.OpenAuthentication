@@ -1,4 +1,5 @@
-﻿using NGM.OpenAuthentication.Models;
+﻿using System.Collections.Generic;
+using NGM.OpenAuthentication.Models;
 using Orchard;
 using Orchard.Data;
 using Orchard.Security;
@@ -8,6 +9,7 @@ namespace NGM.OpenAuthentication.Services {
         UserProviderRecord Get(string providerName, string providerUserId);
         void Create(string providerName, string providerUserId, IUser user);
         void Update(string providerName, string providerUserId, IUser user);
+        IEnumerable<UserProviderRecord> Get(IUser user);
     }
 
     public class UserProviderServices : IUserProviderServices {
@@ -19,6 +21,10 @@ namespace NGM.OpenAuthentication.Services {
 
         public UserProviderRecord Get(string providerName, string providerUserId) {
             return _repository.Get(o => o.ProviderName == providerName && o.ProviderUserId == providerUserId);
+        }
+
+        public IEnumerable<UserProviderRecord> Get(IUser user) {
+            return _repository.Fetch(o => o.UserId == user.Id);
         }
 
         public void Create(string providerName, string providerUserId, IUser user) {
