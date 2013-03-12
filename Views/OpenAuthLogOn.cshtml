@@ -53,15 +53,17 @@
 </fieldset>
 }
 
-@using (Html.BeginFormAntiForgeryPost(Url.OpenAuthLogOn(returnUrl))) {
+@if (clientsData.Any()) {
+using (Html.BeginFormAntiForgeryPost(Url.OpenAuthLogOn(returnUrl))) {
 <fieldset class="login-form group">
     <legend>@T("Login with another service")</legend>
     <ol>
-    @foreach (OrchardAuthenticationClientData clientData in clientsData) {
-        <li>            
-            <button class="primaryAction" type="submit" name="providerName" value="@clientData.ProviderName" title="@T("Log in using your {0} account", clientData.DisplayName)">@clientData.DisplayName</button>
-        </li>
-    }
+        @foreach (OrchardAuthenticationClientData clientData in clientsData) {
+            <li>            
+                <button class="primaryAction" type="submit" name="providerName" value="@clientData.ProviderName" title="@T("Log in using your {0} account", clientData.DisplayName)">@clientData.DisplayName</button>
+            </li>
+        }
     </ol>
 </fieldset>
+}
 }
