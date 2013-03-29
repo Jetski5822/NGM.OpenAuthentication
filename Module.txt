@@ -9,4 +9,4 @@ Features:
     NGM.OpenAuthentication:
         Name: Open Authentication
 		Category: Authentication
-        Dependencies: Orchard.Users
+        Dependencies: Orchard.Users	

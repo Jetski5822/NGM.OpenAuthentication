@@ -21,14 +21,14 @@ namespace NGM.OpenAuthentication {
         public Localizer T { get; set; }
 
         public void Discover(ShapeTableBuilder builder) {
-            var clientsData = _openAuthAuthenticationClients
-                            .Select(client => _orchardOpenAuthClientProvider.GetClientData(client.ProviderName))
-                            .Where(x => x != null)
-                            .ToList();
+
 
             builder.Describe("LogOn")
                    .OnDisplaying(displaying => {
-
+                       var clientsData = _openAuthAuthenticationClients
+                .Select(client => _orchardOpenAuthClientProvider.GetClientData(client.ProviderName))
+                .Where(x => x != null)
+                .ToList();
                         var shape = displaying.Shape;
                         var metadata = displaying.ShapeMetadata;
 
@@ -39,6 +39,10 @@ namespace NGM.OpenAuthentication {
 
             builder.Describe("Register")
                    .OnDisplaying(displaying => {
+                       var clientsData = _openAuthAuthenticationClients
+                           .Select(client => _orchardOpenAuthClientProvider.GetClientData(client.ProviderName))
+                           .Where(x => x != null)
+                           .ToList();
 
                        var shape = displaying.Shape;
                        var metadata = displaying.ShapeMetadata;
