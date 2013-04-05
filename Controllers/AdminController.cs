@@ -75,10 +75,6 @@ namespace NGM.OpenAuthentication.Controllers {
                 ModelState.AddModelError("ProviderName", T("Provider name already exists").ToString());
             }
 
-            if (!_providerConfigurationService.VerifyUnicity(viewModel.ProviderName)) {
-                ModelState.AddModelError("ProviderName", T("Provider name already exists").ToString());
-            }
-
             if (!ModelState.IsValid) {
                 _orchardServices.TransactionManager.Cancel();
 
