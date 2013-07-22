@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Orchard.ContentManagement;
+using Orchard.ContentManagement.Utilities;
 
 namespace NGM.OpenAuthentication.Models {
     public interface IUserProviders : IContent {
@@ -7,11 +8,14 @@ namespace NGM.OpenAuthentication.Models {
     }
 
     public class UserProvidersPart : ContentPart, IUserProviders {
-        public UserProvidersPart() {
-            Providers = new List<UserProviderEntry>();
-        }
+        private readonly LazyField<IList<UserProviderEntry>> _providerEntries = new LazyField<IList<UserProviderEntry>>();
 
-        public IList<UserProviderEntry> Providers { get; set; }
+        public LazyField<IList<UserProviderEntry>> ProviderEntriesField { get { return _providerEntries; } }
+
+        public IList<UserProviderEntry> Providers {
+            get { return ProviderEntriesField.Value; }
+            set { ProviderEntriesField.Value = value; }
+        }
     }
 
     public class UserProviderEntry {

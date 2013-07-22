@@ -27,7 +27,13 @@ namespace NGM.OpenAuthentication.Events {
 
         private void CreateOrUpdateOpenAuthUser(IUser user) {
             var current = _httpContextAccessor.Current();
+            if (current == null)
+                return;
+
             var request = current.Request;
+
+            if (request == null)
+                return;
 
             var userName = request.QueryString["UserName"];
             var externalLoginData = request.QueryString["ExternalLoginData"];
