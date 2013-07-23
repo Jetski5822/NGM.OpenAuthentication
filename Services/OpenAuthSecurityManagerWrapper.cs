@@ -41,6 +41,11 @@ namespace NGM.OpenAuthentication.Services {
 
             _authenticationService.SignIn(_membershipService.GetUser(userName), createPersistentCookie);
 
+            var authenticatedUser = _authenticationService.GetAuthenticatedUser();
+
+            if (authenticatedUser == null)
+                return false;
+
             return true;
         }
 
