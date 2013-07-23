@@ -1,67 +1,56 @@
-﻿using System;
-using System.Web;
-using Orchard.DisplayManagement.Implementation;
-using Orchard.Environment.Extensions;
+using System.Collections.Generic;
+using System.Linq;
+using NGM.OpenAuthentication.Services;
+using NGM.OpenAuthentication.Services.Clients;
+using Orchard.DisplayManagement.Descriptors;
+using Orchard.Localization;
 
 namespace NGM.OpenAuthentication {
-    public class Shapes : IShapeFactoryEvents {
-        public void Creating(ShapeCreatingContext context) {
+    public class Shapes : IShapeTableProvider {
+        private readonly IEnumerable<IExternalAuthenticationClient> _openAuthAuthenticationClients;
+        private readonly IOrchardOpenAuthClientProvider _orchardOpenAuthClientProvider;
+
+        public Shapes(
+            IEnumerable<IExternalAuthenticationClient> openAuthAuthenticationClients,
+            IOrchardOpenAuthClientProvider orchardOpenAuthClientProvider) {
+            _openAuthAuthenticationClients = openAuthAuthenticationClients;
+            _orchardOpenAuthClientProvider = orchardOpenAuthClientProvider;
+            T = NullLocalizer.Instance;
         }
 
-        public void Created(ShapeCreatedContext context) {
-            if (context.ShapeType == "LogOn" || context.ShapeType == "Register") {
-                if ((HttpContext.Current.Session["parameters"] as Core.OpenAuthenticationParameters) != null)
-                    context.Shape.Metadata.Wrappers.Add("Wrappers_Account_AssociateMessage");
-            }
-        }
+        public Localizer T { get; set; }
 
-        public static bool IsLogOn(ShapeCreatedContext context) {
-            return context.ShapeType == "LogOn";
-        }
+        public void Discover(ShapeTableBuilder builder) {
 
-        public static bool IsCreate(ShapeCreatedContext context) {
-            if (context.ShapeType == "Create" && 
-                HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"].ToString().Equals("Admin", StringComparison.InvariantCultureIgnoreCase) &&
-                HttpContext.Current.Request.RequestContext.RouteData.Values["Area"].ToString().Equals("NGM.OpenAuthentication", StringComparison.InvariantCultureIgnoreCase)) {
-                return true;
-            }
-            return false;
-        }
-    }
 
-    [OrchardFeature("OpenId")]
-    public class OpenIdShapes : IShapeFactoryEvents {
-        public void Creating(ShapeCreatingContext context) {
-        }
+            builder.Describe("LogOn")
+                   .OnDisplaying(displaying => {
+                       var clientsData = _openAuthAuthenticationClients
+                .Select(client => _orchardOpenAuthClientProvider.GetClientData(client.ProviderName))
+                .Where(x => x != null)
+                .ToList();
+                        var shape = displaying.Shape;
+                        var metadata = displaying.ShapeMetadata;
 
-        public void Created(ShapeCreatedContext context) {
-            if (Shapes.IsLogOn(context) || Shapes.IsCreate(context)) {
-                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_OpenID_LogOn");
-            }
-        }
-    }
+                        shape.ClientsData = clientsData;
 
-    [OrchardFeature("Facebook")]
-    public class FacebookShapes : IShapeFactoryEvents {
-        public void Creating(ShapeCreatingContext context) {
-        }
+                        metadata.Type = "OpenAuthLogOn";
+                    });
 
-        public void Created(ShapeCreatedContext context) {
-            if (Shapes.IsLogOn(context) || Shapes.IsCreate(context)) {
-                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_Facebook_LogOn");
-            }
-        }
-    }
+            builder.Describe("Register")
+                   .OnDisplaying(displaying => {
+                       var clientsData = _openAuthAuthenticationClients
+                           .Select(client => _orchardOpenAuthClientProvider.GetClientData(client.ProviderName))
+                           .Where(x => x != null)
+                           .ToList();
 
-    [OrchardFeature("Twitter")]
-    public class TwitterShapes : IShapeFactoryEvents {
-        public void Creating(ShapeCreatingContext context) {
-        }
+                       var shape = displaying.Shape;
+                       var metadata = displaying.ShapeMetadata;
 
-        public void Created(ShapeCreatedContext context) {
-            if (Shapes.IsLogOn(context) || Shapes.IsCreate(context)) {
-                context.Shape.Metadata.Wrappers.Add("Wrappers_Account_Twitter_LogOn");
-            }
+                       shape.ClientsData = clientsData;
+
+                       metadata.Type = "OpenAuthRegister";
+                   });
         }
     }
 }

@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
-using NGM.OpenAuthentication.Core;
+﻿using System.Web.Mvc;
 using NGM.OpenAuthentication.Models;
 using NGM.OpenAuthentication.Services;
 using NGM.OpenAuthentication.ViewModels;
 using Orchard;
-using Orchard.Core.Contents.Controllers;
-using Orchard.DisplayManagement;
+using Orchard.ContentManagement;
 using Orchard.Localization;
-using Orchard.Mvc.Extensions;
 using Orchard.Security;
 using Orchard.UI.Admin;
 using Orchard.UI.Notify;
@@ -18,97 +12,85 @@ using Orchard.UI.Notify;
 namespace NGM.OpenAuthentication.Controllers {
     [Admin]
     public class AdminController : Controller {
-        private readonly IAuthenticationService _authenticationService;
-        private readonly IOpenAuthenticationService _openAuthenticationService;
         private readonly IOrchardServices _orchardServices;
+        private readonly IProviderConfigurationService _providerConfigurationService;
 
-        public AdminController(IAuthenticationService authenticationService,
-            IOpenAuthenticationService openAuthenticationService,
-            IOrchardServices orchardServices,
-            IShapeFactory shapeFactory) {
-            _authenticationService = authenticationService;
-            _openAuthenticationService = openAuthenticationService;
+        public AdminController(IOrchardServices orchardServices,
+            IProviderConfigurationService providerConfigurationService) {
             _orchardServices = orchardServices;
-            T = NullLocalizer.Instance;
-            Shape = shapeFactory;
+            _providerConfigurationService = providerConfigurationService;
         }
 
-        dynamic Shape { get; set; }
         public Localizer T { get; set; }
 
         public ActionResult Index() {
-            if (!_orchardServices.Authorizer.Authorize(Permissions.ManageAssociations, T("Couldn't manage associations")))
+            if (!_orchardServices.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not allowed to manage open authentication settings")))
                 return new HttpUnauthorizedResult();
 
-            var user = _authenticationService.GetAuthenticatedUser();
-            var entries =
-                _openAuthenticationService
-                    .GetExternalIdentifiersFor(user)
-                    .List()
-                    .ToList()
-                    .Select(account => CreateAccountEntry(account.Record));
+            var settings = _orchardServices.WorkContext.CurrentSite.As<OpenAuthenticationSettingsPart>();
 
-            var viewModel = new AdminIndexViewModel {
-                Accounts = entries.ToList(),
-                Options = new AdminIndexOptions()
-            };
+            var currentProviders = _providerConfigurationService.GetAll();
+            
+            var viewModel = new IndexViewModel {
+                    AutoRegistrationEnabled = settings.AutoRegistrationEnabled,
+                    CurrentProviders = currentProviders
+                };
 
-            return View("Index", viewModel);
+            return View(viewModel);
         }
 
-        [HttpPost]
-        [FormValueRequired("submit.BulkEdit")]
-        public ActionResult Index(FormCollection input) {
-            if (!_orchardServices.Authorizer.Authorize(Permissions.ManageAssociations, T("Couldn't manage associations")))
+        [HttpPost, ActionName("Index")]
+        public ActionResult IndexPost(IndexViewModel viewModel) {
+            if (!_orchardServices.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not allowed to manage open authentication settings")))
                 return new HttpUnauthorizedResult();
 
-            var viewModel = new AdminIndexViewModel { Accounts = new List<AccountEntry>() };
-            UpdateModel(viewModel, input);
+            var settings = _orchardServices.WorkContext.CurrentSite.As<OpenAuthenticationSettingsPart>();
+            settings.AutoRegistrationEnabled = viewModel.AutoRegistrationEnabled;
 
-            var checkedEntries = viewModel.Accounts.Where(c => c.IsChecked);
-            switch (viewModel.Options.BulkAction) {
-                case AdminBulkAction.None:
-                    break;
-                case AdminBulkAction.Delete:
-                    foreach (var entry in checkedEntries) {
-                        RemoveAccountAssociation(new HashedOpenAuthenticationParameters(entry.Account.HashedProvider, entry.Account.ExternalIdentifier));
-                    }
-                    break;
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Remove(int id) {
+            if (!_orchardServices.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not allowed to manage open authentication settings")))
+                return new HttpUnauthorizedResult();
+
+            _providerConfigurationService.Delete(id);
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult CreateProvider() {
+            if (!_orchardServices.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not allowed to manage open authentication settings")))
+                return new HttpUnauthorizedResult();
+
+            return View(new CreateProviderViewModel());
+        }
+
+        [HttpPost, ActionName("CreateProvider")]
+        public ActionResult CreateProviderPost(CreateProviderViewModel viewModel) {
+            if (!_orchardServices.Authorizer.Authorize(StandardPermissions.SiteOwner, T("Not allowed to manage open authentication settings")))
+                return new HttpUnauthorizedResult();
+
+            if (!_providerConfigurationService.VerifyUnicity(viewModel.ProviderName)) {
+                ModelState.AddModelError("ProviderName", T("Provider name already exists").ToString());
             }
-            return RedirectToAction("Index", "Admin");
-        }
 
-        public ActionResult Create(string returnUrl) {
-            var createShape = Shape.Create();
+            if (!ModelState.IsValid) {
+                _orchardServices.TransactionManager.Cancel();
 
-            //dynamic viewModel = Shape.ViewModel()
-            //    .ContentItems(createShape);
-
-            // Casting to avoid invalid (under medium trust) reflection over the protected View method and force a static invocation.
-            return View((object)createShape);
-        }
-
-        [HttpPost]
-        public ActionResult Delete(string externalIdentifier, string returnUrl, int? hashedProvider) {
-            RemoveAccountAssociation(new HashedOpenAuthenticationParameters(hashedProvider.GetValueOrDefault(), externalIdentifier));
-
-            return this.RedirectLocal(returnUrl, () => RedirectToAction("Index"));
-        }
-
-        private void RemoveAccountAssociation(OpenAuthenticationParameters parameters) {
-            try {
-                _openAuthenticationService.RemoveAssociation(parameters);
-
-                _orchardServices.Notifier.Information(T("Account was successfully deleted."));
-            } catch (Exception exception) {
-                _orchardServices.Notifier.Error(T("Editing Account failed: {0}", exception.Message));
+                return View(viewModel);
             }
-        }
 
-        private static AccountEntry CreateAccountEntry(OpenAuthenticationPartRecord openAuthenticationPart) {
-            return new AccountEntry {
-                Account = openAuthenticationPart
-            };
+            _providerConfigurationService.Create(new ProviderConfigurationCreateParams {
+                DisplayName = viewModel.DisplayName,
+                ProviderName = viewModel.ProviderName,
+                ProviderIdentifier = viewModel.ProviderIdentifier,
+                ProviderIdKey = viewModel.ProviderIdKey,
+                ProviderSecret = viewModel.ProviderSecret,
+            });
+            _orchardServices.Notifier.Information(T("Your configuration has been saved."));
+
+            return RedirectToAction("Index");
         }
     }
 }

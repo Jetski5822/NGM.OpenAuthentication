@@ -1,59 +1,49 @@
-@model NGM.OpenAuthentication.ViewModels.AdminIndexViewModel
-@using Orchard.Utility.Extensions;
-@using NGM.OpenAuthentication.Models;
-@using NGM.OpenAuthentication.Extensions;
-@using NGM.OpenAuthentication.ViewModels;
+﻿@using NGM.OpenAuthentication.Extensions
+@using Orchard.Utility.Extensions
+@model NGM.OpenAuthentication.ViewModels.IndexViewModel
+           
+@{
+    Layout.Title = T("Open Authentication Settings");
+}
 
-<h1>@Html.TitleForPage(T("Manage Associated Accounts").ToString())</h1>
-@using (Html.BeginFormAntiForgeryPost()) { 
-    @Html.ValidationSummary() 
-    <fieldset class="bulk-actions">
-        <label for="publishActions">@T("Actions:")</label>
-        <select id="publishActions" name="@Html.NameOf(m => m.Options.BulkAction)">
-            @Html.SelectOption(Model.Options.BulkAction, AdminBulkAction.None, T("Choose action...").ToString())
-            @Html.SelectOption(Model.Options.BulkAction, AdminBulkAction.Delete, T("Remove").ToString())
-        </select>
-        <button type="submit" name="submit.BulkEdit" value="@T("Apply")">@T("Apply")</button>
-    </fieldset>
-    <div class="manage">
-        @Html.ActionLink(T("Add an account").ToString(), "Create", new { returnUrl = Context.Request.RawUrl }, new { @class = "button primaryAction" })
-    </div>
-    <fieldset>
-        <table class="items" summary="@T("This is a table of external accounts associated with your logon")">
-	        <colgroup>
-		        <col id="Col1" />
-		        <col id="Col2" />
-		        <col id="Col3" />
-                <col id="Col4" />
-	        </colgroup>
-	        <thead>
-		        <tr>
-			        <th scope="col">&nbsp;&darr;</th>
-                    <th scope="col">@T("Provider")</th>
-			        <th scope="col">@T("Account")</th>
-			        <th scope="col"></th>
-		        </tr>
-	        </thead>    
-            @{var accountIndex = 0;}
-            @foreach (var accountModel in Model.Accounts) {
-            <tr itemscope="itemscope" itemid="@Model.Accounts[accountIndex].Account.ExternalIdentifier">
-                <input type="hidden" value="@Model.Accounts[accountIndex].Account.UserId" name="@Html.NameOf(m => m.Accounts[accountIndex].Account.UserId)"/>
-                <td>
-                    <input type="hidden" value="@Model.Accounts[accountIndex].Account.ExternalIdentifier" name="@Html.NameOf(m => m.Accounts[accountIndex].Account.ExternalIdentifier)"/>
-                    <input type="checkbox" value="true" name="@Html.NameOf(m => m.Accounts[accountIndex].IsChecked)"/>
-                </td>
-                <td>@Html.TranslateProvider(Model.Accounts[accountIndex].Account.HashedProvider)</td>
-                <td>@accountModel.Account.ExternalDisplayIdentifier</td>
-                <td>
-                    <a href="@Url.Action("Delete", new { 
-                            externalIdentifier = Model.Accounts[accountIndex].Account.ExternalIdentifier,
-                            returnUrl = Context.Request.RawUrl,
-                            hashedProvider = Model.Accounts[accountIndex].Account.HashedProvider
-                        })" itemprop="RemoveUrl UnsafeUrl">@T("Remove")</a>
-                </td>
-	        </tr>
-                accountIndex++;
+@using (Html.BeginFormAntiForgeryPost())
+{
+    @Html.ValidationSummary()
+
+    if (Model.CurrentProviders.Any()) {
+        <h2>@T("Enabled Providers")</h2>
+        <div class="actions" style="margin-bottom: 15px;"><a class="add button primaryAction" href="@Url.ProviderCreate()">@T("Register a new provider")</a></div>
+        <table class="items">
+            <thead>
+                <tr>
+                    <th scope="col">@T("Name")</th>
+                    <th scope="col">@T("Identifier")</th>
+                    <th scope="col">@T("Key")</th>
+                    <th scope="col">@T("Secret")</th>
+                    <th scope="col">@T("Actions")</th>
+                </tr>
+            </thead>
+        
+            @foreach (var currentProvider in Model.CurrentProviders) {
+                <tr>
+                    <td>@currentProvider.ProviderName</td>
+                    <td>@currentProvider.ProviderIdentifier</td>
+                    <td>@currentProvider.ProviderIdKey</td>
+                    <td>@currentProvider.ProviderSecret</td>
+                    <td><a href="@Url.RemoveProviderConfiguration(currentProvider.Id)">@T("Remove")</a></td>
+                </tr>
             }
         </table>
+        <span class="hint">@T("A provider identifier may not be shown if not supplied by an internal library. Also A key and secret are not required for every mechanism")</span>
+    }
+    else {
+        <p class="noproviders">@T("There are no providers registered. Why not <a href=\"{0}\">register one</a>?", Url.ProviderCreate())</p>
+    }
+    
+    <fieldset>
+        @Html.CheckBoxFor(m => m.AutoRegistrationEnabled) <label for="@Html.FieldIdFor(m => m.AutoRegistrationEnabled)" class="forcheckbox">@T("Auto Registration Enabled")</label>
+        <span class="hint">@T("When checked, if the user who is authenticating does not have an account then a local account will be created and a username will be created based on claims.")</span>
     </fieldset>
-} 
+    
+    <button class="primaryAction" type="submit">@T("Save")</button>
+}

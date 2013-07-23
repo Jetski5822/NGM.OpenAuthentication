@@ -1,9 +1,0 @@
-﻿@{
-    var parameters = HttpContext.Current.Session["parameters"] as NGM.OpenAuthentication.Core.OpenAuthenticationParameters;
-}
-
-<div class="message message-information">
-    @T("Account Association: Your new user account will be linked to ")<span id="identifier">@parameters.ExternalIdentifier</span> <a href="@Url.Action("RemoveParameterAssociation", "Index", new { area = "NGM.OpenAuthentication", ReturnUrl = Request.Url.ToString() })">remove</a>
-</div>
-
-@Display(Model.Metadata.ChildContent)

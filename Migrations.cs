@@ -1,8 +1,6 @@
-﻿using NGM.OpenAuthentication.Models;
+﻿using System.Data;
 using Orchard.ContentManagement.MetaData;
-using Orchard.Core.Contents.Extensions;
 using Orchard.Data.Migration;
-using Orchard.Environment.Extensions;
 
 namespace NGM.OpenAuthentication {
     public class Migrations : DataMigrationImpl {
@@ -91,35 +89,66 @@ namespace NGM.OpenAuthentication {
 
             return 5;
         }
-    }
+        
+        public int UpdateFrom5() {
+            SchemaBuilder.DropTable("OpenAuthenticationPermissionSettingsPartRecord");
 
-    [OrchardFeature("MicrosoftConnect")]
-    public class MicrosoftConnectMigrations : DataMigrationImpl {
-        public int Create() {
-            ContentDefinitionManager.AlterPartDefinition(typeof(MicrosoftConnectSignInPart).Name, cfg => cfg.Attachable());
+            SchemaBuilder.CreateTable("ScopeProviderPermissionRecord",
+                table => table
+                    .Column<int>("Id", column => column.PrimaryKey().Identity())
+                    .Column<string>("Resource")
+                    .Column<string>("Scope")
+                    .Column<string>("Description")
+                    .Column<bool>("IsEnabled")
+                    .Column<int>("HashedProvider")
+                );
 
-            ContentDefinitionManager.AlterTypeDefinition("MicrosoftConnectSignInWidget", cfg => cfg
-                .WithPart("MicrosoftConnectSignInPart")
-                .WithPart("WidgetPart")
-                .WithPart("CommonPart")
-                .WithSetting("Stereotype", "Widget"));
+            return 6;
+        }
 
-            return 1;
+        public int UpdateFrom6() {
+            SchemaBuilder.AlterTable("ScopeProviderPermissionRecord", table => table.AlterColumn("HashedProvider", x => x.WithType(DbType.String)));
+            SchemaBuilder.AlterTable("OpenAuthenticationPartRecord", table => table.AlterColumn("HashedProvider", x => x.WithType(DbType.String)));
+            
+            return 7;
+        }
+
+        public int UpdateFrom7() {
+            ContentDefinitionManager.AlterTypeDefinition("User", cfg => cfg.RemovePart("OpenAuthenticationPart"));
+
+            SchemaBuilder.DropTable("OpenAuthenticationPartRecord");
+            SchemaBuilder.DropTable("ScopeProviderPermissionRecord");
+
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("AutoRegisterEnabled"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("FacebookClientIdentifier"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("FacebookClientSecret"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("TwitterClientIdentifier"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("TwitterClientSecret"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("LiveIdClientIdentifier"));
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.DropColumn("LiveIdClientSecret"));
+                
+            SchemaBuilder.AlterTable("OpenAuthenticationSettingsPartRecord", t => t.AddColumn<bool>("AutoRegistrationEnabled"));
+
+            SchemaBuilder.CreateTable("UserProviderRecord",
+                table => table
+                    .Column<int>("Id", column => column.PrimaryKey().Identity())
+                    .Column<int>("UserId")
+                    .Column<string>("ProviderName")
+                    .Column<string>("ProviderUserId")
+                );
+
+            SchemaBuilder.CreateTable("ProviderConfigurationRecord",
+                table => table
+                    .Column<int>("Id", column => column.PrimaryKey().Identity())
+                    .Column<int>("IsEnabled")
+                    .Column<string>("DisplayName")
+                    .Column<string>("ProviderName")
+                    .Column<string>("ProviderIdKey")
+                    .Column<string>("ProviderSecret")
+                    .Column<string>("ProviderIdentifier")
+                );
+
+            return 8;
         }
     }
-
-    //[OrchardFeature("Facebook")]
-    //public class FacebookConnectMigrations : DataMigrationImpl {
-    //    public int Create() {
-    //        ContentDefinitionManager.AlterPartDefinition(typeof(FacebookConnectSignInPart).Name, cfg => cfg.Attachable());
-
-    //        ContentDefinitionManager.AlterTypeDefinition("FacebookConnectSignInWidget", cfg => cfg
-    //            .WithPart("FacebookConnectSignInPart")
-    //            .WithPart("WidgetPart")
-    //            .WithPart("CommonPart")
-    //            .WithSetting("Stereotype", "Widget"));
-
-    //        return 1;
-    //    }
-    //}
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Routing;
+using NGM.OpenAuthentication.Extensions;
 using Orchard.Mvc.Routes;
 
 namespace NGM.OpenAuthentication {
@@ -15,71 +16,57 @@ namespace NGM.OpenAuthentication {
             return new[] {
                              new RouteDescriptor {
                                                      Route = new Route(
-                                                         "LogOn/RemoveParameterAssociation",
+                                                         "Admin/OpenAuthentication",
                                                          new RouteValueDictionary {
-                                                                                      {"area", "NGM.OpenAuthentication"},
-                                                                                      {"controller", "Index"},
-                                                                                      {"action", "RemoveParameterAssociation"}
+                                                                                      {"area", Constants.LocalArea},
+                                                                                      {"controller", "Admin"},
+                                                                                      {"action", "Index"}
                                                                                   },
                                                          new RouteValueDictionary(),
                                                          new RouteValueDictionary {
-                                                                                      {"area", "NGM.OpenAuthentication"}
+                                                                                      {"area", Constants.LocalArea}
                                                                                   },
                                                          new MvcRouteHandler())
                                                  },
                              new RouteDescriptor {
                                                      Route = new Route(
-                                                         "OpenId/LogOn",
+                                                         "Admin/OpenAuthentication/Remove",
                                                          new RouteValueDictionary {
-                                                                                      {"area", "NGM.OpenAuthentication"},
-                                                                                      {"controller", "OpenIdAccount"},
-                                                                                      {"action", "LogOn"}
+                                                                                      {"area", Constants.LocalArea},
+                                                                                      {"controller", "Admin"},
+                                                                                      {"action", "Remove"}
                                                                                   },
                                                          new RouteValueDictionary(),
                                                          new RouteValueDictionary {
-                                                                                      {"area", "NGM.OpenAuthentication"}
+                                                                                      {"area", Constants.LocalArea}
                                                                                   },
                                                          new MvcRouteHandler())
                                                  },
                              new RouteDescriptor {
                                                      Route = new Route(
-                                                         "CardSpace/LogOn",
+                                                         "Admin/OpenAuthentication/CreateProvider",
                                                          new RouteValueDictionary {
-                                                                                      {"area", "NGM.OpenAuthentication"},
-                                                                                      {"controller", "CardSpaceAccount"},
-                                                                                      {"action", "LogOn"}
+                                                                                      {"area", Constants.LocalArea},
+                                                                                      {"controller", "Admin"},
+                                                                                      {"action", "CreateProvider"}
                                                                                   },
                                                          new RouteValueDictionary(),
                                                          new RouteValueDictionary {
-                                                                                      {"area", "NGM.OpenAuthentication"}
+                                                                                      {"area", Constants.LocalArea}
                                                                                   },
                                                          new MvcRouteHandler())
                                                  },
                              new RouteDescriptor {
                                                      Route = new Route(
-                                                         "OAuth/LogOn",
+                                                         "External/LogOn",
                                                          new RouteValueDictionary {
-                                                                                      {"area", "NGM.OpenAuthentication"},
-                                                                                      {"controller", "OAuthAccount"},
-                                                                                      {"action", "LogOn"}
+                                                                                      {"area", Constants.LocalArea},
+                                                                                      {"controller", "Account"},
+                                                                                      {"action", "ExternalLogOn"}
                                                                                   },
                                                          new RouteValueDictionary(),
                                                          new RouteValueDictionary {
-                                                                                      {"area", "NGM.OpenAuthentication"}
-                                                                                  },
-                                                         new MvcRouteHandler())
-                                                 },
-                             new RouteDescriptor {
-                                                     Route = new Route(
-                                                         "OAuth/LogOn/{knownProvider}",
-                                                         new RouteValueDictionary {
-                                                                                      {"area", "NGM.OpenAuthentication"},
-                                                                                      {"controller", "OAuthAccount"},
-                                                                                      {"action", "LogOn"}
-                                                                                  },
-                                                         new RouteValueDictionary(),
-                                                         new RouteValueDictionary {
-                                                                                      {"area", "NGM.OpenAuthentication"}
+                                                                                      {"area", Constants.LocalArea}
                                                                                   },
                                                          new MvcRouteHandler())
                                                  }
