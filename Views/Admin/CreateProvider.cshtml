@@ -1,36 +1,33 @@
 ﻿@model NGM.OpenAuthentication.ViewModels.CreateProviderViewModel
-           
 @{
     Layout.Title = T("Create External Provider");
 }
 
-@using (Html.BeginFormAntiForgeryPost())
-{
+@using (Html.BeginFormAntiForgeryPost()) {
     @Html.ValidationSummary()
-    
     <fieldset>
         @Html.LabelFor(m => m.DisplayName, T("Display Name"))
-        @Html.TextBoxFor(m => m.DisplayName)
+        @Html.TextBoxFor(m => m.DisplayName, new { @class = "text medium" })
         <span class="hint">@T("This is the value that is shown to the User.")</span>
     </fieldset>
     <fieldset>
         @Html.LabelFor(m => m.ProviderName, T("Technical Name"))
-        @Html.TextBoxFor(m => m.ProviderName)
+        @Html.TextBoxFor(m => m.ProviderName, new { @class = "text medium" })
         <span class="hint">@T("The name that will be used internally.")</span>
     </fieldset>
     <fieldset>
         @Html.LabelFor(m => m.ProviderIdentifier, T("Identifier"))
-        @Html.TextBoxFor(m => m.ProviderIdentifier)
+        @Html.TextBoxFor(m => m.ProviderIdentifier, new { @class = "text large" })
         <span class="hint">@T("This is the url to the end point.")</span>
     </fieldset>
     <fieldset>
         @Html.LabelFor(m => m.ProviderIdKey, T("Key"))
-        @Html.TextBoxFor(m => m.ProviderIdKey)
+        @Html.TextBoxFor(m => m.ProviderIdKey, new { @class = "text large" })
     </fieldset>
     <fieldset>
         @Html.LabelFor(m => m.ProviderSecret, T("Secret"))
-        @Html.TextBoxFor(m => m.ProviderSecret)
+        @Html.TextBoxFor(m => m.ProviderSecret, new { @class = "text large" })
     </fieldset>
-    
+
     <button class="primaryAction" type="submit">@T("Save")</button>
 }
