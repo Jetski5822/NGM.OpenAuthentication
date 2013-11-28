@@ -2,11 +2,15 @@
 AntiForgery: enabled
 Author: Nicholas Mayne
 Website: https://github.com/Jetski5822/NGM.OpenAuthentication
-Version: 2.0.0
+Version: 2.0.1
 OrchardVersion: 1.7.0
 Description: Provides multiple authentication features for Orchard CMS using OpenId, OAuth and OAuth2
 Features:
     NGM.OpenAuthentication:
         Name: Open Authentication
-		Category: Authentication
-        Dependencies: Orchard.Users	
+        Category: Authentication
+        Dependencies: Orchard.Users
+    NGM.OpenAuthentication.Workflows:
+        Name: Open Authentication With Workflow support
+        Category: Authentication
+        Dependencies: NGM.OpenAuthentication, Orchard.Workflows

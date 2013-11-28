@@ -1,11 +1,9 @@
-﻿using System.Transactions;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using DotNetOpenAuth.AspNet;
 using NGM.OpenAuthentication.Extensions;
+using NGM.OpenAuthentication.Mvc;
 using NGM.OpenAuthentication.Security;
 using NGM.OpenAuthentication.Services;
-using Orchard;
 using Orchard.Localization;
 using Orchard.Logging;
 using Orchard.Mvc.Extensions;
@@ -98,24 +96,6 @@ namespace NGM.OpenAuthentication.Controllers {
             ViewBag.ReturnUrl = returnUrl;
 
             return new RedirectResult(Url.LogOn(returnUrl, result.UserName, loginData));
-        }
-    }
-
-    internal class OpenAuthLoginResult : ActionResult {
-        private readonly string _providerName;
-        private readonly string _returnUrl;
-
-        public OpenAuthLoginResult(string providerName, string returnUrl) {
-            _providerName = providerName;
-            _returnUrl = returnUrl;
-        }
-
-        public override void ExecuteResult(ControllerContext context) {
-            using (new TransactionScope(TransactionScopeOption.Suppress)) {
-                var httpContext = HttpContext.Current;
-                var securityManagerWrapper = httpContext.Request.RequestContext.GetWorkContext().Resolve<IOpenAuthSecurityManagerWrapper>();
-                securityManagerWrapper.RequestAuthentication(_providerName, _returnUrl);
-            }
         }
     }
 }

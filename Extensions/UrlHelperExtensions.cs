@@ -26,6 +26,10 @@ namespace NGM.OpenAuthentication.Extensions {
             return urlHelper.Action("ExternalLogOn", "Account", new { area = Constants.LocalArea, ReturnUrl = returnUrl });
         }
 
+        public static string OpenAuthLogOnWf(this UrlHelper urlHelper, string returnUrl) {
+            return urlHelper.Action("ExternalLogOn", "AccountWorkflow", new { area = Constants.LocalArea, ReturnUrl = returnUrl });
+        }
+
         public static string Register(this UrlHelper urlHelper, string userName, string loginData) {
             return urlHelper.Action("Register", "Account", new { area = Constants.OrchardUsersArea, UserName = userName, ExternalLoginData = loginData });
         }
