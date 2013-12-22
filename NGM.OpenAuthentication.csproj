@@ -250,9 +250,6 @@
     <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Web.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Content\Account\Web.config">
       <SubType>Designer</SubType>
     </Content>
