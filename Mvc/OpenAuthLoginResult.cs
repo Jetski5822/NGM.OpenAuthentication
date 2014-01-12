@@ -5,7 +5,7 @@ using NGM.OpenAuthentication.Services;
 using Orchard;
 
 namespace NGM.OpenAuthentication.Mvc {
-    internal class OpenAuthLoginResult : ActionResult {
+    public class OpenAuthLoginResult : ActionResult {
         private readonly string _providerName;
         private readonly string _returnUrl;
 
