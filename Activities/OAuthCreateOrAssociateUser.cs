@@ -52,6 +52,7 @@ namespace NGM.OpenAuthentication.Activities {
             else if (_openAuthMembershipServices.CanRegister()) {
                 var newUser = _openAuthMembershipServices.CreateUser(new OpenAuthCreateUserParams(result.UserName, result.Provider, result.ProviderUserId, result.ExtraData));
                 _orchardOpenAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, newUser);
+                workflowContext.SetState("CreatedUser", newUser.UserName);
                 yield return T("NewUserAssociated");
             }
             else {
