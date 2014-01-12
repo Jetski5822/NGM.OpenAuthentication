@@ -49,14 +49,14 @@ namespace NGM.OpenAuthentication.Activities {
                 _orchardOpenAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, authenticatedUser);
                 yield return T("CurrentUserAssociated");
             }
-
-            if (_openAuthMembershipServices.CanRegister()) {
+            else if (_openAuthMembershipServices.CanRegister()) {
                 var newUser = _openAuthMembershipServices.CreateUser(new OpenAuthCreateUserParams(result.UserName, result.Provider, result.ProviderUserId, result.ExtraData));
                 _orchardOpenAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, newUser);
                 yield return T("NewUserAssociated");
             }
-
-            yield return T("AssociationPending");
+            else {
+                yield return T("AssociationPending");                
+            }
         }
     }
 }
