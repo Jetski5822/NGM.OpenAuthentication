@@ -118,6 +118,7 @@
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Services\Clients\External\CASOAuth2Client.cs" />
     <Compile Include="ViewModels\UserProvidersViewModel.cs" />
     <Compile Include="Drivers\UserProvidersPartDriver.cs" />
     <Compile Include="ViewModels\CreateProviderViewModel.cs" />
