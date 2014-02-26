@@ -63,14 +63,14 @@ namespace NGM.OpenAuthentication.Services {
             Argument.ThrowIfNullOrEmpty(providerUserId, "providerUserId");
 
             var protectedBytes = ToByteArray(new SerializedProvider {ProviderName = providerName, ProviderUserId = providerUserId});
-            return Encoding.UTF8.GetString(_encryptionService.Encode(protectedBytes));
+            return Convert.ToBase64String(_encryptionService.Encode(protectedBytes));
         }
 
 
         public bool TryDeserializeProviderUserId(string data, out string providerName, out string providerUserId) {
             Argument.ThrowIfNullOrEmpty(data, "data");
 
-            var protectedBytes = _encryptionService.Decode(Encoding.UTF8.GetBytes(data));
+            var protectedBytes = _encryptionService.Decode(Convert.FromBase64String(data));
             var provider = (SerializedProvider) ToObject(protectedBytes);
             providerName = provider.ProviderName;
             providerUserId = provider.ProviderUserId;
@@ -99,9 +99,9 @@ namespace NGM.OpenAuthentication.Services {
         private object ToObject(byte[] source) {
             var formatter = new BinaryFormatter();
             using (var ms = new MemoryStream(source)) {
-                using (var ds = new DeflateStream(ms, CompressionMode.Decompress, true)) {
-                    return formatter.Deserialize(ds);
-                }
+                ms.Write(source, 0, source.Length);
+                ms.Seek(0, SeekOrigin.Begin);
+                return formatter.Deserialize(ms);
             }
         }
     }

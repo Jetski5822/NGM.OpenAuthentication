@@ -97,7 +97,7 @@ namespace NGM.OpenAuthentication.Controllers {
             ViewBag.ProviderDisplayName = _orchardOpenAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
             ViewBag.ReturnUrl = returnUrl;
 
-            return new RedirectResult(Url.LogOn(returnUrl, result.UserName, loginData));
+            return new RedirectResult(Url.LogOn(returnUrl, result.UserName, HttpUtility.UrlEncode(loginData)));
         }
     }
 

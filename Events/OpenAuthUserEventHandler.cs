@@ -1,4 +1,6 @@
-﻿using NGM.OpenAuthentication.Services;
+﻿using System.Security.Policy;
+using System.Web;
+using NGM.OpenAuthentication.Services;
 using Orchard.Mvc;
 using Orchard.Security;
 using Orchard.Users.Events;
@@ -46,7 +48,7 @@ namespace NGM.OpenAuthentication.Events {
             string providerUserId;
 
             if (
-                !_orchardOpenAuthWebSecurity.TryDeserializeProviderUserId(externalLoginData, out providerName,
+                !_orchardOpenAuthWebSecurity.TryDeserializeProviderUserId(HttpUtility.UrlDecode(externalLoginData), out providerName,
                                                                           out providerUserId))
                 return;
 
