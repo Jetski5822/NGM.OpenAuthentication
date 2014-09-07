@@ -26,9 +26,10 @@ namespace NGM.OpenAuthentication {
             builder.Describe("LogOn")
                    .OnDisplaying(displaying => {
                        var clientsData = _openAuthAuthenticationClients
-                .Select(client => _orchardOpenAuthClientProvider.GetClientData(client.ProviderName))
-                .Where(x => x != null)
-                .ToList();
+                            .Select(client => _orchardOpenAuthClientProvider.GetClientData(client.ProviderName))
+                            .Where(x => x != null)
+                            .ToList();
+
                         var shape = displaying.Shape;
                         var metadata = displaying.ShapeMetadata;
 

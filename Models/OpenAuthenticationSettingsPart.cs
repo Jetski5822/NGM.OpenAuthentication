@@ -3,8 +3,8 @@
 namespace NGM.OpenAuthentication.Models {
     public class OpenAuthenticationSettingsPart : ContentPart<OpenAuthenticationSettingsPartRecord> {
         public bool AutoRegistrationEnabled {
-            get { return Record.AutoRegistrationEnabled; }
-            set { Record.AutoRegistrationEnabled = value; }
+            get { return this.Retrieve(x => x.AutoRegistrationEnabled); }
+            set { this.Store(x => x.AutoRegistrationEnabled, value); }
         }
     }
 }

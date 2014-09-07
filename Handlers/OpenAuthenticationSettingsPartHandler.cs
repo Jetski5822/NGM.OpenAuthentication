@@ -8,7 +8,6 @@ namespace NGM.OpenAuthentication.Handlers {
     public class OpenAuthenticationSettingsPartHandler : ContentHandler {
         public OpenAuthenticationSettingsPartHandler(IRepository<OpenAuthenticationSettingsPartRecord> repository) {
             Filters.Add(new ActivatingFilter<OpenAuthenticationSettingsPart>("Site"));
-            Filters.Add(StorageFilter.For(repository));
         }
     }
 }
