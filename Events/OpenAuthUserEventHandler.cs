@@ -23,6 +23,10 @@ namespace NGM.OpenAuthentication.Events {
             CreateOrUpdateOpenAuthUser(context.User);
         }
 
+        public void LoggingIn(string userNameOrEmail, string password) {
+            
+        }
+
         public void LoggedIn(IUser user) {
             CreateOrUpdateOpenAuthUser(user);
         }
