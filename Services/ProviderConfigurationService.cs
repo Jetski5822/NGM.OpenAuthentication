@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using NGM.OpenAuthentication.Extensions;
 using NGM.OpenAuthentication.Models;
 using Orchard;
+using Orchard.Caching;
 using Orchard.Data;
 
 namespace NGM.OpenAuthentication.Services {
@@ -15,9 +17,11 @@ namespace NGM.OpenAuthentication.Services {
 
     public class ProviderConfigurationService : IProviderConfigurationService {
         private readonly IRepository<ProviderConfigurationRecord> _repository;
+        private readonly ISignals _signals;
 
-        public ProviderConfigurationService(IRepository<ProviderConfigurationRecord> repository) {
+        public ProviderConfigurationService(IRepository<ProviderConfigurationRecord> repository, ISignals signals) {
             _repository = repository;
+            _signals = signals;
         }
 
         public IEnumerable<ProviderConfigurationRecord> GetAll() {
@@ -30,6 +34,8 @@ namespace NGM.OpenAuthentication.Services {
 
         public void Delete(int id) {
             _repository.Delete(_repository.Get(o => o.Id == id));
+
+            _signals.Trigger(Constants.CacheKey.ProviderCacheKey);
         }
 
         public bool VerifyUnicity(string providerName) {
@@ -45,6 +51,8 @@ namespace NGM.OpenAuthentication.Services {
                     ProviderSecret = parameters.ProviderSecret,
                     IsEnabled = true
                 });
+
+            _signals.Trigger(Constants.CacheKey.ProviderCacheKey);
         }
     }
 
