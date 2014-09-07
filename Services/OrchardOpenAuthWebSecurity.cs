@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.IO.Compression;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using NGM.OpenAuthentication.Models;

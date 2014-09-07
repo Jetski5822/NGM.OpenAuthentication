@@ -1,5 +1,4 @@
-﻿using System.Security.Policy;
-using System.Web;
+﻿using System.Web;
 using NGM.OpenAuthentication.Services;
 using Orchard.Mvc;
 using Orchard.Security;
@@ -29,6 +28,9 @@ namespace NGM.OpenAuthentication.Events {
 
         public void LoggedIn(IUser user) {
             CreateOrUpdateOpenAuthUser(user);
+        }
+
+        public void LogInFailed(string userNameOrEmail, string password) {
         }
 
         private void CreateOrUpdateOpenAuthUser(IUser user) {
