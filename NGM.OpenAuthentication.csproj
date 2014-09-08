@@ -109,7 +109,6 @@
   <ItemGroup>
     <Compile Include="AdminMenu.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Models\OpenAuthenticationSettingsPartRecord.cs" />
     <Compile Include="Services\Clients\AzureADAuthenticationClient.cs" />
     <Compile Include="ViewModels\UserProvidersViewModel.cs" />
     <Compile Include="Drivers\UserProvidersPartDriver.cs" />

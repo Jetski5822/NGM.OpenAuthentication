@@ -6,7 +6,7 @@ using Orchard.Data;
 namespace NGM.OpenAuthentication.Handlers {
     [UsedImplicitly]
     public class OpenAuthenticationSettingsPartHandler : ContentHandler {
-        public OpenAuthenticationSettingsPartHandler(IRepository<OpenAuthenticationSettingsPartRecord> repository) {
+        public OpenAuthenticationSettingsPartHandler() {
             Filters.Add(new ActivatingFilter<OpenAuthenticationSettingsPart>("Site"));
         }
     }

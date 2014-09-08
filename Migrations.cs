@@ -5,45 +5,26 @@ using Orchard.Data.Migration;
 namespace NGM.OpenAuthentication {
     public class Migrations : DataMigrationImpl {
         public int Create() {
-            SchemaBuilder.CreateTable("OpenAuthenticationPartRecord",
+            SchemaBuilder.CreateTable("UserProviderRecord",
+                            table => table
+                                .Column<int>("Id", column => column.PrimaryKey().Identity())
+                                .Column<int>("UserId")
+                                .Column<string>("ProviderName")
+                                .Column<string>("ProviderUserId")
+                            );
+
+            SchemaBuilder.CreateTable("ProviderConfigurationRecord",
                 table => table
-                    .ContentPartRecord()
-                    .Column<int>("UserId")
-                    .Column<string>("ExternalIdentifier", c => c.WithLength(1000))
-                    .Column<string>("ExternalDisplayIdentifier", c => c.WithLength(500))
-                    .Column<string>("OAuthToken", c => c.WithLength(1000))
-                    .Column<string>("OAuthAccessToken", c => c.WithLength(1000))
-                    .Column<int>("HashedProvider")
+                    .Column<int>("Id", column => column.PrimaryKey().Identity())
+                    .Column<int>("IsEnabled")
+                    .Column<string>("DisplayName")
+                    .Column<string>("ProviderName")
+                    .Column<string>("ProviderIdKey")
+                    .Column<string>("ProviderSecret")
+                    .Column<string>("ProviderIdentifier")
                 );
 
-            SchemaBuilder.CreateTable("OpenAuthenticationSettingsPartRecord", table => table
-                .ContentPartRecord()
-                .Column<bool>("OpenIdEnabled")
-                .Column<bool>("CardSpaceEnabled")
-                .Column<bool>("OAuthEnabled")
-                .Column<bool>("Birthdate")
-                .Column<bool>("Country")
-                .Column<bool>("Email")
-                .Column<bool>("FullName")
-                .Column<bool>("Gender")
-                .Column<bool>("Language")
-                .Column<bool>("Nickname")
-                .Column<bool>("PostalCode")
-                .Column<bool>("TimeZone")
-                .Column<string>("FacebookClientIdentifier")
-                .Column<string>("FacebookClientSecret")
-                .Column<string>("TwitterClientIdentifier")
-                .Column<string>("TwitterClientSecret")
-                .Column<string>("LiveIdClientIdentifier")
-                .Column<string>("LiveIdClientSecret")
-                .Column<bool>("AutoRegisterEnabled")
-               );
-
-            ContentDefinitionManager.AlterTypeDefinition("User",
-               cfg => cfg
-                   .WithPart("OpenAuthenticationPart"));
-        
-            return 1;
+            return 8;
         }
 
         public int UpdateFrom1() {
